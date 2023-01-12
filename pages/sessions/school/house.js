@@ -6,7 +6,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/fi
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../context/userContext";
 
-export default function Buses() {
+export default function Houses() {
   const a = useContext(UserContext);
 
   const [houseName, setHouseName] = useState("");

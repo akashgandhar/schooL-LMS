@@ -13,7 +13,7 @@ import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
 
-export default function Account() {
+export default function DayBook() {
   const current = new Date();
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()

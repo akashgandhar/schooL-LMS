@@ -19,7 +19,7 @@ import { auth, db, storage } from "../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../context/userContext";
 
-export default function NewStudent() {
+export default function Update() {
   const router = useRouter();
   const s = router.query;
   const [sr, setSr] = useState(s.Sr_Number);
@@ -103,7 +103,7 @@ export default function NewStudent() {
   const createDues = async () => {
     var total = 0;
     if (transportStatus === "No") {
-      months.map(async (e) => {
+      months.forEach(async (e) => {
         if (index + 1 >= admissionMonth) {
           try {
             const docRef = doc(
@@ -697,8 +697,8 @@ export default function NewStudent() {
                           value={busStopName}
                         >
                           <option>Please Select</option>
-                          {stopList.map((e) => {
-                            return <option>{e.Stop_Name}</option>;
+                          {stopList.map((e,index) => {
+                            return <option key={index}>{e.Stop_Name}</option>;
                           })}
                         </select>
                       )}
@@ -721,8 +721,8 @@ export default function NewStudent() {
                         value={house}
                       >
                         <option>Please Select</option>
-                        {houseList.map((e) => {
-                          return <option>{e.Name}</option>;
+                        {houseList.map((e,index) => {
+                          return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
                     </div>

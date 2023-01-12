@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import UserContext from "../../context/userContext";
 
-export default function payment() {
+export default function Payment() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);
@@ -111,7 +111,7 @@ export default function payment() {
 
   const getDue = async () => {
     var final = {};
-    months.map(async (e) => {
+    months.forEach(async (e) => {
       try {
         const docRef = doc(
           db,

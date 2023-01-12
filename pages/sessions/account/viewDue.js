@@ -5,7 +5,7 @@ import UserContext from "../../context/userContext";
 import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 
-export default function Account() {
+export default function ViewDue() {
   const months = [
     "April",
     "May",
@@ -119,7 +119,7 @@ export default function Account() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e)=>{return(<option>{e.Name}</option>)})}
+                      {classList.map((e,index)=>{return(<option key={index}>{e.Name}</option>)})}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -139,7 +139,7 @@ export default function Account() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {sectionList.map((e)=>{return(<option>{e.Name}</option>)})}
+                      {sectionList.map((e,index)=>{return(<option key={index}>{e.Name}</option>)})}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -159,7 +159,7 @@ export default function Account() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {months.map((e)=>{return(<option>{e}</option>)})}
+                      {months.map((e,index)=>{return(<option key={index}>{e}</option>)})}
                     </select>
                   </div>
                   

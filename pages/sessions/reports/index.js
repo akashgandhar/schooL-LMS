@@ -100,8 +100,8 @@ export default function GatePass() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {classList.map((e) => {
-                        return <option>{e.Name}</option>;
+                      {classList.map((e,index) => {
+                        return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
                   </div>
@@ -125,8 +125,8 @@ export default function GatePass() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {sectionList.map((e) => {
-                        return <option>{e.Name}</option>;
+                      {sectionList.map((e,index) => {
+                        return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
                   </div>

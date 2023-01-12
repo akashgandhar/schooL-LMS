@@ -6,7 +6,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/fi
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../context/userContext";
 
-export default function Buses() {
+export default function Stops() {
   const a = useContext(UserContext);
 
   const [stopName, setStopName] = useState("");
@@ -127,8 +127,8 @@ export default function Buses() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>please select</option>
-                      {busList.map((e) => {
-                        return <option>{e.Bus_Number}</option>;
+                      {busList.map((e,index) => {
+                        return <option key={index}>{e.Bus_Number}</option>;
                       })}
                     </select>
                   </div>

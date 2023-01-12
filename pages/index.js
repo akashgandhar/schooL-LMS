@@ -11,7 +11,7 @@ import Feature from "../components/feature";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
-export default function Home() {
+export default function Index() {
   const router = useRouter();
   const a = useContext(UserContext);
 

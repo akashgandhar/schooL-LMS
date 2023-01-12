@@ -159,8 +159,8 @@ export default function Staff() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {roleList.map((e) => {
-                        return <option>{e.Name}</option>;
+                      {roleList.map((e,index) => {
+                        return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
                   </div>
@@ -191,8 +191,8 @@ export default function Staff() {
                 placeholder="B.tech / cse / CSP242 "
               >
                 <option>Please Select Role</option>
-                {roleList.map((e) => {
-                  return <option>{e.Name}</option>;
+                {roleList.map((e,index) => {
+                  return <option key={index}>{e.Name}</option>;
                 })}
               </select>
               <table class="min-w-full border-collapse block md:table">

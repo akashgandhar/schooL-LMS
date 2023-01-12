@@ -1,0 +1,139 @@
+[debug] [2023-01-12T07:44:54.494Z] ----------------------------------------------------------------------
+[debug] [2023-01-12T07:44:54.496Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-12T07:44:54.497Z] CLI Version:   11.20.0
+[debug] [2023-01-12T07:44:54.497Z] Platform:      win32
+[debug] [2023-01-12T07:44:54.497Z] Node Version:  v16.17.0
+[debug] [2023-01-12T07:44:54.498Z] Time:          Thu Jan 12 2023 13:14:54 GMT+0530 (India Standard Time)
+[debug] [2023-01-12T07:44:54.498Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-12T07:44:54.576Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-12T07:44:54.576Z] > authorizing via signed-in user (akashgandha60@gmail.com)
+[debug] [2023-01-12T07:44:54.577Z] [iam] checking project mjpsmadnai for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-12T07:44:54.579Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions [none]
+[debug] [2023-01-12T07:44:54.579Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions x-goog-quota-user=projects/mjpsmadnai
+[debug] [2023-01-12T07:44:54.579Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T07:44:57.608Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions 200
+[debug] [2023-01-12T07:44:57.608Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T07:44:57.610Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai [none]
+[debug] [2023-01-12T07:44:59.684Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai 200
+[debug] [2023-01-12T07:44:59.684Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai {"projectId":"mjpsmadnai","projectNumber":"966036400672","displayName":"M J PUBLIC SCHOOL","name":"projects/mjpsmadnai","resources":{"hostingSite":"mjpsmadnai","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_e32a2cf9-71d1-443e-8855-39128a1623ae"}
+[debug] [2023-01-12T07:45:02.907Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites pageToken=&pageSize=10
+[debug] [2023-01-12T07:45:04.686Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites 200
+[debug] [2023-01-12T07:45:04.686Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites {"sites":[{"name":"projects/mjpsmadnai/sites/mjpsmadnai","defaultUrl":"https://mjpsmadnai.web.app","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","type":"DEFAULT_SITE"}]}
+[debug] [2023-01-12T07:45:04.687Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config [none]
+[debug] [2023-01-12T07:45:06.616Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config 200
+[debug] [2023-01-12T07:45:06.616Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config {"projectId":"mjpsmadnai","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central","apiKey":"AIzaSyCg00ntkfOqWslxQoRz9BwDhfeBS1erpwE","authDomain":"mjpsmadnai.firebaseapp.com","messagingSenderId":"966036400672","measurementId":"G-1GRRW4TS5H"}
+[debug] [2023-01-12T07:45:23.410Z] Error: Build optimization failed: found page without a React Component as default export in 
+pages/context/userContext
+
+See https://nextjs.org/docs/messages/page-without-valid-component for more info.
+
+    at C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\index.js:1129:29
+    at async Span.traceAsyncFn (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\trace\trace.js:79:20)
+    at async build (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\index.js:65:29)
+    at async build (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\next\index.js:50:5)
+    at async prepareFrameworks (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\index.js:246:93)
+    at async deploy (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:53:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-01-12T07:46:02.944Z] ----------------------------------------------------------------------
+[debug] [2023-01-12T07:46:02.946Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-12T07:46:02.946Z] CLI Version:   11.20.0
+[debug] [2023-01-12T07:46:02.946Z] Platform:      win32
+[debug] [2023-01-12T07:46:02.947Z] Node Version:  v16.17.0
+[debug] [2023-01-12T07:46:02.947Z] Time:          Thu Jan 12 2023 13:16:02 GMT+0530 (India Standard Time)
+[debug] [2023-01-12T07:46:02.948Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-12T07:46:03.027Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-12T07:46:03.028Z] > authorizing via signed-in user (akashgandha60@gmail.com)
+[debug] [2023-01-12T07:46:03.028Z] [iam] checking project mjpsmadnai for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-12T07:46:03.030Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions [none]
+[debug] [2023-01-12T07:46:03.031Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions x-goog-quota-user=projects/mjpsmadnai
+[debug] [2023-01-12T07:46:03.031Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T07:46:08.922Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions 200
+[debug] [2023-01-12T07:46:08.922Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T07:46:08.923Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai [none]
+[debug] [2023-01-12T07:46:11.809Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai 200
+[debug] [2023-01-12T07:46:11.810Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai {"projectId":"mjpsmadnai","projectNumber":"966036400672","displayName":"M J PUBLIC SCHOOL","name":"projects/mjpsmadnai","resources":{"hostingSite":"mjpsmadnai","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_e32a2cf9-71d1-443e-8855-39128a1623ae"}
+[debug] [2023-01-12T07:46:14.818Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites pageToken=&pageSize=10
+[debug] [2023-01-12T07:46:20.408Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites 200
+[debug] [2023-01-12T07:46:20.408Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites {"sites":[{"name":"projects/mjpsmadnai/sites/mjpsmadnai","defaultUrl":"https://mjpsmadnai.web.app","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","type":"DEFAULT_SITE"}]}
+[debug] [2023-01-12T07:46:20.409Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config [none]
+[debug] [2023-01-12T07:46:30.448Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config 200
+[debug] [2023-01-12T07:46:30.448Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config {"projectId":"mjpsmadnai","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central","apiKey":"AIzaSyCg00ntkfOqWslxQoRz9BwDhfeBS1erpwE","authDomain":"mjpsmadnai.firebaseapp.com","messagingSenderId":"966036400672","measurementId":"G-1GRRW4TS5H"}
+[debug] [2023-01-12T08:04:31.426Z] ----------------------------------------------------------------------
+[debug] [2023-01-12T08:04:31.429Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-12T08:04:31.430Z] CLI Version:   11.20.0
+[debug] [2023-01-12T08:04:31.430Z] Platform:      win32
+[debug] [2023-01-12T08:04:31.430Z] Node Version:  v16.17.0
+[debug] [2023-01-12T08:04:31.431Z] Time:          Thu Jan 12 2023 13:34:31 GMT+0530 (India Standard Time)
+[debug] [2023-01-12T08:04:31.431Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-12T08:04:31.520Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-12T08:04:31.520Z] > authorizing via signed-in user (akashgandha60@gmail.com)
+[debug] [2023-01-12T08:04:31.520Z] [iam] checking project mjpsmadnai for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-12T08:04:31.523Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions [none]
+[debug] [2023-01-12T08:04:31.523Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions x-goog-quota-user=projects/mjpsmadnai
+[debug] [2023-01-12T08:04:31.523Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T08:04:33.491Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions 200
+[debug] [2023-01-12T08:04:33.492Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T08:04:33.493Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai [none]
+[debug] [2023-01-12T08:04:34.346Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai 200
+[debug] [2023-01-12T08:04:34.347Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai {"projectId":"mjpsmadnai","projectNumber":"966036400672","displayName":"M J PUBLIC SCHOOL","name":"projects/mjpsmadnai","resources":{"hostingSite":"mjpsmadnai","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_e32a2cf9-71d1-443e-8855-39128a1623ae"}
+[debug] [2023-01-12T08:04:37.258Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites pageToken=&pageSize=10
+[debug] [2023-01-12T08:04:38.889Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites 200
+[debug] [2023-01-12T08:04:38.889Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites {"sites":[{"name":"projects/mjpsmadnai/sites/mjpsmadnai","defaultUrl":"https://mjpsmadnai.web.app","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","type":"DEFAULT_SITE"}]}
+[debug] [2023-01-12T08:04:38.890Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config [none]
+[debug] [2023-01-12T08:04:40.963Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config 200
+[debug] [2023-01-12T08:04:40.963Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config {"projectId":"mjpsmadnai","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central","apiKey":"AIzaSyCg00ntkfOqWslxQoRz9BwDhfeBS1erpwE","authDomain":"mjpsmadnai.firebaseapp.com","messagingSenderId":"966036400672","measurementId":"G-1GRRW4TS5H"}
+[debug] [2023-01-12T08:04:55.513Z] Error: Failed to collect page data for /register
+    at C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\utils.js:959:15
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-01-12T08:07:08.621Z] ----------------------------------------------------------------------
+[debug] [2023-01-12T08:07:08.623Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-12T08:07:08.623Z] CLI Version:   11.20.0
+[debug] [2023-01-12T08:07:08.624Z] Platform:      win32
+[debug] [2023-01-12T08:07:08.624Z] Node Version:  v16.17.0
+[debug] [2023-01-12T08:07:08.625Z] Time:          Thu Jan 12 2023 13:37:08 GMT+0530 (India Standard Time)
+[debug] [2023-01-12T08:07:08.625Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-12T08:07:08.700Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-12T08:07:08.701Z] > authorizing via signed-in user (akashgandha60@gmail.com)
+[debug] [2023-01-12T08:07:08.701Z] [iam] checking project mjpsmadnai for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-12T08:07:08.703Z] > refreshing access token with scopes: []
+[debug] [2023-01-12T08:07:08.705Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-01-12T08:07:08.705Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-12T08:07:09.367Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-01-12T08:07:09.367Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-12T08:07:09.383Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions [none]
+[debug] [2023-01-12T08:07:09.384Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions x-goog-quota-user=projects/mjpsmadnai
+[debug] [2023-01-12T08:07:09.384Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T08:07:11.653Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions 200
+[debug] [2023-01-12T08:07:11.653Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mjpsmadnai:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-12T08:07:11.655Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai [none]
+[debug] [2023-01-12T08:07:12.481Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai 200
+[debug] [2023-01-12T08:07:12.481Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mjpsmadnai {"projectId":"mjpsmadnai","projectNumber":"966036400672","displayName":"M J PUBLIC SCHOOL","name":"projects/mjpsmadnai","resources":{"hostingSite":"mjpsmadnai","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_12838d0f-869f-453b-bcea-4f042331a727"}
+[debug] [2023-01-12T08:07:15.270Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites pageToken=&pageSize=10
+[debug] [2023-01-12T08:07:16.668Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites 200
+[debug] [2023-01-12T08:07:16.669Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/mjpsmadnai/sites {"sites":[{"name":"projects/mjpsmadnai/sites/mjpsmadnai","defaultUrl":"https://mjpsmadnai.web.app","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","type":"DEFAULT_SITE"}]}
+[debug] [2023-01-12T08:07:16.669Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config [none]
+[debug] [2023-01-12T08:07:18.360Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config 200
+[debug] [2023-01-12T08:07:18.360Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:966036400672:web:cf6d72355bae3fc90b2a45/config {"projectId":"mjpsmadnai","appId":"1:966036400672:web:cf6d72355bae3fc90b2a45","storageBucket":"mjpsmadnai.appspot.com","locationId":"us-central","apiKey":"AIzaSyCg00ntkfOqWslxQoRz9BwDhfeBS1erpwE","authDomain":"mjpsmadnai.firebaseapp.com","messagingSenderId":"966036400672","measurementId":"G-1GRRW4TS5H"}
+[debug] [2023-01-12T08:07:35.440Z] Error: Export encountered errors on following paths:
+	/context/userContext
+    at C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\export\index.js:408:19
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Span.traceAsyncFn (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\trace\trace.js:79:20)
+    at async C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\index.js:1342:21
+    at async Span.traceAsyncFn (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\trace\trace.js:79:20)
+    at async C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\index.js:1202:17
+    at async Span.traceAsyncFn (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\trace\trace.js:79:20)
+    at async build (C:\Users\lenovo\OneDrive\Desktop\schoolLMS\schoolLMS\node_modules\next\dist\build\index.js:65:29)
+    at async build (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\next\index.js:50:5)
+    at async prepareFrameworks (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\index.js:246:93)
+    at async deploy (C:\Users\lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:53:13)
+[error] 
+[error] Error: An unexpected error has occurred.

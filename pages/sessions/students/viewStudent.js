@@ -13,7 +13,7 @@ import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
 
-export default function Account() {
+export default function ViewStd() {
   const months = [
     "April",
     "May",
@@ -120,7 +120,7 @@ export default function Account() {
     ).then(async () => {
       deleteDoc(docRef);
     }).then(async()=>{
-      months.map((e)=>{
+      months.forEach((e)=>{
         const docReff = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${c}/sections/${s}/due/${e}/students`,
@@ -198,8 +198,8 @@ export default function Account() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e) => {
-                        return <option>{e.Name}</option>;
+                      {classList.map((e,index) => {
+                        return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
                   </div>
@@ -223,8 +223,8 @@ export default function Account() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {sectionList.map((e) => {
-                        return <option>{e.Name}</option>;
+                      {sectionList.map((e,index) => {
+                        return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
                   </div>

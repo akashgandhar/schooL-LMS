@@ -5,7 +5,7 @@ import { db } from "../../../firebase";
 import UserContext from "../../context/userContext";
 import GatePass from "../../../components/gatePass";
 
-export default function print() {
+export default function Print() {
   const router = useRouter();
   const [student, setStudent] = useState(null);
   const a = useContext(UserContext);

@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import UserContext from "../../context/userContext";
 
-export default function payment() {
+export default function Insert() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);

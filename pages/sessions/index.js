@@ -9,7 +9,7 @@ import {
 import { updateProfile } from "firebase/auth";
 import UserContext from "../context/userContext";
 
-export default function index() {
+export default function Index() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [sessionList, setSessionList] = useState([]);

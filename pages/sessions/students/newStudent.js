@@ -113,7 +113,7 @@ export default function NewStudent() {
 
   const createDues = async () => {
     var total = 0;
-    months.map(async (e) => {
+    months.forEach(async (e) => {
       try {
         const docRef = doc(
           db,
@@ -740,8 +740,8 @@ export default function NewStudent() {
                         id="location"
                       >
                         <option>Please Select</option>
-                        {classList.map((e) => {
-                          return <option>{e.Name}</option>;
+                        {classList.map((e,index) => {
+                          return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
                     </div>
@@ -766,8 +766,8 @@ export default function NewStudent() {
                         id="department"
                       >
                         <option>Please Select</option>
-                        {sectionList.map((e) => {
-                          return <option>{e.Name}</option>;
+                        {sectionList.map((e,index) => {
+                          return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
                     </div>
@@ -814,8 +814,8 @@ export default function NewStudent() {
                           id="department"
                         >
                           <option>Please Select</option>
-                          {stopList.map((e) => {
-                            return <option>{e.Stop_Name}</option>;
+                          {stopList.map((e,index) => {
+                            return <option key={index}>{e.Stop_Name}</option>;
                           })}
                         </select>
                       )}
@@ -841,8 +841,8 @@ export default function NewStudent() {
                         id="department"
                       >
                         <option>Please Select</option>
-                        {houseList.map((e) => {
-                          return <option>{e.Name}</option>;
+                        {houseList.map((e,index) => {
+                          return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
                     </div>
