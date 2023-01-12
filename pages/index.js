@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Login from "./login";
-import UserContext from "./context/userContext";
 import Slider from "../components/slider";
 import Content from "../components/content";
 import Feature from "../components/feature";
 import Footer from "../components/footer";
 import Header from "../components/header";
+import UserContext from "../components/context/userContext";
 
 export default function Index() {
   const router = useRouter();

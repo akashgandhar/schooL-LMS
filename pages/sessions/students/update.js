@@ -17,7 +17,7 @@ import Header from "../../../components/dropdown";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import UserContext from "../../context/userContext";
+import UserContext from "../components/context/userContext";
 
 export default function Update() {
   const router = useRouter();
