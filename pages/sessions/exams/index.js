@@ -11,8 +11,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import UserContext from "../components/context/userContext";
 import { async } from "@firebase/util";
+import UserContext from "../../../components/context/userContext";
 
 export default function Exams() {
   const a = useContext(UserContext);

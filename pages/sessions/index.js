@@ -7,7 +7,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
-import UserContext from "../components/context/userContext";
+import UserContext from "../../components/context/userContext";
 
 export default function Index() {
   const [from, setFrom] = useState("");

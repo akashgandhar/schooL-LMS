@@ -2,8 +2,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { db } from "../../../firebase";
-import UserContext from "../components/context/userContext";
 import GatePass from "../../../components/gatePass";
+import UserContext from "../../../components/context/userContext";
 
 export default function Print() {
   const router = useRouter();

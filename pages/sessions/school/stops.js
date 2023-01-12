@@ -4,7 +4,7 @@ import Header from "../../../components/dropdown";
 import { auth, db } from "../../../firebase";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import UserContext from "../components/context/userContext";
+import UserContext from "../../../components/context/userContext";
 
 export default function Stops() {
   const a = useContext(UserContext);

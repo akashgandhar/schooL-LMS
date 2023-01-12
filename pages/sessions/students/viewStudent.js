@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useState } from "react";
-import UserContext from "../components/context/userContext";
+import UserContext from "../../../components/context/userContext";
 import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";

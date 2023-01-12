@@ -1,7 +1,7 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase';
-import UserContext from '../pages/context/userContext';
+import UserContext from './context/userContext';
 import { useRouter } from 'next/router';
 
 export default function IncomeCard() {

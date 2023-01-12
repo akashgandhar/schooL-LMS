@@ -13,7 +13,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import UserContext from "../components/context/userContext";
+import UserContext from "../../../components/context/userContext";
 
 export default function Insert() {
   const router = useRouter();
