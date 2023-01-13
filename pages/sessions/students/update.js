@@ -27,6 +27,9 @@ export default function Update() {
   const [fName, setFName] = useState(s.Father_Name);
   const [mName, setMName] = useState(s.Mother_Name);
   const [dob, setDob] = useState(s.Date_Of_Birth);
+  const [db, setDb] = useState(`${dob.getDate()}-${
+    dob.getMonth() + 1
+  }-${dob.getFullYear()}`)
   const [mobile, setMobile] = useState(s.Mobile_Number);
   const [fmobile, setFMobile] = useState(s.Father_Mobile_Number);
   const [age, setAge] = useState(s.Age);
