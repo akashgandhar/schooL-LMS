@@ -540,7 +540,7 @@ export default function Update() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      value={dbo}
+                      value=`${dob.getDate()}-${dob.getMonth() + 1}-${dob.getFullYear()}`
                       placeholder="DD/MM/YYYY"
                     />
                   </div>
