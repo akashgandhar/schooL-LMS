@@ -662,7 +662,7 @@ export default function NewStudent() {
                       Student Date Of Birth
                     </label>  
                     <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                      <DatePicker selected={dob} onChange={(e) => setDob(e)} />
+                      <DatePicker selected={dob} onChange={(dob) => setDob(dob)} />
                     </div>
                   </div>
                   <div class="md:w-1/2 px-3">
