@@ -27,9 +27,7 @@ export default function Update() {
   const [fName, setFName] = useState(s.Father_Name);
   const [mName, setMName] = useState(s.Mother_Name);
   const [dob, setDob] = useState(s.Date_Of_Birth);
-  const [db, setDb] = useState(`${dob.getDate()}-${
-    dob.getMonth() + 1
-  }-${dob.getFullYear()}`)
+  
   const [mobile, setMobile] = useState(s.Mobile_Number);
   const [fmobile, setFMobile] = useState(s.Father_Mobile_Number);
   const [age, setAge] = useState(s.Age);
@@ -78,6 +76,11 @@ export default function Update() {
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()
   );
+  
+  const db = new Date(dob);
+  const [dbo, setDbo] = useState(`${db.getDate()}-${
+    db.getMonth() + 1
+  }-${db.getFullYear()}`)
 
   const d = `${current.getDate()}-${
     current.getMonth() + 1
@@ -537,7 +540,7 @@ export default function Update() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      value={db}
+                      value={dbo}
                       placeholder="DD/MM/YYYY"
                     />
                   </div>
