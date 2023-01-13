@@ -662,19 +662,10 @@ export default function NewStudent() {
                     >
                       Student Date Of Birth
                     </label>  
-                    <input
-                      onChange={(e) => {
-                        setDob(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="title"
-                      type="text"
-                       value = {dob}
-                      placeholder="Whatsapp Number"
-                    />
-                    //<div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                      //<DatePicker selected={dob} onChange={(e) => setDob(e)} />
-                    //</div>
+                    
+                    <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                      <DatePicker selected={dob} onChange={(e) => setDob(e)} />
+                    </div>
                   </div>
                   <div class="md:w-1/2 px-3">
                     <label
