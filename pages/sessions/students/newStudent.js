@@ -30,7 +30,7 @@ export default function NewStudent() {
   const [name, setName] = useState("");
   const [fName, setFName] = useState("");
   const [mName, setMName] = useState("");
-  const [dob, setDob] = useState("");
+  
   const [mobile, setMobile] = useState("");
   const [fmobile, setFMobile] = useState("");
   const [age, setAge] = useState("");
@@ -91,6 +91,7 @@ export default function NewStudent() {
   }-${current.getFullYear()}`;
 
   const [date, setDate] = useState(current);
+  const [dob, setDob] = useState(current);
 
   useEffect(() => {
     GetSectionList();
@@ -662,15 +663,9 @@ export default function NewStudent() {
                     >
                       Student Date Of Birth
                     </label>  
-                    <input
-                      onChange={(e) => {
-                        setDob(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="title"
-                      type="text"
-                      placeholder="Whatsapp Number"
-                    />
+                    <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                      <DatePicker selected={date} onChange={(e) => setDob(e)} />
+                    </div>
                   </div>
                   <div class="md:w-1/2 px-3">
                     <label
