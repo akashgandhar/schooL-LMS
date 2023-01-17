@@ -276,6 +276,7 @@ export default function ViewStd() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
+                    
                     return (
                       <tr
                         key={index}
@@ -335,6 +336,7 @@ export default function ViewStd() {
                           </span>
                           <button
                             onClick={() => {
+                              e["Dob"] = e.Date_Of_Birth.seconds;
                               router.push({
                                 pathname: "/sessions/students/update",
                                 query: e,

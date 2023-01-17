@@ -18,6 +18,10 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../../components/context/userContext";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function Update() {
   const router = useRouter();
@@ -69,6 +73,8 @@ export default function Update() {
   const [classFee, setClassFee] = useState();
   const [transportFee, setTransportFee] = useState(0);
 
+  // const dd = new Date(dob)
+
   const a = useContext(UserContext);
 
   const current = new Date();
@@ -98,13 +104,15 @@ export default function Update() {
   useEffect(() => {
     GetHouseList();
     GetStopList();
+   console.log(dob);
+    
   }, []);
 
   const createDues = async () => {
     var total = 0;
     if (transportStatus === "No") {
-      months.forEach(async (e) => {
-        if (index + 1 >= admissionMonth) {
+      months.forEach(async (e,index) => {
+        if (index + 1 >= current.getMonth()) {
           try {
             const docRef = doc(
               db,
@@ -404,7 +412,7 @@ export default function Update() {
           })
           .then(() => {
             alert("student Updated successfully");
-            router.reload();
+            // router.reload();
           });
       } catch (e) {
         alert(e.message);
@@ -527,7 +535,10 @@ export default function Update() {
                     >
                       Student Date Of Birth
                     </label>
-                    <input
+                    <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                      <DatePicker selected={dob} onChange={(e) => setDob(e)} />
+                    </div>
+                    {/* <input
                       onChange={(e) => {
                         setDob(e.target.value);
                       }}
@@ -536,7 +547,7 @@ export default function Update() {
                       type="text"
                       value={dob}
                       placeholder="DD/MM/YYYY"
-                    />
+                    /> */}
                   </div>
                   <div class="md:w-1/2 px-3">
                     <label
