@@ -541,19 +541,17 @@ export default function Update() {
                     >
                       Student Date Of Birth
                     </label>
-                    <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                      <DatePicker selected={dob} onChange={(e) => setDob(e)} />
-                    </div>
-                    {/* <input
+                    
+                    <input
                       onChange={(e) => {
                         setDob(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      value=`${dob.getDate()}-${dob.getMonth() + 1}-${dob.getFullYear()}`
+                      value={dob}
                       placeholder="DD/MM/YYYY"
-                    /> */}
+                    />
                   </div>
                   <div class="md:w-1/2 px-3">
                     <label
