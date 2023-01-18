@@ -31,7 +31,7 @@ export default function Update() {
   const [fName, setFName] = useState(s.Father_Name);
   const [mName, setMName] = useState(s.Mother_Name);
   const [dob, setDob] = useState(s.Date_Of_Birth);
-  
+
   const [mobile, setMobile] = useState(s.Mobile_Number);
   const [fmobile, setFMobile] = useState(s.Father_Mobile_Number);
   const [age, setAge] = useState(s.Age);
@@ -82,15 +82,10 @@ export default function Update() {
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()
   );
-  
-  const db = new Date(dob);
-  const [dbo, setDbo] = useState(`${db.getDate()}-${
-    db.getMonth() + 1
-  }-${db.getFullYear()}`)
 
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+
+  const d = `${current.getDate()}-${current.getMonth() + 1
+    }-${current.getFullYear()}`;
 
   const months = [
     "April",
@@ -110,14 +105,13 @@ export default function Update() {
   useEffect(() => {
     GetHouseList();
     GetStopList();
-   console.log(dob);
-    
+
   }, []);
 
   const createDues = async () => {
     var total = 0;
     if (transportStatus === "No") {
-      months.forEach(async (e,index) => {
+      months.forEach(async (e, index) => {
         if (index + 1 >= current.getMonth()) {
           try {
             const docRef = doc(
@@ -134,8 +128,9 @@ export default function Update() {
               Mobile: mobile,
               transport_due: 0,
             });
-          } catch {}
+          } catch { }
         } else {
+
           try {
             const docRef = doc(
               db,
@@ -150,7 +145,7 @@ export default function Update() {
               Place: place,
               Mobile: mobile,
             });
-          } catch {}
+          } catch { }
         }
       });
     } else {
@@ -169,7 +164,7 @@ export default function Update() {
             Place: place,
             Mobile: mobile,
           });
-        } catch {}
+        } catch { }
       });
     }
   };
@@ -187,9 +182,7 @@ export default function Update() {
           setTransportFee(docSnap.data().Stop_Fee);
           console.log(transportFee);
         }
-      } catch (e) {
-        alert("plese Select bus stop first");
-      }
+      } catch { }
     }
   };
 
@@ -541,7 +534,7 @@ export default function Update() {
                     >
                       Student Date Of Birth
                     </label>
-                    
+
                     <input
                       onChange={(e) => {
                         setDob(e.target.value);
@@ -712,7 +705,7 @@ export default function Update() {
                           value={busStopName}
                         >
                           <option>Please Select</option>
-                          {stopList.map((e,index) => {
+                          {stopList.map((e, index) => {
                             return <option key={index}>{e.Stop_Name}</option>;
                           })}
                         </select>
@@ -736,7 +729,7 @@ export default function Update() {
                         value={house}
                       >
                         <option>Please Select</option>
-                        {houseList.map((e,index) => {
+                        {houseList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>

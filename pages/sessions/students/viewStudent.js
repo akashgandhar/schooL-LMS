@@ -47,9 +47,9 @@ export default function ViewStd() {
         list.push(doc.data());
       });
       setStudents(list);
-      
-      
-      
+
+
+
     } catch (e) {
       console.log(e);
     }
@@ -99,13 +99,13 @@ export default function ViewStd() {
     }
   };
 
-  const deleteStudent = async (c, s,sid,n,fn,mn,p) => {
+  const deleteStudent = async (c, s, sid, n, fn, mn, p) => {
     const docRef = doc(
       db,
       `users/${a.user}/sessions/${a.session}/classes/${c}/sections/${s}/students`,
       sid
     );
-    
+
     await setDoc(
       doc(db, `users/${a.user}/sessions/${a.session}/deletedStudents`, sid),
       {
@@ -119,8 +119,8 @@ export default function ViewStd() {
       }
     ).then(async () => {
       deleteDoc(docRef);
-    }).then(async()=>{
-      months.forEach((e)=>{
+    }).then(async () => {
+      months.forEach((e) => {
         const docReff = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${c}/sections/${s}/due/${e}/students`,
@@ -128,14 +128,14 @@ export default function ViewStd() {
         );
         deleteDoc(docReff);
       })
-    }).then(()=>{
+    }).then(() => {
       const docReff = doc(
         db,
         `users/${a.user}/sessions/${a.session}/AllStudents`,
         sid
       );
       deleteDoc(docReff);
-    }).then(async()=>{
+    }).then(async () => {
       const sessionRef = doc(
         db,
         `users/${a.user}/sessions/${a.session}/classes/${className}/sections/`,
@@ -165,9 +165,9 @@ export default function ViewStd() {
   };
 
   useEffect(() => {
-      
+
   }, [classList])
-  
+
 
   return (
     <>
@@ -198,7 +198,7 @@ export default function ViewStd() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e,index) => {
+                      {classList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -223,7 +223,7 @@ export default function ViewStd() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {sectionList.map((e,index) => {
+                      {sectionList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -276,7 +276,7 @@ export default function ViewStd() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
-                    
+
                     return (
                       <tr
                         key={index}
@@ -336,7 +336,7 @@ export default function ViewStd() {
                           </span>
                           <button
                             onClick={() => {
-                              e["Dob"] = e.Date_Of_Birth.seconds;
+
                               router.push({
                                 pathname: "/sessions/students/update",
                                 query: e,
@@ -357,7 +357,7 @@ export default function ViewStd() {
                           {isConfirm && (
                             <button
                               onClick={() => {
-                                deleteStudent(e.Class,e.Section,e.Sr_Number,e.name,e.Father_Name,e.Mother_Name,e.Place).then(() => {
+                                deleteStudent(e.Class, e.Section, e.Sr_Number, e.name, e.Father_Name, e.Mother_Name, e.Place).then(() => {
                                   setIsConfirm(false);
                                 });
                               }}
