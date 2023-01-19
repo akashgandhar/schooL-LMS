@@ -48,12 +48,12 @@ const schoolTabs = [
 ];
 const examTabs = [
   {
-    name: "Manage Exam",
+    name: "Create Exams",
     href: "/sessions/exams",
   },
   {
-    name: "Manage Marks",
-    href: "/sessions/exams/marks",
+    name: "Map Subjects",
+    href: "/sessions/exams/mapSubject",
   },
   
 ];

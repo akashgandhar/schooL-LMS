@@ -1,65 +1,38 @@
 import React, { useContext, useEffect, useState } from "react";
-import Nav from "../../../components/navbar";
-import Header from "../../../components/dropdown";
-import { auth, db } from "../../../firebase";
+import { db } from "../../../firebase";
 import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { async } from "@firebase/util";
 import UserContext from "../../../components/context/userContext";
 
 export default function Exams() {
   const a = useContext(UserContext);
 
   const [examName, setExamName] = useState("");
-  const [maxmark, setMaxMark] = useState("");
   const [examList, setExamList] = useState([]);
-  const subList = [
-    "Hindi",
-    "English",
-    "Mathematics",
-    "Social Science",
-    "Science",
-    "MSC and GK ",
-  ];
+
 
   useEffect(() => {
     GetExamList();
   }, [examList]);
 
-  const [subName, setSubName] = useState();
+
 
   const createExam = async () => {
-    if (!examName || !maxmark) {
+    if (!examName) {
       alert("Enter Missing Details");
     } else {
       try {
         const docRef = `users/${a.user}/sessions/${a.session}/exams/`;
         await setDoc(doc(db, docRef, examName), {
           Name: examName,
-          Maximum_Marks: maxmark,
-        }).then(async () => {
-          subList.map(async (e) => {
-            try {
-              const docRef = `users/${a.user}/sessions/${a.session}/exams/${examName}/subjects/`;
-              await setDoc(doc(db, docRef, e), {
-                Name: e,
-                Exam: examName,
-                Maximum_Marks: maxmark,
-              });
-            } catch (e) {
-              console.error("Error adding document: ", e);
-            }
-          });
-        });
+        })
       } catch (e) {
-        console.error("Error adding document: ", e);
+        console.error("Error adding document: ", e.message);
       }
     }
   };
@@ -78,7 +51,7 @@ export default function Exams() {
   };
 
   const [isConfirm, setIsConfirm] = useState(false);
-  const [subl, setSubL] = useState(["fgdsfg", "dfsg"]);
+
 
   return (
     <>
@@ -89,12 +62,12 @@ export default function Exams() {
               <h1 className="text-center font-bold text-2xl">Add New Exam</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div class="md:w-full px-3 mb-6 md:mb-0">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
                     >
-                      Name*
+                      Exam Name*
                     </label>
                     <input
                       onChange={(e) => {
@@ -103,26 +76,10 @@ export default function Exams() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      placeholder="Netboard"
+                      placeholder="Exam Name"
                     />
                   </div>
-                  <div class="md:w-1/2 px-3">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="title"
-                    >
-                      Maximum Marks
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        setMaxMark(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="title"
-                      type="number"
-                      placeholder="B.tech / cse / CSP242 "
-                    />
-                  </div>
+
 
                   <button
                     onClick={() => {

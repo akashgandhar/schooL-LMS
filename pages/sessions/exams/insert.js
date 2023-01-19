@@ -19,9 +19,8 @@ export default function Insert() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  const d = `${current.getDate()}-${current.getMonth() + 1
+    }-${current.getFullYear()}`;
 
   const [mode, setMode] = useState();
   const [amount, setAmount] = useState();
@@ -45,7 +44,7 @@ export default function Insert() {
     setSubjects(list);
   };
 
-  
+
 
   const [English, setEnglish] = useState(0);
   const [Hindi, setHindi] = useState(0);
@@ -56,8 +55,8 @@ export default function Insert() {
 
   useEffect(() => {
     GetSubList();
-    console.log(English,Hindi,SocialScience);
-  }, [English,Hindi,SocialScience]);
+    console.log(English, Hindi, SocialScience);
+  }, [English, Hindi, SocialScience]);
 
   return (
     <>
