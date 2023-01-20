@@ -31,8 +31,8 @@ export default function MapExams() {
     GetExamList();
     GetClassList();
     GetSubjectList();
-    
-  }, [classList, examList,selectedExamName,selectedclassName]);
+
+  }, [classList, examList, selectedExamName, selectedclassName]);
 
 
 
@@ -277,7 +277,7 @@ export default function MapExams() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             Maxmum Marks
                           </span>
-                          {e.Name}
+                          {e.MAX_MARKS}
                         </td>
 
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">

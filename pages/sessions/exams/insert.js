@@ -8,14 +8,14 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   increment,
   setDoc,
   updateDoc,
+  getDocs,
 } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
 
-export default function Insert() {
+export default function InsertMarks() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);
@@ -27,36 +27,58 @@ export default function Insert() {
   const [concession, setConcession] = useState(0);
   const [concessionBy, setConcessionBy] = useState("nil");
 
+
+
   const s = router.query;
 
-  const [subjects, setSubjects] = useState([]);
+
+  const [subList, setSubList] = useState([]);
 
   const GetSubList = async () => {
     const docRef = collection(
       db,
-      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/subjects`
+      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`
     );
     const docSnap = await getDocs(docRef);
     var list = [];
     docSnap.forEach((doc) => {
       list.push(doc.data());
     });
-    setSubjects(list);
+    setSubList(list);
   };
-
-
-
-  const [English, setEnglish] = useState(0);
-  const [Hindi, setHindi] = useState(0);
-  const [gk, setGk] = useState(0);
-  const [Mathematics, setMathematics] = useState(0);
-  const [Science, setScience] = useState(0);
-  const [SocialScience, setSocialScience] = useState(0);
 
   useEffect(() => {
     GetSubList();
-    console.log(English, Hindi, SocialScience);
-  }, [English, Hindi, SocialScience]);
+
+  }, [subList])
+
+
+
+  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
+    current.getTime()
+  );
+
+  const [obt, setObt] = useState();
+
+
+  const saveMarks = async (sub) => {
+    if (!obt) {
+      alert("Enter Missing Details");
+    } else {
+      try {
+        const docRef = `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`;
+        await updateDoc(doc(db, docRef, sub), {
+          OBTAINED_MARKS: obt,
+
+        }).then(() => { alert("success") })
+      }
+      catch (e) {
+        console.error("Error adding document: ", e.message);
+      }
+    }
+  };
+
+
 
   return (
     <>
@@ -64,7 +86,7 @@ export default function Insert() {
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className="text-center font-bold text-2xl">Fee Payment</h1>
+              <h1 className="text-center font-bold text-2xl">Insert Marks Of {s.exam}</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -137,9 +159,12 @@ export default function Insert() {
                     </div>
                   </div>
                 </div>
-                <div class="bg-blue-500  text-white font-bold  py-2 px-4 rounded-full text-center align-middle">
-                  Insert Marks Of {s.exam}
-                </div>
+                <button
+                  class="bg-red-400  text-white font-bold  py-2 px-4 rounded-full"
+
+                >
+                  --- Please Save Marks Of One Subject First Then Proceed To Next ---
+                </button>
               </div>
             </div>
             <div>
@@ -147,7 +172,7 @@ export default function Insert() {
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Subject
+                      Subjects
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Obtained Marks
@@ -156,12 +181,15 @@ export default function Insert() {
                       Maximum Marks
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Percentage
+                      Percent
+                    </th>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      Action
                     </th>
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {subjects.map((e, index) => {
+                  {subList.map((e, index) => {
                     return (
                       <tr
                         key={index}
@@ -169,48 +197,40 @@ export default function Insert() {
                       >
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
-                            Month
+                            subject
                           </span>
                           {e.Name}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="px-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
-                            obtained
+                            obtained Marks
                           </span>
-                          <input
-                            onChange={(e) => {
-                              if (e.Name == "English") {
-                                setEnglish(e.target.value);
-                              }
-                              if (e.Name === "Hindi") {
-                                setHindi(e.target.value);
-                              }
-                              if (e.Name === "MSC and GK") {
-                                setGk(e.target.value);
-                              }
-                              if (e.Name === "Mathematics") {
-                                setMathematics(e.target.value);
-                              }
-                              if (e.Name === "Science") {
-                                setScience(e.target.value);
-                              }
-                              if (e.Name === "Social Science") {
-                                setSocialScience(e.target.value);
-                              }
-                            }}
-                            type="number"
-                          ></input>
+                          <input max={e.MAX_MARKS} onChange={(e) => { setObt(e.target.value) }} className="w-full" placeholder="Enter Marks" />
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
-                            max
+                            maximum marks
                           </span>
-                          {e.Maximum_Marks}
+                          {e.MAX_MARKS}
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             percent
                           </span>
+                          {obt / e.MAX_MARKS * 100}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            action
+                          </span>
+                          <button onClick={() => {
+                            saveMarks(e.Name)
+                          }}
+
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                          >
+                            Save
+                          </button>
                         </td>
                       </tr>
                     );
@@ -221,89 +241,28 @@ export default function Insert() {
             <div>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="company"
-                    >
-                      Mode Of Payment
-                    </label>
-                    <select
-                      onChange={(e) => {
-                        setMode(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                    >
-                      <option>Plese Select</option>
-                      <option>Monthly Fee</option>
-                      <option>Transport Fee</option>
-                      <option>Old Dues</option>
-                    </select>
-                  </div>
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="company"
-                    >
-                      Amount
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                      }}
-                      placeholder="Amount"
-                      type="number"
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                    />
-                  </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="company"
-                    >
-                      Concession
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        setConcession(e.target.value);
-                      }}
-                      placeholder="Concession"
-                      value={concession}
-                      type="number"
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                    />
-                  </div>
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="company"
-                    >
-                      Concession By
-                    </label>
-                    {concession > 0 && (
-                      <input
-                        onChange={(e) => {
-                          setConcessionBy(e.target.value);
-                        }}
-                        placeholder="concession By"
-                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      />
-                    )}
-                  </div>
+
                 </div>
                 <button
+
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                  onClick={() => {
-                    if (!mode || !amount) {
-                      alert("Information Missing");
-                    } else {
-                      pay();
-                    }
+                  onClick={async () => {
+                    const docRef = collection(
+                      db,
+                      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`
+                    );
+                    const docSnap = await getDocs(docRef);
+                    docSnap.forEach((doc) => {
+                      if (!doc.data().OBTAINED_MARKS) {
+
+                      }
+                    });
+                    alert("Marks Added Successfully");
+                    router.push("/sessions/exams/marks")
                   }}
+
                 >
-                  Pay Now
+                  Submit
                 </button>
               </div>
             </div>
