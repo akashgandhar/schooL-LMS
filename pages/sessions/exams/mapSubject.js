@@ -130,7 +130,7 @@ export default function MapExams() {
                       placeholder="class Name"
                     >
                       <option>Please Select</option>
-                      {examList.map((e) => { return (<option>{e.Name}</option>) })}
+                      {examList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
                     </select>
                   </div>
                   <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -150,7 +150,7 @@ export default function MapExams() {
                       placeholder="class Name"
                     >
                       <option>Please Select</option>
-                      {classList.map((e) => { return (<option>{e.Name}</option>) })}
+                      {classList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
                     </select>
                   </div>
                   <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -220,7 +220,7 @@ export default function MapExams() {
                   type="text"
                   placeholder="Exam Name"
                 ><option>Please Select</option>
-                  {examList.map((e) => { return (<option>{e.Name}</option>) })}
+                  {examList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
                 </select>
               </div>
               <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -239,7 +239,7 @@ export default function MapExams() {
                   type="text"
                   placeholder="Exam Name"
                 ><option>Please Select</option>
-                  {classList.map((e) => { return (<option>{e.Name}</option>) })}
+                  {classList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
                 </select>
               </div>
 
