@@ -112,7 +112,7 @@ export default function Update() {
   useEffect(() => {
     GetHouseList();
     GetStopList();
-    console.log(s.Adm_Date);
+    // console.log(s.Adm_Date);
   }, []);
 
   const createDues = async () => {
