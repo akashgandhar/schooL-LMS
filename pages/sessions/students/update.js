@@ -87,9 +87,9 @@ export default function Update() {
   );
 
 
-  // const d = new Date(s.Adm_Date);
+  const d = new Date(s.Adm_Date);
 
-  const [daate, setDaate] = useState(new Date(s.Adm_Date));
+  const [daate, setDaate] = useState(d);
 
   const months = [
     "April",
