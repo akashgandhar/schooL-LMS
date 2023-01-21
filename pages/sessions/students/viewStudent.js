@@ -336,12 +336,14 @@ export default function ViewStd() {
                           </span>
                           <button
                             onClick={() => {
-
+                              // alert(e.Admission_Date.toDate())
+                              e["Adm_Date"] = e.Admission_Date.toDate().toLocaleDateString();
                               router.push({
                                 pathname: "/sessions/students/update",
                                 query: e,
                               });
-                            }}
+                            }
+                          }
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                           >
                             View

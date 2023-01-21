@@ -76,6 +76,9 @@ export default function Update() {
 
   // const dd = new Date(dob)
 
+
+  
+
   const a = useContext(UserContext);
 
   const current = new Date();
@@ -84,8 +87,9 @@ export default function Update() {
   );
 
 
-  const d = `${current.getDate()}-${current.getMonth() + 1
-    }-${current.getFullYear()}`;
+  const d = new Date(s.Adm_Date);
+
+  const [date, setDate] = useState(d);
 
   const months = [
     "April",
@@ -102,10 +106,13 @@ export default function Update() {
     "March",
   ];
 
+
+  
+
   useEffect(() => {
     GetHouseList();
     GetStopList();
-
+    console.log(s.Adm_Date);
   }, []);
 
   const createDues = async () => {
@@ -363,6 +370,7 @@ export default function Update() {
             Aadhar_Available: aadharStatus,
             House: house,
             Image: imgUrl,
+            Admission_Date: date,
             TC: tcUrl,
             Aadhar: aadharUrl,
             Updated: Timestamp.now(),
@@ -978,15 +986,14 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="department"
                     >
-                      Update date
+                      Admission Date
                     </label>
                     <div>
-                      <div
-                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                        id="application-link"
-                        type="number"
-                      >
-                        {d}
+                      <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                        <DatePicker
+                          selected={date}
+                          onChange={(e) => setDate(e)}
+                        />
                       </div>
                     </div>
                   </div>
