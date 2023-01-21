@@ -87,9 +87,13 @@ export default function Update() {
   );
 
 
-  const d = new Date(s.Adm_Date);
+  // const d = new Intl.DateTimeFormat("en-IN", { dateStyle: "long" }).format(
+  //   current
+  // );
 
-  const [daate, setDaate] = useState(d);
+  // const [daate, setDaate] = useState(s.Adm_Date);
+
+  const [date, setDate] = useState(s.Adm_Date);
 
   const months = [
     "April",
@@ -112,7 +116,7 @@ export default function Update() {
   useEffect(() => {
     GetHouseList();
     GetStopList();
-    // console.log(s.Adm_Date);
+    
   }, []);
 
   const createDues = async () => {
@@ -365,7 +369,7 @@ export default function Update() {
             Last_School_Board: lSchoolBoard,
             Last_School_Result: lSchoolResult,
             RTE_Status: rteStatus,
-            Update_Date: d,
+            Update_Date: Timestamp.now(),
             Tc_Available: tcStatus,
             Aadhar_Available: aadharStatus,
             House: house,
@@ -404,8 +408,9 @@ export default function Update() {
                 Last_School_Address: lSchoolAdd,
                 Last_School_Board: lSchoolBoard,
                 Last_School_Result: lSchoolResult,
+                Admission_Date: date,
                 RTE_Status: rteStatus,
-                Update_Date: d,
+                Update_Date: Timestamp.now(),
                 Tc_Available: tcStatus,
                 Aadhar_Available: aadharStatus,
                 House: house,
@@ -989,12 +994,16 @@ export default function Update() {
                       Admission Date
                     </label>
                     <div>
-                      <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                        <DatePicker
-                          selected={daate}
-                          onChange={(e) => setDaate(e)}
-                        />
-                      </div>
+                    <input
+                      onChange={(e) => {
+                        setDate(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="company"
+                      type="text"
+                      value={date}
+                      placeholder="DD/MM/YYYY"
+                    />
                     </div>
                   </div>
                 </div>

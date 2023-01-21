@@ -337,7 +337,7 @@ export default function ViewStd() {
                           <button
                             onClick={() => {
                               // alert(e.Admission_Date.toDate())
-                              e["Adm_Date"] = e.Admission_Date.toDate().toString();
+                              e["Adm_Date"] = e.Admission_Date.toDate().toLocaleDateString();
                               router.push({
                                 pathname: "/sessions/students/update",
                                 query: e,
