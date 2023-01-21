@@ -87,9 +87,9 @@ export default function Update() {
   );
 
 
-  const d = new Date(s.Adm_Date);
+  // const d = new Date(s.Adm_Date);
 
-  const [date, setDate] = useState(d);
+  const [daate, setDaate] = useState(new Date(s.Adm_Date));
 
   const months = [
     "April",
@@ -991,8 +991,8 @@ export default function Update() {
                     <div>
                       <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                         <DatePicker
-                          selected={d}
-                          onChange={(e) => setDate(e)}
+                          selected={daate}
+                          onChange={(e) => setDaate(e)}
                         />
                       </div>
                     </div>
