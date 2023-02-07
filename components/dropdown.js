@@ -55,6 +55,10 @@ const examTabs = [
     name: "Map Subjects",
     href: "/sessions/exams/mapSubject",
   },
+  {
+    name: "Insert/Update Marks",
+    href: "/sessions/exams/marks",
+  },
   
 ];
 
