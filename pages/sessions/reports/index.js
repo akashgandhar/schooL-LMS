@@ -72,6 +72,39 @@ export default function GatePass() {
     setStudentList(list);
   };
 
+  const current = new Date();
+  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
+    current.getTime()
+  );
+
+  const d = `${current.getDate()}-${
+    current.getMonth() + 1
+  }-${current.getFullYear()}`;
+
+  const setTcCut = (student,rname)=>{
+    try{
+      console.log(student);
+      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${d}/${rname}`,time);
+      setDoc(docRef,{
+        Name: student.name,
+        Class: student.Class,
+        Section: student.Section,
+        Father_Name: student.Father_Name,
+        Mother_Name: student.Mother_Name,
+        Place: student.Place,
+        ID:time,
+        Report: rname
+      }).then(()=>{
+        router.push({
+          pathname: "/sessions/reports/tc",
+          query: student
+        });
+      })
+    }catch(e){
+      console.log(e.message);
+    }
+  }
+
   return (
     <>
       <div className="w-screen">
@@ -211,10 +244,7 @@ export default function GatePass() {
                           
                             <button
                             onClick={() => {
-                              router.push({
-                                pathname: "/sessions/reports/tc",
-                                query: e
-                              });
+                              setTcCut(e,"TC");
                             }}
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                             >

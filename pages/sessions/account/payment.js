@@ -107,7 +107,7 @@ export default function Payment() {
     },
   });
 
-  const [student, setStudent] = useState();
+  var data = s;
 
   const getDue = async () => {
     var final = {};
@@ -161,6 +161,11 @@ export default function Payment() {
         })
         .then(() => {
           alert("paid SuccessFully");
+          data["mode"] =  mode;
+          data["Amount"] = Number(amount);
+          data["Concession"] = concession;
+          data["ConcessionBy"] = concessionBy;
+          router.push({pathname:"/sessions/account/invoice",query:data})
         });
     } catch (e) {
       console.log(e.message);
