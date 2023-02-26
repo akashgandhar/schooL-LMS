@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print'
 
-export default function invoice() {
+export default function Invoice() {
   const router = useRouter()
   const s = router.query
   const componentRef = useRef()
