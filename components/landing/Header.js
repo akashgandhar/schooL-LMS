@@ -22,9 +22,9 @@ export default function Header() {
         "
       >
         Admission Open
-        <a href="/" className="pl-2 underline">
+        <Link href="/" className="pl-2 underline">
           Connect
-        </a>
+        </Link>
       </div>
       <div className="bg-gradient-to-r from-red-400 via-yellow-400 to-green-500 grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6 bg-white">
         <div className="flex  items-center ">
@@ -33,23 +33,23 @@ export default function Header() {
             src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Flogot.png?alt=media&token=540fefbf-9a2d-45f3-ae7c-a20dd013c018"
           />
 
-          <a
+          <Link
             href="/"
             className="xl:inline-block  lg:inline-block hidden align-middle text-4xl font-bold font-serif text-black"
           >
             M J Public School
-          </a>
+          </Link>
 
           <div className="hidden pl-24 align-middle xl:inline-block">
-            <a href="/" className="pr-12 text-xl text-black">
+            <Link href="#" className="pr-12 text-xl text-black">
               Events
-            </a>
-            <a href="/" className="pr-12 text-xl text-black">
+            </Link>
+            <Link href="#" className="pr-12 text-xl text-black">
               Gallery
-            </a>
-            <a href="/" className="text-xl text-black">
+            </Link>
+            <Link href="#" className="text-xl text-black">
               About
-            </a>
+            </Link>
           </div>
         </div>
         <div className="flex items-center pr-12">
@@ -60,12 +60,12 @@ export default function Header() {
             >
               Log in
             </Link>
-            <a
+            <Link
               className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
-              href="/"
+              href="#"
             >
               Enquire Now
-            </a>
+            </Link>
           </div>
           {/* <button className="pr-12 pl-4">
             <svg
