@@ -103,7 +103,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Header() {
+export default function Dropdown() {
   return (
     <Popover className="relative bg-white z-10">
       <div className="mx-auto max-w-10xl px-4 sm:px-6">

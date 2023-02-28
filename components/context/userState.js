@@ -3,7 +3,7 @@ import UserContext from "./userContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
 import Nav from "../navbar";
-import Header from "../dropdown";
+import Dropdown from "../dropdown";
 import { useRouter } from "next/router";
 
 const UserState = (props) => {
@@ -36,7 +36,7 @@ const UserState = (props) => {
       {user && (
         <>
           <Nav />
-          <Header />
+          <Dropdown />
         </>
       )}
       {props.children}

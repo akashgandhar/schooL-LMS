@@ -1,23 +1,23 @@
-import { signOut } from "firebase/auth";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { auth } from "../firebase";
+import { signOut } from 'firebase/auth'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { auth } from '../firebase'
 
 export default function Nav() {
-  const router = useRouter();
+  const router = useRouter()
   const signout = () => {
     signOut(auth)
       .then(() => {
-        router.push("/login");
-        router.reload();
+        router.push('/login')
+        router.reload()
         // Sign-out successful.
       })
       .catch((error) => {
         // An error happened.
-      });
-  };
-  const [navbar, setNavbar] = useState(false);
+      })
+  }
+  const [navbar, setNavbar] = useState(false)
 
   return (
     <nav className="w-full bg-blue-600 shadow">
@@ -70,29 +70,20 @@ export default function Nav() {
         <div>
           <div
             className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
-              navbar ? "block" : "hidden"
+              navbar ? 'block' : 'hidden'
             }`}
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <li className="text-white hover:text-indigo-200">
-                <Link href="/home">Home</Link>
+                <Link href="/home"> </Link>
               </li>
               <li className="text-white hover:text-indigo-200">
-                <Link href="/assignments">Assignments</Link>
+                <Link href="/assignments"> </Link>
               </li>
               <li className="text-white hover:text-indigo-200">
-                <Link href="/communication">Contact</Link>
+                <Link href="/communication"> </Link>
               </li>
             </ul>
-
-            <div className="mt-3 space-y-2 lg:hidden md:inline-block">
-              <a
-                onClick={signout}
-                className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800 cursor-pointer"
-              >
-                Log Out
-              </a>
-            </div>
           </div>
         </div>
         <div className="hidden space-x-2 md:inline-block">
@@ -105,5 +96,5 @@ export default function Nav() {
         </div>
       </div>
     </nav>
-  );
+  )
 }

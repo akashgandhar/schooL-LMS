@@ -7,6 +7,11 @@ import UserContext from "../components/context/userContext";
 export default function Home() {
   const a = useContext(UserContext);
 
+  <head>
+    
+  </head>
+
+
   if (a.user) {
     return <><Card/><IncomeCard/><ExpenseCard/></>;
   }
