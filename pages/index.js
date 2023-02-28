@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Header from '../components/landing/Header'
 import Main from '../components/landing/Layout'
-import Footer from '../components/landing/Footer'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import UserContext from '../components/context/userContext'
+import Footer from '../components/footer'
 
 export default function Index() {
   const router = useRouter()
@@ -36,7 +36,7 @@ export default function Index() {
         </div>
         <div className="xl:h-5 sm:h-20 "></div>
         <Main />
-        <Footer />
+        <Footer/>
       </div>
     </>
   )
