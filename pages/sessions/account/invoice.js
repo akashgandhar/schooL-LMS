@@ -109,7 +109,7 @@ export default function Invoice() {
                       Subtotal
                     </td>
                     <td class="py-3 px-4 text-right font-semibold">
-                      &#8377; {s.Amount}
+                      &#8377; {Number(s.Amount) + Number(s.Concession)}
                     </td>
                   </tr>
                   <tr class="bg-gray-100 text-sm uppercase leading-normal text-gray-600">
@@ -126,7 +126,7 @@ export default function Invoice() {
                       Total
                     </td>
                     <td class="py-3 px-4 text-right font-semibold">
-                      &#8377; {Number(s.Amount) - Number(s.Concession)}
+                      &#8377; {Number(Number(s.Amount) + Number(s.Concession)) - Number(s.Concession)}
                     </td>
                   </tr>
                 </tfoot>
