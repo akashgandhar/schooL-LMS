@@ -7,7 +7,7 @@ export default function Header() {
     <div>
       <header className="p-4 ">
         <div className="container flex justify-between mx-auto">
-          <a
+          <a                                                         
             rel="noopener noreferrer"
             href="#"
             aria-label="Back to homepage"
@@ -24,7 +24,7 @@ export default function Header() {
             aria-label="Back to homepage"
             className="flex items-center p-2"
           >
-            <span className="text-3xl font-bold ">M J PUBLIC SCHOOL</span>
+            <span className="text-3xl font-bold tew ">M J PUBLIC SCHOOL</span>
           </a>
           <div className="flex items-center md:space-x-4">
             <button

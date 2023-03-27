@@ -14,7 +14,6 @@ export default function ExpenseCard() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-  const [incomeList, setIncomeList] = useState([]);
 const [total, setTotal] = useState(0)
   const a = useContext(UserContext);
   const [source, setSource] = useState();
