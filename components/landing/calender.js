@@ -1,23 +1,58 @@
-import React from 'react'
-import ApiCalendar from "react-google-calendar-api";
-
-
-export default function Calender() {
-  const config = {
-    clientId: "203391537048-84hord2n2sdmnfp46vm67gro9c58c3pv.apps.googleusercontent.com",
-    apiKey: "AIzaSyCVDZ_4XcpHC48dEZOK9AgIAT2bYe0qvt8",
-    scope: "https://www.googleapis.com/auth/calendar",
-    discoveryDocs: [
-      "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-    ],
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { gapi } from "gapi-script";
+import Event from "./components/Event.js";
+ 
+function App() {
+  const [events, setEvents] = useState([]);
+ 
+  const calendarID = process.env.REACT_APP_CALENDAR_ID;
+  const apiKey = "AIzaSyCVDZ_4XcpHC48dEZOK9AgIAT2bYe0qvt8";
+  const accessToken = "203391537048-84hord2n2sdmnfp46vm67gro9c58c3pv.apps.googleusercontent.com"
+ 
+  const getEvents = (calendarID, apiKey) => {
+    function initiate() {
+      gapi.client
+        .init({
+          apiKey: apiKey,
+        })
+        .then(function () {
+          return gapi.client.request({
+            path: `https://www.googleapis.com/calendar/v3/calendars/${calendarID}/events`,
+          });
+        })
+        .then(
+          (response) => {
+            let events = response.result.items;
+            setEvents(events);
+          },
+          function (err) {
+            return [false, err];
+          }
+        );
+    }
+    gapi.load("client", initiate);
   };
-  
-  const apiCalendar = new ApiCalendar(config);
-
+ 
+  useEffect(() => {
+    const events = getEvents(calendarID, apiKey);
+    setEvents(events);
+  }, []);
+ 
   return (
-    <div>Calender</div>
-  )
+    <div className="App py-8 flex flex-col justify-center">
+      <h1 className="text-2xl font-bold mb-4">
+        React App with Google Calendar API!
+        <ul>
+          {events?.map((event) => (
+            <li key={event.id} className="flex justify-center">
+              <Event description={event.summary} />
+            </li>
+          ))}
+        </ul>
+      </h1>
+    </div>
+  );
 }
-
-
-
+ 
+export default App;

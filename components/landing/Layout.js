@@ -4,7 +4,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import Faculty from './Faculty'
-import Swiper from './pageFlip'
 import Images from './pageFlip'
 
 export default function Main() {
@@ -15,7 +14,7 @@ export default function Main() {
     <div className="grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6">
       <div className="grotesk max-w-8xl mx-auto">
         <section className="w-full text-black">
-        <div className='h-20 w-full hidden xl:block'></div>
+          <div className="h-20 w-full hidden xl:block"></div>
           <div className="max-w-8xl mx-auto inline-block items-center p-3 pt-0 lg:flex lg:flex-wrap lg:pt-4">
             <div className="lg:w-3/6 ">
               <h2 className="max-w-xl mt-20 lg:text-[4.2em] text-3xl font-bold leading-none text-black inline-block">
@@ -33,16 +32,11 @@ export default function Main() {
                 alt="Hero"
               /> */}
 
-             
-
-              <div className='flex justify-center items-center lg:w-3/6'>
+            <div className="flex justify-center items-center lg:w-3/6">
               <Images />
-
-              </div>
-            {/* </div> */}
-            <div className='h-20 w-full'>
-
             </div>
+            {/* </div> */}
+            <div className="h-20 w-full"></div>
           </div>
           <div className=" bg-white lg:mt-20">
             <div className="mx-auto">
@@ -53,7 +47,7 @@ export default function Main() {
                   </h2>
                 </div>
                 <div
-                  className=" flex
+                  className=" 
                   grid
                   gap-16
                   text-center
@@ -145,10 +139,35 @@ export default function Main() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr className="bg-slate-100">
+                        <td></td>
                         <td>
-                          <div>
+                          <div className="w-full border-r-2 h-96 overflow-y-scroll flex flex-col pt-5 items-center border-x-2 ">
+                            <div className=" flex h-fit w-11/12 border-2 border-gray-400 text-left p-1">
+                              <div>
+                                <img className='h-20 w-20' src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png" />
+                              </div>
+                              <div>
+                                <h2 className="text-xl font-bold">Title</h2>
+                                <h2 className="text-sm italic ">
+                                  Discription:{' '}
+                                </h2>
+                                <h3>
 
+                                </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="border-t-2">
+                            <iframe
+                              src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&title&showPrint=0&showCalendars=0&showTz=0&src=bWpwc3NhZGFiYWRiLmNic2VAZ21haWwuY29t&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043"
+                              // style="border:solid 1px #777"
+                              className="w-full h-96"
+                              frameborder="0"
+                              // scrolling="no"
+                            ></iframe>
                           </div>
                         </td>
                       </tr>
