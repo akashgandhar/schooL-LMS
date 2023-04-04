@@ -38,7 +38,7 @@ export default function Main() {
             {/* </div> */}
             <div className="h-20 w-full"></div>
           </div>
-          <div className=" bg-white lg:mt-20">
+          <div id='events' className=" bg-white lg:mt-20">
             <div className="mx-auto">
               <div className="mx-auto px-5 py-5 lg:px-24">
                 <div className="my-10 flex w-full flex-col text-center">
@@ -129,7 +129,7 @@ export default function Main() {
                     </div>
                   </div>
                 </div>
-                <div className="flex my-10 justify-evenly items-center w-full border-2 ">
+                <div  className="flex my-10 justify-evenly items-center w-full border-2 ">
                   <table className="w-full text-center">
                     <thead>
                       <tr>
@@ -160,7 +160,7 @@ export default function Main() {
                           </div>
                         </td>
                         <td>
-                          <div className="border-t-2">
+                          <div  className="border-t-2">
                             <iframe
                               src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&title&showPrint=0&showCalendars=0&showTz=0&src=bWpwc3NhZGFiYWRiLmNic2VAZ21haWwuY29t&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043"
                               // style="border:solid 1px #777"
@@ -173,8 +173,9 @@ export default function Main() {
                       </tr>
                     </tbody>
                   </table>
+                  <div id='about'></div>
                 </div>
-                <div className="my-6 flex w-full flex-col pl-8 text-center">
+                <div  className="my-6 flex w-full flex-col pl-8 text-center">
                   <a
                     href="/"
                     className="
@@ -189,8 +190,8 @@ export default function Main() {
                 </div>
               </div>
             </div>
-            <div className="text-black">
-              <div
+            <div  className="text-black">
+              <div 
                 className="
                 max-w-9xl
                 mx-auto
@@ -201,7 +202,7 @@ export default function Main() {
                 px-5
               "
               >
-                <div className="mr-0 mb-6 w-full py-4 text-center lg:w-2/3">
+                <div  className="mr-0 mb-6 w-full py-4 text-center lg:w-2/3">
                   <h2 className="mb-4 text-4xl font-bold sm:text-5xl">
                     About School
                   </h2>

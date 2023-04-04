@@ -42,12 +42,15 @@ export default function Header() {
 
           <div className="hidden pl-24 align-middle xl:inline-block">
             <Link href="#" className="pr-12 text-xl text-black">
+              Home
+            </Link>
+            <Link href="#events" className="pr-12 text-xl text-black">
               Events
             </Link>
             <Link href="#" className="pr-12 text-xl text-black">
               Gallery
             </Link>
-            <Link href="#" className="text-xl text-black">
+            <Link href="#about" className="text-xl text-black">
               About
             </Link>
           </div>
