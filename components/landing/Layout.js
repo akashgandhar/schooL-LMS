@@ -4,6 +4,8 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import Faculty from './Faculty'
+import Swiper from './pageFlip'
+import Images from './pageFlip'
 
 export default function Main() {
   const [hid, setHid] = useState(true)
@@ -13,8 +15,9 @@ export default function Main() {
     <div className="grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6">
       <div className="grotesk max-w-8xl mx-auto">
         <section className="w-full text-black">
+        <div className='h-20 w-full hidden xl:block'></div>
           <div className="max-w-8xl mx-auto inline-block items-center p-3 pt-0 lg:flex lg:flex-wrap lg:pt-4">
-            <div className="lg:w-3/6">
+            <div className="lg:w-3/6 ">
               <h2 className="max-w-xl mt-20 lg:text-[4.2em] text-3xl font-bold leading-none text-black inline-block">
                 Welcome To <br />M J Public School
               </h2>
@@ -24,20 +27,24 @@ export default function Main() {
                 possibilities at our school.
               </p>
             </div>
-            <div className=" mt-44 mb-20 hidden w-full flex-col lg:mt-12 lg:inline-block lg:w-3/6">
-              <img
+            {/* <div className=" mt-44 mb-20  lg:mt-12 ">
+              {/* <img
                 src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Fkids.png?alt=media&token=08bc33fa-da87-42b0-b8a1-efe0104fecca"
                 alt="Hero"
-              />
-            </div>
-            <div className="my-20 inline-block w-full flex-col lg:mt-0 lg:hidden lg:w-2/5">
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Fimage.png?alt=media&token=c39342f8-291c-4c4c-bcaf-d07a25889fdc"
-                alt="image"
-              />
+              /> */}
+
+             
+
+              <div className='flex justify-center items-center lg:w-3/6'>
+              <Images />
+
+              </div>
+            {/* </div> */}
+            <div className='h-20 w-full'>
+
             </div>
           </div>
-          <div className="mt-0 bg-white lg:mt-20">
+          <div className=" bg-white lg:mt-20">
             <div className="mx-auto">
               <div className="mx-auto px-5 py-5 lg:px-24">
                 <div className="my-10 flex w-full flex-col text-center">
@@ -46,31 +53,107 @@ export default function Main() {
                   </h2>
                 </div>
                 <div
-                  className="
-                  flex
+                  className=" flex
+                  grid
                   gap-16
                   text-center
-                  lg:grid-cols-6
+                  sm:grid-col-3
+                  xl:grid-cols-6
+                  lg:grid-cols-3
                   justify-center"
                 >
-                  <div className=" items-center justify-center lg:inline-block">
-                    <Link target="_blank" href="https://results.cbse.nic.in/">
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
                       <img
-                        src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Fboo!.png?alt=media&token=620ab108-cf61-493b-bb71-8e3a3a9185bc"
-                        alt="Segment"
-                        className="block object-contain hover:scale-105 transition-all hover:cursor-pointer"
+                        width={100}
+                        height={100}
+                        src="https://icon-library.com/images/faculty-icon/faculty-icon-20.jpg"
                       />
-                    </Link>
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Faculty</h1>
+                    </div>
                   </div>
-                  <div className=" items-center justify-center lg:inline-block">
-                    <Link target="_blank" href="https://results.cbse.nic.in/">
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
                       <img
-                        src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Fboo!.png?alt=media&token=620ab108-cf61-493b-bb71-8e3a3a9185bc"
-                        alt="Segment"
-                        className="block object-contain hover:scale-105 transition-all hover:cursor-pointer"
+                        width={100}
+                        height={100}
+                        src="https://www.graphicsprings.com/filestorage/stencils/2f3bdb9733c4a68659dc2900a7595fea.png?width=500&height=500"
                       />
-                    </Link>
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Syllabus</h1>
+                    </div>
                   </div>
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://png2.cleanpng.com/sh/65b0fd702fb1f52a766787624d689ef5/L0KzQYq3VsI6N5JrR91yc4Pzfri0gB9ueKZ5feQ2aXPyfsS0jf9vbaoyedDtcnBsdH7okQBtcZRmjNt4bj3zcbTygfdmNZcyTdY6N0GzdLK6UcY1O2EzSas8M0O3RYS4VcYyP2o3T6U5MkC1Q3B3jvc=/kisspng-computer-icons-money-android-application-package-f-5d1710da316430.1933345315617927302023.png"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Fee Chart</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://www.manisteelibrary.org/images/events-calendar.png/@@images/image.png"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Events</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/time-and-date/calendar-date-23-icon.png"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Calender</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center items-center w-fit">
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://www.cbse.gov.in/images//logo.png"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">CBSE Disclosure</h1>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex my-10 justify-evenly items-center w-full border-2 ">
+                  <table className="w-full text-center">
+                    <thead>
+                      <tr>
+                        <td className="border-r-2 w-1/3">Quick Links</td>
+                        <td className="border-r-2 w-1/3">Circulars</td>
+                        <td className="w-1/3">Calender</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div className="my-6 flex w-full flex-col pl-8 text-center">
                   <a
@@ -262,7 +345,7 @@ export default function Main() {
                 <h2 className="text-4xl font-bold text-center py-10">
                   News And Events
                 </h2>
-                <div className=''>
+                <div className="">
                   <Faculty />
                 </div>
               </div>
