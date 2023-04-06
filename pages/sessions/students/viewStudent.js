@@ -4,7 +4,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
+  where
 } from 'firebase/firestore'
 import { Input } from 'postcss'
 import React, { useContext, useEffect, useRef, useState } from 'react'
@@ -19,6 +21,8 @@ export default function ViewStd() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   })
+
+  const [q, setQ] = useState()
 
   const months = [
     'April',
@@ -57,6 +61,19 @@ export default function ViewStd() {
       console.log(e)
     }
   }
+  
+  const searchStudents = async () => {
+    var list = [];
+    students.forEach((e)=>{
+      console.log(e.name);
+      console.log(q);
+      if(e.name.includes(q) || e.Sr_Number == q){
+        list.push(e);
+      } 
+    })
+    setStudents(list)
+  }
+  
 
   const [classList, setClassList] = useState([])
   const [sectionList, setSectionList] = useState([])
@@ -194,7 +211,7 @@ export default function ViewStd() {
                         GetClassList()
                       }}
                       onChange={(e) => {
-                        setClassName(e.target.value)
+                        setClassName(e.target.value)  
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
@@ -242,6 +259,32 @@ export default function ViewStd() {
                     Search
                   </button>
                 </div>
+                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label
+                    class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                    for="company"
+                  >
+                    Search*
+                  </label>
+                  <div className="flex items-center justify-between ">
+                    <input
+                      onChange={(e) => {
+                        setQ(e.target.value)
+
+                      }}
+                      class="w-4/5 bg-gray-200 text-black border mr-2 border-gray-200 rounded py-3 px-4 "
+                      id="company"
+                      type="text"
+                      placeholder="SR / NAME"
+                    />
+                    {/* <button
+                      onClick={searchStudents}
+                      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    >
+                      Search
+                    </button> */}
+                  </div>
+                </div>
               </div>
             </div>
             <div ref={componentRef}>
@@ -283,7 +326,7 @@ export default function ViewStd() {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="block md:table-row-group">
+                {!q && <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
                     return (
                       <tr
@@ -389,10 +432,121 @@ export default function ViewStd() {
                       </tr>
                     )
                   })}
-                </tbody>
+                </tbody>}
+
+                {/* //dupi */}
+                {q && <tbody class="block md:table-row-group">
+                  {students.map((e, index) => {
+                    if(e.name.includes(q) || e.Sr_Number.includes(q) || e.name.includes(q.toUpperCase())){
+                    return (
+                      <tr
+                        key={index}
+                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                      >
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            sn
+                          </span>
+                          {index + 1}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            sr
+                          </span>
+                          {e.Sr_Number}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            name
+                          </span>
+                          {e.name}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            fName
+                          </span>
+                          {e.Father_Name}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            class
+                          </span>
+                          {e.Class}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            section
+                          </span>
+                          {e.Section}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            mobile
+                          </span>
+                          {e.Mobile_Number}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            Address
+                          </span>
+                          {e.Place}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-auto md:hidden font-bold">
+                            action
+                          </span>
+                          <button
+                            onClick={() => {
+                              // alert(e.Admission_Date.toDate())
+                              e[
+                                'Adm_Date'
+                              ] = e.Admission_Date.toDate().toLocaleDateString()
+                              router.push({
+                                pathname: '/sessions/students/update',
+                                query: e,
+                              })
+                            }}
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                          >
+                            View
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIsConfirm(true)
+                            }}
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                          >
+                            Delete
+                          </button>
+                          {isConfirm && (
+                            <button
+                              onClick={() => {
+                                deleteStudent(
+                                  e.Class,
+                                  e.Section,
+                                  e.Sr_Number,
+                                  e.name,
+                                  e.Father_Name,
+                                  e.Mother_Name,
+                                  e.Place,
+                                ).then(() => {
+                                  setIsConfirm(false)
+                                })
+                              }}
+                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                            >
+                              Confirm
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    )}
+                  })}
+                </tbody>}
+                {/* //dupi */}
               </table>
             </div>
-            <div className='w-full flex justify-center p-4'>
+            <div className="w-full flex justify-center p-4">
               <button
                 class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 onClick={handlePrint}
