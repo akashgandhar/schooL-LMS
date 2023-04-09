@@ -410,7 +410,7 @@ export default function NewStudent() {
       } catch {}
 
       if (oldSr.length >= 1) {
-        alert("sr already exist");
+        alert("SID already exist");
       } else {
         try {
           await setDoc(
@@ -589,7 +589,7 @@ export default function NewStudent() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
                     >
-                      SR Number *
+                       Student ID *
                     </label>
                     <input
                       onChange={(e) => {

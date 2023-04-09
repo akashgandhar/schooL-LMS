@@ -471,7 +471,7 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
                     >
-                      SR Number *
+                      Student Id*
                     </label>
                     <div
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"

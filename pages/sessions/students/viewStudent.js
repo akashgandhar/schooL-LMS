@@ -61,17 +61,23 @@ export default function ViewStd() {
       console.log(e)
     }
   }
+
   
   const searchStudents = async () => {
-    var list = [];
-    students.forEach((e)=>{
-      console.log(e.name);
-      console.log(q);
-      if(e.name.includes(q) || e.Sr_Number == q){
-        list.push(e);
-      } 
-    })
-    setStudents(list)
+    try {
+      const docRef = query(collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/AllStudents`,
+      ),or(where()))
+      const docSnap = await getDocs(docRef)
+      var list = []
+      docSnap.forEach((doc) => {
+        list.push(doc.data())
+      })
+      setStudents(list)
+    } catch (e) {
+      console.log(e)
+    }
   }
   
 
@@ -275,7 +281,7 @@ export default function ViewStd() {
                       class="w-4/5 bg-gray-200 text-black border mr-2 border-gray-200 rounded py-3 px-4 "
                       id="company"
                       type="text"
-                      placeholder="SR / NAME"
+                      placeholder="Sid / NAME"
                     />
                     {/* <button
                       onClick={searchStudents}
@@ -300,7 +306,7 @@ export default function ViewStd() {
                       No.
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Sr
+                      SID
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Student Name
@@ -341,7 +347,7 @@ export default function ViewStd() {
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
-                            sr
+                            SID
                           </span>
                           {e.Sr_Number}
                         </td>
@@ -451,7 +457,7 @@ export default function ViewStd() {
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
-                            sr
+                            SID
                           </span>
                           {e.Sr_Number}
                         </td>

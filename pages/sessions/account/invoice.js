@@ -41,7 +41,7 @@ export default function Invoice() {
             <div class="flex justify-between">
               <div class="mb-8 text-left">
                 <div class="mb-2 text-2xl font-semibold">Student Details</div>
-                <div class="mb-1 text-gray-600">Student Sr: {s.Sr_Number}</div>
+                <div class="mb-1 text-gray-600">Student ID: {s.Sr_Number}</div>
                 <div class="mb-1 text-gray-600">Name: {s.name}</div>
                 <div class="mb-1 text-gray-600">
                   Father Name: {s.Father_Name}
@@ -162,7 +162,7 @@ export default function Invoice() {
             <div class="flex justify-between">
               <div class="mb-8 text-left">
                 <div class="mb-2 text-2xl font-semibold">Student Details</div>
-                <div class="mb-1 text-gray-600">Student Sr: {s.Sr_Number}</div>
+                <div class="mb-1 text-gray-600">Student ID: {s.Sr_Number}</div>
                 <div class="mb-1 text-gray-600">Name: {s.name}</div>
                 <div class="mb-1 text-gray-600">
                   Father Name: {s.Father_Name}
