@@ -30,7 +30,7 @@ export default function NewStudent() {
   const [name, setName] = useState("");
   const [fName, setFName] = useState("");
   const [mName, setMName] = useState("");
-  
+  const [id, setId] = useState("");
   const [mobile, setMobile] = useState("");
   const [fmobile, setFMobile] = useState("");
   const [age, setAge] = useState("");
@@ -421,6 +421,7 @@ export default function NewStudent() {
             ),
             {
               Sr_Number: sr,
+              ID:id,
               Class: className,
               Section: sectionName,
               name: name,
@@ -501,6 +502,7 @@ export default function NewStudent() {
                 ),
                 {
                   Sr_Number: sr,
+                  ID:id,
                   Class: className,
                   Section: sectionName,
                   name: name,
@@ -599,6 +601,23 @@ export default function NewStudent() {
                       id="company"
                       type="number"
                       placeholder="1111"
+                    />
+                  </div>
+                  <div class="md:w-1/2 px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="title"
+                    >
+                      Student Sr*
+                    </label>
+                    <input
+                      onChange={(e) => {
+                        setId(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="title"
+                      type="text"
+                      placeholder="student sr"
                     />
                   </div>
                   <div class="md:w-1/2 px-3">

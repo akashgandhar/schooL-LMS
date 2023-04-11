@@ -27,6 +27,7 @@ export default function Update() {
   const router = useRouter();
   const s = router.query;
   const [sr, setSr] = useState(s.Sr_Number);
+  const [id, setId] = useState(s.ID);
   const [name, setName] = useState(s.name);
   const [fName, setFName] = useState(s.Father_Name);
   const [mName, setMName] = useState(s.Mother_Name);
@@ -480,6 +481,22 @@ export default function Update() {
                       placeholder="1111"
                     >
                       {sr}
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="company"
+                    >
+                      Student Sr*
+                    </label>
+                    <div
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="company"
+                      type="text"
+                      placeholder="1111"
+                    >
+                      {id}
                     </div>
                   </div>
                   <div class="md:w-1/2 px-3">
