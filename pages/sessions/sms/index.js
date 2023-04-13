@@ -6,6 +6,7 @@ import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/router'
 import UserContext from '../../../components/context/userContext'
+import axios from 'axios'
 
 export default function SMS() {
   const a = useContext(UserContext)
@@ -294,8 +295,66 @@ export default function SMS() {
   const [senderId, setSenderId] = useState("MJPSMD")
   const [template, setTemplate] = useState('')
 
+  
+  var mobiles = [];
+  mobileNumbers.forEach((e)=>{
+    if(e.checked == true){
+      mobiles.push(e.mobile);
+    }
+  })
+  var mob = mobiles.join(',');
+  var varv = varValues.join('|');
+
+
+
+
+  // api
+  const sendMessage = () => {
+    axios.get('https://www.fast2sms.com/dev/bulkV2',{
+        params:{
+          authorization : "mDwLlWGr5tigscS97MdZeO1NCUqJRPXoBAI3zh6jVfF4k2unHbcd057oW62uknFCw1sIKPNGOfS4UhXb",
+          route : "dlt",
+          sender_id : "MJPSMD",
+          message : template,
+          variables_values : varv,
+          numbers : mob,
+          flash : "0",
+        }
+    })
+        .then(function (response) {
+            // handle success
+            if(response.status == 200){
+              alert("Send SuccessFully");
+            }else{
+              alert("Error !"+response.status+"Message Not Send");
+            }
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error.message);
+        })
+        .then(function () {
+            // always executed
+        });
+
+        // Optionally the request above could also be done as
+        axios.get('/user', {
+            params: {
+            ID: 12345
+            }
+        })
+        .then(function (response) {
+        })
+        .catch(function (error) {
+        })
+        .then(function () {
+            // always executed
+        });  
+}
+
   useEffect(() => {
-    console.log(varValues)
+    console.log(mob)
   }, [studentList, mobileNumbers,varValues])
 
   return (
@@ -565,14 +624,14 @@ export default function SMS() {
                       </div>)
                     })}
 
-                {/* <button
+                <button
                     onClick={() => {
-                      GetStudentList()
+                      sendMessage();
                     }}
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   >
                     Search
-                  </button> */}
+                  </button>
               </div>
             </div>
           </div>
