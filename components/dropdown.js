@@ -474,12 +474,12 @@ export default function Dropdown() {
                     </>
                   )}
                 </Popover>
-                {/* <Link
-                  href="/sessions/reports"
+                <Link
+                  href="/sessions/sms"
                   className="text-base font-medium text-gray-500 hover:text-gray-900"
                 >
-                  Reports
-                </Link> */}
+                  Message
+                </Link>
               </Popover.Group>
             </div>
           </div>
