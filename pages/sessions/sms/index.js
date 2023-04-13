@@ -290,72 +290,73 @@ export default function SMS() {
     // Add more templates here
   ]
 
-  const [vars,setVars] = useState([]);
-  const [varValues,setVarValues] = useState([]);
-  const [senderId, setSenderId] = useState("MJPSMD")
+  const [vars, setVars] = useState([])
+  const [varValues, setVarValues] = useState([])
+  const [senderId, setSenderId] = useState('MJPSMD')
   const [template, setTemplate] = useState('')
 
-  
-  var mobiles = [];
-  mobileNumbers.forEach((e)=>{
-    if(e.checked == true){
-      mobiles.push(e.mobile);
+
+  var mobiles = []
+  mobileNumbers.forEach((e) => {
+    if (e.checked == true) {
+      mobiles.push(e.mobile)
     }
   })
-  var mob = mobiles.join(',');
-  var varv = varValues.join('|');
+  var mob = mobiles.join(',')
+  var varv = varValues.join('|')
 
-
+  const [counts,setCounts] = useState([]);
 
 
   // api
   const sendMessage = () => {
-    axios.get('https://www.fast2sms.com/dev/bulkV2',{
-        params:{
-          authorization : "mDwLlWGr5tigscS97MdZeO1NCUqJRPXoBAI3zh6jVfF4k2unHbcd057oW62uknFCw1sIKPNGOfS4UhXb",
-          route : "dlt",
-          sender_id : "MJPSMD",
-          message : template,
-          variables_values : varv,
-          numbers : mob,
-          flash : "0",
+    axios
+      .get('https://www.fast2sms.com/dev/bulkV2', {
+        params: {
+          authorization:
+            'mDwLlWGr5tigscS97MdZeO1NCUqJRPXoBAI3zh6jVfF4k2unHbcd057oW62uknFCw1sIKPNGOfS4UhXb',
+          route: 'dlt',
+          sender_id: 'MJPSMD',
+          message: template,
+          variables_values: varv,
+          numbers: mob,
+          flash: '0',
+        },
+      })
+      .then(function (response) {
+        // handle success
+        if (response.status == 200) {
+          alert('Send SuccessFully')
+        } else {
+          alert('Error !' + response.status + 'Message Not Send')
         }
-    })
-        .then(function (response) {
-            // handle success
-            if(response.status == 200){
-              alert("Send SuccessFully");
-            }else{
-              alert("Error !"+response.status+"Message Not Send");
-            }
-            console.log(response);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error.message);
-        })
-        .then(function () {
-            // always executed
-        });
+        console.log(response)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error.message)
+      })
+      .then(function () {
+        // always executed
+      })
 
-        // Optionally the request above could also be done as
-        axios.get('/user', {
-            params: {
-            ID: 12345
-            }
-        })
-        .then(function (response) {
-        })
-        .catch(function (error) {
-        })
-        .then(function () {
-            // always executed
-        });  
-}
+    // Optionally the request above could also be done as
+    axios
+      .get('/user', {
+        params: {
+          ID: 12345,
+        },
+      })
+      .then(function (response) {})
+      .catch(function (error) {})
+      .then(function () {
+        // always executed
+      })
+  }
 
   useEffect(() => {
     console.log(mob)
-  }, [studentList, mobileNumbers,varValues])
+  }, [studentList, mobileNumbers, varValues])
 
   return (
     <>
@@ -544,12 +545,14 @@ export default function SMS() {
                     Templates*
                   </label>
                   <select
-                    onChange={(e)=>{templates.forEach((a)=>{
-                      if(a.text == e.target.value){
-                        setTemplate(a.id);
-                        setVars(a.variables);
-                      }
-                    })}}
+                    onChange={(e) => {
+                      templates.forEach((a) => {
+                        if (a.text == e.target.value) {
+                          setTemplate(a.id)
+                          setVars(a.variables)
+                        }
+                      })
+                    }}
                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     id="title"
                     placeholder="B.tech / cse / CSP242 "
@@ -571,7 +574,6 @@ export default function SMS() {
                   </button> */}
               </div>
               <div class="-mx-3 md:flex mb-6">
-              
                 <div class="w-full px-3">
                   <label
                     class="uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -579,14 +581,13 @@ export default function SMS() {
                   >
                     Selected Template*
                   </label>
-                  <div 
+                  <div
                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     id="title"
-                   
                   >
-                    {templates.map((e,index) => {
-                      if(e.id == template){
-                        return e.text;
+                    {templates.map((e, index) => {
+                      if (e.id == template) {
+                        return e.text
                       }
                     })}
                   </div>
@@ -602,37 +603,42 @@ export default function SMS() {
                   </button> */}
               </div>
               <div class="-mx-3 md:flex mb-6">
-              
-                {
-                    vars.map((e,index)=>{
-                        return(
-                        <div key={index} class="w-full px-3">
-                        <label
-                          class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                          for="title"
-                        >
-                           {e}*
-                        </label>
-                        <input onChange={(e)=>{
-                            varValues[index] = e.target.value;
+                
+                {vars.map((e, index) => {
+                  
+                  return (
+                    <div key={index} class="w-full px-3">
+                      <label
+                        class="flex justify-between uppercase tracking-wide text-black text-xs font-bold mb-2"
+                        for="title"
+                      >
+                        {e}*
+                        <h1>{counts[index]}</h1>
+                      </label>
+                      <input
+                        onChange={(e) => {
+                          varValues[index] = e.target.value;
+                          // count = e.target.value.length;
+                          const newValues = [...counts];
+                          newValues[index] = e.target.value.length;
+                          setCounts(newValues);
+                          console.log(counts);
                         }}
-                          class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                          id="title"
-                         
-                        >
-                        </input>
-                      </div>)
-                    })}
-
-                <button
-                    onClick={() => {
-                      sendMessage();
-                    }}
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                  >
-                    Search
-                  </button>
+                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                        id="title"
+                      ></input>
+                    </div>
+                  )
+                })}
               </div>
+              <button
+                onClick={() => {
+                  sendMessage()
+                }}
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
