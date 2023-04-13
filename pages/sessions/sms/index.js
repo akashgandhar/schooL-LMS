@@ -289,12 +289,14 @@ export default function SMS() {
     // Add more templates here
   ]
 
+  const [vars,setVars] = useState([]);
+  const [varValues,setVarValues] = useState([]);
   const [senderId, setSenderId] = useState("MJPSMD")
   const [template, setTemplate] = useState('')
 
   useEffect(() => {
-    console.log(mobileNumbers)
-  }, [studentList, mobileNumbers])
+    console.log(varValues)
+  }, [studentList, mobileNumbers,varValues])
 
   return (
     <>
@@ -482,8 +484,13 @@ export default function SMS() {
                   >
                     Templates*
                   </label>
-                  {/* <select
-                    onChange={(e)=>{setTemplate(templates[e.target.value].id)}}
+                  <select
+                    onChange={(e)=>{templates.forEach((a)=>{
+                      if(a.text == e.target.value){
+                        setTemplate(a.id);
+                        setVars(a.variables);
+                      }
+                    })}}
                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     id="title"
                     placeholder="B.tech / cse / CSP242 "
@@ -492,7 +499,7 @@ export default function SMS() {
                     {templates.map((e, index) => {
                       return <option key={index}>{e.text}</option>
                     })}
-                  </select> */}
+                  </select>
                 </div>
 
                 {/* <button
@@ -525,6 +532,38 @@ export default function SMS() {
                     })}
                   </div>
                 </div>
+
+                {/* <button
+                    onClick={() => {
+                      GetStudentList()
+                    }}
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  >
+                    Search
+                  </button> */}
+              </div>
+              <div class="-mx-3 md:flex mb-6">
+              
+                {
+                    vars.map((e,index)=>{
+                        return(
+                        <div key={index} class="w-full px-3">
+                        <label
+                          class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                          for="title"
+                        >
+                           {e}*
+                        </label>
+                        <input onChange={(e)=>{
+                            varValues[index] = e.target.value;
+                        }}
+                          class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                          id="title"
+                         
+                        >
+                        </input>
+                      </div>)
+                    })}
 
                 {/* <button
                     onClick={() => {
