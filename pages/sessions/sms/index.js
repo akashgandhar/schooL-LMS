@@ -622,7 +622,7 @@ export default function SMS() {
                           const newValues = [...counts];
                           newValues[index] = e.target.value.length;
                           setCounts(newValues);
-                          console.log(counts);
+                          // console.log(counts);
                         }}
                         class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                         id="title"
