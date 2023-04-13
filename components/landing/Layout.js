@@ -85,7 +85,7 @@ export default function Main() {
                       <img
                         width={100}
                         height={100}
-                        src="https://png2.cleanpng.com/sh/65b0fd702fb1f52a766787624d689ef5/L0KzQYq3VsI6N5JrR91yc4Pzfri0gB9ueKZ5feQ2aXPyfsS0jf9vbaoyedDtcnBsdH7okQBtcZRmjNt4bj3zcbTygfdmNZcyTdY6N0GzdLK6UcY1O2EzSas8M0O3RYS4VcYyP2o3T6U5MkC1Q3B3jvc=/kisspng-computer-icons-money-android-application-package-f-5d1710da316430.1933345315617927302023.png"
+                        src="https://i0.wp.com/sagritaraschoolportblair.com/wp-content/uploads/2021/04/fees.jpg?w=490&ssl=1"
                       />
                     </div>
                     <div>

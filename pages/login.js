@@ -1,8 +1,9 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
+import UserContext from "../components/context/userContext";
 
 export default function Login() {
   const router = useRouter();
@@ -38,6 +39,11 @@ export default function Login() {
       });
     }catch(e){}
   };
+
+  const a = useContext(UserContext);
+
+ 
+  
 
   return (
     <div>

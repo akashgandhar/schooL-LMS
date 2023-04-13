@@ -2,13 +2,17 @@ import Head from 'next/head'
 import Header from '../components/landing/Header'
 import Main from '../components/landing/Layout'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import UserContext from '../components/context/userContext'
 import Footer from '../components/footer'
 
 export default function Index() {
   const router = useRouter()
   const a = useContext(UserContext)
+
+
+
+  
 
   return (
     // <div className={styles.container}>
@@ -31,7 +35,7 @@ export default function Index() {
         <link rel="icon" href="/LOGOT.png" />
       </Head>
       <div className="bg-gradient-to-r from-red-400 via-yellow-400 to-green-500">
-        <div className="overflow-hidden top-0 fixed w-full z-50">
+        <div className="overflow-hidden top-0 fixed w-full z-[100]">
           <Header />
         </div>
         <div className="xl:h-5 sm:h-20 "></div>
