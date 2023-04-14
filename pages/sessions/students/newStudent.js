@@ -600,7 +600,7 @@ export default function NewStudent() {
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
-                      type="number"
+                      type="text"
                       placeholder="1111"
                     />
                   </div>
