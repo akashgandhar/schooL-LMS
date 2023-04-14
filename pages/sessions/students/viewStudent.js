@@ -67,10 +67,18 @@ export default function ViewStd() {
 
   const searchStudents = async (ss) => {
     try {
-      const docRef = query(
-        collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-        where('Sr_Number', '==', ss),
-      )
+       var docRef;
+       if(ss>1){
+        docRef = query(
+          collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+          where('name', '>=', ss)
+        )
+       }else{
+         docRef = query(
+           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+           where('name', '>=', ss)
+         )
+       }
       const docSnap = await getDocs(docRef)
       var list = []
       docSnap.forEach((doc) => {
