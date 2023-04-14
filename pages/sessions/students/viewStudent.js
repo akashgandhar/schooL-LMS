@@ -296,7 +296,7 @@ export default function ViewStd() {
                 </div>
               </div>
             </div>
-            <div ref={componentRef}>
+            <div>
               <div className="w-full flex justify-center p-4">
                 <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
                   --- Class {className} ---
@@ -337,111 +337,113 @@ export default function ViewStd() {
                 </thead>
                 {!q && (
                   <tbody class="block md:table-row-group">
-                    {students.sort((a, b) => (a.name > b.name) ? 1 : -1).map((e, index) => {
-                      return (
-                        <tr
-                          key={index}
-                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                        >
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              sn
-                            </span>
-                            {e.ID}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              SID
-                            </span>
-                            {e.Sr_Number}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              name
-                            </span>
-                            {e.name}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              fName
-                            </span>
-                            {e.Father_Name}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              class
-                            </span>
-                            {e.Class}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              section
-                            </span>
-                            {e.Section}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              mobile
-                            </span>
-                            {e.Mobile_Number}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              Address
-                            </span>
-                            {e.Place}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-auto md:hidden font-bold">
-                              action
-                            </span>
-                            <button
-                              onClick={() => {
-                                // alert(e.Admission_Date.toDate())
-                                e[
-                                  'Adm_Date'
-                                ] = e.Admission_Date.toDate().toLocaleDateString()
-                                router.push({
-                                  pathname: '/sessions/students/update',
-                                  query: e,
-                                })
-                              }}
-                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                            >
-                              View
-                            </button>
-                            <button
-                              onClick={() => {
-                                setIsConfirm(true)
-                              }}
-                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-                            >
-                              Delete
-                            </button>
-                            {isConfirm && (
+                    {students
+                      .sort((a, b) => (a.name > b.name ? 1 : -1))
+                      .map((e, index) => {
+                        return (
+                          <tr
+                            key={index}
+                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                          >
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                sn
+                              </span>
+                              {e.ID}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                SID
+                              </span>
+                              {e.Sr_Number}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                name
+                              </span>
+                              {e.name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                fName
+                              </span>
+                              {e.Father_Name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                class
+                              </span>
+                              {e.Class}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                section
+                              </span>
+                              {e.Section}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                mobile
+                              </span>
+                              {e.Mobile_Number}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Address
+                              </span>
+                              {e.Place}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-auto md:hidden font-bold">
+                                action
+                              </span>
                               <button
                                 onClick={() => {
-                                  deleteStudent(
-                                    e.Class,
-                                    e.Section,
-                                    e.Sr_Number,
-                                    e.name,
-                                    e.Father_Name,
-                                    e.Mother_Name,
-                                    e.Place,
-                                  ).then(() => {
-                                    setIsConfirm(false)
+                                  // alert(e.Admission_Date.toDate())
+                                  e[
+                                    'Adm_Date'
+                                  ] = e.Admission_Date.toDate().toLocaleDateString()
+                                  router.push({
+                                    pathname: '/sessions/students/update',
+                                    query: e,
                                   })
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                View
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setIsConfirm(true)
                                 }}
                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                               >
-                                Confirm
+                                Delete
                               </button>
-                            )}
-                          </td>
-                        </tr>
-                      )
-                    })}
+                              {isConfirm && (
+                                <button
+                                  onClick={() => {
+                                    deleteStudent(
+                                      e.Class,
+                                      e.Section,
+                                      e.Sr_Number,
+                                      e.name,
+                                      e.Father_Name,
+                                      e.Mother_Name,
+                                      e.Place,
+                                    ).then(() => {
+                                      setIsConfirm(false)
+                                    })
+                                  }}
+                                  class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                                >
+                                  Confirm
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 )}
 
@@ -574,6 +576,102 @@ export default function ViewStd() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="hidden">
+        <table ref={componentRef} class=" min-w-full border-collapse  md:table">
+          <thead class="block md:table-header-group">
+            <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                SrNo.
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                SID
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Student Name
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Father Name
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Class
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Section
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Mobile
+              </th>
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                Address
+              </th>
+            </tr>
+          </thead>
+          {!q && (
+            <tbody class="block md:table-row-group">
+              {students
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((e, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                    >
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          sn
+                        </span>
+                        {e.ID}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          SID
+                        </span>
+                        {e.Sr_Number}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          name
+                        </span>
+                        {e.name}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          fName
+                        </span>
+                        {e.Father_Name}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          class
+                        </span>
+                        {e.Class}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          section
+                        </span>
+                        {e.Section}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          mobile
+                        </span>
+                        {e.Mobile_Number}
+                      </td>
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">
+                          Address
+                        </span>
+                        {e.Place}
+                      </td>
+                    </tr>
+                  )
+                })}
+            </tbody>
+          )}
+        </table>
       </div>
     </>
   )
