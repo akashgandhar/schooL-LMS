@@ -328,7 +328,7 @@ export default function Main() {
               <div className="flex justify-center lg:w-full lg:max-w-2xl">
                 <img
                   className="w-4/5 mb-10"
-                  src="https://docs.google.com/uc?export=download&id=10a1uu5HSG0BO2NxPtp1bdisY_eSPoGn5"
+                  src="/mpimage.jpg"
                   alt="img"
                 />
               </div>

@@ -389,7 +389,8 @@ export default function NewStudent() {
       !sectionName ||
       !house ||
       !addSub ||
-      !religion
+      !religion,
+      !id
     ) {
       alert("some information is missing");
     } else {
