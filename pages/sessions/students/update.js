@@ -65,7 +65,7 @@ export default function Update() {
   const [imgUrl, setImgUrl] = useState(s.Image);
 
   const [tcUrl, setTcUrl] = useState("nil");
-  const [aadharUrl, setAadharUrl] = useState("nil");
+  const [aadharUrl, setAadharUrl] = useState(s.Aadhar);
 
   const [classList, setClassList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
@@ -1083,27 +1083,20 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="department"
                     >
-                      Upload Aadhar*
+                      Aadhar Number*
                     </label>
                     <div>
-                      {aadharStatus === "Yes" && (
+                      {aadharStatus.valueOf() == "Yes" && (
                         <>
                           <input
                             onChange={(e) => {
-                              setAadharFile(e.target.files[0]);
+                              setAadharUrl(e.target.value);
                             }}
-                            type="file"
-                            class="w-auto bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                            type="text"
+                            class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                             id="location"
+                            value={aadharUrl}
                           />
-                          <button
-                            onClick={(e) => {
-                              handleUploadAadhar(aadharFile);
-                            }}
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                          >
-                            Upload
-                          </button>
                         </>
                       )}
                     </div>

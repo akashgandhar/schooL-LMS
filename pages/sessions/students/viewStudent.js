@@ -306,6 +306,9 @@ export default function ViewStd() {
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      SN.
+                    </th>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       SrNo.
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
@@ -345,6 +348,12 @@ export default function ViewStd() {
                             key={index}
                             class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
                           >
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                sn
+                              </span>
+                              {index+1}
+                            </td>
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 sn
@@ -578,10 +587,13 @@ export default function ViewStd() {
         </div>
       </div>
 
-      <div className="hidden">
+      <div className="hidden border-2  border-gray-600">
         <table ref={componentRef} class=" min-w-full border-collapse  md:table">
           <thead class="block md:table-header-group">
             <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                SN.
+              </th>
               <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                 SrNo.
               </th>
@@ -618,6 +630,12 @@ export default function ViewStd() {
                       key={index}
                       class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
                     >
+                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                sn
+                              </span>
+                              {index+1}
+                            </td>
                       <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                         <span class="inline-block w-1/3 md:hidden font-bold">
                           sn
