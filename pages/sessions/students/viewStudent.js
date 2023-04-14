@@ -337,7 +337,7 @@ export default function ViewStd() {
                 </thead>
                 {!q && (
                   <tbody class="block md:table-row-group">
-                    {students.map((e, index) => {
+                    {students.sort((a, b) => (a.name > b.name) ? 1 : -1).map((e, index) => {
                       return (
                         <tr
                           key={index}
