@@ -1086,8 +1086,7 @@ export default function Update() {
                       Aadhar Number*
                     </label>
                     <div>
-                      {aadharStatus.valueOf() == "Yes" && (
-                        <>
+                      
                           <input
                             onChange={(e) => {
                               setAadharUrl(e.target.value);
@@ -1097,8 +1096,7 @@ export default function Update() {
                             id="location"
                             value={aadharUrl}
                           />
-                        </>
-                      )}
+                        
                     </div>
                   </div>
                 </div>
