@@ -126,14 +126,18 @@ export default function Tc() {
                     <td colSpan="6" className="flex-1 ">
                       {index + 1}.<span> {e} </span>
                     </td>
-                    <td colSpan={3} className="flex-1 h-auto ">
+                    <td colSpan={3} className="flex-1 flex h-auto items-center">
                       <span className="font-bold W-[10%]"> : </span>
 
-                      <input
+                      {e == "Subjects offered" ? <textarea
+                        type="text"
+                        className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
+                        placeholder="max words"
+                      />: <input
                         type="text"
                         className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                         placeholder="max 30 words"
-                      />
+                      />}
                     </td>
                   </tr>
                 )
