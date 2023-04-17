@@ -107,11 +107,15 @@ export default function Tc() {
                 <td> </td>
                 <td>Student Id : 1446</td>
               </tr>
-              <tr className=" flex justify-between px-5">
+              <tr className=" flex  px-5">
                 <td height="39" colSpan="7" valign="top">
                   Registration No. of the candidate (in case Class-IX to XII) :
                 </td>
-                <td colSpan="2" valign="top"></td>
+                <td colSpan="2" valign="top"><input
+                        type="text"
+                        className="uppercase w-[90%] text-[10pt] font-bold "
+                        placeholder="REGISTRATION NUMBER"
+                      /></td>
               </tr>
 
               {fields.map((e, index) => {
