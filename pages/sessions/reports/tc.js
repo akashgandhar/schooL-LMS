@@ -45,7 +45,7 @@ export default function Tc() {
               <tr>
                 <td className="h-auto col-span-9 flex justify-between">
                   <img
-                    src="/logoa.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2FLOGOa.png?alt=media&token=7ca8a823-a8a0-4316-8b80-3bbdb6e994f7"
                     className="float-left ml-8 h-28 mt-2 mix-blend-color-burn"
                   />
                   <div className="ml-5  float-right ">
@@ -73,9 +73,9 @@ export default function Tc() {
                           RAYA ROAD SADABAD HATHRAS
                         </span>
                       </span>
-                      <div className="font-bold text-2xl italic mt-2 ml-2 w-96 border-2 border-black bg-white rounded-2xl">
+                      <div className="font-bold text-2xl italic mt-2 ml-2 w-fit px-2 border-2 border-black bg-white rounded-2xl">
                         <div className="pt-0.5 text-lg">
-                          <span className="ml-2">TRANSFER CERTIFICATE</span>
+                          <span className="">TRANSFER CERTIFICATE</span>
                         </div>
                       </div>
                     </center>
