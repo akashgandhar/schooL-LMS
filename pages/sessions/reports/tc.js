@@ -165,10 +165,10 @@ export default function Tc() {
                   Signature of Class Teacher
                 </td>
                 <td colspan="2" className="border-t-2 border-black py-2">
-                  Signature of Manager{' '}
+                  Signature of Office Supdt.{' '}
                 </td>
                 <td colspan="4" className="border-t-2 border-black py-2">
-                  <div>Sign of Principal school seal </div>
+                  <div>Sign of Principal with school seal </div>
                 </td>
               </tr>
             </tbody>
