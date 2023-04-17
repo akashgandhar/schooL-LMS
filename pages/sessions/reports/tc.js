@@ -67,6 +67,8 @@ export default function Tc() {
                         Affiliated to Central Board of Secondary Education
                         (C.B.S.E.)
                         <br />
+                        www.mjpssadabad.com
+                        <br />
                         mail id: mjpssadabad.cbse@gmail.com"
                         <br />
                         <span className="text-xs">
