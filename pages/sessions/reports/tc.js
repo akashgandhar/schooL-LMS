@@ -67,9 +67,9 @@ export default function Tc() {
                         Affiliated to Central Board of Secondary Education
                         (C.B.S.E.)
                         <br />
-                        www.mjpssadabad.com
-                        <br />
                         mail id: mjpssadabad.cbse@gmail.com"
+                        <br />
+                        www.mjpssadabad.com
                         <br />
                         <span className="text-xs">
                           RAYA ROAD SADABAD HATHRAS
@@ -113,11 +113,13 @@ export default function Tc() {
                 <td height="39" colSpan="7" valign="top">
                   Registration No. of the candidate (in case Class-IX to XII) :
                 </td>
-                <td colSpan="2" valign="top"><input
-                        type="text"
-                        className="uppercase w-[90%] text-[10pt] font-bold "
-                        placeholder="REGISTRATION NUMBER"
-                      /></td>
+                <td colSpan="2" valign="top">
+                  <input
+                    type="text"
+                    className="uppercase w-[90%] text-[10pt] font-bold "
+                    placeholder="REGISTRATION NUMBER"
+                  />
+                </td>
               </tr>
 
               {fields.map((e, index) => {
@@ -129,15 +131,19 @@ export default function Tc() {
                     <td colSpan={3} className="flex-1 flex h-auto items-center">
                       <span className="font-bold W-[10%]"> : </span>
 
-                      {e == "Subjects offered" ? <textarea
-                        type="text"
-                        className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
-                        placeholder="max words"
-                      />: <input
-                        type="text"
-                        className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
-                        placeholder="max 30 words"
-                      />}
+                      {e == 'Subjects offered' ? (
+                        <textarea
+                          type="text"
+                          className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
+                          placeholder="max words"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
+                          placeholder="max 30 words"
+                        />
+                      )}
                     </td>
                   </tr>
                 )
