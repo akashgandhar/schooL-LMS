@@ -1,41 +1,80 @@
-import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
-import { useReactToPrint } from 'react-to-print'
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import UserContext from "../../../components/context/userContext";
+import { db } from "../../../firebase";
 
 export default function Tc() {
-  const router = useRouter()
-  const s = router.query
-  const componentRef = useRef()
+  const router = useRouter();
+  const s = router.query;
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-  })
+  });
+
+  const a = useContext(UserContext);
 
   const fields = [
-    'Name of the Pupil',
+    "Name of the Pupil",
     "Mother's Name",
     "Father's/Guardian's Name",
-    'Date of Birth according to the Admission Register (In figure)',
-    'Nationality',
-    'Whether the pupil belongs to SC/ST/OBC category',
-    'Date of first admission in the school with class',
-    'Class in which the pupil last studies (in words)',
-    'Whether failed, if so once/twice in same class?',
-    'School/Board Examination last taken with result',
-    'Subjects offered',
-    'Whether qualified for promotion to the next higher class',
-    'Month upto which the pupil has paid school dues?',
-    'Any fee concession availed of? if so the Roture of such concession.',
-    'Total no. of working days',
-    'Total no. of working days present',
-    'Whether the pupil is NCC Cadet/Boy Scunt/Girl Guide (give details)',
-    'Games played or extra curricular activities in which the pupil usually took part (mention bchivement level)',
-    'General conduct',
-    'Application of certificate',
-    'Actual issue of Certificate',
-    'Reason for leaving the school',
-    'Any other remarks',
+    "Date of Birth according to the Admission Register (In figure)",
+    "Nationality",
+    "Whether the pupil belongs to SC/ST/OBC category",
+    "Date of first admission in the school with class",
+    "Class in which the pupil last studies (in words)",
+    "Whether failed, if so once/twice in same class?",
+    "School/Board Examination last taken with result",
+    "Subjects offered",
+    "Whether qualified for promotion to the next higher class",
+    "Month upto which the pupil has paid school dues?",
+    "Any fee concession availed of? if so the Roture of such concession.",
+    "Total no. of working days",
+    "Total no. of working days present",
+    "Whether the pupil is NCC Cadet/Boy Scunt/Girl Guide (give details)",
+    "Games played or extra curricular activities in which the pupil usually took part (mention bchivement level)",
+    "General conduct",
+    "Application of certificate",
+    "Actual issue of Certificate",
+    "Reason for leaving the school",
+    "Any other remarks",
     "Date on which pupil's name was struck off rolls of the school",
-  ]
+  ];
+
+  const [data, setData] = useState({});
+
+
+const getData = async() =>{
+  // console.log(a);
+  if(a.user && a.session && !data){
+
+    try{
+      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
+      const docSnap = await getDoc(docRef)
+      setData(docSnap.data());
+    }catch(e){
+      alert(e.message)
+    }
+  }
+}
+
+const setTc = async() =>{
+    try{
+      console.log(student);
+      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
+      updateDoc(docRef,data);
+    }catch(e){
+      console.log(e.message);
+  }
+}
+
+  // useEffect(() => {
+  //   const myVar = 'f1';
+  //   console.log(data[myVar]);
+  //   getData();
+  // }, [a,data]);
+
   return (
     <center className="w-full py-7 text-[12pt]">
       <div className="w-[250mm] max-h-[280mm] bg-no-repeat bg-center">
@@ -51,18 +90,18 @@ export default function Tc() {
                   <div className="ml-5  float-right ">
                     <center
                       className="float-left"
-                      style={{ lineHeight: '0.5' }}
+                      style={{ lineHeight: "0.5" }}
                     >
                       <span
                         className="text-red-600 font-extrabold text-3xl"
-                        style={{ lineHeight: '1.2' }}
+                        style={{ lineHeight: "1.2" }}
                       >
                         M J PUBLIC SCHOOL
                       </span>
                       <br />
                       <span
                         className="font-bold text-xs"
-                        style={{ lineHeight: '1.2' }}
+                        style={{ lineHeight: "1.2" }}
                       >
                         Affiliated to Central Board of Secondary Education
                         (C.B.S.E.)
@@ -110,24 +149,30 @@ export default function Tc() {
                 <td>Student Id : 1446</td>
               </tr>
               <tr className=" flex  px-5 mb-1">
-              <td colSpan="6" className="flex-1 ">
-                      <span> Registration No. of the candidate (in case Class-IX to XII) </span>
-                    </td>
-                    <td colSpan={3} className="flex-1 flex h-auto items-center">
-                      <span className="font-bold W-[10%]"> : </span>
+                <td colSpan="6" className="flex-1 ">
+                  <span>
+                    {" "}
+                    Registration No. of the candidate (in case Class-IX to XII){" "}
+                  </span>
+                </td>
+                <td colSpan={3} className="flex-1 flex h-auto items-center">
+                  <span className="font-bold W-[10%]"> : </span>
 
-                     
-                        <input
-                          type="text"
-                          className="uppercase w-[90%] text-[10pt] font-bold "
-                          placeholder="max 30 words"
-                        />
-                      
-                    </td>
-               
+                  <input onChange={(e) => {
+                            var temp = { ...data };
+                            temp[`fr`] = e.target.value;
+                            setData(temp);
+                          }}
+                    type="text"
+                    value={data.fr}
+                    className="uppercase w-[90%] text-[10pt] font-bold "
+                    placeholder="max 30 words"
+                  />
+                </td>
               </tr>
 
               {fields.map((e, index) => {
+                
                 return (
                   <tr key={index} className=" flex px-5 ">
                     <td colSpan="6" className="flex-1 ">
@@ -136,14 +181,25 @@ export default function Tc() {
                     <td colSpan={3} className="flex-1 flex h-auto items-center">
                       <span className="font-bold W-[10%]"> : </span>
 
-                      {e == 'Subjects offered' ? (
+                      {e == "Subjects offered" ? (
                         <textarea
+                          onChange={(e) => {
+                            var temp = { ...data };
+                            temp[`f${index + 1}`] = e.target.value;
+                            setData(temp);
+                          }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                           placeholder="max words"
+                          value={data[`f${index + 1}`]}
                         />
                       ) : (
                         <input
+                          onChange={(e) => {
+                            var temp = { ...data };
+                            temp[`f${index + 1}`] = e.target.value;
+                            setData(temp);
+                          }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                           placeholder="max 30 words"
@@ -151,12 +207,12 @@ export default function Tc() {
                       )}
                     </td>
                   </tr>
-                )
+                );
               })}
 
               <tr>
                 <td height="20" colspan="9">
-                  {' '}
+                  {" "}
                 </td>
               </tr>
 
@@ -165,7 +221,7 @@ export default function Tc() {
                   Signature of Class Teacher
                 </td>
                 <td colspan="2" className="border-t-2 border-black py-2">
-                  Signature of Office Supdt.{' '}
+                  Signature of Office Supdt.{" "}
                 </td>
                 <td colspan="4" className="border-t-2 border-black py-2">
                   <div>Sign of Principal with school seal </div>
@@ -182,5 +238,5 @@ export default function Tc() {
         </button>
       </div>
     </center>
-  )
+  );
 }
