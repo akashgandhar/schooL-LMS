@@ -482,7 +482,13 @@ export default function ViewStd() {
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 sn
                               </span>
-                              {index + 1}
+                              {index+1}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                sn
+                              </span>
+                              {e.ID}
                             </td>
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
@@ -532,10 +538,10 @@ export default function ViewStd() {
                               </span>
                               <button
                                 onClick={() => {
-                                  // alert(e.Admission_Date.toDate())
+                                  // console.log(e);
                                   e[
                                     'Adm_Date'
-                                  ] = e.Admission_Date.toDate().toLocaleDateString()
+                                  ] = e.Admission_Date
                                   router.push({
                                     pathname: '/sessions/students/update',
                                     query: e,

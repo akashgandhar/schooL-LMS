@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -61,9 +61,9 @@ const getData = async() =>{
 
 const setTc = async() =>{
     try{
-      console.log(student);
+      console.log(s);
       const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
-      updateDoc(docRef,data);
+      setDoc(docRef,data);
     }catch(e){
       console.log(e.message);
   }
@@ -232,7 +232,8 @@ const setTc = async() =>{
         </div>
         <button
           class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          onClick={handlePrint}
+          onClick={()=>{setTc();
+            handlePrint();}}
         >
           Print
         </button>
