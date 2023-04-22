@@ -76,18 +76,26 @@ export default function GatePass() {
     const docRef = query(collection(
       db,
       `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`
-    ),where('RTE_Status', '==','Yes'));
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setStudentList(list);
+    ),where('RTE_Status', '==',"Yes"));
+   try{
+
+     const docSnap = await getDocs(docRef);
+     var list = [];
+     docSnap.forEach((doc) => {
+       list.push(doc.data());
+      });
+      setStudentList(list);
+    }catch(e){
+      alert(e.message)
+    }
   };
 
 
 const rlist = ["All Students","Class Wise", "RTE Students", "Third Wards", "All Male", "All Female"];
 const [q, setQ] = useState();
+
+const [selectedAttributes, setSelectedAttributes] = useState([]);
+
 
   return (
     <>
@@ -176,7 +184,7 @@ const [q, setQ] = useState();
                             GetStudentList();
                         }else{
                             // if()
-                            const s = `'RTE_Status', '==','Yes'`
+                            // const s = `'RTE_Status', '==','Yes'`
                             searchStudents();
                         }
                     }}
@@ -185,6 +193,7 @@ const [q, setQ] = useState();
                     Search
                   </button>
                 </div>
+                
               </div>
             </div>
 
