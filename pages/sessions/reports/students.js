@@ -86,15 +86,6 @@ export default function GatePass() {
   };
 
 
-  const current = new Date();
-  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
-    current.getTime()
-  );
-
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
-
 const rlist = ["All Students","Class Wise", "RTE Students", "Third Wards", "All Male", "All Female"];
 const [q, setQ] = useState();
 
