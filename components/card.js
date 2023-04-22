@@ -5,37 +5,44 @@ import UserContext from './context/userContext'
 
 export default function Card() {
   const [students, setStudents] = useState([])
-
   const a = useContext(UserContext)
 
-  const GetStudents = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/AllStudents`,
-    )
-    const docSnap = await getDocs(docRef)
-    var list = []
-    docSnap.forEach((doc) => {
-      list.push(doc.data())
-    })
-    setStudents(list)
-  }
-
+  
   const current = new Date();
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()
   );
 
-  const [total, setTotal] = useState(0)
-
+  const [total, setTotal] = useState(0);
 
   const d = `${current.getDate()}-${
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
 const [totalinc, setTotalInc] = useState(0)
+const [count, setCount] = useState(0)
+
+  const GetStudents = async () => {
+    if(count<3){
+
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/AllStudents`,
+        )
+        const docSnap = await getDocs(docRef)
+        var list = []
+        docSnap.forEach((doc) => {
+          list.push(doc.data())
+        })
+        setStudents(list)
+        console.log(count);
+        setCount(count+1)
+      }
+  }
+
 
   const getIncome = async () => {
+    if(count<3){
     try {
       const docRef = collection(
         db,
@@ -47,13 +54,14 @@ const [totalinc, setTotalInc] = useState(0)
         list += Number(doc.data().Total_Paid);
       });
       setTotalInc(list)
-    
+      setCount(count+1)
     } catch (e) {
       alert(e.message)
-    }
+    }}
   };
 
   const getExpense = async () => {
+    if(count<3){
     try {
       const docRef = collection(
         db,
@@ -65,16 +73,20 @@ const [totalinc, setTotalInc] = useState(0)
         list += Number(doc.data().Total_Paid);
       });
       setTotal(list)
+      setCount(count+1)
     
     } catch (e) {
       alert(e.message)
-    }
+    }}
   };
 
   useEffect(() => {
-    GetStudents();
-    getIncome();
-    getExpense();
+  
+     GetStudents();
+     getIncome();
+     getExpense();
+     console.log("run");
+
   }, [students,totalinc,total])
 
   return (

@@ -24,21 +24,27 @@ export default function Expense() {
   const [amount, setAmount] = useState();
   const [date, setDate] = useState(d);
   const router = useRouter();
+  const [count,setCount] = useState(0);
 
   const getExpense = async () => {
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setExpenseList(list);
-    } catch (e) {
-      alert(e.message);
+    if(count<1){
+
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
+          );
+          const docSnap = await getDocs(docRef);
+          var list = [];
+          docSnap.forEach((doc) => {
+            list.push(doc.data());
+          });
+          setExpenseList(list);
+          console.log("run");
+          setCount(count+1)
+        } catch (e) {
+          alert(e.message);
+        }
     }
   };
   

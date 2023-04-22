@@ -19,19 +19,25 @@ export default function InsertMarks() {
 
   const s = router.query
 
-  const [subList, setSubList] = useState([])
+  const [subList, setSubList] = useState([]);
+  const [count,setCount] = useState(0);
 
   const GetSubList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
-    )
-    const docSnap = await getDocs(docRef)
-    var list = []
-    docSnap.forEach((doc) => {
-      list.push(doc.data())
-    })
-    setSubList(list)
+    if(count<2){
+
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
+        )
+        const docSnap = await getDocs(docRef)
+        var list = []
+        docSnap.forEach((doc) => {
+          list.push(doc.data())
+        })
+        setSubList(list)
+        console.log("run");
+        setCount(count+1)
+      }
   }
 
   const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
@@ -62,19 +68,23 @@ export default function InsertMarks() {
   }
 
   const GetMarks = async () => {
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
-      )
-      const docSnap = await getDocs(docRef)
-      var list = []
-      docSnap.forEach((doc) => {
-        list.push(doc.data())
-      })
-      setObtMarks(list)
-    } catch (e) {
-      console.log(e.message)
+    if(count <2){
+
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
+          )
+          const docSnap = await getDocs(docRef)
+          var list = []
+          docSnap.forEach((doc) => {
+            list.push(doc.data())
+          })
+          setObtMarks(list)
+          setCount(count+1)
+        } catch (e) {
+          console.log(e.message)
+        }
     }
   }
 
@@ -92,9 +102,9 @@ export default function InsertMarks() {
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className=" flex text-center items-center justify-center font-bold text-2xl">
+              <div className=" flex text-center items-center justify-center font-bold text-2xl">
                 Insert/Update Marks Of <h1 className="mx-3">{s.exam}</h1>
-              </h1>
+              </div>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">

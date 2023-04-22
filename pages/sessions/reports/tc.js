@@ -43,27 +43,24 @@ export default function Tc() {
   ];
 
   const [data, setData] = useState({});
+  const [data1, setData1] = useState({});
 
-  var C = 0;  
 
 const getData = async() =>{
   // console.log(a);
-  if(a.user && a.session){
+  if(a.user && a.session ){
 
     try{
       const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
       const docSnap = await getDoc(docRef)
-      // console.log(docSnap.data());
-      setData(docSnap.data());
+      if(docSnap.exists()){
+        setData1(docSnap.data());
+      }
     }catch(e){
       alert(e.message)
     }
-    if(!data){
-      C++;
-    }
   }
 }
-
 
 const setTc = async() =>{
     try{
@@ -77,9 +74,9 @@ const setTc = async() =>{
 
   useEffect(() => {
     // const myVar = 'f1';
+    // console.log(data);
     getData();
-    console.log(data['f5']);
-  }, [a,C]);
+  }, [a,data]);
 
   return (
     <center className="w-full py-7 text-[12pt]">
@@ -150,7 +147,7 @@ const setTc = async() =>{
                 <td>Affiliation No. : 2132393</td>
               </tr>
               <tr className="font-bold flex justify-between px-5">
-                <td>Sr_Number. : {s.ID} </td>
+                <td>TC No. : {s.ID} </td>
                 <td> </td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
@@ -170,7 +167,7 @@ const setTc = async() =>{
                             setData(temp);
                           }}
                     type="text"
-                    value={data.fr}
+                    value={data1.fr}
                     className="uppercase w-[90%] text-[10pt] font-bold "
                     placeholder="max 30 words"
                   />
@@ -191,25 +188,25 @@ const setTc = async() =>{
                         <textarea
                           onChange={(e) => {
                             var temp = { ...data };
-                            temp[`${index + 1}`] = e.target.value;
+                            temp[`f${index + 1}`] = e.target.value;
                             setData(temp);
                           }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                           placeholder="max words"
-                          value={data[`f${index+1}`]}
+                          value={data1[`f${index + 1}`]}
                         />
                       ) : (
                         <input
                           onChange={(e) => {
                             var temp = { ...data };
-                            temp['`f${index + 1}`'] = e.target.value;
+                            temp[`f${index + 1}`] = e.target.value;
                             setData(temp);
                           }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                           placeholder="max 30 words"
-                          value={data[`f${index+1}`]}
+                          value={data1[`f${index + 1}`]}  
                         />
                       )}
                     </td>

@@ -33,25 +33,32 @@ export default function DayBook() {
   const router = useRouter();
   var totalincome = 0;
   var totalexpense = 0;
+  const [count, setCount] = useState(0);
 
   const getIncome = async () => {
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setIncomeList(list);
-    } catch (e) {
-      alert(e.message);
-    }
+    if(count <2){
+
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`
+          );
+          const docSnap = await getDocs(docRef);
+          var list = [];
+          docSnap.forEach((doc) => {
+            list.push(doc.data());
+          });
+          setIncomeList(list);
+          console.log("run");
+          setCount(count+1)
+        } catch (e) {
+          alert(e.message);
+        }
+      }
   };
 
   const getExpense = async () => {
+    if(count <2){
     try {
       const docRef = collection(
         db,
@@ -63,9 +70,10 @@ export default function DayBook() {
         list.push(doc.data());
       });
       setExpenseList(list);
+      setCount(count+1)
     } catch (e) {
       alert(e.message);
-    }
+    }}
   };
   useEffect(() => {
     if (date == d) {

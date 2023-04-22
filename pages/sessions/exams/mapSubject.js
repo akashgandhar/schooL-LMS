@@ -26,11 +26,12 @@ export default function MapExams() {
   const [selectedExamName, setSelectedExamName] = useState();
   const [selectedclassName, setSelectedClassName] = useState();
 
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     GetExamList();
     GetClassList();
-    GetSubjectList();
+    // GetSubjectList();
 
   }, [classList, examList, selectedExamName, selectedclassName]);
 
@@ -60,45 +61,55 @@ export default function MapExams() {
 
 
   const GetExamList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/exams`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setExamList(list);
+    if(count<3){
+
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setExamList(list);
+        setCount(count+1);
+      }
   };
 
   const GetSubjectList = async () => {
-    if (selectedclassName && selectedExamName) {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/exams/${selectedExamName}/classes/${selectedclassName}/subjects`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setSubjectList(list);
+
+      if (selectedclassName && selectedExamName) {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/exams/${selectedExamName}/classes/${selectedclassName}/subjects`
+          );
+          const docSnap = await getDocs(docRef);
+          var list = [];
+          docSnap.forEach((doc) => {
+            list.push(doc.data());
+          });
+          setSubjectList(list);
+        
     }
   };
 
 
   const GetClassList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setClassList(list);
+    if(count <3){
+
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setClassList(list);
+        setCount(count+1);
+      }
   };
 
   const [isConfirm, setIsConfirm] = useState(false);
@@ -230,7 +241,7 @@ export default function MapExams() {
                 >
                   Select Class*
                 </label>
-                <select
+                <select onClick={GetSubjectList}
                   onChange={(e) => {
                     setSelectedClassName(e.target.value);
                   }}
@@ -242,6 +253,14 @@ export default function MapExams() {
                   {classList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
                 </select>
               </div>
+                <button
+                    onClick={() => {
+                      GetSubjectList();
+                    }}
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  >
+                    Search
+                  </button>
 
             </div>
             <div>

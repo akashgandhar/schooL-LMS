@@ -16,19 +16,31 @@ export default function Index() {
   const [sessionSelected, setSessionSelected] = useState();
   const a = useContext(UserContext);
 
+  const [count,setCount] = useState(0);
+
+
   const GetSessionList = async () => {
-    const docRef = collection(db, `users/${a.user}/sessions`);
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
+    if(count<1){
+    try{
+
+      const docRef = collection(db, `users/${a.user}/sessions`);
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+    }catch(e){
+      alert(e.message)
+    }
+    console.log("run");
     setSessionList(list);
+    setCount(count+1)}
   };
 
-  useEffect(() => {
-    GetSessionList();
-  }, [sessionList]);
+
+  // useEffect(() => {
+  //   GetSessionList();
+  // }, [sessionList]);
 
   const setCurrentSession = async (value) => {
     updateProfile(auth.currentUser, {
@@ -130,7 +142,7 @@ export default function Index() {
                       Mode*
                     </label>
                     <div>
-                      <select
+                      <select onClick={GetSessionList}
                         onChange={(e) => {
                           setSessionSelected(e.target.value);
                         }}

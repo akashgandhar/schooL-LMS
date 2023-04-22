@@ -484,6 +484,12 @@ export default function Dropdown() {
                 >
                   Message
                 </Link>
+                <Link
+                  href="/sessions/Gallery"
+                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                >
+                  Gallery
+                </Link>
               </Popover.Group>
             </div>
           </div>

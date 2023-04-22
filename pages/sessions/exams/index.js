@@ -15,12 +15,7 @@ export default function Exams() {
   const [examName, setExamName] = useState("");
   const [examList, setExamList] = useState([]);
 
-
-  useEffect(() => {
-    GetExamList();
-  }, [examList]);
-
-
+  const [count,setCount] = useState(0);
 
   const createExam = async () => {
     if (!examName) {
@@ -38,19 +33,31 @@ export default function Exams() {
   };
 
   const GetExamList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/exams`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setExamList(list);
+    if(count<1){
+
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setExamList(list);
+        console.log("run");
+        setCount(count+1)
+      }
   };
 
   const [isConfirm, setIsConfirm] = useState(false);
+
+
+  
+  useEffect(() => {
+    GetExamList();
+  }, [examList]);
+
 
 
   return (
