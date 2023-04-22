@@ -198,6 +198,7 @@ export default function OldFee() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
+                    if(e.Deleted == false || e.Deleted == undefined){
                     return (
                       <tr
                         key={index}
@@ -248,7 +249,7 @@ export default function OldFee() {
                           </button>
                         </td>
                       </tr>
-                    );
+                    )}
                   })}
                 </tbody>
               </table>

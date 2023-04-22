@@ -189,6 +189,7 @@ export default function StudentSr() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
+                    if(e.Deleted == false || e.Deleted == undefined){
                     return (
                       <tr
                         key={index}
@@ -239,7 +240,7 @@ export default function StudentSr() {
                           </button>
                         </td>
                       </tr>
-                    );
+                    )}
                   })}
                 </tbody>
               </table>

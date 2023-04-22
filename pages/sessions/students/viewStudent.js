@@ -6,6 +6,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore'
 import { Input } from 'postcss'
@@ -67,18 +68,18 @@ export default function ViewStd() {
 
   const searchStudents = async (ss) => {
     try {
-       var docRef;
-       if(ss>1){
+      var docRef
+      if (ss > 1) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where('name', '>=', ss)
+          where('name', '>=', ss),
         )
-       }else{
-         docRef = query(
-           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-           where('name', '>=', ss)
-         )
-       }
+      } else {
+        docRef = query(
+          collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+          where('name', '>=', ss),
+        )
+      }
       const docSnap = await getDocs(docRef)
       var list = []
       docSnap.forEach((doc) => {
@@ -134,73 +135,40 @@ export default function ViewStd() {
     }
   }
 
-  const deleteStudent = async (c, s, sid, n, fn, mn, p) => {
+  const deleteStudent = async (data) => {
     const docRef = doc(
       db,
-      `users/${a.user}/sessions/${a.session}/classes/${c}/sections/${s}/students`,
-      sid,
+      `users/${a.user}/sessions/${a.session}/classes/${data.Class}/sections/${data.Section}/students`,
+      data.Sr_Number,
+    )
+    const docRef2 = doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/AllStudents`,
+      data.Sr_Number,
     )
 
-    await setDoc(
-      doc(db, `users/${a.user}/sessions/${a.session}/deletedStudents`, sid),
-      {
-        Name: n,
-        Sr_Number: sid,
-        Class: c,
-        Section: s,
-        Father_Name: fn,
-        Mother_Name: mn,
-        Place: p,
-      },
-    )
-      .then(async () => {
-        deleteDoc(docRef)
+    try {
+      await updateDoc(docRef, {
+        Deleted: true,
+      }).then(alert('Deleted SuccessFully'))
+
+      await updateDoc(docRef2, {
+        Deleted: true,
       })
-      .then(async () => {
-        months.forEach((e) => {
-          const docReff = doc(
-            db,
-            `users/${a.user}/sessions/${a.session}/classes/${c}/sections/${s}/due/${e}/students`,
-            sid,
-          )
-          deleteDoc(docReff)
+
+      months.forEach(async (e) => {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${data.Class}/sections/${data.Section}/due/${e}/students`,
+          data.Sr_Number,
+        )
+        await updateDoc(docRef, {
+          Deleted: true,
         })
       })
-      .then(() => {
-        const docReff = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/AllStudents`,
-          sid,
-        )
-        deleteDoc(docReff)
-      })
-      .then(async () => {
-        const sessionRef = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/`,
-          sectionName,
-        )
-        const classRef = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/`,
-          className,
-        )
-
-        const sesSnap = await getDoc(sessionRef)
-        const classSnap = await getDoc(classRef)
-
-        if (sesSnap.exists() && classSnap.exists()) {
-          await updateDoc(classRef, {
-            Strength: classSnap.data().Strength - 1,
-          })
-          await updateDoc(sessionRef, {
-            Strength: sesSnap.data().Strength - 1,
-          })
-        } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!')
-        }
-      })
+    } catch (e) {
+      alert(e.message)
+    }
   }
 
   useEffect(() => {}, [classList])
@@ -351,115 +319,109 @@ export default function ViewStd() {
                     {students
                       .sort((a, b) => (a.name > b.name ? 1 : -1))
                       .map((e, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                          >
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                sn
-                              </span>
-                              {index+1}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                sn
-                              </span>
-                              {e.ID}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                SID
-                              </span>
-                              {e.Sr_Number}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                name
-                              </span>
-                              {e.name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                fName
-                              </span>
-                              {e.Father_Name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                class
-                              </span>
-                              {e.Class}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                section
-                              </span>
-                              {e.Section}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                mobile
-                              </span>
-                              {e.Mobile_Number}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                Address
-                              </span>
-                              {e.Place}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-auto md:hidden font-bold">
-                                action
-                              </span>
-                              <button
-                                onClick={() => {
-                                  // alert(e.Admission_Date.toDate())
-                                  e[
-                                    'Adm_Date'
-                                  ] = e.Admission_Date.toDate().toLocaleDateString()
-                                  router.push({
-                                    pathname: '/sessions/students/update',
-                                    query: e,
-                                  })
-                                }}
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                              >
-                                View
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setIsConfirm(true)
-                                }}
-                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-                              >
-                                Delete
-                              </button>
-                              {isConfirm && (
+                        if (e.Deleted == false || e.Deleted == undefined) {
+                          return (
+                            <tr
+                              key={index}
+                              class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                            >
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  sn
+                                </span>
+                                {index + 1}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  sn
+                                </span>
+                                {e.ID}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  SID
+                                </span>
+                                {e.Sr_Number}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  name
+                                </span>
+                                {e.name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  fName
+                                </span>
+                                {e.Father_Name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  class
+                                </span>
+                                {e.Class}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  section
+                                </span>
+                                {e.Section}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  mobile
+                                </span>
+                                {e.Mobile_Number}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  Address
+                                </span>
+                                {e.Place}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-auto md:hidden font-bold">
+                                  action
+                                </span>
                                 <button
                                   onClick={() => {
-                                    deleteStudent(
-                                      e.Class,
-                                      e.Section,
-                                      e.Sr_Number,
-                                      e.name,
-                                      e.Father_Name,
-                                      e.Mother_Name,
-                                      e.Place,
-                                    ).then(() => {
-                                      setIsConfirm(false)
+                                    // alert(e.Admission_Date.toDate())
+                                    e[
+                                      'Adm_Date'
+                                    ] = e.Admission_Date.toDate().toLocaleDateString()
+                                    router.push({
+                                      pathname: '/sessions/students/update',
+                                      query: e,
                                     })
+                                  }}
+                                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                                >
+                                  View
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsConfirm(true)
                                   }}
                                   class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                                 >
-                                  Confirm
+                                  Delete
                                 </button>
-                              )}
-                            </td>
-                          </tr>
-                        )
+                                {isConfirm && (
+                                  <button
+                                    onClick={() => {
+                                      deleteStudent(e).then(() => {
+                                        setIsConfirm(false)
+                                      })
+                                    }}
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                                  >
+                                    Confirm
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        }
                       })}
                   </tbody>
                 )}
@@ -473,115 +435,107 @@ export default function ViewStd() {
                         e.Sr_Number.includes(q) ||
                         e.name.includes(q.toUpperCase())
                       ) {
-                        return (
-                          <tr
-                            key={index}
-                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                          >
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                sn
-                              </span>
-                              {index+1}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                sn
-                              </span>
-                              {e.ID}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                SID
-                              </span>
-                              {e.Sr_Number}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                name
-                              </span>
-                              {e.name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                fName
-                              </span>
-                              {e.Father_Name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                class
-                              </span>
-                              {e.Class}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                section
-                              </span>
-                              {e.Section}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                mobile
-                              </span>
-                              {e.Mobile_Number}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                Address
-                              </span>
-                              {e.Place}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-auto md:hidden font-bold">
-                                action
-                              </span>
-                              <button
-                                onClick={() => {
-                                  // console.log(e);
-                                  e[
-                                    'Adm_Date'
-                                  ] = e.Admission_Date
-                                  router.push({
-                                    pathname: '/sessions/students/update',
-                                    query: e,
-                                  })
-                                }}
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                              >
-                                View
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setIsConfirm(true)
-                                }}
-                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-                              >
-                                Delete
-                              </button>
-                              {isConfirm && (
+                        if (e.Deleted == false || e.Deleted == undefined) {
+                          return (
+                            <tr
+                              key={index}
+                              class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                            >
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  sn
+                                </span>
+                                {index + 1}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  sn
+                                </span>
+                                {e.ID}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  SID
+                                </span>
+                                {e.Sr_Number}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  name
+                                </span>
+                                {e.name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  fName
+                                </span>
+                                {e.Father_Name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  class
+                                </span>
+                                {e.Class}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  section
+                                </span>
+                                {e.Section}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  mobile
+                                </span>
+                                {e.Mobile_Number}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  Address
+                                </span>
+                                {e.Place}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-auto md:hidden font-bold">
+                                  action
+                                </span>
                                 <button
                                   onClick={() => {
-                                    deleteStudent(
-                                      e.Class,
-                                      e.Section,
-                                      e.Sr_Number,
-                                      e.name,
-                                      e.Father_Name,
-                                      e.Mother_Name,
-                                      e.Place,
-                                    ).then(() => {
-                                      setIsConfirm(false)
+                                    // console.log(e);
+                                    e['Adm_Date'] = e.Admission_Date
+                                    router.push({
+                                      pathname: '/sessions/students/update',
+                                      query: e,
                                     })
+                                  }}
+                                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                                >
+                                  View
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsConfirm(true)
                                   }}
                                   class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                                 >
-                                  Confirm
+                                  Delete
                                 </button>
-                              )}
-                            </td>
-                          </tr>
-                        )
+                                {isConfirm && (
+                                  <button
+                                    onClick={() => {
+                                      deleteStudent(e).then(() => {
+                                        setIsConfirm(false)
+                                      })
+                                    }}
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                                  >
+                                    Confirm
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        }
                       }
                     })}
                   </tbody>
@@ -639,67 +593,69 @@ export default function ViewStd() {
               {students
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .map((e, index) => {
-                  return (
-                    <tr
-                      key={index}
-                      class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                    >
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                sn
-                              </span>
-                              {index+1}
-                            </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          sn
-                        </span>
-                        {e.ID}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          SID
-                        </span>
-                        {e.Sr_Number}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          name
-                        </span>
-                        {e.name}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          fName
-                        </span>
-                        {e.Father_Name}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          class
-                        </span>
-                        {e.Class}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          section
-                        </span>
-                        {e.Section}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          mobile
-                        </span>
-                        {e.Mobile_Number}
-                      </td>
-                      <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <span class="inline-block w-1/3 md:hidden font-bold">
-                          Address
-                        </span>
-                        {e.Place}
-                      </td>
-                    </tr>
-                  )
+                  if (e.Deleted == false || e.Deleted == undefined) {
+                    return (
+                      <tr
+                        key={index}
+                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                      >
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            sn
+                          </span>
+                          {index + 1}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            sn
+                          </span>
+                          {e.ID}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            SID
+                          </span>
+                          {e.Sr_Number}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            name
+                          </span>
+                          {e.name}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            fName
+                          </span>
+                          {e.Father_Name}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            class
+                          </span>
+                          {e.Class}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            section
+                          </span>
+                          {e.Section}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            mobile
+                          </span>
+                          {e.Mobile_Number}
+                        </td>
+                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          <span class="inline-block w-1/3 md:hidden font-bold">
+                            Address
+                          </span>
+                          {e.Place}
+                        </td>
+                      </tr>
+                    )
+                  }
                 })}
             </tbody>
           )}

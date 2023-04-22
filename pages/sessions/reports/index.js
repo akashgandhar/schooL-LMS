@@ -83,7 +83,7 @@ export default function GatePass() {
 
   const setTcCut = (student,rname)=>{
     try{
-      console.log(student);
+      // console.log(student);
       const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${d}/${rname}`,time);
       setDoc(docRef,{
         Name: student.name,
@@ -202,6 +202,7 @@ export default function GatePass() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {studentList.map((e, index) => {
+                    if(e.Deleted == false || e.Deleted == undefined){
                     return (
                       <tr
                         key={index}
@@ -266,7 +267,7 @@ export default function GatePass() {
                           
                         </td>
                       </tr>
-                    );
+                    )}
                   })}
                 </tbody>
               </table>

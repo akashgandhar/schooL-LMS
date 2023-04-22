@@ -210,6 +210,7 @@ export default function ViewDue() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students.map((e, index) => {
+                    if(e.Deleted == false || e.Deleted == undefined){
                    total += e.total>0?Number(e.total):0;
                     return (
                       <tr
@@ -272,7 +273,7 @@ export default function ViewDue() {
                         </td>
                         
                       </tr>
-                    );
+                    )}
                   })}
                   <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>

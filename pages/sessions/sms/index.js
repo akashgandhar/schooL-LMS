@@ -295,7 +295,6 @@ export default function SMS() {
   const [senderId, setSenderId] = useState('MJPSMD')
   const [template, setTemplate] = useState('')
 
-
   var mobiles = []
   mobileNumbers.forEach((e) => {
     if (e.checked == true) {
@@ -305,8 +304,7 @@ export default function SMS() {
   var mob = mobiles.join(',')
   var varv = varValues.join('|')
 
-  const [counts,setCounts] = useState([]);
-
+  const [counts, setCounts] = useState([])
 
   // api
   const sendMessage = () => {
@@ -462,59 +460,61 @@ export default function SMS() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {studentList.map((e, index) => {
-                    return (
-                      <tr
-                        key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                      >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            check
-                          </span>
-                          <input
-                            type="checkbox"
-                            checked={mobileNumbers[index].checked}
-                            onChange={() => handleCheckboxChange(index)}
-                          />
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Name
-                          </span>
-                          {e.Sr_Number}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Name
-                          </span>
-                          {e.name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            sections
-                          </span>
-                          {e.Father_Name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            classTeacher
-                          </span>
-                          {className}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Strength
-                          </span>
-                          {e.Place}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Strength
-                          </span>
-                          {e.Mobile_Number}
-                        </td>
-                      </tr>
-                    )
+                    if (e.Deleted == false || e.Deleted == undefined) {
+                      return (
+                        <tr
+                          key={index}
+                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                        >
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              check
+                            </span>
+                            <input
+                              type="checkbox"
+                              checked={mobileNumbers[index].checked}
+                              onChange={() => handleCheckboxChange(index)}
+                            />
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Name
+                            </span>
+                            {e.Sr_Number}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Name
+                            </span>
+                            {e.name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              sections
+                            </span>
+                            {e.Father_Name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              classTeacher
+                            </span>
+                            {className}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Strength
+                            </span>
+                            {e.Place}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Strength
+                            </span>
+                            {e.Mobile_Number}
+                          </td>
+                        </tr>
+                      )
+                    }
                   })}
                 </tbody>
               </table>
@@ -603,25 +603,22 @@ export default function SMS() {
                   </button> */}
               </div>
               <div class="-mx-3 md:flex mb-6">
-                
                 {vars.map((e, index) => {
-                  
                   return (
                     <div key={index} class="w-full px-3">
                       <label
                         class="flex justify-between uppercase tracking-wide text-black text-xs font-bold mb-2"
                         for="title"
                       >
-                        {e}*
-                        <h1>{counts[index]}</h1>
+                        {e}*<h1>{counts[index]}</h1>
                       </label>
                       <input
                         onChange={(e) => {
-                          varValues[index] = e.target.value;
+                          varValues[index] = e.target.value
                           // count = e.target.value.length;
-                          const newValues = [...counts];
-                          newValues[index] = e.target.value.length;
-                          setCounts(newValues);
+                          const newValues = [...counts]
+                          newValues[index] = e.target.value.length
+                          setCounts(newValues)
                           // console.log(counts);
                         }}
                         class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"

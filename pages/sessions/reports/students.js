@@ -221,6 +221,7 @@ const [q, setQ] = useState();
                 </thead>
                 <tbody class="block md:table-row-group">
                   {studentList.map((e, index) => {
+                    if(e.Deleted == false || e.Deleted == undefined){
                     return (
                       <tr
                         key={index}
@@ -258,7 +259,7 @@ const [q, setQ] = useState();
                         </td>
                         
                       </tr>
-                    );
+                    )}
                   })}
                 </tbody>
               </table>

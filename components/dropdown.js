@@ -77,6 +77,10 @@ const studentTabs = [
     name: 'Student Sr',
     href: '/sessions/students/studentSR',
   },
+  {
+    name: 'Deleted Students',
+    href: '/sessions/students/deletedStudents',
+  },
 ]
 const accountTabs = [
   {
