@@ -147,7 +147,7 @@ const setTc = async() =>{
                 <td>Affiliation No. : 2132393</td>
               </tr>
               <tr className="font-bold flex justify-between px-5">
-                <td>TC No. : {s.ID} </td>
+                <td>Sr No. : {s.ID} </td>
                 <td> </td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
