@@ -348,7 +348,7 @@ export default function GatePass() {
                         key={col}
                         className="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
                       >
-                        {col}
+                        {col=="name"?"Name":col}
                       </th>
                     ))}
                   </tr>
