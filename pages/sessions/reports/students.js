@@ -307,7 +307,7 @@ export default function GatePass() {
                     'Transport_Status',
                   ].map((attribute) => (
                     <div>
-                      <label key={attribute}>
+                      <label className='flex items-center gap-1' key={attribute}>
                         <input
                           type="checkbox"
                           checked={columns.includes(attribute)}
