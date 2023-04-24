@@ -3,7 +3,7 @@ import CharacterCertificate from '../../../components/characterCertificate'
 import { useReactToPrint } from 'react-to-print'
 import { useRouter } from 'next/router'
 
-export default function cc() {
+export default function Cc() {
   const router = useRouter()
   const s = router.query
   const [name, setName] = useState(s.name)
