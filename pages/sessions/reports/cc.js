@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import CharacterCertificate from '../../../components/characterCertificate'
 import { useReactToPrint } from 'react-to-print'
 import { useRouter } from 'next/router'
 
