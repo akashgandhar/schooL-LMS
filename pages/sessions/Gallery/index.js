@@ -1,31 +1,86 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 // import Model1 from '../../../components/model/model1'
 
-var state = false
+var state = false;
 
 export default function Gallery() {
-  const [open, setOpen] = useState(state)
+  const [openGallary, setOpenGalary] = useState(false);
+  const [openCircular, setOpenCircular] = useState(false);
+  const [openEvent, setOpenEvent] = useState(false);
   return (
     <>
-      <div className="flex justify-center items-center h-screen relative">
-        {!open ? (
-          <button
-            onClick={() => {
-              setOpen(!open)
-            }}
-            className="border-2 shadow-sm bg-gradient-to-r from-orange-300 to-orange-600 p-2 rounded-lg hover:from-orange-600 hover:to-orange-300 transition-all"
-          >
-            hello
-          </button>
+      <div className="flex justify-center items-center relative p-5">
+        {!openGallary ? (
+          <div className="flex p-5 gap-5">
+            {/* <button
+              onClick={() => {
+                setOpen(!open);
+              }}
+              className="border-2 shadow-sm bg-gradient-to-r from-orange-300 to-orange-600 p-2 rounded-lg hover:from-orange-600 hover:to-orange-300 transition-all"
+            >
+              hello
+            </button> */}
+            <button
+              onClick={() => {
+                setOpenGalary(!openGallary);
+              }}
+              href="#_"
+              class="relative inline-block text-lg group"
+            >
+              <span class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
+                <span class="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
+                <span class="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
+                <span class="relative">Add Images</span>
+              </span>
+              <span
+                class="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-gray-900 rounded-lg group-hover:mb-0 group-hover:mr-0"
+                data-rounded="rounded-lg"
+              ></span>
+            </button>
+            <button
+              onClick={() => {
+                setOpenCircular(!openCircular);
+              }}
+              href="#_"
+              class="relative inline-block text-lg group"
+            >
+              <span class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
+                <span class="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
+                <span class="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
+                <span class="relative">Add Images</span>
+              </span>
+              <span
+                class="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-gray-900 rounded-lg group-hover:mb-0 group-hover:mr-0"
+                data-rounded="rounded-lg"
+              ></span>
+            </button>
+            <button
+              onClick={() => {
+                setOpenEvent(!openEvent);
+              }}
+              href="#_"
+              class="relative inline-block text-lg group"
+            >
+              <span class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
+                <span class="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
+                <span class="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
+                <span class="relative">Add Images</span>
+              </span>
+              <span
+                class="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-gray-900 rounded-lg group-hover:mb-0 group-hover:mr-0"
+                data-rounded="rounded-lg"
+              ></span>
+            </button>
+          </div>
         ) : (
           //model
-          <div class="flex justify-center h-full items-center bg-gray-200 antialiased w-full">
+          <div class="flex justify-center h-full items-center  antialiased w-full">
             <div class="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
               <div class="flex flex-row justify-between p-6 bg-white border-b border-gray-200 rounded-tl-lg rounded-tr-lg">
                 <p class="font-semibold text-gray-800">Add a step</p>
-                <svg 
+                <svg
                   onClick={() => {
-                    setOpen(!open)
+                    setOpenGalary(!openGallary);
                   }}
                   class="w-6 h-6 hover:cursor-pointer"
                   fill="none"
@@ -133,5 +188,5 @@ export default function Gallery() {
         )}
       </div>
     </>
-  )
+  );
 }
