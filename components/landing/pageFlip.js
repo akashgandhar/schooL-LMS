@@ -44,27 +44,20 @@ function Images() {
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
       >
+        
         <SwiperSlide>
-          <img height={500} width={500} src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
+        <img src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
         </SwiperSlide>
         <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
+        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
         </SwiperSlide>
         <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
+        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
         </SwiperSlide>
         <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
+        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
         </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
-        </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
-        </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="slide_image" />
-        </SwiperSlide>
+        
 
         <div className="slider-controler">
           <div className="swiper-button-prev slider-arrow">
