@@ -385,6 +385,7 @@ export default function ViewStd() {
                                 </span>
                                 <button
                                   onClick={() => {
+                                    
                                     // alert(e.Admission_Date.toDate())
                                     // e[
                                     //   'Adm_Date'
@@ -501,8 +502,9 @@ export default function ViewStd() {
                                 </span>
                                 <button
                                   onClick={() => {
+                                    alert(e.ID)
                                     // console.log(e);
-                                    e['Adm_Date'] = e.Admission_Date
+                                    // e['Adm_Date'] = e.Admission_Date
                                     router.push({
                                       pathname: '/sessions/students/update',
                                       query: e,
