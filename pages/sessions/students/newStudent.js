@@ -95,7 +95,6 @@ export default function NewStudent() {
 
   useEffect(() => {
     GetSectionList();
-   
   }, [className]);
 
   const months = [
@@ -113,6 +112,16 @@ export default function NewStudent() {
     "March",
   ];
 
+  const CalculatTransport = (month, fee, n) => {
+    if (month == "April" || month == "May") {
+      return fee * n;
+    } else if (month == "June") {
+      return fee*2;
+    } else {
+      return fee * (n - 1);
+    }
+  };
+
   const createDues = async () => {
     var total = 0;
     months.forEach(async (e) => {
@@ -126,10 +135,11 @@ export default function NewStudent() {
           month: e,
           month_Due:
             rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1),
-          transport_due:
-            e == "June"
-              ? transportFee * 2
-              : transportFee * (months.indexOf(e) + 1),
+          transport_due: CalculatTransport(
+            e,
+            transportFee,
+            months.indexOf(e) + 1
+          ),
           name: name,
           class: className,
           section: sectionName,
@@ -138,7 +148,9 @@ export default function NewStudent() {
           Mobile: mobile,
           Sr_Number: sr,
           total:
-            (rteStatus === "Yes" || ward === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
+            (rteStatus === "Yes" || ward === "Yes"
+              ? 0
+              : classFee * (months.indexOf(e) + 1)) +
             (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
         }).then(async () => {
           const dueRef = doc(
@@ -361,36 +373,36 @@ export default function NewStudent() {
 
   const submitForm = async () => {
     if (
-      !sr ||
-      !name ||
-      !fName ||
-      !mName ||
-      !dob ||
-      !mobile ||
-      !fmobile ||
-      !age ||
-      !address ||
-      !ward ||
-      !transportStatus ||
-      !busStopName ||
-      !category ||
-      !caste ||
-      !place ||
-      !city ||
-      !pincode ||
-      !gender ||
-      !lSchool ||
-      !lSchoolAdd ||
-      !lSchoolBoard ||
-      !lSchoolResult ||
-      !tcStatus ||
-      !aadharStatus ||
-      !className ||
-      !sectionName ||
-      !house ||
-      !addSub ||
-      !religion,
-      !id
+      (!sr ||
+        !name ||
+        !fName ||
+        !mName ||
+        !dob ||
+        !mobile ||
+        !fmobile ||
+        !age ||
+        !address ||
+        !ward ||
+        !transportStatus ||
+        !busStopName ||
+        !category ||
+        !caste ||
+        !place ||
+        !city ||
+        !pincode ||
+        !gender ||
+        !lSchool ||
+        !lSchoolAdd ||
+        !lSchoolBoard ||
+        !lSchoolResult ||
+        !tcStatus ||
+        !aadharStatus ||
+        !className ||
+        !sectionName ||
+        !house ||
+        !addSub ||
+        !religion,
+      !id)
     ) {
       alert("some information is missing");
     } else {
@@ -422,7 +434,7 @@ export default function NewStudent() {
             ),
             {
               Sr_Number: sr,
-              ID:id,
+              ID: id,
               Class: className,
               Section: sectionName,
               name: name,
@@ -503,7 +515,7 @@ export default function NewStudent() {
                 ),
                 {
                   Sr_Number: sr,
-                  ID:id,
+                  ID: id,
                   Class: className,
                   Section: sectionName,
                   name: name,
@@ -592,7 +604,7 @@ export default function NewStudent() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
                     >
-                       Student ID *
+                      Student ID *
                     </label>
                     <input
                       onChange={(e) => {
@@ -682,7 +694,7 @@ export default function NewStudent() {
                       for="company"
                     >
                       Student Date Of Birth
-                    </label>  
+                    </label>
                     <input
                       onChange={(e) => {
                         setDob(e.target.value);
@@ -768,7 +780,7 @@ export default function NewStudent() {
                         id="location"
                       >
                         <option>Please Select</option>
-                        {classList.map((e,index) => {
+                        {classList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
@@ -794,7 +806,7 @@ export default function NewStudent() {
                         id="department"
                       >
                         <option>Please Select</option>
-                        {sectionList.map((e,index) => {
+                        {sectionList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
@@ -842,7 +854,7 @@ export default function NewStudent() {
                           id="department"
                         >
                           <option>Please Select</option>
-                          {stopList.map((e,index) => {
+                          {stopList.map((e, index) => {
                             return <option key={index}>{e.Stop_Name}</option>;
                           })}
                         </select>
@@ -869,7 +881,7 @@ export default function NewStudent() {
                         id="department"
                       >
                         <option>Please Select</option>
-                        {houseList.map((e,index) => {
+                        {houseList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>

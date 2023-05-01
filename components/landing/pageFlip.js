@@ -1,12 +1,12 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import 'swiper/css'
+import 'swiper/css/effect-coverflow'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
-import { EffectCoverflow, Pagination, Navigation } from 'swiper';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper'
 
 // import slide_image_1 from './assets/images/img_1.jpg';
 // import slide_image_2 from './assets/images/img_2.jpg';
@@ -17,10 +17,21 @@ import { EffectCoverflow, Pagination, Navigation } from 'swiper';
 // import slide_image_7 from './assets/images/img_7.jpg';
 
 function Images() {
+  const images = [
+    { url: 'https://wallpapercave.com/wp/wp3137839.jpg' },
+    { url: 'https://foro.geeknetic.es/filedata/fetch?id=220615&d=1598015914' },
+    {
+      url:
+        'https://wallpapersmug.com/download/3840x2160/11a3dc/firewatch-game-sunset-artwork.jpg',
+    },
+    { url: 'https://cdn.wallpapersafari.com/37/36/4UgH0k.jpg' },
+  ]
   return (
     <div className="w-96 xl:w-[40rem] ">
       <div>
-      <h1 className="text-2xl font-bold underline text-center m-2 p-2">Image Gallery</h1>
+        <h1 className="text-2xl font-bold underline text-center m-2 p-2">
+          Image Gallery
+        </h1>
       </div>
       <Swiper
         effect={'coverflow'}
@@ -34,7 +45,6 @@ function Images() {
           depth: 100,
           modifier: 2.5,
         }}
-        
         pagination={{ el: '.swiper-pagination', clickable: true }}
         navigation={{
           nextEl: '.swiper-button-next',
@@ -44,20 +54,17 @@ function Images() {
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
       >
-        
-        <SwiperSlide>
-        <img src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
-        </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
-        </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
-        </SwiperSlide>
-        <SwiperSlide>
-        <img src="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg" className='object-cover w-full aspect-video' alt="slide_image" />
-        </SwiperSlide>
-        
+        {images.map((e) => {
+          return (
+            <SwiperSlide>
+              <img
+                src={e.url}
+                className="object-cover w-full aspect-video"
+                alt="slide_image"
+              />
+            </SwiperSlide>
+          )
+        })}
 
         <div className="slider-controler">
           <div className="swiper-button-prev slider-arrow">
@@ -70,7 +77,7 @@ function Images() {
         </div>
       </Swiper>
     </div>
-  );
+  )
 }
 
-export default Images;
+export default Images

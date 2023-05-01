@@ -13,14 +13,15 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
+import { Input } from "postcss";
 
 export default function Payment() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  const [d, setD] = useState(
+    `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
+  );
 
   const [mode, setMode] = useState();
   const [amount, setAmount] = useState();
@@ -161,11 +162,11 @@ export default function Payment() {
         })
         .then(() => {
           alert("paid SuccessFully");
-          data["mode"] =  mode;
+          data["mode"] = mode;
           data["Amount"] = Number(amount);
           data["Concession"] = concession;
           data["ConcessionBy"] = concessionBy;
-          router.push({pathname:"/sessions/account/invoice",query:data})
+          router.push({ pathname: "/sessions/account/invoice", query: data });
         });
     } catch (e) {
       console.log(e.message);
@@ -229,9 +230,8 @@ export default function Payment() {
     });
   };
 
-
-  const addIncome = async()=>{
-    try{
+  const addIncome = async () => {
+    try {
       const docRef = doc(
         db,
         `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`,
@@ -246,9 +246,16 @@ export default function Payment() {
         Mode: mode,
         name: `${mode} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`,
         Time: time,
-      })
-    }catch{}
-  }
+      });
+    } catch {}
+  };
+
+  const today = new Date();
+const year = today.getFullYear();
+const month = (today.getMonth() + 1).toString().padStart(2, '0');
+const day = today.getDate().toString().padStart(2, '0');
+
+const [todayDate,setTodayDate] = useState(`${year}-${month}-${day}`);
 
   return (
     <>
@@ -323,10 +330,12 @@ export default function Payment() {
                     >
                       Date
                     </label>
-                    <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                      {current.getDate()}/{current.getMonth() + 1}/
-                      {current.getFullYear()}
-                    </div>
+                    <input
+                      type="date"
+                      value={todayDate}
+                      onChange={(e)=>{setTodayDate(e.target.value)}}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                    />
                   </div>
                 </div>
                 <button
@@ -382,7 +391,9 @@ export default function Payment() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             transport fee
                           </span>
-                          {students[e].transport_due>0?students[e].transport_due:0}
+                          {students[e].transport_due > 0
+                            ? students[e].transport_due
+                            : 0}
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
@@ -390,7 +401,10 @@ export default function Payment() {
                           </span>
                           {(students[e].month_Due > 0
                             ? students[e].month_Due
-                            : 0)+(students[e].transport_due>0?students[e].transport_due:0)}
+                            : 0) +
+                            (students[e].transport_due > 0
+                              ? students[e].transport_due
+                              : 0)}
                         </td>
                       </tr>
                     );
@@ -462,13 +476,15 @@ export default function Payment() {
                     >
                       Concession By
                     </label>
-                    {concession>0 && <input
-                      onChange={(e) => {
-                        setConcessionBy(e.target.value);
-                      }}
-                      placeholder="concession By"
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                    />}
+                    {concession > 0 && (
+                      <input
+                        onChange={(e) => {
+                          setConcessionBy(e.target.value);
+                        }}
+                        placeholder="concession By"
+                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      />
+                    )}
                   </div>
                 </div>
                 <button

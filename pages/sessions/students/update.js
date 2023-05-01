@@ -94,7 +94,7 @@ export default function Update() {
 
   // const [daate, setDaate] = useState(s.Adm_Date);
 
-  const [date, setDate] = useState(s.Adm_Date);
+  const [date, setDate] = useState(s.Admission_Date);
 
   const months = [
     "April",
@@ -1017,7 +1017,7 @@ export default function Update() {
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
-                      type="text"
+                      type="date"
                       value={date}
                       placeholder="DD/MM/YYYY"
                     />
