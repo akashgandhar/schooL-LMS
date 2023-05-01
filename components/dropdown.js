@@ -88,6 +88,10 @@ const accountTabs = [
     href: '/sessions/account/viewDue',
   },
   {
+    name: 'Student Ledger',
+    href: '/sessions/account/studentLedger',
+  },
+  {
     name: 'Pay Fees',
     href: '/sessions/account/payFee',
   },

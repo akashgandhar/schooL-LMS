@@ -54,9 +54,9 @@ function Images() {
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
       >
-        {images.map((e) => {
+        {images.map((e,index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <img
                 src={e.url}
                 className="object-cover w-full aspect-video"

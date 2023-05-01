@@ -143,8 +143,8 @@ export default function Payment() {
     try {
       const docRef = doc(
         db,
-        `users/${a.user}/sessions/${a.session}/studentsAccount/${s.Sr_Number}/${d}`,
-        time
+        `users/${a.user}/sessions/${a.session}/studentsAccount/${s.Sr_Number}/records`,
+        todayDate+"+"+time
       );
 
       await setDoc(docRef, {
@@ -153,6 +153,9 @@ export default function Payment() {
         Concession: concession,
         concessionBy: concessionBy,
         Mode: mode,
+        Date:todayDate,
+        Time:time,
+        
       })
         .then(async () => {
           await payFee();
@@ -174,6 +177,21 @@ export default function Payment() {
   };
 
   const payFee = async () => {
+    if(mode == "Old Dues"){
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/OldDues/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(-(Number(amount) + Number(concession))),
+          total: increment(-(Number(amount) + Number(concession))),
+        })
+        
+    }catch(e){console.log(e.message);}
+  }
     months.map(async (e) => {
       try {
         const docRef = doc(
@@ -257,6 +275,13 @@ const day = today.getDate().toString().padStart(2, '0');
 
 const [todayDate,setTodayDate] = useState(`${year}-${month}-${day}`);
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
   return (
     <>
       <div className="w-screen">
@@ -333,7 +358,7 @@ const [todayDate,setTodayDate] = useState(`${year}-${month}-${day}`);
                     <input
                       type="date"
                       value={todayDate}
-                      onChange={(e)=>{setTodayDate(e.target.value)}}
+                      onChange={(e)=>{setTodayDate(formatDate(e.target.value))}}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     />
                   </div>
