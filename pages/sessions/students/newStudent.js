@@ -150,8 +150,12 @@ export default function NewStudent() {
           total:
             (rteStatus === "Yes" || ward === "Yes"
               ? 0
-              : classFee * (months.indexOf(e) + 1)) +
-            (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
+              : (classFee * (months.indexOf(e) + 1)) +CalculatTransport(
+                e,
+                transportFee,
+                months.indexOf(e) + 1
+              ))
+            ,
         }).then(async () => {
           const dueRef = doc(
             db,
