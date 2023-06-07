@@ -14,10 +14,12 @@ import {
 } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
 import { Input } from "postcss";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Payment() {
   const router = useRouter();
-  const current = new Date();
+  const [current, setCurrent] = useState(new Date());
   const a = useContext(UserContext);
   const [d, setD] = useState(
     `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
@@ -144,7 +146,7 @@ export default function Payment() {
       const docRef = doc(
         db,
         `users/${a.user}/sessions/${a.session}/studentsAccount/${s.Sr_Number}/records`,
-        todayDate+"+"+time
+        d + "+" + time
       );
 
       await setDoc(docRef, {
@@ -153,9 +155,8 @@ export default function Payment() {
         Concession: concession,
         concessionBy: concessionBy,
         Mode: mode,
-        Date:todayDate,
-        Time:time,
-        
+        Date: d,
+        Time: time,
       })
         .then(async () => {
           await payFee();
@@ -177,7 +178,7 @@ export default function Payment() {
   };
 
   const payFee = async () => {
-    if(mode == "Old Dues"){
+    if (mode == "Old Dues") {
       try {
         const docRef = doc(
           db,
@@ -186,12 +187,31 @@ export default function Payment() {
         );
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
-          month_Due: increment(-(Number(amount) + Number(concession))),
+          month_Due: increment(Number(-(Number(amount) + Number(concession)))),
           total: increment(-(Number(amount) + Number(concession))),
-        })
-        
-    }catch(e){console.log(e.message);}
-  }
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+    if (mode == "Third ward Fee") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(
+            Number(Number(-(Number(amount) + Number(concession))))
+          ),
+          total: increment(Number(-(Number(amount) + Number(concession)))),
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
     months.map(async (e) => {
       try {
         const docRef = doc(
@@ -268,25 +288,64 @@ export default function Payment() {
     } catch {}
   };
 
-  const today = new Date();
-const year = today.getFullYear();
-const month = (today.getMonth() + 1).toString().padStart(2, '0');
-const day = today.getDate().toString().padStart(2, '0');
+  const [oldDue, setOldDue] = useState(0);
+  const [otherDue, setOtherDue] = useState(0);
+  const [count, setCount] = useState(0);
+  const [count1, setCount1] = useState(0);
 
-const [todayDate,setTodayDate] = useState(`${year}-${month}-${day}`);
+  const getOldDues = async () => {
+    if (count < 1) {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/OldDues/students`,
+          s.Sr_Number
+        );
 
-function formatDate(date) {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists) {
+          setOldDue(docSnap.data().total);
+          setCount(count + 1);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
+
+  const getOtherDues = async () => {
+    if (count1 < 1) {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+          s.Sr_Number
+        );
+
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists) {
+          setOtherDue(docSnap.data().total);
+          setCount1(count + 1);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getOldDues();
+    getOtherDues();
+    // GetFeeList();
+  }, [oldDue]);
 
   return (
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">Fee Payment</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -355,22 +414,38 @@ function formatDate(date) {
                     >
                       Date
                     </label>
-                    <input
-                      type="date"
-                      value={todayDate}
-                      onChange={(e)=>{setTodayDate(formatDate(e.target.value))}}
+                    <ReactDatePicker
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      selected={current}
+                      onChange={(e) => {
+                        setCurrent(e);
+                        setD(
+                          `${e.getDate()}-${
+                            e.getMonth() + 1
+                          }-${e.getFullYear()}`
+                        );
+                      }}
                     />
                   </div>
                 </div>
-                <button
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-2 px-4 rounded-full"
-                  onClick={() => {
-                    getDue();
-                  }}
-                >
-                  Get Dues
-                </button>
+                <div className="flex justify-between  items-center">
+                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                    <span>Old Dues : </span>
+                    <span>{oldDue}</span>
+                  </div>
+                  <button
+                    class="bg-blue-500 hover:bg-blue-700 w-96 text-white font-bold  py-2 px-4 rounded-full"
+                    onClick={() => {
+                      getDue();
+                    }}
+                  >
+                    Get Current Dues
+                  </button>
+                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                    <span>Third Ward Fee : </span>
+                    <span>{otherDue}</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div>
@@ -412,14 +487,22 @@ function formatDate(date) {
                             ? students[e].month_Due
                             : 0}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            transport fee
-                          </span>
-                          {students[e].transport_due > 0
-                            ? students[e].transport_due
-                            : 0}
-                        </td>
+                        {e == "June" ? (
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              transport fee
+                            </span>
+                          </td>
+                        ) : (
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              transport fee
+                            </span>
+                            {students[e].transport_due > 0
+                              ? students[e].transport_due
+                              : 0}
+                          </td>
+                        )}
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             total
@@ -457,6 +540,7 @@ function formatDate(date) {
                       <option>Monthly Fee</option>
                       <option>Transport Fee</option>
                       <option>Old Dues</option>
+                      <option>Third ward Fee</option>
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">

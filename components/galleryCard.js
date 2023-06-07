@@ -1,12 +1,13 @@
-import React from 'react'
+import React from "react";
 
-export default function GalleryCard() {
+export default function GalleryCard(link) {
   return (
-    <div class="w-full max-w-sm bg-white border border-2 border-gray-400 rounded-lg shadow ">
+    <div class="w-full max-w-sm bg-white border-2 border-gray-400 rounded-lg shadow ">
       <a href="#">
         <img
+        
           class="p-8 rounded-xl"
-          src="https://wallpapercave.com/wp/wp3137839.jpg"
+          src={link}
           alt="product image"
         />
       </a>
@@ -27,5 +28,5 @@ export default function GalleryCard() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -81,7 +81,7 @@ export default function Income() {
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">Add Income</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -210,17 +210,7 @@ export default function Income() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             action
                           </span>
-                          <button
-                            onClick={() => {
-                              router.push({
-                                pathname: "/sessions/account/payment",
-                                query: e,
-                              });
-                            }}
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                          >
-                            Edit
-                          </button>
+                          
                           <button
                             onClick={() => {
                               router.push({

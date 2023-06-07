@@ -154,7 +154,7 @@ export default function GatePass() {
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">Print Reports</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -271,7 +271,7 @@ export default function GatePass() {
                 <h1 className="font-bold">Select Columns</h1>
                 <div className="h-32 overflow-scroll border-2 p-2">
                   {[
-                    'name',
+                    ,
                     'Aadhar',
                     'Aadhar_Available',
                     'Additional_Subject',
@@ -281,27 +281,21 @@ export default function GatePass() {
                     'Caste',
                     'Category',
                     'City',
-                    'Class',
                     'Date_Of_Birth',
                     'Father_Mobile_Number',
-                    'Father_Name',
                     'Fees',
                     'Gender',
                     'House',
-                    'ID',
                     'Image',
                     'Last_School',
                     'Last_School_Address',
                     'Last_School_Board',
                     'Last_School_Result',
-                    'Mobile_Number',
                     'Mother_Name',
                     'PinCode',
-                    'Place',
                     'RTE_Status',
                     'Religion',
                     'Section',
-                    'Sr_Number',
                     'Third_Ward',
                     'Transport_Fee',
                     'Transport_Status',

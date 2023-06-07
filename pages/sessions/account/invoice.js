@@ -26,7 +26,7 @@ export default function Invoice() {
       >
         <div class="-mx-1 w-full border-4 border-dotted">
           <div class="rounded-xl bg-gray-100 p-8 shadow-lg">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center gap-5">
               <div class="mb-8">
                 <img
                   class="h-20 w-20"
@@ -34,7 +34,7 @@ export default function Invoice() {
                   alt=""
                 />
               </div>
-              <div class="mb-8 text-4xl font-bold text-red-500">
+              <div class="mb-8 text-6xl font-bold text-red-500">
                 M J Public School
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function Invoice() {
         </div>
         <div class="-mx-1 w-full border-4 border-dotted">
           <div class="rounded-xl bg-gray-100 p-8 shadow-lg">
-            <div class="flex items-center justify-between">
+          <div class="flex items-center gap-5">
               <div class="mb-8">
                 <img
                   class="h-20 w-20"
@@ -155,7 +155,7 @@ export default function Invoice() {
                   alt=""
                 />
               </div>
-              <div class="mb-8 text-4xl font-bold text-red-500">
+              <div class="mb-8 text-6xl font-bold text-red-500">
                 M J Public School
               </div>
             </div>

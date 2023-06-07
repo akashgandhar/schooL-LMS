@@ -94,7 +94,7 @@ export default function ViewDue() {
 
   return (
     <>
-      <div className="w-screen">
+      <div className="w-screen ">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
@@ -175,35 +175,35 @@ export default function ViewDue() {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="text-center">
               <table class="min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       SID
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Student Name
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Father Name
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Address
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Mobile
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       month
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Fee Due
                     </th>
-                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                         Transport Due
                       </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Total
                     </th>
                   </tr>
@@ -217,55 +217,55 @@ export default function ViewDue() {
                         key={index}
                         class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
                       >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             SID
                           </span>
                           {e.Sr_Number}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             name
                           </span>
                           {e.name}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             fName
                           </span>
                           {e.father_name}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             Address
                           </span>
                           {e.Place}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             mobile
                           </span>
                           {e.Mobile}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             month
                           </span>
                           {e.month}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             fee_due
                           </span>
                           {(e.month_Due>0?e.month_Due:0)}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             transport_due
                           </span>
                           {e.transport_due>0?e.transport_due:0}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             total
                           </span>
@@ -276,15 +276,15 @@ export default function ViewDue() {
                     )}
                   })}
                   <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold">Total</td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">{total}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold">Total</td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold text-red-600">{total}</td>
                   </tr>
                 </tbody>
               </table>

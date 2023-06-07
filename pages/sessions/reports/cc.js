@@ -65,8 +65,8 @@ export default function Cc() {
             </div>
 
             <div className="font-bold flex justify-between  mt-8 mx-20">
-              <h1>Sr No. : 60978</h1>
-              <h1>Student ID : 2132393</h1>
+              <h1>Ref No. : <input type='text' className='border-b-2 border-black border-dashed'/></h1>
+              <h1>Date : <input type='text' className='border-b-2 border-black border-dashed'/></h1>
             </div>
             <div className="flex mx-20 my-2">
               <div className="w-[40mm] h-[45mm] border-2 border-black border-dotted "></div>
@@ -163,12 +163,11 @@ export default function Cc() {
                 </span>{' '}
                 <br />
                 will continue to excel in any future academic or professional
-                endeavors. We highly recommend him/her for any future
-                opportunities.
+                endeavors. 
               </p>
             </div>
             <div className="flex justify-end p-2 mx-20 h-38 text-xl my-10 font-black items-center">
-              Managing Directors Signature
+              Principal Signature
             </div>
           </div>
         </div>

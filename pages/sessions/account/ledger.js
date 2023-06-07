@@ -11,6 +11,8 @@ import {
   deleteDoc,
   Timestamp,
   increment,
+  query,
+  where,
 } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
 
@@ -18,9 +20,9 @@ export default function InsertMarks() {
   const router = useRouter();
   const current = new Date();
   const a = useContext(UserContext);
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  // const d = `${current.getDate()}-${
+  //   current.getMonth() + 1
+  // }-${current.getFullYear()}`;
 
   const [obtMarks, setObtMarks] = useState([]);
   // const [amount, setAmount] = useState();
@@ -140,7 +142,7 @@ export default function InsertMarks() {
           await payFee(m, am);
         })
         .then(async () => {
-          await addIncome();
+          await addIncome(d, t, m);
         })
         .then(() => {
           alert("Deleted SuccessFully");
@@ -155,15 +157,18 @@ export default function InsertMarks() {
     }
   };
 
-  const addIncome = async () => {
+  const addIncome = async (da, ti, mo) => {
     try {
       const docRef = doc(
         db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`,
-        time
+        `users/${a.user}/sessions/${a.session}/dayBook/${da}/income`,
+        ti
       );
 
-      await deleteDoc(docRef);
+      console.log(da, ti);
+      console.log(`${mo} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`);
+
+      deleteDoc(docRef);
     } catch (e) {
       console.log(e.message);
     }
@@ -175,6 +180,22 @@ export default function InsertMarks() {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/OldDues/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(Number(amount)),
+          total: increment(Number(amount)),
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+    if (mode == "Third ward Fee") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
           s.Sr_Number
         );
         await updateDoc(docRef, {
@@ -241,6 +262,9 @@ export default function InsertMarks() {
       }
     });
   };
+
+  var total = 0;
+  var totalconcession = 0;
 
   return (
     <>
@@ -356,6 +380,9 @@ export default function InsertMarks() {
                   {pList.map((e, index) => {
                     // console.log();
 
+                    total = total + e.Total_Paid;
+                    totalconcession = totalconcession + e.Concession;
+
                     return (
                       <tr
                         key={index}
@@ -411,19 +438,19 @@ export default function InsertMarks() {
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         TOTAL
                       </span>
-                      Grand Total
                     </td>
                     <td class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold">
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         obtained
                       </span>
-                      {totalObtained}
+                      Grand Total
+                      {/* {totalObtained} */}
                     </td>
                     <td class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold">
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         tmax
                       </span>
-                      {totalMaximum}
+                      {total}
                     </td>
                     <td
                       colSpan={2}
@@ -432,7 +459,7 @@ export default function InsertMarks() {
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         percent
                       </span>
-                      {((totalObtained / totalMaximum) * 100).toFixed(2)}%
+                      {totalconcession}
                     </td>
                   </tr>
                 </tbody>

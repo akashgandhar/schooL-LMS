@@ -111,6 +111,14 @@ const accountTabs = [
     name: 'OldDues',
     href: '/sessions/account/prevDue',
   },
+  // {
+  //   name: 'Other Fees',
+  //   href: '/sessions/account/otherFee',
+  // },
+  {
+    name: 'Insert Other Fees',
+    href: '/sessions/account/insertOtherFee',
+  },
 ]
 const reports = [
   {

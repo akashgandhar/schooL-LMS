@@ -134,7 +134,7 @@ export default function NewStudent() {
         await setDoc(docRef, {
           month: e,
           month_Due:
-            rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1),
+            rteStatus === "Yes" || ward === "Yes" ? 0 : classFee * (months.indexOf(e) + 1),
           transport_due: CalculatTransport(
             e,
             transportFee,
