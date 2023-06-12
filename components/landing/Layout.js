@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
 
-import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react'
-import Faculty from './Faculty'
-import Images from './pageFlip'
-import UserContext from '../context/userContext'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../../firebase'
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import Faculty from "./Faculty";
+import Images from "./pageFlip";
+import UserContext from "../context/userContext";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function Main() {
-  const [hid, setHid] = useState(true)
-  const [hid1, setHid1] = useState(true)
+  const [hid, setHid] = useState(true);
+  const [hid1, setHid1] = useState(true);
 
   const [images, setImages] = useState([]);
   const a = useContext(UserContext);
@@ -19,22 +19,19 @@ export default function Main() {
 
   const ImagesLoad = async () => {
     // if (count < 2) {
-      const docRef = collection(
-        db,
-        `gallery`
-      );
+    const docRef = collection(db, `gallery`);
 
-      var list = [];
-      try {
-        const docSnap = await getDocs(docRef);
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setImages(list);
-        setCount(count + 1);
-      } catch (e) {
-        alert(e);
-      }
+    var list = [];
+    try {
+      const docSnap = await getDocs(docRef);
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setImages(list);
+      setCount(count + 1);
+    } catch (e) {
+      alert(e);
+    }
     // }
   };
 
@@ -44,7 +41,6 @@ export default function Main() {
     // console.log(ima);
     // console.log(imgUrl);
   }, [images]);
-
 
   return (
     <div className="grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6">
@@ -74,7 +70,7 @@ export default function Main() {
             {/* </div> */}
             <div className="h-20 w-full"></div>
           </div>
-          <div id='events' className=" bg-white lg:mt-20">
+          <div id="events" className=" bg-white lg:mt-20">
             <div className="mx-auto">
               <div className="mx-auto px-5 py-5 lg:px-24">
                 <div className="my-10 flex w-full flex-col text-center">
@@ -92,7 +88,7 @@ export default function Main() {
                   lg:grid-cols-3
                   justify-center"
                 >
-                  <div className="flex flex-col justify-center items-center w-fit">
+                  <Link href="/staff" className="flex hover:scale-105 flex-col justify-center items-center w-fit">
                     <div>
                       <img
                         width={100}
@@ -103,20 +99,23 @@ export default function Main() {
                     <div>
                       <h1 className="font-bold">Faculty</h1>
                     </div>
-                  </div>
+                  </Link>
                   <div className="flex flex-col justify-center items-center w-fit">
                     <div>
                       <img
                         width={100}
                         height={100}
-                        src="https://www.graphicsprings.com/filestorage/stencils/2f3bdb9733c4a68659dc2900a7595fea.png?width=500&height=500"
+                        src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/logo_sylabus.jpg?alt=media&token=31b71581-7dc1-4af9-affd-4a0527717710"
                       />
                     </div>
                     <div>
                       <h1 className="font-bold">Syllabus</h1>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center w-fit">
+                  <Link target="0"
+                    href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Fee_Structure.pdf?alt=media&token=f70eba44-2c0e-41a6-bff6-9d588346148b"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
                     <div>
                       <img
                         width={100}
@@ -127,7 +126,7 @@ export default function Main() {
                     <div>
                       <h1 className="font-bold">Fee Chart</h1>
                     </div>
-                  </div>
+                  </Link>
                   <div className="flex flex-col justify-center items-center w-fit">
                     <div>
                       <img
@@ -145,7 +144,7 @@ export default function Main() {
                       <img
                         width={100}
                         height={100}
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/time-and-date/calendar-date-23-icon.png"
+                        src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/drupal-module-calendar.jpg?alt=media&token=c498b876-aefe-4af8-b219-252c50d8765b"
                       />
                     </div>
                     <div>
@@ -165,7 +164,7 @@ export default function Main() {
                     </div>
                   </div>
                 </div>
-                <div  className="flex my-10 justify-evenly items-center w-full border-2 ">
+                <div className="flex my-10 justify-evenly items-center w-full border-2 ">
                   <table className="w-full text-center">
                     <thead>
                       <tr>
@@ -181,22 +180,23 @@ export default function Main() {
                           <div className="w-full border-r-2 h-96 overflow-y-scroll flex flex-col pt-5 items-center border-x-2 ">
                             <div className=" flex h-fit w-11/12 border-2 border-gray-400 text-left p-1">
                               <div>
-                                <img className='h-20 w-20' src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png" />
+                                <img
+                                  className="h-20 w-20"
+                                  src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png"
+                                />
                               </div>
                               <div>
                                 <h2 className="text-xl font-bold">Title</h2>
                                 <h2 className="text-sm italic ">
-                                  Discription:{' '}
+                                  Discription:{" "}
                                 </h2>
-                                <h3>
-
-                                </h3>
+                                <h3></h3>
                               </div>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div  className="border-t-2">
+                          <div className="border-t-2">
                             <iframe
                               src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&title&showPrint=0&showCalendars=0&showTz=0&src=bWpwc3NhZGFiYWRiLmNic2VAZ21haWwuY29t&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043"
                               // style="border:solid 1px #777"
@@ -209,9 +209,9 @@ export default function Main() {
                       </tr>
                     </tbody>
                   </table>
-                  <div id='about'></div>
+                  <div id="about"></div>
                 </div>
-                <div  className="my-6 flex w-full flex-col pl-8 text-center">
+                <div className="my-6 flex w-full flex-col pl-8 text-center">
                   <a
                     href="/"
                     className="
@@ -226,8 +226,8 @@ export default function Main() {
                 </div>
               </div>
             </div>
-            <div  className="text-black">
-              <div 
+            <div className="text-black">
+              <div
                 className="
                 max-w-9xl
                 mx-auto
@@ -238,7 +238,7 @@ export default function Main() {
                 px-5
               "
               >
-                <div  className="mr-0 mb-6 w-full py-4 text-center lg:w-2/3">
+                <div className="mr-0 mb-6 w-full py-4 text-center lg:w-2/3">
                   <h2 className="mb-4 text-4xl font-bold sm:text-5xl">
                     About School
                   </h2>
@@ -271,11 +271,11 @@ export default function Main() {
                   </p>
                   <a
                     onClick={() => {
-                      setHid(!hid)
+                      setHid(!hid);
                     }}
                     className="underline-blue font-semibold hover:cursor-pointer"
                   >
-                    {hid ? 'Read more' : 'Read Less'}
+                    {hid ? "Read more" : "Read Less"}
                   </a>
                 </div>
               </div>
@@ -314,11 +314,11 @@ export default function Main() {
                 <br />
                 <a
                   onClick={() => {
-                    setHid1(!hid1)
+                    setHid1(!hid1);
                   }}
                   className="underline-blue font-semibold hover:cursor-pointer"
                 >
-                  {hid1 ? 'Read more' : 'Read Less'}
+                  {hid1 ? "Read more" : "Read Less"}
                 </a>
               </h3>
             </div>
@@ -362,11 +362,7 @@ export default function Main() {
             <div className=" w-11/12 h-10 mx-auto border-b-2 border-dashed border-black "></div>
             <div className="mx-auto flex flex-col items-center px-5 pt-10 lg:flex-row">
               <div className="flex justify-center lg:w-full lg:max-w-2xl">
-                <img
-                  className="w-4/5 mb-10"
-                  src="/mpimage.jpg"
-                  alt="img"
-                />
+                <img className="w-4/5 mb-10" src="/mpimage.jpg" alt="img" />
               </div>
               <div className="mb-16 flex flex-col text-left lg:mb-0 lg:w-1/2 lg:flex-grow lg:items-start lg:p-16 lg:p-16">
                 <h2 className="mb-4 text-4xl font-bold leading-none sm:text-5xl">
@@ -454,5 +450,5 @@ export default function Main() {
         </section>
       </div>
     </div>
-  )
+  );
 }
