@@ -25,7 +25,7 @@ export default function StaffDetails() {
       <div className="flex justify-center h-20 border-y-4 w-full my-20 ">
         {sections.map((e, index) => {
           return (
-            <div
+            <div key={index}
               onClick={() => {
                 setSectionName(e);
               }}
