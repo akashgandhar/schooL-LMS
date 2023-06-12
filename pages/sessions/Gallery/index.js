@@ -1,17 +1,103 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
-import Images from '../../../components/landing/pageFlip'
-import GalleryCard from '../../../components/galleryCard'
+import React, { useContext, useEffect, useState } from "react";
+import Images from "../../../components/landing/pageFlip";
+import GalleryCard from "../../../components/galleryCard";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { db, storage } from "../../../firebase";
+import UserContext from "../../../components/context/userContext";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 // import Model1 from '../../../components/model/model1'
 // import AddIcon from '@mui/icons-material/Add';
 
-var state = false
+var state = false;
 
 export default function Gallery() {
-  const [openGallary, setOpenGalary] = useState(false)
-  const [openCircular, setOpenCircular] = useState(false)
-  const [openEvent, setOpenEvent] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [openGallary, setOpenGalary] = useState(false);
+  const [openCircular, setOpenCircular] = useState(false);
+  const [openEvent, setOpenEvent] = useState(false);
+  const [images, setImages] = useState([]);
+  const a = useContext(UserContext);
+  const [count, setCount] = useState(0);
+
+  const ImagesLoad = async () => {
+    if (count < 2) {
+      const docRef = collection(
+        db,
+        `gallery`
+      );
+
+      var list = [];
+      try {
+        const docSnap = await getDocs(docRef);
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setImages(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e);
+      }
+    }
+  };
+
+  const [imgtoUpload, setImgToUpload] = useState("nil");
+  const [imgName, setImgName] = useState("nil");
+  const [imgUrl, setImgUrl] = useState("nil");
+
+  const handleUploadTc = (docs, name) => {
+    setIsLoading(true);
+    try {
+      const storageRef = ref(
+        storage,
+        `${a.user}/${a.session}/gallery/${name}.jpg`
+      );
+      const file = docs;
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          alert("uploaded");
+          setIsLoading(false)
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImgUrl(downloadURL);
+            const docRef = doc(
+              db,
+              `gallery`,
+              imgName
+            );
+            setDoc(docRef, {
+              link: downloadURL,
+              name: imgName,
+            });
+          });
+        }
+      );
+    } catch (e) {
+      alert(e.message);
+      setIsLoading(false)
+    } finally {
+      () => {
+        setIsLoading(false);
+      };
+    }
+    // setIsLoading(false)
+  };
+
+  useEffect(() => {
+    ImagesLoad();
+    console.log(images);
+    // console.log(ima);
+    console.log(imgUrl);
+  }, [images]);
 
   return (
     <>
@@ -22,10 +108,10 @@ export default function Gallery() {
               <div className="border-2 w-full flex justify-center flex-col p-2">
                 <div className="w-full flex justify-between p-10 border-4 border-dashed border-black">
                   <div className="text-3xl ">
-                    Gallery{' '}
+                    Gallery{" "}
                     <button
                       onClick={() => {
-                        setOpenEvent(!openEvent)
+                        setOpenGalary(!openGallary);
                       }}
                       href="#_"
                       class="relative inline-block text-lg group"
@@ -40,13 +126,13 @@ export default function Gallery() {
                         data-rounded="rounded-lg"
                       ></span>
                     </button>
-                    <div className="mt-5 h-64 overflow-y-scroll w-full text-base">
-                      <GalleryCard />
-                      <GalleryCard />
-                      <GalleryCard />
+                    <div className="mt-5 h-64 overflow-y-scroll w-full  text-base">
+                      {images.map((image,index) => {
+                        return <GalleryCard key={index} link={image.link} name={image.name}/>;
+                      })}
                     </div>
                   </div>
-                  <Images />
+                  <Images images={images}/>
                 </div>
               </div>
             </div>
@@ -55,7 +141,7 @@ export default function Gallery() {
               <div className="border-2 w-1/3">
                 <button
                   onClick={() => {
-                    setOpenCircular(!openCircular)
+                    setOpenCircular(!openCircular);
                   }}
                   href="#_"
                   class="relative inline-block text-lg group"
@@ -75,7 +161,7 @@ export default function Gallery() {
               <div className="border-2 w-1/3">
                 <button
                   onClick={() => {
-                    setOpenEvent(!openEvent)
+                    setOpenEvent(!openEvent);
                   }}
                   href="#_"
                   class="relative inline-block text-lg group"
@@ -106,11 +192,12 @@ export default function Gallery() {
                 </p>
                 <svg
                   onClick={() => {
-                    setOpenGalary(!openGallary)
+                    setOpenGalary(!openGallary);
+                    setCount(0);
                   }}
                   class="w-6 h-6 hover:cursor-pointer"
                   fill="none"
-                  stroke={'currentColor'}
+                  stroke={"currentColor"}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -123,90 +210,48 @@ export default function Gallery() {
                 </svg>
               </div>
               <div class="flex flex-col px-6 py-5 bg-gray-50">
-                <p class="mb-2 font-semibold text-gray-700">Bots Message</p>
-                <textarea
-                  type="text"
-                  name=""
-                  placeholder="Type message..."
-                  class="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-36"
-                  id=""
-                ></textarea>
-                <div class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5">
-                  <div class="w-full sm:w-1/2">
-                    <p class="mb-2 font-semibold text-gray-700">
-                      Customer Response
-                    </p>
-                    <select
-                      type="text"
-                      name=""
-                      class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
-                      id=""
-                    >
-                      <option value="0">Add service</option>
-                    </select>
-                  </div>
-                  <div class="w-full sm:w-1/2 mt-2 sm:mt-0">
-                    <p class="mb-2 font-semibold text-gray-700">Next step</p>
-                    <select
-                      type="text"
-                      name=""
-                      class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
-                      id=""
-                    >
-                      <option value="0">Book Appointment</option>
-                    </select>
-                  </div>
-                </div>
                 <hr />
 
-                <div class="flex items-center mt-5 mb-3 space-x-4">
-                  <input
-                    class="inline-flex rounded-full"
-                    type="checkbox"
-                    id="check1"
-                    name="check1"
-                  />
-                  <label
-                    class="inline-flex font-semibold text-gray-400"
-                    for="check1"
-                  >
-                    Add a crew
-                  </label>
-                  <br />
-                  <input
-                    class="inline-flex"
-                    type="checkbox"
-                    id="check2"
-                    name="check2"
-                    checked
-                  />
-                  <label
-                    class="inline-flex font-semibold text-blue-500"
-                    for="check2"
-                  >
-                    Add a specific agent
-                  </label>
-                  <br />
-                </div>
                 <div class="flex flex-row items-center justify-between p-5 bg-white border border-gray-200 rounded shadow-sm">
                   <div class="flex flex-row items-center">
-                    <img
-                      class="w-10 h-10 mr-3 rounded-full"
-                      src="https://randomuser.me/api/portraits/lego/7.jpg"
-                      alt=""
+                    <input
+                      onChange={(e) => {
+                        setImgToUpload(e.target.files[0]);
+                        setImgName(e.target.files[0].name);
+                      }}
+                      type="file"
                     />
-                    <div class="flex flex-col">
-                      <p class="font-semibold text-gray-800">Xu Lin Bashir</p>
-                      <p class="text-gray-400">table.co</p>
-                    </div>
                   </div>
-                  <h1 class="font-semibold text-red-400">Remove</h1>
                 </div>
               </div>
               <div class="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg">
                 <p class="font-semibold text-gray-600">Cancel</p>
-                <button class="px-4 py-2 text-white font-semibold bg-blue-500 rounded">
-                  Save
+                <button
+                  onClick={() => {
+                    handleUploadTc(imgtoUpload, imgName);
+                  }}
+                  class="px-4 py-2 text-white font-semibold hover:bg-blue-700 bg-blue-500 rounded"
+                >
+                  {!isLoading ?"Save":
+                  <div role="status">
+                    <svg
+                      aria-hidden="true"
+                      class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                      viewBox="0 0 100 101"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                      />
+                    </svg>
+                    <span class="sr-only">Loading...</span>
+                  </div>}
                 </button>
               </div>
             </div>
@@ -222,11 +267,11 @@ export default function Gallery() {
                 <p class="font-semibold text-gray-800">Add a New Circular</p>
                 <svg
                   onClick={() => {
-                    setOpenCircular(!openCircular)
+                    setOpenCircular(!openCircular);
                   }}
                   class="w-6 h-6 hover:cursor-pointer"
                   fill="none"
-                  stroke={'currentColor'}
+                  stroke={"currentColor"}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -338,11 +383,11 @@ export default function Gallery() {
                 <p class="font-semibold text-gray-800">Add a New Event</p>
                 <svg
                   onClick={() => {
-                    setOpenEvent(!openEvent)
+                    setOpenEvent(!openEvent);
                   }}
                   class="w-6 h-6 hover:cursor-pointer"
                   fill="none"
-                  stroke={'currentColor'}
+                  stroke={"currentColor"}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -446,5 +491,5 @@ export default function Gallery() {
         )}
       </div>
     </>
-  )
+  );
 }

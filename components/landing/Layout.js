@@ -2,13 +2,49 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Faculty from './Faculty'
 import Images from './pageFlip'
+import UserContext from '../context/userContext'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 export default function Main() {
   const [hid, setHid] = useState(true)
   const [hid1, setHid1] = useState(true)
+
+  const [images, setImages] = useState([]);
+  const a = useContext(UserContext);
+  const [count, setCount] = useState(0);
+
+  const ImagesLoad = async () => {
+    // if (count < 2) {
+      const docRef = collection(
+        db,
+        `gallery`
+      );
+
+      var list = [];
+      try {
+        const docSnap = await getDocs(docRef);
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setImages(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e);
+      }
+    // }
+  };
+
+  useEffect(() => {
+    ImagesLoad();
+    // console.log(images);
+    // console.log(ima);
+    // console.log(imgUrl);
+  }, [images]);
+
 
   return (
     <div className="grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6">
@@ -33,7 +69,7 @@ export default function Main() {
               /> */}
 
             <div className="flex justify-center items-center lg:w-3/6">
-              <Images />
+              <Images images={images} />
             </div>
             {/* </div> */}
             <div className="h-20 w-full"></div>

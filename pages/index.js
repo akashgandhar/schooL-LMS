@@ -1,18 +1,17 @@
-import Head from 'next/head'
-import Header from '../components/landing/Header'
-import Main from '../components/landing/Layout'
-import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
-import UserContext from '../components/context/userContext'
-import Footer from '../components/footer'
+import Head from "next/head";
+import Header from "../components/landing/Header";
+import Main from "../components/landing/Layout";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../components/context/userContext";
+import Footer from "../components/footer";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Index() {
-  const router = useRouter()
-  const a = useContext(UserContext)
+  const router = useRouter();
+  const a = useContext(UserContext);
 
-
-
-  
 
   return (
     // <div className={styles.container}>
@@ -40,8 +39,8 @@ export default function Index() {
         </div>
         <div className="xl:h-5 sm:h-20 "></div>
         <Main />
-        <Footer/>
+        <Footer />
       </div>
     </>
-  )
+  );
 }
