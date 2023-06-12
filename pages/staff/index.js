@@ -17,7 +17,7 @@ export default function index() {
         <div className="overflow-hidden top-0 fixed w-full z-[100]">
           <Header />
         </div>
-        <div className="xl:h-5 sm:h-20 "></div>
+        
         <StaffDetails/>
         <Footer />
       </div>

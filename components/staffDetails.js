@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { collection, doc, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
 
 export default function StaffDetails() {
   const [sectionName, setSectionName] = useState("PGT");
@@ -10,6 +12,31 @@ export default function StaffDetails() {
     "Special Educator",
     "Non Teaching Staff",
   ]);
+  const [staff, setStaff] = useState([]);
+  const [count, setCount] = useState(0);
+
+  const filteredTeachers = sectionName
+    ? staff.filter((teacher) => teacher.post === sectionName)
+    : [];
+
+  const getStaff = async () => {
+    if (count < 2) {
+      try {
+        const docRef = collection(db, "staff");
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setStaff(list);
+      } catch (e) {}
+    }
+  };
+
+  useEffect(() => {
+    getStaff();
+  }, [staff]);
+
   return (
     <div className="w-full flex flex-col items-center justify-center p-10 ">
       <div className="h-24"></div>
@@ -25,7 +52,8 @@ export default function StaffDetails() {
       <div className="flex justify-center h-20 border-y-4 w-full my-20 ">
         {sections.map((e, index) => {
           return (
-            <div key={index}
+            <div
+              key={index}
               onClick={() => {
                 setSectionName(e);
               }}
@@ -41,47 +69,27 @@ export default function StaffDetails() {
         <h1>{sectionName}s</h1>
       </div>
 
-      <div className="grid grid-flow-col grid-cols-5 grid-rowa w-full border-y-2 p-5">
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img
-            src="/principle.jpg"
-            alt="principle"
-            className="h-72 w-72 border-2 object-cover"
-          />
-          <h1 className="text-2xl font-bold font-serif">Mahendra Pal Sing</h1>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img
-            src="/principle.jpg"
-            alt="principle"
-            className="h-72 w-72 border-2 object-cover"
-          />
-          <h1 className="text-2xl font-bold font-serif">Mahendra Pal Sing</h1>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img
-            src="/principle.jpg"
-            alt="principle"
-            className="h-72 w-72 border-2 object-cover"
-          />
-          <h1 className="text-2xl font-bold font-serif">Mahendra Pal Sing</h1>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img
-            src="/principle.jpg"
-            alt="principle"
-            className="h-72 w-72 border-2 object-cover"
-          />
-          <h1 className="text-2xl font-bold font-serif">Mahendra Pal Sing</h1>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img
-            src="/principle.jpg"
-            alt="principle"
-            className="h-72 w-72 border-2 object-cover"
-          />
-          <h1 className="text-2xl font-bold font-serif">Mahendra Pal Sing</h1>
-        </div>
+      <div className="grid grid-cols-5 gap-4 ">
+        {filteredTeachers.length > 0 ? (
+          filteredTeachers.map((teacher, index) => (
+            <div
+              key={index}
+              className={`grid-item  flex flex-col items-center justify-center gap-1 border-t-[3px] border-red-500 -mb-2 pt-5`}
+            >
+              <img
+                src={teacher.img}
+                alt={teacher.name}
+                className="h-72 w-72 border-[3px] rounded-lg object-cover border-t-2 "
+              />
+              <h1 className="text-2xl font-bold font-serif my-1">
+                {teacher.name}
+              </h1>
+              <div className="w-full p-0 border-b-[3px] border-red-500"></div>
+            </div>
+          ))
+        ) : (
+          <p>No teachers found for the selected department.</p>
+        )}
       </div>
     </div>
   );
