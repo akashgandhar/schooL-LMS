@@ -96,7 +96,7 @@ export default function ViewDue() {
     <>
       <div className="w-screen ">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">
                 View Dues
@@ -209,9 +209,10 @@ export default function ViewDue() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {students.map((e, index) => {
-                    if(e.Deleted == false || e.Deleted == undefined){
-                   total += e.total>0?Number(e.total):0;
+                  {students.sort((a, b) => (a.name > b.name ? 1 : -1))
+                      .map((e, index) => {
+                        if (e.Deleted == false || e.Deleted == undefined) {
+                   total += (Number(e.month_Due)>0?Number(e.month_Due):0)+(Number(e.transport_due)>0?Number(e.transport_due):0)
                     return (
                       <tr
                         key={index}
