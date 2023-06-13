@@ -88,7 +88,10 @@ export default function Main() {
                   lg:grid-cols-3
                   justify-center"
                 >
-                  <Link href="/staff" className="flex hover:scale-105 flex-col justify-center items-center w-fit">
+                  <Link
+                    href="/staff"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
                     <div>
                       <img
                         width={100}
@@ -112,7 +115,8 @@ export default function Main() {
                       <h1 className="font-bold">Syllabus</h1>
                     </div>
                   </div>
-                  <Link target="0"
+                  <Link
+                    target="0"
                     href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Fee_Structure.pdf?alt=media&token=f70eba44-2c0e-41a6-bff6-9d588346148b"
                     className="flex hover:scale-105 flex-col justify-center items-center w-fit"
                   >
@@ -198,11 +202,13 @@ export default function Main() {
                         <td>
                           <div className="border-t-2">
                             <iframe
-                              src="https://calendar.google.com/calendar/embed?src=mjpssadabad.cbse%40gmail.com&ctz=Asia%2FKolkata"
-                              // style="border:solid 1px #777"
                               className="w-full h-96"
+                              src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&title=M%20J%20PUBLIC%20SCHOOL&src=bWpwc3NhZGFiYWQuY2JzZUBnbWFpbC5jb20&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=bWpwc3NhZGFiYWRiLmNic2VAZ21haWwuY29t&color=%23039BE5&color=%234285F4&color=%23795548"
+                              style="border:solid 1px #777"
+                              width="800"
+                              height="600"
                               frameborder="0"
-                              // scrolling="no"
+                              scrolling="no"
                             ></iframe>
                           </div>
                         </td>
