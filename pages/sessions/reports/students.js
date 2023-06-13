@@ -348,8 +348,9 @@ export default function GatePass() {
                   </tr>
                 </thead>
                 <tbody className="block md:table-row-group">
-                  {sortedStudents.map((e, index) => {
-                    if (e.Deleted == false || e.Deleted == undefined) {
+                  {sortedStudents.sort((a, b) => (a.name > b.name ? 1 : -1))
+                      .map((e, index) => {
+                        if (e.Deleted == false || e.Deleted == undefined) {
                       return (
                         <tr
                           key={index}
