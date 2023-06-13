@@ -13,6 +13,27 @@ export default function Main() {
   const [hid, setHid] = useState(true);
   const [hid1, setHid1] = useState(true);
 
+  const [circulars, setCirculars] = useState([]);
+  const [count1, setCount1] = useState(0);
+
+  const LoadCirculars = async () => {
+    if (count1 < 2) {
+      const docRef = collection(db, `circulars`);
+
+      var list = [];
+      try {
+        const docSnap = await getDocs(docRef);
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setCirculars(list);
+        setCount1(count1 + 1);
+      } catch (e) {
+        alert(e);
+      }
+    }
+  };
+
   const [images, setImages] = useState([]);
   const a = useContext(UserContext);
   const [count, setCount] = useState(0);
@@ -37,6 +58,7 @@ export default function Main() {
 
   useEffect(() => {
     ImagesLoad();
+    LoadCirculars();
     // console.log(images);
     // console.log(ima);
     // console.log(imgUrl);
@@ -88,7 +110,10 @@ export default function Main() {
                   lg:grid-cols-3
                   justify-center"
                 >
-                  <Link href="/staff" className="flex hover:scale-105 flex-col justify-center items-center w-fit">
+                  <Link
+                    href="/staff"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
                     <div>
                       <img
                         width={100}
@@ -112,7 +137,8 @@ export default function Main() {
                       <h1 className="font-bold">Syllabus</h1>
                     </div>
                   </div>
-                  <Link target="0"
+                  <Link
+                    target="0"
                     href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Fee_Structure.pdf?alt=media&token=f70eba44-2c0e-41a6-bff6-9d588346148b"
                     className="flex hover:scale-105 flex-col justify-center items-center w-fit"
                   >
@@ -178,24 +204,36 @@ export default function Main() {
                         <td></td>
                         <td>
                           <div className="w-full border-r-2 h-96 overflow-y-scroll flex flex-col pt-5 items-center border-x-2 ">
-                            <div className=" flex h-fit w-11/12 border-2 border-gray-400 text-left p-1">
-                              <div>
-                                <img
-                                  className="h-20 w-20"
-                                  src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png"
-                                />
-                              </div>
-                              <div>
-                                <h2 className="text-xl font-bold">Title</h2>
-                                <h2 className="text-sm italic ">
-                                  Discription:{" "}
-                                </h2>
-                                <h3></h3>
-                              </div>
-                            </div>
+                            {circulars.map((e, index) => {
+                              return (
+                                <Link
+                                  key={index}
+                                  target="0"
+                                  href={e.link}
+                                  className="m-1 flex h-fit w-11/12 border-2 hover:border-gray-600 border-gray-400 text-left p-1"
+                                >
+                                  <div>
+                                    <img
+                                      className="h-20 w-20"
+                                      src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png"
+                                    />
+                                  </div>
+                                  <div>
+                                    <h2 className="text-xl font-bold">
+                                      {e.title}
+                                    </h2>
+                                    <h2 className="text-sm italic ">
+                                      Discription:{e.disc}
+                                    </h2>
+                                    <h3></h3>
+                                  </div>
+                                </Link>
+                              );
+                            })}
                           </div>
                         </td>
-                        <td>className="w-full h-96"
+                        <td>
+                          className="w-full h-96"
                           <div className="border-t-2">
                             <iframe
                               src="https://calendar.google.com/calendar/embed?src=mjpssadabad.cbse%40gmail.com&ctz=Asia%2FKolkata&title=M%20J%20PUBLIC%20SCHOOL"
