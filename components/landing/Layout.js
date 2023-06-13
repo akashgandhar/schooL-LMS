@@ -198,7 +198,7 @@ export default function Main() {
                         <td>
                           <div className="border-t-2">
                             <iframe
-                              src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FKolkata&title&showPrint=0&showCalendars=0&showTz=0&src=bWpwc3NhZGFiYWRiLmNic2VAZ21haWwuY29t&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043"
+                              src="https://calendar.google.com/calendar/embed?src=mjpssadabad.cbse%40gmail.com&ctz=Asia%2FKolkata"
                               // style="border:solid 1px #777"
                               className="w-full h-96"
                               frameborder="0"

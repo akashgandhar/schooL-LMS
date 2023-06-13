@@ -502,6 +502,12 @@ export default function Dropdown() {
                 >
                   Gallery
                 </Link>
+                <Link
+                  href="/sessions/staff"
+                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                >
+                  Staff Management
+                </Link>
               </Popover.Group>
             </div>
           </div>

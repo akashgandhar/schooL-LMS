@@ -100,7 +100,7 @@ export default function OldFee() {
         month_Due: oldDue,
         total: oldDue,
       }).then(() => {
-        alert("saved")
+        alert("saved");
       });
     } catch (e) {
       alert(e.message);
@@ -208,76 +208,77 @@ export default function OldFee() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {students.sort((a, b) => (a.name > b.name ? 1 : -1))
-                      .map((e, index) => {
-                        if (e.Deleted == false || e.Deleted == undefined) {
-                      return (
-                        <tr
-                          key={index}
-                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                        >
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              SID
-                            </span>
-                            {e.Sr_Number}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              name
-                            </span>
-                            {e.name}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              fName
-                            </span>
-                            {e.Father_Name}
-                          </td>
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              Address
-                            </span>
-                            {e.Place}
-                          </td>
-                          <td class="px-2 h-full md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              old fee
-                            </span>
-                            <input
-                              onChange={(e) => {
-                                setOldDue(e.target.value);
-                              }}
-                              type="number"
-                              className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
-                              placeholder="0"
-                            ></input>
-                          </td>
+                  {students
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((e, index) => {
+                      if (e.Deleted == false || e.Deleted == undefined) {
+                        return (
+                          <tr
+                            key={index}
+                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                          >
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                SID
+                              </span>
+                              {e.Sr_Number}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                name
+                              </span>
+                              {e.name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                fName
+                              </span>
+                              {e.Father_Name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Address
+                              </span>
+                              {e.Place}
+                            </td>
+                            <td class="px-2 h-full md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                old fee
+                              </span>
+                              <input
+                                onChange={(e) => {
+                                  setOldDue(e.target.value);
+                                }}
+                                type="number"
+                                className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
+                                placeholder="0"
+                              ></input>
+                            </td>
 
-                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                            <span class="inline-block w-1/3 md:hidden font-bold">
-                              action
-                            </span>
-                            <button
-                              id="svbtn"
-                              onClick={() => {
-                                setDues(
-                                  e.Sr_Number,
-                                  e.name,
-                                  e.Father_Name,
-                                  e.Place,
-                                  e.Mobile_Number
-                                );
-                              }}
-                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                            >
-                              Save
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  })}
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                action
+                              </span>
+                              <button
+                                id="svbtn"
+                                onClick={() => {
+                                  setDues(
+                                    e.Sr_Number,
+                                    e.name,
+                                    e.Father_Name,
+                                    e.Place,
+                                    e.Mobile_Number
+                                  );
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Save
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
                 </tbody>
               </table>
             </div>
