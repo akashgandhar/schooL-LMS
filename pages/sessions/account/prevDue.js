@@ -208,8 +208,9 @@ export default function OldFee() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {students.map((e, index) => {
-                    if (e.Deleted == false || e.Deleted == undefined) {
+                  {students.sort((a, b) => (a.name > b.name ? 1 : -1))
+                      .map((e, index) => {
+                        if (e.Deleted == false || e.Deleted == undefined) {
                       return (
                         <tr
                           key={index}
