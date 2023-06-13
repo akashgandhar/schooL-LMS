@@ -233,7 +233,7 @@ export default function Main() {
                           </div>
                         </td>
                         <td>
-                          className="w-full h-96"
+                          
                           <div className="border-t-2">
                             <iframe
                               src="https://calendar.google.com/calendar/embed?src=mjpssadabad.cbse%40gmail.com&ctz=Asia%2FKolkata&title=M%20J%20PUBLIC%20SCHOOL"
