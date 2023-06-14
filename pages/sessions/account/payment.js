@@ -188,7 +188,23 @@ export default function Payment() {
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
           month_Due: increment(Number(-(Number(amount) + Number(concession)))),
-          total: increment(-(Number(amount) + Number(concession))),
+          total: increment(Number(-(Number(amount) + Number(concession)))),
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+    if (mode == "Admission Fee") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Admission/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(Number(-(Number(amount) + Number(concession)))),
+          total: increment(Number(-(Number(amount) + Number(concession)))),
         });
       } catch (e) {
         console.log(e.message);
@@ -289,9 +305,11 @@ export default function Payment() {
   };
 
   const [oldDue, setOldDue] = useState(0);
+  const [admDue, setAdmDue] = useState(0);
   const [otherDue, setOtherDue] = useState(0);
   const [count, setCount] = useState(0);
   const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
 
   const getOldDues = async () => {
     if (count < 1) {
@@ -307,6 +325,26 @@ export default function Payment() {
         if (docSnap.exists) {
           setOldDue(docSnap.data().total);
           setCount(count + 1);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
+  const getAdmDues = async () => {
+    if (count2 < 1) {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Admission/students`,
+          s.Sr_Number
+        );
+
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists) {
+          setAdmDue(docSnap.data().total);
+          setCount2(count2 + 1);
         }
       } catch (e) {
         console.log(e.message);
@@ -338,8 +376,9 @@ export default function Payment() {
   useEffect(() => {
     getOldDues();
     getOtherDues();
+    getAdmDues();
     // GetFeeList();
-  }, [oldDue]);
+  }, [oldDue, otherDue, admDue]);
 
   return (
     <>
@@ -433,18 +472,25 @@ export default function Payment() {
                     <span>Old Dues : </span>
                     <span>{oldDue}</span>
                   </div>
+                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                    <span>Admission Dues : </span>
+                    <span>{admDue}</span>
+                  </div>
+                  
+                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                    <span>Third Ward Fee : </span>
+                    <span>{otherDue}</span>
+                  </div>
+                </div>
+                <div className="flex justify-between w-full items-center">
                   <button
-                    class="bg-blue-500 hover:bg-blue-700 w-96 text-white font-bold  py-2 px-4 rounded-full"
+                    class="bg-blue-500 w-full hover:bg-blue-700  text-white font-bold  py-2 px-4 rounded-full"
                     onClick={() => {
                       getDue();
                     }}
                   >
                     Get Current Dues
                   </button>
-                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
-                    <span>Third Ward Fee : </span>
-                    <span>{otherDue}</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -537,6 +583,7 @@ export default function Payment() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     >
                       <option>Plese Select</option>
+                      <option>Admission Fee</option>
                       <option>Monthly Fee</option>
                       <option>Transport Fee</option>
                       <option>Old Dues</option>

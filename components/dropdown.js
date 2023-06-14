@@ -108,7 +108,7 @@ const accountTabs = [
     href: '/sessions/account/dayBook',
   },
   {
-    name: 'OldDues',
+    name: 'OldDues/Adm Fees',
     href: '/sessions/account/prevDue',
   },
   // {

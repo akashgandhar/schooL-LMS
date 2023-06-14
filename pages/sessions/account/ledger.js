@@ -191,6 +191,22 @@ export default function InsertMarks() {
         console.log(e.message);
       }
     }
+    if (mode == "Admission Fee") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Admission/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(Number(amount)),
+          total: increment(Number(amount)),
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
     if (mode == "Third ward Fee") {
       try {
         const docRef = doc(
