@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import Images from "../../../components/landing/pageFlip";
 import GalleryCard from "../../../components/galleryCard";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import UserContext from "../../../components/context/userContext";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -94,6 +100,7 @@ export default function Gallery() {
             try {
               const docRef = doc(db, `gallery`, name);
               setDoc(docRef, {
+                name: name,
                 link: downloadURL,
               });
             } catch (e) {}
@@ -236,13 +243,11 @@ export default function Gallery() {
                       <div className="w-full border-r-2 h-96 overflow-y-scroll flex flex-col pt-5 items-center border-x-2 ">
                         {circulars.map((e, index) => {
                           return (
-                            <Link
-                              target="0"
-                              href={e.link}
+                            <div
                               key={index}
                               className="hover:scale-[101%] my-2 flex h-fit w-11/12 border-2 justify-between border-gray-400 text-left p-1"
                             >
-                              <div className="flex">
+                              <Link target="0" href={e.link} className="flex">
                                 <div>
                                   <img
                                     className="h-20 w-20"
@@ -258,14 +263,18 @@ export default function Gallery() {
                                   </h2>
                                   <h3></h3>
                                 </div>
-                              </div>
+                              </Link>
 
-                              <button class=" rounded-xl h-10 text-white py-2 hover:scale-105 duration-300">
+                              <button class="z-10 rounded-xl h-10 text-white py-2 hover:scale-105 duration-300">
                                 <FontAwesomeIcon
                                   color="black"
                                   onClick={() => {
-                                    const docRef = doc(db, `circulars`, e.name);
                                     try {
+                                      const docRef = doc(
+                                        db,
+                                        `circulars`,
+                                        e.title
+                                      );
                                       deleteDoc(docRef)
                                         .then(() => {
                                           alert("deleted");
@@ -273,13 +282,15 @@ export default function Gallery() {
                                         .then(() => {
                                           LoadCirculars();
                                         });
-                                    } catch {}
+                                    } catch (e) {
+                                      alert(e.message);
+                                    }
                                   }}
                                   className="hover:cursor-pointer hover:scale-95"
                                   icon={faTrash}
                                 />
                               </button>
-                            </Link>
+                            </div>
                           );
                         })}
                       </div>

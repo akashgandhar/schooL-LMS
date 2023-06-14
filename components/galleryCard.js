@@ -19,8 +19,8 @@ export default function GalleryCard(props) {
           <a
             onClick={() => {
               console.log(props.name);
-              const docRef = doc(db, `gallery`, props.name);
               try{
+              const docRef = doc(db, `gallery`, props.name);
 
                 deleteDoc(docRef).then(() => {
                   alert("Deleted");
