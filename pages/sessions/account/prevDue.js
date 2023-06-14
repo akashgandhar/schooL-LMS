@@ -17,6 +17,7 @@ export default function OldFee() {
   const [students, setStudents] = useState([]);
   const [month, setMonth] = useState();
   const [oldDue, setOldDue] = useState(0);
+  const [admfee, setAdmFee] = useState(0);
 
   const getStudent = async () => {
     try {
@@ -99,6 +100,32 @@ export default function OldFee() {
         Sr_Number: sr,
         month_Due: oldDue,
         total: oldDue,
+      }).then(() => {
+        alert("saved");
+      });
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const setAdm = async (sr, name, fName, place, mobile) => {
+    const docRef = doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
+      sr
+    );
+    try {
+      await setDoc(docRef, {
+        name: name,
+        month: "Admission",
+        class: className,
+        section: sectionName,
+        father_name: fName,
+        Place: place,
+        Mobile: mobile,
+        Sr_Number: sr,
+        month_Due: admfee,
+        total: admfee,
       }).then(() => {
         alert("saved");
       });
@@ -201,7 +228,9 @@ export default function OldFee() {
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Old Fee
                     </th>
-
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      Admission Fee
+                    </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Action
                     </th>
@@ -254,6 +283,19 @@ export default function OldFee() {
                                 placeholder="0"
                               ></input>
                             </td>
+                            <td class="px-2 h-full md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                adm fee
+                              </span>
+                              <input
+                                onChange={(e) => {
+                                  setAdmFee(e.target.value);
+                                }}
+                                type="number"
+                                className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
+                                placeholder="0"
+                              ></input>
+                            </td>
 
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
@@ -273,6 +315,21 @@ export default function OldFee() {
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                               >
                                 Save
+                              </button>
+                              <button
+                                id="svbtn"
+                                onClick={() => {
+                                  setAdm(
+                                    e.Sr_Number,
+                                    e.name,
+                                    e.Father_Name,
+                                    e.Place,
+                                    e.Mobile_Number
+                                  );
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Save Admission
                               </button>
                             </td>
                           </tr>

@@ -19,7 +19,8 @@ export default function ViewDue() {
     "January",
     "February",
     "March",
-    "OldDues"
+    "OldDues",
+    "Admission"
   ];
 
   const [students, setStudents] = useState([]);
