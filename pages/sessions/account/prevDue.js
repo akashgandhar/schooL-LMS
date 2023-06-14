@@ -98,8 +98,8 @@ export default function OldFee() {
         Place: place,
         Mobile: mobile,
         Sr_Number: sr,
-        month_Due: oldDue,
-        total: oldDue,
+        month_Due: Number(oldDue),
+        total: Number(oldDue),
       }).then(() => {
         alert("saved");
       });
@@ -124,8 +124,8 @@ export default function OldFee() {
         Place: place,
         Mobile: mobile,
         Sr_Number: sr,
-        month_Due: admfee,
-        total: admfee,
+        month_Due: Number(admfee),
+        total: Number(admfee),
       }).then(() => {
         alert("saved");
       });
