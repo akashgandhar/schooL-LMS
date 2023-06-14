@@ -92,11 +92,9 @@ export default function Gallery() {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
             try {
-              const docRef = doc(db, `gallery`, cname);
+              const docRef = doc(db, `gallery`, name);
               setDoc(docRef, {
                 link: downloadURL,
-                title: cname,
-                disc: disc,
               });
             } catch (e) {}
           });
