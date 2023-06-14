@@ -92,6 +92,52 @@ export default function Gallery() {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
             try {
+              const docRef = doc(db, `gallery`, cname);
+              setDoc(docRef, {
+                link: downloadURL,
+                title: cname,
+                disc: disc,
+              });
+            } catch (e) {}
+          });
+        }
+      );
+    } catch (e) {
+      alert(e.message);
+      setIsLoading(false);
+    } finally {
+      () => {
+        setIsLoading(false);
+      };
+    }
+    // setIsLoading(false)
+  };
+  const handleUploadTc2 = (docs, name) => {
+    setIsLoading(true);
+    try {
+      const storageRef = ref(
+        storage,
+        `${a.user}/${a.session}/circulars/${name}.jpg`
+      );
+      const file = docs;
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          alert("uploaded");
+          setIsLoading(false);
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImgUrl(downloadURL);
+            try {
               const docRef = doc(db, `circulars`, cname);
               setDoc(docRef, {
                 link: downloadURL,
@@ -433,7 +479,7 @@ export default function Gallery() {
                 <p class="font-semibold text-gray-600">Cancel</p>
                 <button
                   onClick={() => {
-                    handleUploadTc(imgtoUpload, cname);
+                    handleUploadTc2(imgtoUpload, cname);
                   }}
                   class="px-4 py-2 text-white font-semibold hover:bg-blue-700 bg-blue-500 rounded"
                 >
