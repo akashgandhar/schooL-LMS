@@ -193,6 +193,22 @@ export default function Main() {
                       <h1 className="font-bold">CBSE Disclosure</h1>
                     </div>
                   </Link>
+                  <Link
+                    
+                    href="/tc"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/tc.png?alt=media&token=fe141b9f-8e5c-4245-b680-8a73b9bd48d5"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Transfer Certificates</h1>
+                    </div>
+                  </Link>
                 </div>
                 <div className="flex my-10 justify-evenly items-center w-full border-2 ">
                   <table className="w-full text-center">
