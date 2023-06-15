@@ -8,37 +8,37 @@ export default function Cbse() {
     {
       id: 1,
       title: "NAME OF THE SCHOOL",
-      result: "DELHI PUBLIC SCHOOL",
+      result: "M J PUBLIC SCHOOL",
     },
     {
       id: 2,
       title: "AFFILIATION NO(IF APPLICABLE)",
-      result: "2130102",
+      result: "2132393",
     },
     {
       id: 3,
       title: "SCHOOL CODE( IF APPLICABLE)",
-      result: "60038",
+      result: "60978",
     },
     {
       id: 4,
       title: "COMPLETE ADDRESS WITH PIN CODE",
-      result: "DELHI PUBLIC SCHOOL, MATHURA REFINERY NAGAR, MATHURA, UP-281006",
+      result: "M J PUBLIC SCHOOL, RAYA ROAD SADABAD, HATHRAS, UP-281306",
     },
     {
       id: 5,
       title: "PRINCIPAL NAME AND QUALIFICATION",
-      result: "Mr Salender Singh, Principal, MA, B.Ed",
+      result: "Mr Mahendra Pal Singh, Principal, M.Sc, B.Ed",
     },
     {
       id: 6,
       title: "SCHOOL EMAIL ID",
-      result: "principal@dpsmrn.org",
+      result: "mjpssadabad.cbse@gmail.com",
     },
     {
       id: 7,
       title: "CONTACT DETAILS( LAND LINE /MOBILE)",
-      result: "0565-2430170; 0565-2416159",
+      result: "7579924876; 9675454842; 8279450848",
     },
   ];
 
@@ -180,17 +180,17 @@ export default function Cbse() {
       id: 2,
       title: "TOTAL NO OF TEACHERS",
       teachers: [
-        { category: "PGT", count: "16" },
-        { category: "TGT", count: "27" },
-        { category: "PRT", count: "27" },
+        { category: "PGT", count: "12" },
+        { category: "TGT", count: "14" },
+        { category: "PRT", count: "08" },
       ],
     },
     {
       id: 3,
       title: "TEACHERS SECTION RATIO",
       ratio: "1:1.5",
-      teachers: "70",
-      sections: "47",
+      teachers: "36",
+      sections: "24",
     },
     { id: 4, title: "DETAILS OF SPECIAL EDUCATOR", count: "01" },
     { id: 5, title: "DETAILS OF COUNSELLOR AND WELLNESS TEACHER", count: "01" },
