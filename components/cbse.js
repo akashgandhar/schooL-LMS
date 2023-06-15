@@ -396,9 +396,9 @@ export default function Cbse() {
                 <h1 className="  my-2 font-semibold " key={index}>
                   {e.id}. {e.title} : {e.count}
                 </h1>
-                {e.teachers.map((t) => {
+                {e.teachers.map((t,index) => {
                   return (
-                    <h2 className="my-1 mx-5 font-semibold">
+                    <h2 key={index} className="my-1 mx-5 font-semibold">
                       &bull; {t.category} : {t.count}
                     </h2>
                   );
