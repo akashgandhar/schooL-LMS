@@ -197,12 +197,12 @@ export default function Cbse() {
   ];
 
   const infrastructure = [
-    { id: 1, title: 'TOTAL CAMPUS AREA OF THE SCHOOL (IN SQUARE METRE)', value: '4.5 Acre' },
-    { id: 2, title: 'NO AND SIZE OF THE CLASSROOMS (IN SQUARE METRE)', value: '50 Rooms-43 m2  and 14 Rooms-30 m2' },
-    { id: 3, title: 'NO AND SIZE OF LABORATORY IS INCLUDING COMPUTER LAB (IN SQUARE METRE)', value: '4 Labs-77 m2 and 2 computer labs-50 m2' },
+    { id: 1, title: 'TOTAL CAMPUS AREA OF THE SCHOOL (IN SQUARE METRE)', value: '2.5 Acre' },
+    { id: 2, title: 'NO AND SIZE OF THE CLASSROOMS (IN SQUARE METRE)', value: '24 Rooms-46 m2  and 06 Rooms-36 m2' },
+    { id: 3, title: 'NO AND SIZE OF LABORATORY IS INCLUDING COMPUTER LAB (IN SQUARE METRE)', value: '3 Labs-56 m2 and 1 computer labs-56 m2' },
     { id: 4, title: 'INTERNET FACILITY (Y/N)', value: 'Yes' },
-    { id: 5, title: 'NUMBER OF GIRLS TOILETS', value: 'Toilets – 22 ; Urinals- 27' },
-    { id: 6, title: 'NUMBER OF BOYS TOILETS', value: 'Toilets – 15 ; Urinals-23' },
+    { id: 5, title: 'NUMBER OF GIRLS TOILETS', value: 'Toilets – 12 ; Urinals- 20' },
+    { id: 6, title: 'NUMBER OF BOYS TOILETS', value: 'Toilets – 15 ; Urinals-24' },
     { id: 7, title: 'LINK OF YOUTUBE VIDEOS OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL', value: 'Add link here' }
   ];
   
