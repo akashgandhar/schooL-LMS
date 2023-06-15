@@ -177,7 +177,11 @@ export default function Main() {
                       <h1 className="font-bold">Calender</h1>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center w-fit">
+                  <Link
+                    
+                    href="/cbse"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
                     <div>
                       <img
                         width={100}
@@ -188,7 +192,7 @@ export default function Main() {
                     <div>
                       <h1 className="font-bold">CBSE Disclosure</h1>
                     </div>
-                  </div>
+                  </Link>
                 </div>
                 <div className="flex my-10 justify-evenly items-center w-full border-2 ">
                   <table className="w-full text-center">

@@ -18,44 +18,54 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../../components/context/userContext";
+import { async } from "@firebase/util";
+import { Input } from "postcss";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-
-export default function Update() {
+export default function NewStudent() {
   const router = useRouter();
   const s = router.query;
   const [sr, setSr] = useState(s.Sr_Number);
-  const [id, setId] = useState(s.ID);
   const [name, setName] = useState(s.name);
   const [fName, setFName] = useState(s.Father_Name);
   const [mName, setMName] = useState(s.Mother_Name);
-  const [dob, setDob] = useState(s.Date_Of_Birth);
-
+  const [id, setId] = useState(s.ID);
   const [mobile, setMobile] = useState(s.Mobile_Number);
   const [fmobile, setFMobile] = useState(s.Father_Mobile_Number);
   const [age, setAge] = useState(s.Age);
   const [address, setAddress] = useState(s.Address);
+  const [ward, setWard] = useState(s.Third_Ward);
+  const [wardTemp, setWardTemp] = useState(s.Third_Ward);
+  const [addSub, setAddSub] = useState(s.Additional_Subject);
   const [className, setClassName] = useState(s.Class);
+  const [classNameTemp, setClassNameTemp] = useState(s.Class);
   const [sectionName, setSectionName] = useState(s.Section);
   const [transportStatus, setTransportStatus] = useState(s.Transport_Status);
+  const [transportStatusTemp, setTransportStatusTemp] = useState(
+    s.Transport_Status
+  );
   const [busStopName, setBusStopName] = useState(s.BusStop_Name);
-  // const [busNumber, setBusNumber] = useState(s."NaN");
+  // const [busNumber, setBusNumber] = useState("NaN");
   const [category, setCategory] = useState(s.Category);
   const [caste, setCaste] = useState(s.Caste);
+  const [religion, setReligion] = useState(s.Religion);
   const [place, setPlace] = useState(s.Place);
   const [city, setCity] = useState(s.City);
-  const [pincode, setPincode] = useState(s.PinCode);
+  const [pincode, setPincode] = useState(s.Pincode);
   const [gender, setGender] = useState(s.Gender);
   const [lSchool, setLSchool] = useState(s.Last_School);
   const [lSchoolAdd, setLSchoolAdd] = useState(s.Last_School_Address);
   const [lSchoolBoard, setLSchoolBoard] = useState(s.Last_School_Board);
   const [lSchoolResult, setLSchoolResult] = useState(s.Last_School_Result);
-  const [tcStatus, setTcStatus] = useState(s.Tc_Available);
+  const [tcStatus, setTcStatus] = useState(s.TC_Status);
   const [rteStatus, setRteStatus] = useState(s.RTE_Status);
-
-  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available);
+  const [rteStatusTemp, setRteStatusTemp] = useState(s.RTE_Status);
+  const [admissionDay, setAdmissionDay] = useState("");
+  const [admissionMonth, setAdmissionMonth] = useState("");
+  const [admissionYear, setAdmissionYear] = useState("");
+  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Status);
   const [house, setHouse] = useState(s.House);
 
   const [tcFile, setTcFile] = useState("nil");
@@ -63,7 +73,6 @@ export default function Update() {
   const [image, setImage] = useState("nil");
 
   const [imgUrl, setImgUrl] = useState(s.Image);
-
   const [tcUrl, setTcUrl] = useState("nil");
   const [aadharUrl, setAadharUrl] = useState(s.Aadhar);
 
@@ -75,11 +84,6 @@ export default function Update() {
   const [classFee, setClassFee] = useState();
   const [transportFee, setTransportFee] = useState(0);
 
-  // const dd = new Date(dob)
-
-
-  
-
   const a = useContext(UserContext);
 
   const current = new Date();
@@ -87,14 +91,16 @@ export default function Update() {
     current.getTime()
   );
 
-
-  // const d = new Intl.DateTimeFormat("en-IN", { dateStyle: "long" }).format(
-  //   current
-  // );
-
-  // const [daate, setDaate] = useState(s.Adm_Date);
+  const d = `${current.getDate()}-${
+    current.getMonth() + 1
+  }-${current.getFullYear()}`;
 
   const [date, setDate] = useState(s.Admission_Date);
+  const [dob, setDob] = useState(s.Date_Of_Birth);
+
+  useEffect(() => {
+    GetSectionList();
+  }, [className]);
 
   const months = [
     "April",
@@ -111,76 +117,103 @@ export default function Update() {
     "March",
   ];
 
-
-  
-
-  useEffect(() => {
-    GetHouseList();
-    GetStopList();
-    
-  }, []);
-
-  const createDues = async () => {
-    var total = 0;
-    if (transportStatus === "No") {
-      months.forEach(async (e, index) => {
-        if (index + 1 >= current.getMonth()) {
-          try {
-            const docRef = doc(
-              db,
-              `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
-              sr
-            );
-            await updateDoc(docRef, {
-              name: name,
-              class: className,
-              section: sectionName,
-              father_name: fName,
-              Place: place,
-              Mobile: mobile,
-              transport_due: 0,
-            });
-          } catch { }
-        } else {
-
-          try {
-            const docRef = doc(
-              db,
-              `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
-              sr
-            );
-            await updateDoc(docRef, {
-              name: name,
-              class: className,
-              section: sectionName,
-              father_name: fName,
-              Place: place,
-              Mobile: mobile,
-            });
-          } catch { }
-        }
-      });
+  const CalculatTransport = (month, fee, n) => {
+    if (month == "April" || month == "May") {
+      return fee * n;
+    } else if (month == "June") {
+      return fee * 2;
     } else {
-      months.map(async (e) => {
-        try {
-          const docRef = doc(
-            db,
-            `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
-            sr
-          );
-          await updateDoc(docRef, {
-            name: name,
-            class: className,
-            section: sectionName,
-            father_name: fName,
-            Place: place,
-            Mobile: mobile,
-          });
-        } catch { }
-      });
+      return fee * (n - 1);
     }
   };
 
+  const createDues = async () => {
+    console.log(transportFee);
+    var total = 0;
+    months.forEach(async (e) => {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
+          sr
+        );
+        await setDoc(docRef, {
+          month: e,
+          month_Due:
+            rteStatus === "Yes" || ward === "Yes"
+              ? 0
+              : classFee * (months.indexOf(e) + 1),
+          transport_due: CalculatTransport(
+            e,
+            transportFee,
+            months.indexOf(e) + 1
+          ),
+          name: name,
+          class: className,
+          section: sectionName,
+          father_name: fName,
+          Place: place,
+          Mobile: mobile,
+          Sr_Number: sr,
+          total:
+            rteStatus === "Yes" || ward === "Yes"
+              ? 0
+              : classFee * (months.indexOf(e) + 1) +
+                CalculatTransport(e, transportFee, months.indexOf(e) + 1),
+        }).then(async () => {
+          const dueRef = doc(
+            db,
+            `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/`,
+            e
+          );
+          const Snap = await getDoc(dueRef);
+
+          if (Snap.exists()) {
+            await updateDoc(dueRef, {
+              total_Due:
+                Snap.data().total_Due +
+                (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
+                (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
+            });
+          } else {
+            await setDoc(dueRef, {
+              total_Due:
+                (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
+                (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
+            });
+          }
+        });
+      } catch(e) {alert(e.message)}
+    });
+  };
+  const createAccount = async () => {
+    const docRef = doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/studentsAccount`,
+      sr
+    );
+    await setDoc(docRef, {
+      Anual_Fee: 5000,
+      Class_Fee: classFee,
+      transportfees: transportFee,
+    });
+  };
+
+  const GetClassFee = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes`,
+        className
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists) {
+        setClassFee(docSnap.data().Class_Fee);
+      }
+    } catch {
+      alert("class value missing");
+    }
+  };
   const GetTransportFee = async () => {
     if (transportStatus === "Yes") {
       try {
@@ -194,7 +227,43 @@ export default function Update() {
           setTransportFee(docSnap.data().Stop_Fee);
           console.log(transportFee);
         }
-      } catch { }
+      } catch (e) {
+        alert("plese Select bus stop first");
+      }
+    }
+  };
+
+  const GetClassList = async () => {
+    const docRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes`
+    );
+    const docSnap = await getDocs(docRef);
+    var list = [];
+    docSnap.forEach((doc) => {
+      list.push(doc.data());
+    });
+    setClassList(list);
+  };
+
+  const GetSectionList = async () => {
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setSectionList(list);
+    } catch {
+      (e) => {
+        if (!className) {
+          alert("select class first");
+        }
+      };
     }
   };
 
@@ -312,124 +381,225 @@ export default function Update() {
 
   const submitForm = async () => {
     if (
-      !sr ||
-      !name ||
-      !fName ||
-      !mName ||
-      !dob ||
-      !mobile ||
-      !fmobile ||
-      !age ||
-      !address ||
-      !transportStatus ||
-      !busStopName ||
-      !category ||
-      !caste ||
-      !place ||
-      !city ||
-      !pincode ||
-      !gender ||
-      !lSchool ||
-      !lSchoolAdd ||
-      !lSchoolBoard ||
-      !lSchoolResult ||
-      !tcStatus ||
-      !aadharStatus ||
-      !className ||
-      !sectionName ||
-      !house
+      (!sr ||
+        !name ||
+        !fName ||
+        !mName ||
+        !dob ||
+        !mobile ||
+        !fmobile ||
+        !age ||
+        !address ||
+        !ward ||
+        !transportStatus ||
+        !busStopName ||
+        !category ||
+        !caste ||
+        !place ||
+        !city ||
+        !pincode ||
+        !gender ||
+        !lSchool ||
+        !lSchoolAdd ||
+        !lSchoolBoard ||
+        !lSchoolResult ||
+        !tcStatus ||
+        !aadharStatus ||
+        !className ||
+        !sectionName ||
+        !house ||
+        !addSub ||
+        !religion,
+      !id)
     ) {
       alert("some information is missing");
     } else {
+      var oldSr = [];
       try {
-        await updateDoc(
-          doc(
-            db,
-            `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`,
-            sr
-          ),
-          {
-            name: name,
-            Father_Name: fName,
-            Mother_Name: mName,
-            Date_Of_Birth: dob,
-            Mobile_Number: mobile,
-            Father_Mobile_Number: fmobile,
-            Age: age,
-            Address: address,
-            Transport_Status: transportStatus,
-            BusStop_Name: busStopName,
-            Category: category,
-            Caste: caste,
-            Place: place,
-            City: city,
-            PinCode: pincode,
-            Gender: gender,
-            Last_School: lSchool,
-            Last_School_Address: lSchoolAdd,
-            Last_School_Board: lSchoolBoard,
-            Last_School_Result: lSchoolResult,
-            RTE_Status: rteStatus,
-            Update_Date: Timestamp.now(),
-            Tc_Available: tcStatus,
-            Aadhar_Available: aadharStatus,
-            House: house,
-            Image: imgUrl,
-            Admission_Date: date,
-            TC: tcUrl,
-            Aadhar: aadharUrl,
-            Updated: Timestamp.now(),
-            Transport_Fee: transportFee,
-          }
-        )
-          .then(() => {
-            createDues();
-          })
-          .then(async () => {
-            await updateDoc(
-              doc(db, `users/${a.user}/sessions/${a.session}/AllStudents`, sr),
-              {
-                name: name,
-                Father_Name: fName,
-                Mother_Name: mName,
-                Date_Of_Birth: dob,
-                Mobile_Number: mobile,
-                Father_Mobile_Number: fmobile,
-                Age: age,
-                Address: address,
-                Transport_Status: transportStatus,
-                BusStop_Name: busStopName,
-                Category: category,
-                Caste: caste,
-                Place: place,
-                City: city,
-                PinCode: pincode,
-                Gender: gender,
-                Last_School: lSchool,
-                Last_School_Address: lSchoolAdd,
-                Last_School_Board: lSchoolBoard,
-                Last_School_Result: lSchoolResult,
-                Admission_Date: date,
-                RTE_Status: rteStatus,
-                Update_Date: Timestamp.now(),
-                Tc_Available: tcStatus,
-                Aadhar_Available: aadharStatus,
-                House: house,
-                Image: imgUrl,
-                TC: tcUrl,
-                Aadhar: aadharUrl,
-                Updated: Timestamp.now(),
-                Transport_Fee: transportFee,
-              }
-            );
-          })
-          .then(() => {
-            alert("student Updated successfully");
-            // router.reload();
+        if (className != classNameTemp) {
+          await updateDoc(
+            doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
+              sr
+            ),
+            {
+              Deleted: true,
+            }
+          );
+
+          months.forEach(async (e) => {
+            try {
+              const docRef = doc(
+                db,
+                `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/due/${e}/students`,
+                sr
+              );
+              await updateDoc(docRef, {
+                Deleted: true,
+              });
+            } catch (e) {
+              alert(e.message);
+            }
           });
-      } catch (e) {
-        alert(e.message);
-      }
+        }
+
+        console.log(1);
+
+        try {
+          console.log(className,classNameTemp);
+          
+          await setDoc(
+            doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`,
+              sr
+            ),
+            {
+              Sr_Number: sr,
+              ID: id,
+              Class: className,
+              Section: sectionName,
+              name: name,
+              Father_Name: fName,
+              Mother_Name: mName,
+              Religion: religion,
+              Date_Of_Birth: dob,
+              Mobile_Number: mobile,
+              Father_Mobile_Number: fmobile,
+              Age: age,
+              Address: address,
+              Transport_Status: transportStatus,
+              BusStop_Name: busStopName,
+              Category: category,
+              Caste: caste,
+              Third_Ward: ward,
+              Place: place,
+              City: city,
+              Additional_Subject: addSub,
+              PinCode: pincode,
+              Gender: gender,
+              Last_School: lSchool,
+              Last_School_Address: lSchoolAdd,
+              Last_School_Board: lSchoolBoard,
+              Last_School_Result: lSchoolResult,
+              RTE_Status: rteStatus,
+              Admission_Date: date,
+              Tc_Available: tcStatus,
+              Aadhar_Available: aadharStatus,
+              House: house,
+              Image: imgUrl,
+              TC: tcUrl,
+              Aadhar: aadharUrl,
+              created: Timestamp.now(),
+              Fees: classFee,
+              Transport_Fee: transportFee,
+            }
+          )
+            .then(async () => {
+              console.log(2);
+              const sessionRef = doc(
+                db,
+                `users/${a.user}/sessions/${a.session}/classes/${className}/sections/`,
+                sectionName
+              );
+              const classRef = doc(
+                db,
+                `users/${a.user}/sessions/${a.session}/classes/`,
+                className
+              );
+
+              const sesSnap = await getDoc(sessionRef);
+              const classSnap = await getDoc(classRef);
+
+              if (sesSnap.exists() && classSnap.exists()) {
+                await updateDoc(classRef, {
+                  Strength: classSnap.data().Strength + 1,
+                });
+                await updateDoc(sessionRef, {
+                  Strength: sesSnap.data().Strength + 1,
+                });
+              } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+              }
+            })
+            .then(() => {
+              if (
+                ward != wardTemp ||
+                rteStatus != rteStatusTemp ||
+                className != classNameTemp ||
+                transportStatus != transportStatusTemp
+              ) {
+                createAccount();
+              }
+            })
+            .then(() => {
+              if (
+                ward != wardTemp ||
+                rteStatus != rteStatusTemp ||
+                className != classNameTemp ||
+                transportStatus != transportStatusTemp
+              ) {
+                createDues();
+              }
+            })
+            .then(async () => {
+              await setDoc(
+                doc(
+                  db,
+                  `users/${a.user}/sessions/${a.session}/AllStudents`,
+                  sr
+                ),
+                {
+                  Sr_Number: sr,
+                  ID: id,
+                  Class: className,
+                  Section: sectionName,
+                  name: name,
+                  Father_Name: fName,
+                  Mother_Name: mName,
+                  Date_Of_Birth: dob,
+                  Mobile_Number: mobile,
+                  Father_Mobile_Number: fmobile,
+                  Religion: religion,
+                  Age: age,
+                  Third_Ward: ward,
+                  Additional_Subject: addSub,
+                  Address: address,
+                  Transport_Status: transportStatus,
+                  BusStop_Name: busStopName,
+                  Category: category,
+                  Caste: caste,
+                  Place: place,
+                  City: city,
+                  PinCode: pincode,
+                  Gender: gender,
+                  Last_School: lSchool,
+                  Last_School_Address: lSchoolAdd,
+                  Last_School_Board: lSchoolBoard,
+                  Last_School_Result: lSchoolResult,
+                  RTE_Status: rteStatus,
+                  Admission_Date: date,
+                  Tc_Available: tcStatus,
+                  Aadhar_Available: aadharStatus,
+                  House: house,
+                  Image: imgUrl,
+                  TC: tcUrl,
+                  Aadhar: aadharUrl,
+                  created: Timestamp.now(),
+                  fees: classFee,
+                }
+              );
+            })
+            .then(() => {
+              alert("student regestered successfully");
+              router.reload();
+            });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      } catch(e) {alert(e.message)}
     }
   };
 
@@ -437,10 +607,10 @@ export default function Update() {
     <div className="h-auto">
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen  bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen   py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">
-                Update Student Details
+                New Student Details
               </h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <section class="flex items-center justify-center max-w-fit mx-auto pb-10">
@@ -472,32 +642,36 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
                     >
-                      Student Id*
+                      Student ID *
                     </label>
-                    <div
+                    <input
+                      value={sr}
+                      onChange={(e) => {
+                        setSr(e.target.value);
+                      }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
                       placeholder="1111"
-                    >
-                      {sr}
-                    </div>
+                    />
                   </div>
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div class="md:w-1/2 px-3">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="company"
+                      for="title"
                     >
                       Student Sr*
                     </label>
-                    <div
+                    <input
+                      value={id}
+                      onChange={(e) => {
+                        setId(e.target.value);
+                      }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="company"
+                      id="title"
                       type="text"
-                      placeholder="1111"
-                    >
-                      {id}
-                    </div>
+                      placeholder="student sr"
+                    />
                   </div>
                   <div class="md:w-1/2 px-3">
                     <label
@@ -507,13 +681,13 @@ export default function Update() {
                       Student Name
                     </label>
                     <input
+                      value={name}
                       onChange={(e) => {
                         setName(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      value={name}
                       placeholder="student name"
                     />
                   </div>
@@ -527,14 +701,14 @@ export default function Update() {
                       Student Father's Name
                     </label>
                     <input
+                      value={fName}
                       onChange={(e) => {
                         setFName(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      value={fName}
-                      placeholder="father's "
+                      placeholder="father's Name"
                     />
                   </div>
                   <div class="md:w-1/2 px-3">
@@ -545,13 +719,13 @@ export default function Update() {
                       Student Mother's Name
                     </label>
                     <input
+                      value={mName}
                       onChange={(e) => {
                         setMName(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      value={mName}
                       placeholder="mother's Name"
                     />
                   </div>
@@ -564,16 +738,15 @@ export default function Update() {
                     >
                       Student Date Of Birth
                     </label>
-
                     <input
+                      value={dob}
                       onChange={(e) => {
                         setDob(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="company"
+                      id="title"
                       type="text"
-                      value={dob}
-                      placeholder="DD/MM/YYYY"
+                      placeholder="Whatsapp Number"
                     />
                   </div>
                   <div class="md:w-1/2 px-3">
@@ -584,13 +757,13 @@ export default function Update() {
                       Student's Mobile Number
                     </label>
                     <input
+                      value={mobile}
                       onChange={(e) => {
                         setMobile(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      value={mobile}
                       placeholder="Whatsapp Number"
                     />
                   </div>
@@ -604,14 +777,14 @@ export default function Update() {
                       Father's Mobile Number
                     </label>
                     <input
+                      value={fmobile}
                       onChange={(e) => {
                         setFMobile(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      value={fmobile}
-                      placeholder="DD/MM/YYYY"
+                      placeholder="Father's Number For Message"
                     />
                   </div>
                   <div class="md:w-1/2 px-3">
@@ -619,38 +792,17 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="title"
                     >
-                      Student's Age
+                      Student's Age on 31-March-{current.getFullYear()}
                     </label>
                     <input
+                      value={age}
                       onChange={(e) => {
                         setAge(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      value={age}
-                      placeholder="Whatsapp Number"
-                    />
-                  </div>
-                </div>
-
-                <div class="-mx-3 md:flex mb-6">
-                  <div class="md:w-full px-3">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="application-link"
-                    >
-                      Address
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        setAddress(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="application-link"
-                      type="text"
-                      value={address}
-                      placeholder="address"
+                      placeholder="Age"
                     />
                   </div>
                 </div>
@@ -664,12 +816,22 @@ export default function Update() {
                       Class*
                     </label>
                     <div>
-                      <div
+                      <select
+                        value={className}
+                        onClick={() => {
+                          GetClassList();
+                        }}
+                        onChange={(e) => {
+                          setClassName(e.target.value);
+                        }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        {className}
-                      </div>
+                        <option>{className}</option>
+                        {classList.map((e, index) => {
+                          return <option key={index}>{e.Name}</option>;
+                        })}
+                      </select>
                     </div>
                   </div>
 
@@ -681,12 +843,22 @@ export default function Update() {
                       Section
                     </label>
                     <div>
-                      <div
+                      <select
+                        value={sectionName}
+                        onClick={() => {
+                          GetClassFee();
+                        }}
+                        onChange={(e) => {
+                          setSectionName(e.target.value);
+                        }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
                       >
-                        {sectionName}
-                      </div>
+                        <option>{sectionName}</option>
+                        {sectionList.map((e, index) => {
+                          return <option key={index}>{e.Name}</option>;
+                        })}
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -700,12 +872,13 @@ export default function Update() {
                     </label>
                     <div>
                       <select
+                        value={transportStatus}
                         onChange={(e) => {
                           setTransportStatus(e.target.value);
+                          GetStopList();
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
-                        value={transportStatus}
                       >
                         <option>Please Select</option>
                         <option>Yes</option>
@@ -722,19 +895,16 @@ export default function Update() {
                       Bus Stop Name
                     </label>
                     <div>
-                      {transportStatus === "Yes" && (
+                      {transportStatus == "Yes" && (
                         <select
-                          onClick={() => {
-                            GetTransportFee();
-                          }}
+                          value={busStopName}
                           onChange={(e) => {
                             setBusStopName(e.target.value);
                           }}
                           class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                           id="department"
-                          value={busStopName}
                         >
-                          <option>Please Select</option>
+                          <option>{busStopName}</option>
                           {stopList.map((e, index) => {
                             return <option key={index}>{e.Stop_Name}</option>;
                           })}
@@ -751,14 +921,18 @@ export default function Update() {
                     </label>
                     <div>
                       <select
+                        value={house}
+                        onClick={() => {
+                          GetHouseList();
+                          GetTransportFee();
+                        }}
                         onChange={(e) => {
                           setHouse(e.target.value);
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
-                        value={house}
                       >
-                        <option>Please Select</option>
+                        <option>{house}</option>
                         {houseList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
@@ -773,17 +947,35 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="application-link"
                     >
+                      Religion
+                    </label>
+                    <input
+                      value={religion}
+                      onChange={(e) => {
+                        setReligion(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="application-link"
+                      type="text"
+                      placeholder="Religion"
+                    />
+                  </div>
+                  <div class="md:w-full px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="application-link"
+                    >
                       Category
                     </label>
                     <input
+                      value={category}
                       onChange={(e) => {
                         setCategory(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={category}
-                      placeholder="Priorities etc"
+                      placeholder="Category"
                     />
                   </div>
                   <div class="md:w-full px-3">
@@ -794,15 +986,61 @@ export default function Update() {
                       Caste
                     </label>
                     <input
+                      value={caste}
                       onChange={(e) => {
                         setCaste(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={caste}
-                      placeholder="Priorities etc"
+                      placeholder="Caste"
                     />
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                  <div class="md:w-full px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="application-link"
+                    >
+                      Additional SUBJECT
+                    </label>
+                    <select
+                      value={addSub}
+                      onChange={(e) => {
+                        setAddSub(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="application-link"
+                      type="text"
+                      placeholder="address"
+                    >
+                      <option>Please Select</option>
+                      <option>Compter </option>
+                      <option>Physical Education</option>
+                    </select>
+                  </div>
+                  <div class="md:w-full px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="application-link"
+                    >
+                      Third Ward
+                    </label>
+                    <select
+                      value={ward}
+                      onChange={(e) => {
+                        setWard(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="application-link"
+                      type="text"
+                      placeholder="address"
+                    >
+                      <option>Please Select</option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
                   </div>
                 </div>
                 <div class="-mx-3 md:flex mb-6">
@@ -814,14 +1052,34 @@ export default function Update() {
                       Village / Town
                     </label>
                     <input
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="application-link"
+                      type="text"
+                      placeholder="Village / Town"
+                    />
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                  <div class="md:w-full px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="application-link"
+                    >
+                      Post
+                    </label>
+                    <input
+                      value={place}
                       onChange={(e) => {
                         setPlace(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={place}
-                      placeholder="Priorities etc"
+                      placeholder="Post"
                     />
                   </div>
                   <div class="md:w-full px-3">
@@ -829,17 +1087,17 @@ export default function Update() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="application-link"
                     >
-                      City
+                      District
                     </label>
                     <input
+                      value={city}
                       onChange={(e) => {
                         setCity(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={city}
-                      placeholder="Priorities etc"
+                      placeholder="District"
                     />
                   </div>
                 </div>
@@ -852,14 +1110,14 @@ export default function Update() {
                       Pin-Code
                     </label>
                     <input
+                      value={pincode}
                       onChange={(e) => {
                         setPincode(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={pincode}
-                      placeholder="Priorities etc"
+                      placeholder="Pin-Code"
                     />
                   </div>
 
@@ -872,12 +1130,12 @@ export default function Update() {
                     </label>
                     <div>
                       <select
+                        value={gender}
                         onChange={(e) => {
                           setGender(e.target.value);
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
-                        value={gender}
                       >
                         <option>Please Select</option>
                         <option>Male</option>
@@ -895,14 +1153,14 @@ export default function Update() {
                       Last School
                     </label>
                     <input
+                      value={lSchool}
                       onChange={(e) => {
                         setLSchool(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={lSchool}
-                      placeholder="Priorities etc"
+                      placeholder="Last School"
                     />
                   </div>
                   <div class="md:w-full px-3">
@@ -913,14 +1171,14 @@ export default function Update() {
                       Last School Address
                     </label>
                     <input
+                      value={lSchoolAdd}
                       onChange={(e) => {
                         setLSchoolAdd(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={lSchoolAdd}
-                      placeholder="Priorities etc"
+                      placeholder="Last School Address"
                     />
                   </div>
                 </div>
@@ -933,14 +1191,14 @@ export default function Update() {
                       Last School Board
                     </label>
                     <input
+                      value={lSchoolBoard}
                       onChange={(e) => {
                         setLSchoolBoard(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={lSchoolBoard}
-                      placeholder="Priorities etc"
+                      placeholder="Last School Board"
                     />
                   </div>
                   <div class="md:w-full px-3">
@@ -951,13 +1209,13 @@ export default function Update() {
                       Last School Result
                     </label>
                     <input
+                      value={lSchoolResult}
                       onChange={(e) => {
                         setLSchoolResult(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
                       type="text"
-                      value={lSchoolResult}
                       placeholder="Pass / Fail"
                     />
                   </div>
@@ -973,12 +1231,12 @@ export default function Update() {
                     </label>
                     <div>
                       <select
+                        value={tcStatus}
                         onChange={(e) => {
                           setTcStatus(e.target.value);
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
-                        value={tcStatus}
                       >
                         <option>Please Select</option>
                         <option>Yes</option>
@@ -995,12 +1253,18 @@ export default function Update() {
                       RTE Status
                     </label>
                     <div>
-                      <div
+                      <select
+                        value={rteStatus}
+                        onChange={(e) => {
+                          setRteStatus(e.target.value);
+                        }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
                       >
-                        {rteStatus}
-                      </div>
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
                     </div>
                   </div>
                   <div class="md:w-1/2 px-3">
@@ -1011,16 +1275,12 @@ export default function Update() {
                       Admission Date
                     </label>
                     <div>
-                    <input
-                      onChange={(e) => {
-                        setDate(e.target.value);
-                      }}
-                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                      id="company"
-                      type="date"
-                      value={date}
-                      placeholder="DD/MM/YYYY"
-                    />
+                      <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                        <DatePicker
+                          selected={date}
+                          onChange={(e) => setDate(e)}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1034,7 +1294,7 @@ export default function Update() {
                       Upload TC*
                     </label>
                     <div>
-                      {tcStatus === "Yes" && (
+                      {tcStatus == "Yes" && (
                         <>
                           <input
                             onChange={(e) => {
@@ -1065,12 +1325,12 @@ export default function Update() {
                     </label>
                     <div>
                       <select
+                        value={aadharStatus}
                         onChange={(e) => {
                           setAadharStatus(e.target.value);
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="job-type"
-                        value={aadharStatus}
                       >
                         <option>Please Select</option>
                         <option>Yes</option>
@@ -1086,17 +1346,19 @@ export default function Update() {
                       Aadhar Number*
                     </label>
                     <div>
-                      
+                      {aadharStatus == "Yes" && (
+                        <>
                           <input
+                            value={aadharUrl}
                             onChange={(e) => {
                               setAadharUrl(e.target.value);
                             }}
                             type="text"
                             class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                             id="location"
-                            value={aadharUrl}
                           />
-                        
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1113,7 +1375,7 @@ export default function Update() {
                         }}
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full  border border-gray-200  text-sm  pr-8 mb-3 hover:scale-105"
                       >
-                        Update
+                        Submit
                       </button>
                     </div>
                   </div>
@@ -1130,6 +1392,6 @@ export default function Update() {
 
 {
   /* <div class="-mx-3 md:flex mt-2">
-                  
-                </div> */
+                
+              </div> */
 }
