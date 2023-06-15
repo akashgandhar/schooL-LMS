@@ -1,9 +1,10 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { Input } from "postcss";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../../components/context/userContext";
 import { db } from "../../../firebase";
 import { async } from "@firebase/util";
+import { useReactToPrint } from "react-to-print";
 
 export default function ViewDue() {
   const months = [
@@ -91,7 +92,13 @@ export default function ViewDue() {
     }
   };
 
+  const componentRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  })
+
   var total = 0;
+  
 
   return (
     <>
@@ -176,7 +183,7 @@ export default function ViewDue() {
                 </div>
               </div>
             </div>
-            <div className="text-center">
+            <div ref={componentRef} className="text-center">
               <table class="min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
@@ -290,6 +297,10 @@ export default function ViewDue() {
                   </tr>
                 </tbody>
               </table>
+              <div className='flex justify-center items-center p-2'>
+
+              <button className='text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' onClick={handlePrint}>print</button>
+              </div>
             </div>
           </div>
         </div>
