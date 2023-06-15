@@ -240,7 +240,7 @@ export default function Cbse() {
           return (
             <h1
               className="flex justify-between text-justify my-4 font-semibold "
-              id={index}
+              key={index}
             >
               {e.id}. {e.title} : <span className="text-left">{e.result}</span>
             </h1>
@@ -256,7 +256,7 @@ export default function Cbse() {
         </h1>
         {documents.map((e, index) => {
           return (
-            <h1 className="  my-4 font-semibold " id={index}>
+            <h1 className="  my-4 font-semibold " key={index}>
               {e.id}. {e.title} (
               {
                 <spam className="text-red-600 underline">
@@ -278,7 +278,7 @@ export default function Cbse() {
         </h1>
         {academics.map((e, index) => {
           return (
-            <h1 className="  my-4 font-semibold " id={index}>
+            <h1 className="  my-4 font-semibold " key={index}>
               {e.id}. {e.title} (
               {
                 <spam className="text-red-600 underline">
@@ -393,7 +393,7 @@ export default function Cbse() {
           if (e.id == 2) {
             return (
               <>
-                <h1 className="  my-2 font-semibold " id={index}>
+                <h1 className="  my-2 font-semibold " key={index}>
                   {e.id}. {e.title} : {e.count}
                 </h1>
                 {e.teachers.map((t) => {
@@ -408,7 +408,7 @@ export default function Cbse() {
           } else if (e.id == 3) {
             return (
               <>
-                <h1 className="  my-2 font-semibold " id={index}>
+                <h1 className="  my-2 font-semibold " key={index}>
                   {e.id}. {e.title} : {e.ratio} (No. of Teachers : {e.teachers},
                   No. of Sections : {e.sections})
                 </h1>
@@ -416,7 +416,7 @@ export default function Cbse() {
             );
           } else {
             return (
-              <h1 className="  my-4 font-semibold " id={index}>
+              <h1 className="  my-4 font-semibold " key={index}>
                 {e.id}. {e.title} : {e.count}
               </h1>
             );
@@ -435,7 +435,7 @@ export default function Cbse() {
           return (
             <h1
               className="flex justify-between text-justify my-4 font-semibold "
-              id={index}
+              key={index}
             >
               {e.id}. {e.title} : <span className="text-left">{e.value}</span>
             </h1>
