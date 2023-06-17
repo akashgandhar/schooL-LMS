@@ -53,19 +53,19 @@ export default function NewStudent() {
   const [religion, setReligion] = useState(s.Religion);
   const [place, setPlace] = useState(s.Place);
   const [city, setCity] = useState(s.City);
-  const [pincode, setPincode] = useState(s.Pincode);
+  const [pincode, setPincode] = useState(s.PinCode);
   const [gender, setGender] = useState(s.Gender);
   const [lSchool, setLSchool] = useState(s.Last_School);
   const [lSchoolAdd, setLSchoolAdd] = useState(s.Last_School_Address);
   const [lSchoolBoard, setLSchoolBoard] = useState(s.Last_School_Board);
   const [lSchoolResult, setLSchoolResult] = useState(s.Last_School_Result);
-  const [tcStatus, setTcStatus] = useState(s.TC_Status);
+  const [tcStatus, setTcStatus] = useState(s.Tc_Available);
   const [rteStatus, setRteStatus] = useState(s.RTE_Status);
   const [rteStatusTemp, setRteStatusTemp] = useState(s.RTE_Status);
   const [admissionDay, setAdmissionDay] = useState("");
   const [admissionMonth, setAdmissionMonth] = useState("");
   const [admissionYear, setAdmissionYear] = useState("");
-  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Status);
+  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available);
   const [house, setHouse] = useState(s.House);
 
   const [tcFile, setTcFile] = useState("nil");
@@ -99,8 +99,10 @@ export default function NewStudent() {
   const [dob, setDob] = useState(s.Date_Of_Birth);
 
   useEffect(() => {
+    GetClassList();
     GetSectionList();
-  }, [className]);
+    GetClassFee();
+  }, [className, sectionName, classFee]);
 
   const months = [
     "April",
@@ -183,7 +185,9 @@ export default function NewStudent() {
             });
           }
         });
-      } catch(e) {alert(e.message)}
+      } catch (e) {
+        alert(e.message);
+      }
     });
   };
   const createAccount = async () => {
@@ -199,39 +203,55 @@ export default function NewStudent() {
     });
   };
 
+  const [count3, setCount3] = useState(0);
   const GetClassFee = async () => {
-    try {
-      const docRef = doc(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes`,
-        className
-      );
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists) {
-        setClassFee(docSnap.data().Class_Fee);
-      }
-    } catch {
-      alert("class value missing");
-    }
-  };
-  const GetTransportFee = async () => {
-    if (transportStatus === "Yes") {
+    if (count3 < 2) {
       try {
         const docRef = doc(
           db,
-          `users/${a.user}/sessions/${a.session}/stops`,
-          busStopName
+          `users/${a.user}/sessions/${a.session}/classes`,
+          className
         );
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
-          setTransportFee(docSnap.data().Stop_Fee);
-          console.log(transportFee);
+          setClassFee(docSnap.data().Class_Fee);
+          setCount3(count3 + 1);
         }
-      } catch (e) {
-        alert("plese Select bus stop first");
+      } catch {
+        alert("class value missing");
       }
     }
   };
+  const GetTransportFee = async () => {
+    if (count < 2) {
+      if (transportStatus === "Yes") {
+        try {
+          const docRef = doc(
+            db,
+            `users/${a.user}/sessions/${a.session}/stops`,
+            busStopName
+          );
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists) {
+            setTransportFee(docSnap.data().Stop_Fee);
+            console.log(transportFee);
+            setCount(count + 1);
+          }
+        } catch (e) {
+          alert("plese Select bus stop first");
+        }
+      }
+    }
+  };
+
+  const [count, setCount] = useState(0);
+  const [count1, setCount1] = useState(0);
+
+  useEffect(() => {
+    GetTransportFee();
+    GetHouseList();
+    GetStopList();
+  }, [transportFee, house]);
 
   const GetClassList = async () => {
     const docRef = collection(
@@ -268,29 +288,37 @@ export default function NewStudent() {
   };
 
   const GetHouseList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/houses`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setHouseList(list);
+    if (count1 < 2) {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/houses`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+        setCount1(count1 + 1);
+      });
+      setHouseList(list);
+    }
   };
 
+  const [count2, setCount2] = useState(0);
+
   const GetStopList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/stops`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setStopList(list);
+    if (count2 < 2) {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/stops`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+        setCount2(count2 + 1);
+      });
+      setStopList(list);
+    }
   };
 
   const handleUpload = (img) => {
@@ -447,8 +475,8 @@ export default function NewStudent() {
         console.log(1);
 
         try {
-          console.log(className,classNameTemp);
-          
+          console.log(className, classNameTemp);
+
           await setDoc(
             doc(
               db,
@@ -594,12 +622,14 @@ export default function NewStudent() {
             })
             .then(() => {
               alert("student regestered successfully");
-              router.reload();
+              // router.reload();
             });
         } catch (e) {
           console.error("Error adding document: ", e);
         }
-      } catch(e) {alert(e.message)}
+      } catch (e) {
+        alert(e.message);
+      }
     }
   };
 
@@ -818,16 +848,13 @@ export default function NewStudent() {
                     <div>
                       <select
                         value={className}
-                        onClick={() => {
-                          GetClassList();
-                        }}
                         onChange={(e) => {
                           setClassName(e.target.value);
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>{className}</option>
+                        <option>Please Select</option>
                         {classList.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
@@ -845,9 +872,6 @@ export default function NewStudent() {
                     <div>
                       <select
                         value={sectionName}
-                        onClick={() => {
-                          GetClassFee();
-                        }}
                         onChange={(e) => {
                           setSectionName(e.target.value);
                         }}
@@ -875,7 +899,6 @@ export default function NewStudent() {
                         value={transportStatus}
                         onChange={(e) => {
                           setTransportStatus(e.target.value);
-                          GetStopList();
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
@@ -922,10 +945,6 @@ export default function NewStudent() {
                     <div>
                       <select
                         value={house}
-                        onClick={() => {
-                          GetHouseList();
-                          GetTransportFee();
-                        }}
                         onChange={(e) => {
                           setHouse(e.target.value);
                         }}
@@ -1372,6 +1391,7 @@ export default function NewStudent() {
                       <button
                         onClick={() => {
                           submitForm();
+                          // console.log(gender);
                         }}
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full  border border-gray-200  text-sm  pr-8 mb-3 hover:scale-105"
                       >
