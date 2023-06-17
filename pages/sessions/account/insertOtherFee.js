@@ -100,12 +100,11 @@ export default function OldFee() {
   };
 
   const setDues = async (sr, name, fName, place, mobile) => {
-    
-      const docRef = doc(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
-        sr
-      );
+    const docRef = doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+      sr
+    );
     try {
       await setDoc(docRef, {
         name: name,
@@ -116,8 +115,8 @@ export default function OldFee() {
         Place: place,
         Mobile: mobile,
         Sr_Number: sr,
-        month_Due: amount,
-        total: amount,
+        month_Due: Number(amount),
+        total: Number(amount),
       }).then(() => {
         alert("saved");
       });
@@ -306,6 +305,7 @@ export default function OldFee() {
                             <button
                               id="svbtn"
                               onClick={() => {
+                                console.log(e.Sr_Number);
                                 setDues(
                                   e.Sr_Number,
                                   e.name,
