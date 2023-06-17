@@ -116,7 +116,7 @@ const accountTabs = [
   //   href: '/sessions/account/otherFee',
   // },
   {
-    name: 'Insert Other Fees',
+    name: 'Insert Third Ward Fees',
     href: '/sessions/account/insertOtherFee',
   },
 ]
