@@ -102,7 +102,7 @@ export default function OldFee() {
   const setDues = async (sr, name, fName, place, mobile) => {
     const docRef = doc(
       db,
-      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/${feeName}/${feeName}/students`,
+      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third ward Fee/Third ward Fee/students`,
       sr
     );
     try {
@@ -155,10 +155,10 @@ export default function OldFee() {
                       type="text"
                       placeholder="Netboard"
                     >
-                      <option>Plese Select</option>
-                      {otherFeeList.map((e, index) => {
+                      <option>Third ward Fee</option>
+                      {/* {otherFeeList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
-                      })}
+                      })} */}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
