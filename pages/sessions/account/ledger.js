@@ -397,7 +397,7 @@ export default function InsertMarks() {
                     // console.log();
 
                     total = total + e.Total_Paid;
-                    totalconcession = totalconcession + e.Concession;
+                    totalconcession = Number(totalconcession + Number(e.Concession));
 
                     return (
                       <tr
