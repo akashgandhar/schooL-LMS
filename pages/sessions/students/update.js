@@ -23,6 +23,7 @@ import { Input } from "postcss";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function NewStudent() {
   const router = useRouter();
@@ -103,6 +104,8 @@ export default function NewStudent() {
     GetSectionList();
     GetClassFee();
   }, [className, sectionName, classFee]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const months = [
     "April",
@@ -408,6 +411,7 @@ export default function NewStudent() {
   };
 
   const submitForm = async () => {
+    setIsLoading(true);
     if (
       (!sr ||
         !name ||
@@ -621,7 +625,7 @@ export default function NewStudent() {
               );
             })
             .then(() => {
-              alert("student regestered successfully");
+              alert("student Updated successfully");
               // router.reload();
             });
         } catch (e) {
@@ -629,6 +633,9 @@ export default function NewStudent() {
         }
       } catch (e) {
         alert(e.message);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -1393,9 +1400,25 @@ export default function NewStudent() {
                           submitForm();
                           // console.log(gender);
                         }}
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full  border border-gray-200  text-sm  pr-8 mb-3 hover:scale-105"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full flex justify-center border border-gray-200  text-sm  pr-8 mb-3 hover:scale-105"
                       >
-                        Submit
+                        {!isLoading ? (
+                          "Submit"
+                        ) : (
+                          <svg
+                            class="h-12 w-12 animate-spin"
+                            viewBox="3 3 18 18"
+                          >
+                            <path
+                              class="fill-gray-200"
+                              d="M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
+                            ></path>
+                            <path
+                              class="fill-gray-800"
+                              d="M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z"
+                            ></path>
+                          </svg>
+                        )}
                       </button>
                     </div>
                   </div>
