@@ -17,7 +17,6 @@ export default function MapExams() {
   const [examList, setExamList] = useState([]);
   const [subjectList, setSubjectList] = useState([]);
 
-
   const [examName, setExamName] = useState();
   const [className, setClassName] = useState();
   const [subjectName, setSubjectName] = useState();
@@ -32,10 +31,7 @@ export default function MapExams() {
     GetExamList();
     GetClassList();
     // GetSubjectList();
-
   }, [classList, examList, selectedExamName, selectedclassName]);
-
-
 
   const mapSubjects = async () => {
     if (!className || !maxMarks || !subjectName || !examName) {
@@ -49,79 +45,73 @@ export default function MapExams() {
           const docRef = `users/${a.user}/sessions/${a.session}/exams/${examName}/classes/${className}/subjects`;
           await setDoc(doc(db, docRef, subjectName), {
             Name: subjectName,
-            MAX_MARKS: maxMarks
-          })
-        })
+            MAX_MARKS: maxMarks,
+          });
+        });
       } catch (e) {
         console.error("Error adding document: ", e.message);
       }
     }
   };
 
-
-
   const GetExamList = async () => {
-    if(count<3){
-
+    if (count < 3) {
       const docRef = collection(
         db,
         `users/${a.user}/sessions/${a.session}/exams`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setExamList(list);
-        setCount(count+1);
-      }
-  };
-
-  const GetSubjectList = async () => {
-
-      if (selectedclassName && selectedExamName) {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/exams/${selectedExamName}/classes/${selectedclassName}/subjects`
-          );
-          const docSnap = await getDocs(docRef);
-          var list = [];
-          docSnap.forEach((doc) => {
-            list.push(doc.data());
-          });
-          setSubjectList(list);
-        
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setExamList(list);
+      setCount(count + 1);
     }
   };
 
+  const GetSubjectList = async () => {
+    if (selectedclassName && selectedExamName) {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${selectedExamName}/classes/${selectedclassName}/subjects`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setSubjectList(list);
+    }
+  };
 
   const GetClassList = async () => {
-    if(count <3){
-
+    if (count < 3) {
       const docRef = collection(
         db,
         `users/${a.user}/sessions/${a.session}/classes`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setClassList(list);
-        setCount(count+1);
-      }
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setClassList(list);
+      setCount(count + 1);
+    }
   };
 
   const [isConfirm, setIsConfirm] = useState(false);
-
 
   return (
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className="text-center font-bold text-2xl">Add New Exam</h1>
+              <h1 className="text-center font-bold text-2xl">
+                Map New Subject
+              </h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -141,7 +131,9 @@ export default function MapExams() {
                       placeholder="class Name"
                     >
                       <option>Please Select</option>
-                      {examList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
+                      {examList.map((e, index) => {
+                        return <option key={index}>{e.Name}</option>;
+                      })}
                     </select>
                   </div>
                   <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -161,7 +153,9 @@ export default function MapExams() {
                       placeholder="class Name"
                     >
                       <option>Please Select</option>
-                      {classList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
+                      {classList.map((e, index) => {
+                        return <option key={index}>{e.Name}</option>;
+                      })}
                     </select>
                   </div>
                   <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -199,7 +193,6 @@ export default function MapExams() {
                     />
                   </div>
 
-
                   <button
                     onClick={() => {
                       mapSubjects();
@@ -211,10 +204,10 @@ export default function MapExams() {
                 </div>
               </div>
             </div>
-            <h1 className="text-center font-bold text-2xl py-2">Mapped Subjects</h1>
+            <h1 className="text-center font-bold text-2xl py-2">
+              Mapped Subjects
+            </h1>
             <div class="-mx-3 md:flex mb-6">
-
-
               <div class="md:w-full px-3 mb-6 md:mb-0">
                 <label
                   class="uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -230,8 +223,11 @@ export default function MapExams() {
                   id="company"
                   type="text"
                   placeholder="Exam Name"
-                ><option>Please Select</option>
-                  {examList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
+                >
+                  <option>Please Select</option>
+                  {examList.map((e, index) => {
+                    return <option key={index}>{e.Name}</option>;
+                  })}
                 </select>
               </div>
               <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -241,7 +237,8 @@ export default function MapExams() {
                 >
                   Select Class*
                 </label>
-                <select onClick={GetSubjectList}
+                <select
+                  onClick={GetSubjectList}
                   onChange={(e) => {
                     setSelectedClassName(e.target.value);
                   }}
@@ -249,19 +246,21 @@ export default function MapExams() {
                   id="company"
                   type="text"
                   placeholder="Exam Name"
-                ><option>Please Select</option>
-                  {classList.map((e,index) => { return (<option key={index}>{e.Name}</option>) })}
+                >
+                  <option>Please Select</option>
+                  {classList.map((e, index) => {
+                    return <option key={index}>{e.Name}</option>;
+                  })}
                 </select>
               </div>
-                <button
-                    onClick={() => {
-                      GetSubjectList();
-                    }}
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                  >
-                    Search
-                  </button>
-
+              <button
+                onClick={() => {
+                  GetSubjectList();
+                }}
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Search
+              </button>
             </div>
             <div>
               <table class="min-w-full border-collapse block md:table">
@@ -317,10 +316,13 @@ export default function MapExams() {
                               onClick={() => {
                                 const docRef = doc(
                                   db,
-                                  `users/${a.user}/sessions/${a.session}/exams`,
+                                  `users/${a.user}/sessions/${a.session}/exams/${examName}/classes/${className}/subjects`,
                                   e.Name
                                 );
-                                deleteDoc(docRef);
+                                deleteDoc(docRef).then(() => {
+                                  alert("Deleted");
+                                  GetSubjectList();
+                                });
                                 setIsConfirm(false);
                               }}
                               class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
