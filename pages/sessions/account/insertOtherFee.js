@@ -100,15 +100,16 @@ export default function OldFee() {
   };
 
   const setDues = async (sr, name, fName, place, mobile) => {
-    const docRef = doc(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third ward Fee/Third ward Fee/students`,
-      sr
-    );
+    
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+        sr
+      );
     try {
       await setDoc(docRef, {
         name: name,
-        month: feeName,
+        month: "Third Ward Fee",
         class: className,
         section: sectionName,
         father_name: fName,
