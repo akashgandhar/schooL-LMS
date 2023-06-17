@@ -25,7 +25,7 @@ export default function Exams() {
         const docRef = `users/${a.user}/sessions/${a.session}/exams/`;
         await setDoc(doc(db, docRef, examName), {
           Name: examName,
-        })
+        }).then(()=>{alert("Exam Added")})
       } catch (e) {
         console.error("Error adding document: ", e.message);
       }
@@ -64,7 +64,7 @@ export default function Exams() {
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">Add New Exam</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
