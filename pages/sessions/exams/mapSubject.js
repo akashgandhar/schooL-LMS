@@ -41,13 +41,17 @@ export default function MapExams() {
         const docRef = `users/${a.user}/sessions/${a.session}/exams/${examName}/classes`;
         await setDoc(doc(db, docRef, className), {
           Name: className,
-        }).then(async () => {
-          const docRef = `users/${a.user}/sessions/${a.session}/exams/${examName}/classes/${className}/subjects`;
-          await setDoc(doc(db, docRef, subjectName), {
-            Name: subjectName,
-            MAX_MARKS: maxMarks,
+        })
+          .then(async () => {
+            const docRef = `users/${a.user}/sessions/${a.session}/exams/${examName}/classes/${className}/subjects`;
+            await setDoc(doc(db, docRef, subjectName), {
+              Name: subjectName,
+              MAX_MARKS: maxMarks,
+            });
+          })
+          .then(() => {
+            alert("Subject Mapped");
           });
-        });
       } catch (e) {
         console.error("Error adding document: ", e.message);
       }
@@ -316,7 +320,7 @@ export default function MapExams() {
                               onClick={() => {
                                 const docRef = doc(
                                   db,
-                                  `users/${a.user}/sessions/${a.session}/exams/${examName}/classes/${className}/subjects`,
+                                  `users/${a.user}/sessions/${a.session}/exams/${selectedExamName}/classes/${selectedclassName}/subjects`,
                                   e.Name
                                 );
                                 deleteDoc(docRef).then(() => {
