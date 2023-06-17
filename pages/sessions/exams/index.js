@@ -33,7 +33,7 @@ export default function Exams() {
   };
 
   const GetExamList = async () => {
-    if(count<1){
+    if(count<2){
 
       const docRef = collection(
         db,
