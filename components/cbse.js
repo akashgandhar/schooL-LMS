@@ -65,19 +65,19 @@ export default function Cbse() {
       id: 4,
       title:
         "COPIES OF RECOGNISED RECOGNITION CERTIFICATE UNDER RTE ACT 2009 AND ITS RENEWAL IF APPLICABLE",
-      link: "https://example.com/document4",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/RTE%20Certificate.pdf?alt=media&token=cea25949-61b1-49b4-a8d7-055dd7f8603c",
     },
     {
       id: 5,
       title:
         "COPY OF VALID BUILDING SAFETY CERTIFICATE AS PER THE NATIONAL BUILDING CODE",
-      link: "https://example.com/document5",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Building%20Sefty%20certificate%20.pdf?alt=media&token=3eb3e8d4-9cd0-4685-a73b-a12abd90dbf8",
     },
     {
       id: 6,
       title:
         "COPY OF VALID FIRE SAFETY CERTIFICATE ISSUED BY THE COMPETENT AUTHORITY",
-      link: "https://example.com/document6",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Fire%20Certificate.pdf?alt=media&token=f0408c33-0e76-4f91-b858-6df0cdeec7ec",
     },
     {
       id: 7,
@@ -88,7 +88,7 @@ export default function Cbse() {
     {
       id: 8,
       title: "COPY OF VALID WATER, HEALTH AND SANITATION CERTIFICATE",
-      link: "https://example.com/document8",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Health%2CWater%20and%20sanitation%20.pdf?alt=media&token=1a6e3e0d-0044-49d5-926e-58859a43b75e",
     },
   ];
 

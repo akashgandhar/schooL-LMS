@@ -10,7 +10,7 @@ export default function Faculty({ event }) {
       <div className="w-full  flex">
         {event.map((e, index) => {
           return (
-            <div id={index} class="container mx-2">
+            <div key={index} class="container mx-2">
               <div class="max-w-md w-full bg-gray-900 shadow-lg rounded-xl p-6">
                 <div class="flex flex-col ">
                   <div class="">
