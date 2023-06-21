@@ -8,9 +8,9 @@ export default function Faculty({ event }) {
   return (
     <Marquee>
       <div className="w-full h-[50rem] flex">
-        {event.map((e) => {
+        {event.map((e,index) => {
           return (
-            <div class="block mx-2 h-fit rounded-2xl bg-green-500 text-black shadow-md s shadow-black ">
+            <div key={index} class="block mx-2 h-fit rounded-2xl bg-green-500 text-black shadow-md s shadow-black ">
               <div
                 class="relative overflow-hidden bg-cover bg-no-repeat"
                 data-te-ripple-init
