@@ -56,13 +56,36 @@ export default function Main() {
     // }
   };
 
+  const [count2, setCount2] = useState(0);
+  const [events, setEvents] = useState([]);
+
+
+  const LoadEvents = async () => {
+    if (count2 < 2) {
+      const docRef = collection(db, `events`);
+
+      var list = [];
+      try {
+        const docSnap = await getDocs(docRef);
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setEvents(list);
+        setCount2(count2 + 1);
+      } catch (e) {
+        alert(e);
+      }
+    }
+  };
+
   useEffect(() => {
     ImagesLoad();
     LoadCirculars();
+    LoadEvents();
     // console.log(images);
     // console.log(ima);
     // console.log(imgUrl);
-  }, [images]);
+  }, [images,circulars,events]);
 
   return (
     <div className="grotesk mt-6 mb-16 flex items-center justify-between py-4 px-4 sm:mx-0 sm:mb-20 sm:px-0 md:px-6">
@@ -70,7 +93,7 @@ export default function Main() {
         <section className="w-full text-black">
           <div className="h-20 w-full hidden xl:block"></div>
           <div className="max-w-8xl mx-auto inline-block items-center p-3 pt-0 lg:flex lg:flex-wrap lg:pt-4">
-            <div className="lg:w-3/6 ">
+            {/* <div className="lg:w-3/6 ">
               <h2 className="max-w-xl mt-20 lg:text-[4.2em] text-3xl font-bold leading-none text-black inline-block">
                 Welcome To <br />M J Public School
               </h2>
@@ -79,18 +102,21 @@ export default function Main() {
                 Empowering young minds to become future leaders. Discover the
                 possibilities at our school.
               </p>
-            </div>
-            {/* <div className=" mt-44 mb-20  lg:mt-12 ">
-              {/* <img
-                src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2Fkids.png?alt=media&token=08bc33fa-da87-42b0-b8a1-efe0104fecca"
-                alt="Hero"
-              /> */}
+            </div> */}
 
-            <div className="flex justify-center items-center lg:w-3/6">
-              <Images images={images} />
+            <div className="flex justify-center items-center w-full">
+              <Images images={images} size="A" />
             </div>
+            <div className="w-full  mt-20 flex text-7xl font-bold font-serif justify-center">
+              Welcome To M J Public School
+            </div>
+            <h1 className="mt-6 w-full text-center text-xl font-serif font-semibold text-[#404040]">
+              Empowering young minds to become future leaders. Discover the
+              possibilities at our school.
+            </h1>
+
             {/* </div> */}
-            <div className="h-20 w-full"></div>
+            {/* <div className="h-20 w-full"></div> */}
           </div>
           <div id="events" className=" bg-white lg:mt-20">
             <div className="mx-auto">
@@ -178,7 +204,6 @@ export default function Main() {
                     </div>
                   </div>
                   <Link
-                    
                     href="/cbse"
                     className="flex hover:scale-105 flex-col justify-center items-center w-fit"
                   >
@@ -194,7 +219,6 @@ export default function Main() {
                     </div>
                   </Link>
                   <Link
-                    
                     href="/tc"
                     className="flex hover:scale-105 flex-col justify-center items-center w-fit"
                   >
@@ -214,15 +238,16 @@ export default function Main() {
                   <table className="w-full text-center">
                     <thead>
                       <tr>
-                        <td className="border-r-2 w-1/3">Quick Links</td>
-                        <td className="border-r-2 w-1/3">Circulars</td>
+                        {/* <td className="border-r-2 w-1/3">Quick Links</td> */}
+                        <td className="border-r-2 w-2/3">Circulars</td>
                         <td className="w-1/3">Calender</td>
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="bg-slate-100">
-                        <td></td>
+                        {/* <td></td> */}
                         <td>
+                          <div></div>
                           <div className="w-full border-r-2 h-96 overflow-y-scroll flex flex-col pt-5 items-center border-x-2 ">
                             {circulars.map((e, index) => {
                               return (
@@ -230,22 +255,28 @@ export default function Main() {
                                   key={index}
                                   target="0"
                                   href={e.link}
-                                  className="m-1 flex h-fit w-11/12 border-2 hover:border-gray-600 border-gray-400 text-left p-1"
+                                  className="m-1 flex items-center h-fit w-11/12 border-y-2 border-dashed hover:text-blue-600 transition-all hover:border-gray-600 border-gray-400 text-left p-1"
                                 >
                                   <div>
                                     <img
-                                      className="h-20 w-20"
-                                      src="https://google.oit.ncsu.edu/wp-content/uploads/sites/6/2021/01/Google_Docs.max-2800x2800-1-150x150.png"
+                                      className="h-5 w-5 object-cover"
+                                      src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/pdf-xxl.png?alt=media&token=91ef65b2-9dde-4f05-87a1-c3c876d54e79"
                                     />
                                   </div>
                                   <div>
-                                    <h2 className="text-xl font-bold">
-                                      {e.title}
+                                    <h2 className="text-xl font-bold flex">
+                                      {e.title} {e.disc}{" "}
+                                      <span>
+                                        <img
+                                          src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/new.gif?alt=media&token=69e9ab02-8f55-405c-b9d4-94ef4d2d9245"
+                                          alt="new"
+                                        />
+                                      </span>
                                     </h2>
-                                    <h2 className="text-sm italic ">
+                                    {/* <h2 className="text-sm italic ">
                                       Discription:{e.disc}
                                     </h2>
-                                    <h3></h3>
+                                    <h3></h3> */}
                                   </div>
                                 </Link>
                               );
@@ -253,7 +284,6 @@ export default function Main() {
                           </div>
                         </td>
                         <td>
-                          
                           <div className="border-t-2">
                             <iframe
                               src="https://calendar.google.com/calendar/embed?src=mjpssadabad.cbse%40gmail.com&ctz=Asia%2FKolkata&title=M%20J%20PUBLIC%20SCHOOL"
@@ -456,7 +486,7 @@ export default function Main() {
                   News And Events
                 </h2>
                 <div className="">
-                  <Faculty />
+                  <Faculty event={events} />
                 </div>
               </div>
             </div>
