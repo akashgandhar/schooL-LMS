@@ -47,19 +47,19 @@ export default function Cbse() {
       id: 1,
       title:
         "COPIES OF AFFILIATION / UPGRADATION LETTER AND RECENT EXTENSION OF AFFILIATION IF ANY",
-      link: "https://example.com/document1",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Affliation.pdf?alt=media&token=31a1d77f-b631-4c0e-be6d-a615cd600f05",
     },
     {
       id: 2,
       title:
         "COPIES OF SOCIETIES/TRUST/COMPANY REGISTRATION/RENEWAL CERTIFICATE AS APPLICABLE",
-      link: "https://example.com/document2",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Society%20Registration.pdf?alt=media&token=df922333-0b96-4df4-ad6f-c5ff8178a460",
     },
     {
       id: 3,
       title:
         "COPY OF NUMBER NO OBJECTION CERTIFICATE (NOC) ISSUED IF APPLICABLE BY THE STATE GOVERNMENT / UT",
-      link: "https://example.com/document3",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/NOC.pdf?alt=media&token=86bf42f1-83a4-4294-bb67-05e7c0a5aa6a",
     },
     {
       id: 4,
