@@ -83,7 +83,7 @@ export default function Cbse() {
       id: 7,
       title:
         "COPY OF DEO THE CERTIFICATE SUBMITTED BY THE SCHOOL FOR AFFILIATION/UPGRADATION/EXTENSION OF AFFILIATION OR SELF CERTIFICATION BY SCHOOL",
-      link: "https://example.com/document7",
+      link: "https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/DEO%20Certificate%20.pdf?alt=media&token=6420c02b-ce26-4dc2-83a4-893f77c3fce7",
     },
     {
       id: 8,
