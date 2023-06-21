@@ -14,14 +14,14 @@ export default function Faculty({ event }) {
               <div class="max-w-md w-full bg-gray-900 shadow-lg rounded-xl p-6">
                 <div class="flex flex-col ">
                   <div class="">
-                    <div class="relative h-62 w-full mb-3">
+                    <Link target="1" href={e.link} class="relative h-62 w-full mb-3">
                       <div class="absolute flex flex-col top-0 right-0 p-3"></div>
                       <img
                         src={e.link}
                         alt="Image"
                         class=" w-full h-[17rem] object-cover rounded-2xl"
                       />
-                    </div>
+                    </Link>
                     <div class="flex-auto justify-evenly">
                       <div class="flex flex-wrap ">
                         <div class="w-full flex-none text-sm flex items-center text-gray-600">
@@ -39,10 +39,10 @@ export default function Faculty({ event }) {
                           {/* <span class="mr-2 text-gray-400">India</span> */}
                         </div>
                         <div class="flex items-center w-full justify-between min-w-0 ">
-                          <h2 class="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500  ">
-                            Lorem ipsum is placeholder text commonly used in the
-                            graphic
-                          </h2>
+                          <div class="text-lg mt-2 mr-auto cursor-pointer text-gray-200 hover:text-purple-500  ">
+                            <h3 className="font-bold">{e.title}</h3>
+                            <div className="text-sm">{e.disc}</div>
+                          </div>
                           {/* <div class="flex items-center bg-green-400 text-white text-xs px-2 py-1 ml-3 rounded-lg">
                             INSTOCK
                           </div> */}
@@ -57,9 +57,9 @@ export default function Faculty({ event }) {
                         </div>
                       </div>
                       <div class="flex space-x-2 text-sm font-medium justify-start">
-                        <button class="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 ">
+                        <Link target="1" href={e.link} class="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 ">
                           <span>View</span>
-                        </button>
+                        </Link>
                         {/* <button class="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white  hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
