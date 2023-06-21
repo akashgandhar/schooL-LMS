@@ -1,8 +1,11 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 
 import Link from 'next/link'
+import { useContext } from 'react'
+import UserContext from '../context/userContext'
 
 export default function Header() {
+  const a = useContext(UserContext)
   return (
     <>
       <div
@@ -57,18 +60,24 @@ export default function Header() {
         </div>
         <div className="flex items-center pr-12">
           <div className=" px-1 text-right ">
+            {a.user !=null ? <Link
+              className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
+              href="/home"
+            >
+              Home
+            </Link>:
             <Link
-              className="hover:border-blue-700 border-2  mt-2   items-center px-12 py-3 text-lg font-semibold tracking-tighter text-black"
+              className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
               href="/login"
             >
               Log in
-            </Link>
-            <Link
+            </Link>}
+            {/* <Link
               className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
               href="#"
             >
               Enquire Now
-            </Link>
+            </Link> */}
           </div>
           {/* <button className="pr-12 pl-4">
             <svg

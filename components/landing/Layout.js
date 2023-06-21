@@ -481,8 +481,8 @@ export default function Main() {
 
             <div className="my-24 p-4 text-black">
               {/* <Faculty/> */}
-              <div className="max-w-9xl mx-auto items-center bg-gradient-to-r from-blue-200 to-blue-100 px-5 pt-5 pb-24 lg:flex-row">
-                <h2 className="text-4xl font-bold text-center py-10">
+              <div className="max-w-9xl mx-auto items-center  from-blue-200 to-blue-100 px-5 pt-5 pb-24 lg:flex-row bg-[url(https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/books-1617327.jpg?alt=media&token=abb97001-003a-4a5d-a4a8-1ba649ca4cea)]">
+                <h2 className="text-4xl text-white font-bold text-center py-10">
                   News And Events
                 </h2>
                 <div className="">
