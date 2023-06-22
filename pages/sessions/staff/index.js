@@ -185,7 +185,7 @@ export default function Staff() {
                             alt={teacher.name}
                             className="h-72 w-72 border-[3px] rounded-lg object-cover border-t-2 border-black"
                           />
-                          <h1 className="text-2xl font-bold font-serif my-1">
+                          <h1 className="text-lg font-bold font-serif my-1">
                             {teacher.name}
                           </h1>
                           <div className="w-full p-0 border-b-[3px] border-red-500"></div>
