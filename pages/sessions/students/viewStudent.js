@@ -380,7 +380,7 @@ export default function ViewStd() {
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   Address
                                 </span>
-                                {e.Place}
+                                {e.Address},{e.Place},{e.City}
                               </td>
                               <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                 <span class="inline-block w-auto md:hidden font-bold">
@@ -501,7 +501,7 @@ export default function ViewStd() {
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     Address
                                   </span>
-                                  {e.Place}
+                                  {e.Address},{e.Place},{e.City}
                                 </td>
                                 <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                   <span class="inline-block w-auto md:hidden font-bold">
