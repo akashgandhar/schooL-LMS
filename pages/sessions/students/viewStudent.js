@@ -601,6 +601,7 @@ export default function ViewStd() {
             <tbody class="block md:table-row-group">
               {students
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .filter((e) => e.Deleted === false || e.Deleted === undefined)
                 .map((e, index) => {
                   if (e.Deleted == false || e.Deleted == undefined) {
                     return (
