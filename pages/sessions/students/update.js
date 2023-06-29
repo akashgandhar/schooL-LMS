@@ -48,6 +48,7 @@ export default function NewStudent() {
     s.Transport_Status
   );
   const [busStopName, setBusStopName] = useState(s.BusStop_Name);
+  const [busStopNameTemp, setBusStopNameTemp] = useState(s.BusStop_Name);
   // const [busNumber, setBusNumber] = useState("NaN");
   const [category, setCategory] = useState(s.Category);
   const [caste, setCaste] = useState(s.Caste);
@@ -226,23 +227,21 @@ export default function NewStudent() {
     }
   };
   const GetTransportFee = async () => {
-    if (count < 2) {
-      if (transportStatus === "Yes") {
-        try {
-          const docRef = doc(
-            db,
-            `users/${a.user}/sessions/${a.session}/stops`,
-            busStopName
-          );
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists) {
-            setTransportFee(docSnap.data().Stop_Fee);
-            console.log(transportFee);
-            setCount(count + 1);
-          }
-        } catch (e) {
-          alert("plese Select bus stop first");
+    if (transportStatus === "Yes") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/stops`,
+          busStopName
+        );
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists) {
+          setTransportFee(docSnap.data().Stop_Fee);
+          console.log(transportFee);
+          setCount(count + 1);
         }
+      } catch (e) {
+        alert("plese Select bus stop first");
       }
     }
   };
@@ -254,7 +253,7 @@ export default function NewStudent() {
     GetTransportFee();
     GetHouseList();
     GetStopList();
-  }, [transportFee, house]);
+  }, [transportFee, house, transportStatus, busStopName]);
 
   const GetClassList = async () => {
     const docRef = collection(
@@ -561,8 +560,10 @@ export default function NewStudent() {
                 ward != wardTemp ||
                 rteStatus != rteStatusTemp ||
                 className != classNameTemp ||
-                transportStatus != transportStatusTemp
+                transportStatus != transportStatusTemp ||
+                busStopName != busStopNameTemp
               ) {
+                console.log(3);
                 createAccount();
               }
             })
@@ -571,8 +572,10 @@ export default function NewStudent() {
                 ward != wardTemp ||
                 rteStatus != rteStatusTemp ||
                 className != classNameTemp ||
-                transportStatus != transportStatusTemp
+                transportStatus != transportStatusTemp ||
+                busStopNameTemp != busStopName
               ) {
+                console.log(transportFee);
                 createDues();
               }
             })
@@ -934,7 +937,6 @@ export default function NewStudent() {
                           class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                           id="department"
                         >
-                          <option>{busStopName}</option>
                           {stopList.map((e, index) => {
                             return <option key={index}>{e.Stop_Name}</option>;
                           })}

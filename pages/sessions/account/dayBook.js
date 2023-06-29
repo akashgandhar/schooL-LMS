@@ -35,58 +35,62 @@ export default function DayBook() {
   var totalexpense = 0;
   const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    console.log(incomeList + ":" + date + ":" + expenseList);
+  }, [date, incomeList, expenseList]);
+
   const getIncome = async () => {
-    if(count <2){
-
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`
-          );
-          const docSnap = await getDocs(docRef);
-          var list = [];
-          docSnap.forEach((doc) => {
-            list.push(doc.data());
-          });
-          setIncomeList(list);
-          console.log("run");
-          setCount(count+1)
-        } catch (e) {
-          alert(e.message);
-        }
-      }
-  };
-
-  const getExpense = async () => {
-    if(count <2){
     try {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`
+        `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`
       );
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
-      setExpenseList(list);
-      setCount(count+1)
+      console.log(list);
+      setIncomeList(list);
+
+      console.log("run");
+      setCount(count + 1);
     } catch (e) {
       alert(e.message);
-    }}
-  };
-  useEffect(() => {
-    if (date == d) {
-      getIncome();
-      getExpense();
     }
-  }, [incomeList, expenseList]);
+  };
+
+  const getExpense = async () => {
+    if (count < 2) {
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setExpenseList(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+  };
+  // useEffect(() => {
+  //   if (date == d) {
+  //     getIncome();
+  //     getExpense();
+  //   }
+  // }, [incomeList, expenseList]);
 
   return (
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">View DayBook</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -114,6 +118,7 @@ export default function DayBook() {
                       if (!date) {
                         alert("enter a valid date");
                       } else {
+                        
                         getIncome();
                         getExpense();
                       }
@@ -314,9 +319,7 @@ export default function DayBook() {
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">
                       {totalexpense}
                     </td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                      
-                    </td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
                   </tr>
                 </tbody>
               </table>
@@ -354,7 +357,9 @@ export default function DayBook() {
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell  ">
                       {totalexpense}
                     </td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell text-red-600 font-bold">{(totalincome)-(totalexpense)}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell text-red-600 font-bold">
+                      {totalincome - totalexpense}
+                    </td>
                   </tr>
                 </tbody>
               </table>
