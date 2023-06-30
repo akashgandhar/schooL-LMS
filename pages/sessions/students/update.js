@@ -97,10 +97,29 @@ export default function NewStudent() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-  const [date, setDate] = useState(s.Admission_Date);
+  const [date, setDate] = useState(current);
   const [dob, setDob] = useState(s.Date_Of_Birth);
 
+  const getDate = async () => {
+    const docRef =  doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
+      sr
+    )
+    try{
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log(docSnap.data().Admission_Date.seconds);
+      console.log("exist");
+      setDate(docSnap.data().Admission_Date.seconds*1000);
+    }}catch(e){
+      console.log(e)
+    }
+  };
+
   useEffect(() => {
+    console.log("DATE : " + s.Admission_Date);
+    getDate()
     GetClassList();
     GetSectionList();
     GetClassFee();
@@ -1307,6 +1326,7 @@ export default function NewStudent() {
                         <DatePicker
                           selected={date}
                           onChange={(e) => setDate(e)}
+                          dateFormat="dd/MM/yyyy"
                         />
                       </div>
                     </div>
