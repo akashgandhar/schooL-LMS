@@ -118,7 +118,6 @@ export default function DayBook() {
                       if (!date) {
                         alert("enter a valid date");
                       } else {
-                        
                         getIncome();
                         getExpense();
                       }
