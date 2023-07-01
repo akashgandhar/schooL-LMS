@@ -109,8 +109,8 @@ export default function CreateRooms() {
                     placeholder="Name"
                   >
                     <option>Please Select</option>
-                    {examList.map((item) => {
-                      return <option>{item.Name}</option>;
+                    {examList.map((item,index) => {
+                      return <option key={index}>{item.Name}</option>;
                     })}
                   </select>
                 </div>
