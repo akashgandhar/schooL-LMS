@@ -62,6 +62,14 @@ const examTabs = [
     name: 'Insert/Update Marks',
     href: '/sessions/exams/marks',
   },
+  {
+    name: 'Create Rooms',
+    href: '/sessions/exams/createRooms',
+  },
+  {
+    name: 'Seating Arrangement',
+    href: '/sessions/exams/seatingArrangement',
+  },
 ]
 
 const studentTabs = [
