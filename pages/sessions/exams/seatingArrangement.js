@@ -5,9 +5,9 @@ import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 
 const ExampleComponent = () => {
-  const [exams, setExams] = useState(["Exam 1", "Exam 2", "Exam 3"]); // Array of exams
+  const [exams, setExams] = useState(["Exam Loading"]); // Array of exams
   const [rooms, setRooms] = useState([
-    { id: 1, name: "Room 1", seats: 10, studentsPerSeat: 2 },
+    { id: 1, name: "Room Loading", seats: 10, studentsPerSeat: 2 },
   ]); // Array of rooms
   const [students, setStudents] = useState([
     { id: 1, name: "John Doe", Class: "A" },
