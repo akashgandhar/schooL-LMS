@@ -61,13 +61,13 @@ export default function Header() {
         <div className="flex items-center pr-12">
           <div className=" px-1 text-right ">
             {a.user !=null ? <Link
-              className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
+              className="xl:inline-block  hidden hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
               href="/home"
             >
               Home
             </Link>:
             <Link
-              className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
+              className="xl:inline-block  hidden hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
               href="/login"
             >
               Log in
