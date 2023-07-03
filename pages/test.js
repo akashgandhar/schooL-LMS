@@ -119,7 +119,7 @@ export default function Test() {
         list.push(doc.data());
       });
       stds[`${stop}`] = list;
-      console.log(stds[stop]);
+      // console.log(stds[stop]);
     } catch (e) {
       console.log(e.message);
     }
@@ -165,9 +165,9 @@ export default function Test() {
     });
   };
 
-  useEffect(() => {
-    console.log(stds);
-  }, [stds]);
+  // useEffect(() => {
+  //   // console.log(stds);
+  // }, [stds]);
 
   const setSr = async (sr) => {
     className.forEach(async (cl) => {

@@ -18,7 +18,7 @@ export default function GalleryCard(props) {
           </a>
           <a
             onClick={() => {
-              console.log(props.name);
+              // console.log(props.name);
               try{
               const docRef = doc(db, `gallery`, props.name);
 

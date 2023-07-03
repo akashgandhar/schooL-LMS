@@ -221,7 +221,7 @@ export default function NewStudent() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           setTransportFee(docSnap.data().Stop_Fee);
-          console.log(transportFee);
+          // console.log(transportFee);
         }
       } catch (e) {
         alert("plese Select bus stop first");

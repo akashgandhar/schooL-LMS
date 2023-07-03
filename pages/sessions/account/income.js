@@ -46,7 +46,7 @@ export default function Income() {
             list.push(doc.data());
           });
           setIncomeList(list);
-          console.log("run");
+          // console.log("run");
           setCount(count+1);
         } catch (e) {
           alert(e.message)

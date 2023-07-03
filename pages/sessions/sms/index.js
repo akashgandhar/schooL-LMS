@@ -302,7 +302,7 @@ export default function SMS() {
         } else {
           alert("Error !" + response.status + "Message Not Send");
         }
-        console.log(response);
+        // console.log(response);
       })
       .catch(function (error) {
         // handle error
@@ -326,9 +326,9 @@ export default function SMS() {
       });
   };
 
-  useEffect(() => {
-    console.log(mob);
-  }, [studentList, mobileNumbers, varValues]);
+  // useEffect(() => {
+  //   console.log(mob);
+  // }, [studentList, mobileNumbers, varValues]);
 
   return (
     <>

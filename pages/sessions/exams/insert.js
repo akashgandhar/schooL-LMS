@@ -35,7 +35,7 @@ export default function InsertMarks() {
           list.push(doc.data())
         })
         setSubList(list)
-        console.log("run");
+        // console.log("run");
         setCount(count+1)
       }
   }

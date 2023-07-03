@@ -35,7 +35,7 @@ const [count, setCount] = useState(0)
           list.push(doc.data())
         })
         setStudents(list)
-        console.log(count);
+        // console.log(count);
         setCount(count+1)
       }
   }
@@ -85,7 +85,7 @@ const [count, setCount] = useState(0)
      GetStudents();
      getIncome();
      getExpense();
-     console.log("run");
+    //  console.log("run");
 
   }, [students,totalinc,total])
 

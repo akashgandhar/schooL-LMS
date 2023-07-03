@@ -43,14 +43,14 @@ export default function InsertMarks() {
         );
         const docSnap = await getDocs(docRef);
         var list = [];
-        console.log(docSnap);
+        // console.log(docSnap);
         docSnap.forEach((doc) => {
           list.push(doc.data());
           //   console.log(doc.data());
         });
-        console.log(list);
+        // console.log(list);
         setPList(list);
-        console.log("run2");
+        // console.log("run2");
         setCount(count + 1);
       } catch (e) {
         console.log(e.message);
@@ -165,8 +165,8 @@ export default function InsertMarks() {
         ti
       );
 
-      console.log(da, ti);
-      console.log(`${mo} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`);
+      // console.log(da, ti);
+      // console.log(`${mo} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`);
 
       deleteDoc(docRef);
     } catch (e) {

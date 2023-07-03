@@ -32,7 +32,7 @@ export default function Index() {
     }catch(e){
       alert(e.message)
     }
-    console.log("run");
+    // console.log("run");
     setSessionList(list);
     setCount(count+1)}
   };

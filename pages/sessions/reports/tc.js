@@ -64,7 +64,7 @@ const getData = async() =>{
 
 const setTc = async() =>{
     try{
-      console.log(s);
+      // console.log(s);
       const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
       setDoc(docRef,data);
     }catch(e){

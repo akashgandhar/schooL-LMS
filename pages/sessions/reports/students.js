@@ -146,9 +146,9 @@ export default function GatePass() {
 
   const [columns, setColumns] = useState(["Sr_Number","ID","name","Father_Name","Class","Place","Mobile_Number"])
 
-  useEffect(() => {
-    console.log(columns)
-  }, [columns])
+  // useEffect(() => {
+  //   console.log(columns)
+  // }, [columns])
 
   return (
     <>

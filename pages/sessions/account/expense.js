@@ -40,7 +40,7 @@ export default function Expense() {
             list.push(doc.data());
           });
           setExpenseList(list);
-          console.log("run");
+          // console.log("run");
           setCount(count+1)
         } catch (e) {
           alert(e.message);

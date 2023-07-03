@@ -305,7 +305,7 @@ export default function OldFee() {
                             <button
                               id="svbtn"
                               onClick={() => {
-                                console.log(e.Sr_Number);
+                                // console.log(e.Sr_Number);
                                 setDues(
                                   e.Sr_Number,
                                   e.name,

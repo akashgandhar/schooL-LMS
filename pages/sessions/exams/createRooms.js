@@ -73,11 +73,11 @@ export default function CreateRooms() {
     }
   };
 
-  useEffect(() => {
-    // getExamList();\
-    // getRoomList();
-    console.log(roomList);
-  }, [examList, examName, roomList]);
+  // useEffect(() => {
+  //   // getExamList();\
+  //   // getRoomList();
+  //   console.log(roomList);
+  // }, [examList, examName, roomList]);
 
   return (
     <div className="w-screen">
@@ -185,7 +185,7 @@ export default function CreateRooms() {
               onChange={(e) => {
                 setExamName(e.target.value);
                 getRoomList(e.target.value);
-                console.log(roomList);
+                // console.log(roomList);
               }}
               class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
               id="title"

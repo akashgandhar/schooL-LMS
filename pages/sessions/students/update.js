@@ -97,29 +97,32 @@ export default function NewStudent() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-  const [date, setDate] = useState(current);
+  const [date, setDate] = useState();
+  const [dateTemp, setDateTemp] = useState();
   const [dob, setDob] = useState(s.Date_Of_Birth);
-
+  // console.log("test:", date);
   const getDate = async () => {
-    const docRef =  doc(
+    const docRef = doc(
       db,
       `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
       sr
-    )
-    try{
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log(docSnap.data().Admission_Date.seconds);
-      console.log("exist");
-      setDate(docSnap.data().Admission_Date.seconds*1000);
-    }}catch(e){
-      console.log(e)
+    );
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        // console.log(docSnap.data().Admission_Date.seconds);
+        // console.log("exist");
+        setDate(docSnap.data().Admission_Date.seconds * 1000);
+        setDateTemp(docSnap.data().Admission_Date);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    console.log("DATE : " + s.Admission_Date);
-    getDate()
+    // console.log("DATE : " + s.Admission_Date);
+    getDate();
     GetClassList();
     GetSectionList();
     GetClassFee();
@@ -153,7 +156,7 @@ export default function NewStudent() {
   };
 
   const createDues = async () => {
-    console.log(transportFee);
+    // console.log(transportFee);
     var total = 0;
     months.forEach(async (e) => {
       try {
@@ -256,7 +259,7 @@ export default function NewStudent() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           setTransportFee(docSnap.data().Stop_Fee);
-          console.log(transportFee);
+          // console.log(transportFee);
           setCount(count + 1);
         }
       } catch (e) {
@@ -494,10 +497,11 @@ export default function NewStudent() {
           });
         }
 
-        console.log(1);
+        // console.log(1);
 
         try {
-          console.log(className, classNameTemp);
+          // console.log(className, classNameTemp);
+          // console.log(7);
 
           await setDoc(
             doc(
@@ -534,7 +538,7 @@ export default function NewStudent() {
               Last_School_Board: lSchoolBoard,
               Last_School_Result: lSchoolResult,
               RTE_Status: rteStatus,
-              Admission_Date: date,
+              Admission_Date: dateTemp,
               Tc_Available: tcStatus,
               Aadhar_Available: aadharStatus,
               House: house,
@@ -547,7 +551,7 @@ export default function NewStudent() {
             }
           )
             .then(async () => {
-              console.log(2);
+              // console.log(2);
               const sessionRef = doc(
                 db,
                 `users/${a.user}/sessions/${a.session}/classes/${className}/sections/`,
@@ -582,7 +586,7 @@ export default function NewStudent() {
                 transportStatus != transportStatusTemp ||
                 busStopName != busStopNameTemp
               ) {
-                console.log(3);
+                // console.log(3);
                 createAccount();
               }
             })
@@ -594,11 +598,12 @@ export default function NewStudent() {
                 transportStatus != transportStatusTemp ||
                 busStopNameTemp != busStopName
               ) {
-                console.log(transportFee);
+                // console.log(transportFee);
                 createDues();
               }
             })
             .then(async () => {
+              // console.log(5);
               await setDoc(
                 doc(
                   db,
@@ -634,7 +639,7 @@ export default function NewStudent() {
                   Last_School_Board: lSchoolBoard,
                   Last_School_Result: lSchoolResult,
                   RTE_Status: rteStatus,
-                  Admission_Date: date,
+                  Admission_Date: dateTemp,
                   Tc_Available: tcStatus,
                   Aadhar_Available: aadharStatus,
                   House: house,
@@ -661,6 +666,10 @@ export default function NewStudent() {
       }
     }
   };
+
+  // useEffect(() => {
+  //   console.log(date);
+  // });
 
   return (
     <div className="h-auto">
@@ -1325,7 +1334,11 @@ export default function NewStudent() {
                       <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                         <DatePicker
                           selected={date}
-                          onChange={(e) => setDate(e)}
+                          onChange={(e) => {
+                            // console.log("new", date);
+                            setDate(e);
+                            setDateTemp(e);
+                          }}
                           dateFormat="dd/MM/yyyy"
                         />
                       </div>

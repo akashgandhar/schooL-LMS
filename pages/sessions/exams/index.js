@@ -45,7 +45,7 @@ export default function Exams() {
           list.push(doc.data());
         });
         setExamList(list);
-        console.log("run");
+        // console.log("run");
         setCount(count+1)
       }
   };

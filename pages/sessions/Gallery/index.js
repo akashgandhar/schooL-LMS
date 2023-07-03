@@ -239,9 +239,9 @@ export default function Gallery() {
     ImagesLoad();
     LoadCirculars();
     LoadEvents();
-    console.log(images);
+    // console.log(images);
     // console.log(ima);
-    console.log(imgUrl);
+    // console.log(imgUrl);
   }, [images]);
 
   return (

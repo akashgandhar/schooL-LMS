@@ -35,9 +35,9 @@ export default function DayBook() {
   var totalexpense = 0;
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    console.log(incomeList + ":" + date + ":" + expenseList);
-  }, [date, incomeList, expenseList]);
+  // useEffect(() => {
+  //   // console.log(incomeList + ":" + date + ":" + expenseList);
+  // }, [date, incomeList, expenseList]);
 
   const getIncome = async () => {
     try {
@@ -50,10 +50,10 @@ export default function DayBook() {
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
-      console.log(list);
+      // console.log(list);
       setIncomeList(list);
 
-      console.log("run");
+      // console.log("run");
       setCount(count + 1);
     } catch (e) {
       alert(e.message);
@@ -148,9 +148,9 @@ export default function DayBook() {
                       Amount
                     </th>
 
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    {/* <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Action
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
@@ -183,7 +183,7 @@ export default function DayBook() {
                           {e.Total_Paid}
                         </td>
 
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             action
                           </span>
@@ -209,7 +209,7 @@ export default function DayBook() {
                           >
                             Delete
                           </button>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -222,7 +222,7 @@ export default function DayBook() {
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">
                       {totalincome}
                     </td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
+                    {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td> */}
                   </tr>
                 </tbody>
               </table>
@@ -246,9 +246,9 @@ export default function DayBook() {
                       Amount
                     </th>
 
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    {/* <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Action
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
@@ -280,7 +280,7 @@ export default function DayBook() {
                           {e.Total_Paid}
                         </td>
 
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             action
                           </span>
@@ -306,7 +306,7 @@ export default function DayBook() {
                           >
                             Delete
                           </button>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -318,7 +318,7 @@ export default function DayBook() {
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">
                       {totalexpense}
                     </td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
+                    {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td> */}
                   </tr>
                 </tbody>
               </table>

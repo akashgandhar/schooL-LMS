@@ -97,7 +97,7 @@ const ExampleComponent = () => {
     getExamList();
     getRoomList();
     GetStudentList();
-    console.log(count, count1, count2);
+    // console.log(count, count1, count2);
   }, [exams, rooms, students]);
 
   const handleExamChange = (event) => {
@@ -114,9 +114,9 @@ const ExampleComponent = () => {
     }
     setSelectedStudents([]);
   };
-  useEffect(() => {
-    console.log(selectedStudents.length >= maxStudents);
-  });
+  // useEffect(() => {
+  //   console.log(selectedStudents.length >= maxStudents);
+  // });
 
   const handleStudentCheck = (event, student) => {
     const isChecked = event.target.checked;
@@ -216,7 +216,7 @@ const ExampleComponent = () => {
             className="bg-blue-500 disabled:hidden  hover:bg-blue-700 hover:cursor-pointer text-white rounded-md px-4 py-2 mx-2 my-4"
             onClick={() => {
               setSelectedStudents([]);
-              console.log(selectedStudents);
+              // console.log(selectedStudents);
             }}
           >
             Clear
@@ -224,7 +224,7 @@ const ExampleComponent = () => {
           <button
             className="bg-blue-500 disabled:hidden  hover:bg-blue-700 hover:cursor-pointer text-white rounded-md px-4 py-2 mx-2 my-4"
             onClick={() => {
-              console.log(selectedStudents);
+              // console.log(selectedStudents);
               const selectedStudentsReduced = selectedStudents.map(
                 (student) => ({
                   Class: student.Class,

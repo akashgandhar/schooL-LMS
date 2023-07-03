@@ -20,7 +20,7 @@ const UserState = (props) => {
           router.push('/home')
         }
       } else {
-        console.log('logged out ')
+        // console.log('logged out ')
         router.push('/')
       }
     })
