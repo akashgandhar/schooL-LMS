@@ -10,7 +10,7 @@ export default function Header() {
     <>
       <div
         className="
-          bg-blue-300
+          bg-blue-500
           
           grotesk
           absolute
