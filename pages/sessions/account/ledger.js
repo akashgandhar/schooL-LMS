@@ -397,7 +397,9 @@ export default function InsertMarks() {
                     // console.log();
 
                     total = total + e.Total_Paid;
-                    totalconcession = Number(totalconcession + Number(e.Concession));
+                    totalconcession = Number(
+                      totalconcession + Number(e.Concession)
+                    );
 
                     return (
                       <tr
@@ -427,7 +429,7 @@ export default function InsertMarks() {
                             concession
                           </span>
                           {e.Concession}
-                          {e.Concession > 0 ? `(By:${e.concessionBy})` : ""}
+                          {e.Concession > 0 ? `By:(${e.concessionBy})` : ""}
                         </td>
 
                         <td
