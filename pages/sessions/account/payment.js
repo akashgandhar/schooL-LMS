@@ -24,6 +24,7 @@ export default function Payment() {
   const [d, setD] = useState(
     `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
   );
+  const [month, setMonth] = useState(current.getMonth());
 
   const [mode, setMode] = useState();
   const [amount, setAmount] = useState();
@@ -170,6 +171,8 @@ export default function Payment() {
           data["Amount"] = Number(amount);
           data["Concession"] = concession;
           data["ConcessionBy"] = concessionBy;
+          data["Date"] = d;
+          data["Month"] = month+1;
           router.push({ pathname: "/sessions/account/invoice", query: data });
         });
     } catch (e) {
@@ -504,6 +507,7 @@ export default function Payment() {
                             e.getMonth() + 1
                           }-${e.getFullYear()}`
                         );
+                        setMonth(e.getMonth());
                       }}
                     />
                   </div>
@@ -522,10 +526,12 @@ export default function Payment() {
                     <span>Third Ward Fee : </span>
                     <span>{otherDue}</span>
                   </div>
-                  {classes.includes(s.Class) && <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
-                    <span>Exam/Lab Fee : </span>
-                    <span>{examDue}</span>
-                  </div>}
+                  {classes.includes(s.Class) && (
+                    <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                      <span>Exam/Lab Fee : </span>
+                      <span>{examDue}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-between w-full items-center">
                   <button
@@ -633,7 +639,9 @@ export default function Payment() {
                       <option>Transport Fee</option>
                       <option>Old Dues</option>
                       <option>Third ward Fee</option>
-                      {classes.includes(s.Class) && <option>Exam/Lab Fee</option>}
+                      {classes.includes(s.Class) && (
+                        <option>Exam/Lab Fee</option>
+                      )}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
