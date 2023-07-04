@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../../components/context/userContext";
@@ -106,7 +113,7 @@ export default function PayFee() {
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">Fee Payment</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -184,6 +191,12 @@ export default function PayFee() {
                   </label>
                   <div className="flex items-center justify-between ">
                     <input
+                      onKeyPress={() => {
+                        if (event.key === "Enter") {
+                          event.preventDefault();
+                          searchStudents(q2);
+                        }
+                      }}
                       onChange={(e) => {
                         setQ(e.target.value);
                         setQ2(e.target.value);

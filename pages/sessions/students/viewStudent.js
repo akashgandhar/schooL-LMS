@@ -251,6 +251,12 @@ export default function ViewStd() {
                   </label>
                   <div className="flex items-center justify-between ">
                     <input
+                      onKeyPress={() => {
+                        if (event.key === "Enter") {
+                          event.preventDefault();
+                          searchStudents(q2);
+                        }
+                      }}
                       onChange={(e) => {
                         setQ(e.target.value);
                         setQ2(e.target.value);
@@ -261,6 +267,7 @@ export default function ViewStd() {
                       placeholder="Sid / NAME"
                     />
                     <button
+                      id="myButton"
                       onClick={() => {
                         searchStudents(q2);
                       }}
