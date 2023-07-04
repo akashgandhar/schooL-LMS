@@ -320,7 +320,7 @@ export default function OldFee() {
                                   onChange={(e) => {
                                     setOldDue(e.target.value);
                                   }}
-                                  type="number"
+                                  type="tel"
                                   className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  mx-2"
                                   placeholder="0"
                                 ></input>
@@ -350,7 +350,7 @@ export default function OldFee() {
                                   onChange={(e) => {
                                     setAdmFee(e.target.value);
                                   }}
-                                  type="number"
+                                  type="tel"
                                   className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
                                   placeholder="0"
                                 ></input>
@@ -381,7 +381,7 @@ export default function OldFee() {
                                     onChange={(e) => {
                                       setExamFee(e.target.value);
                                     }}
-                                    type="number"
+                                    type="tel"
                                     className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
                                     placeholder="0"
                                   ></input>
@@ -412,7 +412,7 @@ export default function OldFee() {
                                   onChange={(e) => {
                                     setAdmFee(e.target.value);
                                   }}
-                                  type="number"
+                                  type="tel"
                                   className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
                                   placeholder="0"
                                 ></input>

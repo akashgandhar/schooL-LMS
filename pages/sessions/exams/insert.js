@@ -225,7 +225,7 @@ export default function InsertMarks() {
                             obtained Marks
                           </span>
                           <input 
-                            type="number"
+                            type="tel"
                             max={e.MAX_MARKS}
                             onChange={(e) => {
                               setObt(e.target.value)

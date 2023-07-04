@@ -292,7 +292,7 @@ export default function OldFee() {
                               onChange={(e) => {
                                 setAmount(e.target.value);
                               }}
-                              type="number"
+                              type="tel"
                               className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
                               placeholder="0"
                             ></input>

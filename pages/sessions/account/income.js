@@ -116,7 +116,7 @@ export default function Income() {
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
-                      type="number"
+                      type="tel"
                       placeholder="Netboard"
                     />
                   </div>

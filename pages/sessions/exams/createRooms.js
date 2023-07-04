@@ -144,7 +144,7 @@ export default function CreateRooms() {
                     }}
                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     id="title"
-                    type="number"
+                    type="tel"
                     placeholder="number"
                   />
                 </div>
@@ -161,7 +161,7 @@ export default function CreateRooms() {
                     }}
                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     id="title"
-                    type="number"
+                    type="tel"
                     placeholder="number"
                   />
                 </div>

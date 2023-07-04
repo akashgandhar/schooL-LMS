@@ -108,7 +108,7 @@ const [isConfirm, setIsConfirm] = useState(false);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
-                      type="number"
+                      type="tel"
                       placeholder="B.tech / cse / CSP242 "
                     />
                   </div>
@@ -125,7 +125,7 @@ const [isConfirm, setIsConfirm] = useState(false);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
-                      type="number"
+                      type="tel"
                       placeholder="B.tech / cse / CSP242 "
                     />
                   </div>

@@ -656,7 +656,7 @@ export default function Payment() {
                         setAmount(e.target.value);
                       }}
                       placeholder="Amount"
-                      type="number"
+                      type="tel"
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     />
                   </div>
@@ -675,7 +675,7 @@ export default function Payment() {
                       }}
                       placeholder="Concession"
                       value={concession}
-                      type="number"
+                      type="tel"
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     />
                   </div>
