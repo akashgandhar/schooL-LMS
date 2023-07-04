@@ -419,6 +419,8 @@ export default function Payment() {
     // GetFeeList();
   }, [oldDue, otherDue, admDue]);
 
+  const classes = ["IX", "X", "XI", "XII"];
+
   return (
     <>
       <div className="w-screen">
@@ -520,10 +522,10 @@ export default function Payment() {
                     <span>Third Ward Fee : </span>
                     <span>{otherDue}</span>
                   </div>
-                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                  {classes.includes(s.Class) && <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
                     <span>Exam/Lab Fee : </span>
                     <span>{examDue}</span>
-                  </div>
+                  </div>}
                 </div>
                 <div className="flex justify-between w-full items-center">
                   <button
@@ -631,7 +633,7 @@ export default function Payment() {
                       <option>Transport Fee</option>
                       <option>Old Dues</option>
                       <option>Third ward Fee</option>
-                      <option>Exam/Lab Fee</option>
+                      {classes.includes(s.Class) && <option>Exam/Lab Fee</option>}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
