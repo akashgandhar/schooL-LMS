@@ -18,6 +18,7 @@ export default function OldFee() {
   const [month, setMonth] = useState();
   const [oldDue, setOldDue] = useState(0);
   const [admfee, setAdmFee] = useState(0);
+  const [examFee, setExamFee] = useState(0);
 
   const getStudent = async () => {
     try {
@@ -133,6 +134,33 @@ export default function OldFee() {
       alert(e.message);
     }
   };
+  const setExam = async (sr, name, fName, place, mobile) => {
+    const docRef = doc(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
+      sr
+    );
+    try {
+      await setDoc(docRef, {
+        name: name,
+        month: "Exam",
+        class: className,
+        section: sectionName,
+        father_name: fName,
+        Place: place,
+        Mobile: mobile,
+        Sr_Number: sr,
+        month_Due: Number(examFee),
+        total: Number(examFee),
+      }).then(() => {
+        alert("saved");
+      });
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const classes = ["IX", "X", "XI", "XII"];
 
   return (
     <>
@@ -140,7 +168,9 @@ export default function OldFee() {
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className="text-center font-bold text-2xl">Insert Old Fee</h1>
+              <h1 className="text-center font-bold text-2xl">
+                Insert Other Fees
+              </h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -231,6 +261,11 @@ export default function OldFee() {
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Admission Fee
                     </th>
+                    {classes.includes(className) && (
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Exam/Lab Fee
+                      </th>
+                    )}
                     {/* {
                       className == "CLASS TG2" && (
                         <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
@@ -336,6 +371,38 @@ export default function OldFee() {
                                 </button>
                               </div>
                             </td>
+                            {classes.includes(className) && (
+                              <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
+                                <div className="flex w-full my-1">
+                                  <span class="inline-block w-1/3 md:hidden font-bold">
+                                    Exam fee
+                                  </span>
+                                  <input
+                                    onChange={(e) => {
+                                      setExamFee(e.target.value);
+                                    }}
+                                    type="number"
+                                    className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
+                                    placeholder="0"
+                                  ></input>
+                                  <button
+                                    id="svbtn"
+                                    onClick={() => {
+                                      setExam(
+                                        e.Sr_Number,
+                                        e.name,
+                                        e.Father_Name,
+                                        e.Place,
+                                        e.Mobile_Number
+                                      );
+                                    }}
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                                  >
+                                    Save
+                                  </button>
+                                </div>
+                              </td>
+                            )}
                             {/* <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
                               <div className="flex w-full my-1">
                                 <span class="inline-block w-1/3 md:hidden font-bold">

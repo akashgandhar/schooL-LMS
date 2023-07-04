@@ -210,6 +210,22 @@ export default function Payment() {
         console.log(e.message);
       }
     }
+    if (mode == "Exam/Lab Fee") {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Exam/students`,
+          s.Sr_Number
+        );
+        await updateDoc(docRef, {
+          lastUpdate: Timestamp.now(),
+          month_Due: increment(Number(-(Number(amount) + Number(concession)))),
+          total: increment(Number(-(Number(amount) + Number(concession)))),
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
     if (mode == "Third ward Fee") {
       try {
         const docRef = doc(
@@ -307,9 +323,11 @@ export default function Payment() {
   const [oldDue, setOldDue] = useState(0);
   const [admDue, setAdmDue] = useState(0);
   const [otherDue, setOtherDue] = useState(0);
+  const [examDue, setExamDue] = useState(0);
   const [count, setCount] = useState(0);
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
 
   const getOldDues = async () => {
     if (count < 1) {
@@ -351,6 +369,26 @@ export default function Payment() {
       }
     }
   };
+  const getExamDues = async () => {
+    if (count3 < 1) {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Exam/students`,
+          s.Sr_Number
+        );
+
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists) {
+          setExamDue(docSnap.data().total);
+          setCount3(count2 + 1);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
 
   const getOtherDues = async () => {
     if (count1 < 1) {
@@ -377,6 +415,7 @@ export default function Payment() {
     getOldDues();
     getOtherDues();
     getAdmDues();
+    getExamDues();
     // GetFeeList();
   }, [oldDue, otherDue, admDue]);
 
@@ -476,10 +515,14 @@ export default function Payment() {
                     <span>Admission Dues : </span>
                     <span>{admDue}</span>
                   </div>
-                  
+
                   <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
                     <span>Third Ward Fee : </span>
                     <span>{otherDue}</span>
+                  </div>
+                  <div class="bg-red-500 text-white font-bold w-96 py-2 px-10 rounded-full my-2 flex justify-between">
+                    <span>Exam/Lab Fee : </span>
+                    <span>{examDue}</span>
                   </div>
                 </div>
                 <div className="flex justify-between w-full items-center">
@@ -588,6 +631,7 @@ export default function Payment() {
                       <option>Transport Fee</option>
                       <option>Old Dues</option>
                       <option>Third ward Fee</option>
+                      <option>Exam/Lab Fee</option>
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
