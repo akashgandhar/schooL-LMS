@@ -45,38 +45,44 @@ export default function Tc() {
   const [data, setData] = useState({});
   const [data1, setData1] = useState({});
 
-
-const getData = async() =>{
-  // console.log(a);
-  if(a.user && a.session ){
-
-    try{
-      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
-      const docSnap = await getDoc(docRef)
-      if(docSnap.exists()){
-        setData1(docSnap.data());
+  const getData = async () => {
+    // console.log(a);
+    if (a.user && a.session) {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
+          s.Sr_Number
+        );
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setData1(docSnap.data());
+        }
+      } catch (e) {
+        alert(e.message);
       }
-    }catch(e){
-      alert(e.message)
     }
-  }
-}
+  };
 
-const setTc = async() =>{
-    try{
+  const setTc = async () => {
+    try {
       // console.log(s);
-      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,s.Sr_Number);
-      setDoc(docRef,data);
-    }catch(e){
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
+        s.Sr_Number
+      );
+      setDoc(docRef, data);
+    } catch (e) {
       console.log(e.message);
-  }
-}
+    }
+  };
 
   useEffect(() => {
     // const myVar = 'f1';
     // console.log(data);
     getData();
-  }, [a,data]);
+  }, [a, data]);
 
   return (
     <center className="w-full py-7 text-[12pt]">
@@ -147,7 +153,12 @@ const setTc = async() =>{
                 <td>Affiliation No. : 2132393</td>
               </tr>
               <tr className="font-bold flex justify-between px-5">
-                <td>Sr No. : {s.ID} </td>
+                <td>
+                  Sr No. :{" "}
+                  <span>
+                    <input className="" type="text" />
+                  </span>{" "}
+                </td>
                 <td> </td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
@@ -161,11 +172,12 @@ const setTc = async() =>{
                 <td colSpan={3} className="flex-1 flex h-auto items-center">
                   <span className="font-bold W-[10%]"> : </span>
 
-                  <input onChange={(e) => {
-                            var temp = { ...data };
-                            temp[`fr`] = e.target.value;
-                            setData(temp);
-                          }}
+                  <input
+                    onChange={(e) => {
+                      var temp = { ...data };
+                      temp[`fr`] = e.target.value;
+                      setData(temp);
+                    }}
                     type="text"
                     value={data1.fr}
                     className="uppercase w-[90%] text-[10pt] font-bold "
@@ -175,7 +187,6 @@ const setTc = async() =>{
               </tr>
 
               {fields.map((e, index) => {
-                
                 return (
                   <tr key={index} className=" flex px-5 ">
                     <td colSpan="6" className="flex-1 ">
@@ -206,7 +217,7 @@ const setTc = async() =>{
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
                           placeholder="max 30 words"
-                          value={data1[`f${index + 1}`]}  
+                          value={data1[`f${index + 1}`]}
                         />
                       )}
                     </td>
@@ -236,8 +247,10 @@ const setTc = async() =>{
         </div>
         <button
           class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          onClick={()=>{setTc();
-            handlePrint();}}
+          onClick={() => {
+            setTc();
+            handlePrint();
+          }}
         >
           Print
         </button>
