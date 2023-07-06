@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -33,24 +34,23 @@ export default function Income() {
   const [count, setCount] = useState(0);
 
   const getIncome = async () => {
-    if(count<1){
-
+    if (count < 1) {
       try {
         const docRef = collection(
           db,
           `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
-          );
-          const docSnap = await getDocs(docRef);
-          var list = [];
-          docSnap.forEach((doc) => {
-            list.push(doc.data());
-          });
-          setIncomeList(list);
-          // console.log("run");
-          setCount(count+1);
-        } catch (e) {
-          alert(e.message)
-        }
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setIncomeList(list);
+        // console.log("run");
+        setCount(count + 1);
+      } catch (e) {
+        alert(e.message);
+      }
     }
   };
 
@@ -210,13 +210,17 @@ export default function Income() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             action
                           </span>
-                          
+
                           <button
-                            onClick={() => {
-                              router.push({
-                                pathname: "/sessions/account/payment",
-                                query: e,
-                              });
+                            onClick={async () => {
+                              // console.log(e);
+                              const docRef = doc(
+                                db,
+                                `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`,
+                                e.Time
+                              );
+                              deleteDoc(docRef);
+                              alert("Deleted");
                             }}
                             class="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                           >
