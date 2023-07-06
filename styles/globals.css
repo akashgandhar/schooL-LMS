@@ -5,7 +5,9 @@
 /* body{
     bg
 } */
-
+/* body{
+  
+} */
 input[type="checkbox"] {
   /* Add if not using autoprefixer */
   -webkit-appearance: none;
@@ -59,34 +61,4 @@ input[type="checkbox"]:disabled {
 
 
 /* Override component-level media queries for desktop view */
-@media screen and (max-width: 1200px) {
-  body,
-  header,
-  main,
-  footer {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  /* Override styles for tablets */
-  body,
-  header,
-  main,
-  footer {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  /* Override styles for mobile devices */
-  body,
-  header,
-  main,
-  footer {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-}
+/* @media screen and (max-width: 1200px) { */

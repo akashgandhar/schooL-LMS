@@ -132,7 +132,6 @@ export default function Cc() {
                     type="date"
                     className=" border-b-2 border-dashed border-black uppercase"
                     placeholder="Date"
-                    
                   />
                 </span>{" "}
                 to{" "}

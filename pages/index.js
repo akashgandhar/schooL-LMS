@@ -12,7 +12,6 @@ export default function Index() {
   const router = useRouter();
   const a = useContext(UserContext);
 
-
   return (
     // <div className={styles.container}>
     //   <Head>
@@ -33,7 +32,7 @@ export default function Index() {
         <meta name="viewport" content="width=1024"></meta>
         <link rel="icon" href="/LOGOT.png" />
       </Head>
-      <div className="bg-gradient-to-r from-red-400 via-yellow-400 to-green-500">
+      <div className="w-fit bg-gradient-to-r from-red-400 via-yellow-400 to-green-500">
         <div className="overflow-hidden top-0 fixed w-full z-[100]">
           <Header />
         </div>
