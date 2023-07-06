@@ -81,29 +81,33 @@ export default function GatePass() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-  const setTcCut = (student,rname)=>{
-    try{
+  const setTcCut = (student, rname) => {
+    try {
       // console.log(student);
-      const docRef = doc(db,`users/${a.user}/sessions/${a.session}/Reports/${d}/${rname}`,time);
-      setDoc(docRef,{
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/Reports/${d}/${rname}`,
+        time
+      );
+      setDoc(docRef, {
         Name: student.name,
         Class: student.Class,
         Section: student.Section,
         Father_Name: student.Father_Name,
         Mother_Name: student.Mother_Name,
         Place: student.Place,
-        ID:time,
-        Report: rname
-      }).then(()=>{
+        ID: time,
+        Report: rname,
+      }).then(() => {
         router.push({
           pathname: "/sessions/reports/tc",
-          query: student
+          query: student,
         });
-      })
-    }catch(e){
+      });
+    } catch (e) {
       console.log(e.message);
     }
-  }
+  };
 
   return (
     <>
@@ -133,7 +137,7 @@ export default function GatePass() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {classList.map((e,index) => {
+                      {classList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -158,7 +162,7 @@ export default function GatePass() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {sectionList.map((e,index) => {
+                      {sectionList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -201,74 +205,79 @@ export default function GatePass() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {studentList.map((e, index) => {
-                    if(e.Deleted == false || e.Deleted == undefined){
-                    return (
-                      <tr
-                        key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                      >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Name
-                          </span>
-                          {e.Sr_Number}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Name
-                          </span>
-                          {e.name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            sections
-                          </span>
-                          {e.Father_Name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            classTeacher
-                          </span>
-                          {className}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Strength
-                          </span>
-                          {e.Place}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Actions
-                          </span>
-                          
-                            <button
-                            onClick={() => {
-                              setTcCut(e,"TC");
-                            }}
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                            >
-                            Transfer Certificate
-                          </button>
-                          <button className="px-2"></button>
+                  {studentList
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .filter(
+                      (e) => e.Deleted === false || e.Deleted === undefined
+                    )
+                    .map((e, index) => {
+                      if (e.Deleted == false || e.Deleted == undefined) {
+                        return (
+                          <tr
+                            key={index}
+                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                          >
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Name
+                              </span>
+                              {e.Sr_Number}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Name
+                              </span>
+                              {e.name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                sections
+                              </span>
+                              {e.Father_Name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                classTeacher
+                              </span>
+                              {className}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Strength
+                              </span>
+                              {e.Place}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Actions
+                              </span>
 
-                          <button
-                            onClick={() => {
-                              router.push({
-                                pathname: "/sessions/reports/cc",
-                                query: e,
-                              });
-                            }}
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                            >
-                            Character Certificate
-                          </button>
-                          
-                        </td>
-                      </tr>
-                    )}
-                  })}
+                              <button
+                                onClick={() => {
+                                  setTcCut(e, "TC");
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Transfer Certificate
+                              </button>
+                              <button className="px-2"></button>
+
+                              <button
+                                onClick={() => {
+                                  router.push({
+                                    pathname: "/sessions/reports/cc",
+                                    query: e,
+                                  });
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Character Certificate
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
                 </tbody>
               </table>
             </div>
