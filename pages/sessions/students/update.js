@@ -2,6 +2,7 @@ import {
   FieldValue,
   Timestamp,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -222,10 +223,12 @@ export default function NewStudent() {
       `users/${a.user}/sessions/${a.session}/studentsAccount`,
       sr
     );
-    await setDoc(docRef, {
-      Anual_Fee: 5000,
-      Class_Fee: classFee,
-      transportfees: transportFee,
+    deleteDoc(docRef).then(async () => {
+      await setDoc(docRef, {
+        Anual_Fee: 5000,
+        Class_Fee: classFee,
+        transportfees: transportFee,
+      });
     });
   };
 

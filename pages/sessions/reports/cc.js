@@ -1,46 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useReactToPrint } from 'react-to-print'
-import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import { useRouter } from "next/router";
 
 export default function Cc() {
-  const router = useRouter()
-  const s = router.query
-  const [name, setName] = useState(s.name)
-  const [fName, setFName] = useState(s.Father_Name)
-  const [className, setClassName] = useState(s.Class)
-  const [aDate, setADate] = useState()
-  const [pDate, setPDate] = useState()
-  const componentRef = useRef()
+  const router = useRouter();
+  const s = router.query;
+  const [name, setName] = useState(s.name);
+  const [fName, setFName] = useState(s.Father_Name);
+  const [className, setClassName] = useState(s.Class);
+  const [aDate, setADate] = useState();
+  const [pDate, setPDate] = useState();
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-  })
+  });
 
   // useEffect(() => {
   //  console.log(s);
   // }, [])
-  
+
   return (
     <center className="w-full py-7 text-[12pt]">
       <div className="w-[250mm]  max-h-[280mm] bg-no-repeat bg-center">
         <div ref={componentRef} id="print" className="pt-5 pb-5 ">
-          <div className=" align-middle  max-h-[300mm] mx-auto w-11/12 border-2 border-black text-[12pt] outline-double">
+          <div className=" align-middle h-auto max-h-[340mm] mx-auto w-11/12 border-2 border-black text-[12pt] outline-double">
             <div className="h-auto col-span-9 flex justify-between">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2FLOGOa.png?alt=media&token=7ca8a823-a8a0-4316-8b80-3bbdb6e994f7"
                 className="float-left ml-8 h-28 mt-2 mix-blend-color-burn"
               />
               <div className="ml-5  float-right ">
-                <center className="float-left" style={{ lineHeight: '0.5' }}>
+                <center className="float-left" style={{ lineHeight: "0.5" }}>
                   <span
                     className="text-red-600 font-extrabold text-3xl"
-                    style={{ lineHeight: '1.2' }}
+                    style={{ lineHeight: "1.2" }}
                   >
                     M J PUBLIC SCHOOL
                   </span>
                   <br />
                   <span
                     className="font-bold text-xs"
-                    style={{ lineHeight: '1.2' }}
+                    style={{ lineHeight: "1.2" }}
                   >
                     Affiliated to Central Board of Secondary Education
                     (C.B.S.E.)
@@ -65,8 +65,20 @@ export default function Cc() {
             </div>
 
             <div className="font-bold flex justify-between  mt-8 mx-20">
-              <h1>Ref No. : <input type='text' className='border-b-2 border-black border-dashed'/></h1>
-              <h1>Date : <input type='text' className='border-b-2 border-black border-dashed'/></h1>
+              <h1>
+                Ref No. :{" "}
+                <input
+                  type="text"
+                  className="border-b-2 border-black border-dashed"
+                />
+              </h1>
+              <h1>
+                Date :{" "}
+                <input
+                  type="text"
+                  className="border-b-2 border-black border-dashed"
+                />
+              </h1>
             </div>
             <div className="flex mx-20 my-2">
               <div className="w-[40mm] h-[45mm] border-2 border-black border-dotted "></div>
@@ -76,58 +88,58 @@ export default function Cc() {
               {/* <h1 className="text-xl font-bold">Character Certificate</h1> */}
               {/* <p className="text-lg">To Whom It May Concern:</p> */}
               <p className="text-xl leading-relaxed">
-                This is to certify that{' '}
+                This is to certify that{" "}
                 <span className="font-bold">
                   <input
                     onChange={(e) => {
-                      setName(e.target.value)
+                      setName(e.target.value);
                     }}
                     value={name}
                     className="w-fit border-b-2 border-dashed uppercase border-black"
                     placeholder="Student Name"
                   />
                 </span>
-                <br /> son/daughter of{' '}
-                <span className="font-bold">
+                <br /> son/daughter of{" "}
+                <span className="font-bold ">
                   <input
-                  onChange={(e) => {
-                    setFName(e.target.value)
-                  }}
-                  value={fName}
-                    className="uppercase w-fit border-b-2 border-dashed border-black"
+                    onChange={(e) => {
+                      setFName(e.target.value);
+                    }}
+                    value={fName+" "}
+                    className="uppercase w-1/2 border-b-2 border-dashed border-black"
                     placeholder="Gaurdian Name"
                   />
                 </span>
-                , was a student of{' '}
+                , was a student of{" "}
                 <span className="font-bold">M J Public School </span>
-                and studied in Class{' '}
+                and studied in Class{" "}
                 <span className="font-bold">
                   <input
-                  onChange={(e) => {
-                    setClassName(e.target.value)
-                  }}
-                  value={className}
+                    onChange={(e) => {
+                      setClassName(e.target.value);
+                    }}
+                    value={className}
                     className="w-20 uppercase border-b-2 border-dashed border-black"
                     placeholder="Class"
                   />
-                </span>{' '}
-                from{' '}
+                </span>{" "}
+                from{" "}
                 <span className="font-bold">
                   <input
-                  onChange={(e)=>{
-                    setADate(e.target.value);
-                  }}
+                    onChange={(e) => {
+                      setADate(e.target.value);
+                    }}
                     type="date"
                     className=" border-b-2 border-dashed border-black uppercase"
                     placeholder="Date"
                   />
-                </span>{' '}
-                to{' '}
+                </span>{" "}
+                to{" "}
                 <span className="font-bold">
                   <input
-                  onChange={(e)=>{
-                    setPDate(e.target.value);
-                  }}
+                    onChange={(e) => {
+                      setPDate(e.target.value);
+                    }}
                     type="date"
                     className="border-b-2 border-dashed border-black uppercase"
                     placeholder="Date"
@@ -150,22 +162,23 @@ export default function Cc() {
                 in a professional and courteous manner.
               </p>
               <p className="text-xl leading-relaxed">
-                We are confident that{' '}
+                We are confident that{" "}
                 <span className="font-bold">
                   <input
-                  onChange={(e) => {
-                    setName(e.target.value)
-                  }}
-                  value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                    value={name}
                     className="w-fit border-b-2 border-dashed border-black uppercase"
                     placeholder="Student Name"
                   />
-                </span>{' '}
+                </span>{" "}
                 <br />
                 will continue to excel in any future academic or professional
-                endeavors. 
+                endeavors.
               </p>
             </div>
+            <div className="h-56"></div>
             <div className="flex justify-end p-2 mx-20 h-38 text-xl my-10 font-black items-center">
               Principal Signature
             </div>
@@ -179,5 +192,5 @@ export default function Cc() {
         </button>
       </div>
     </center>
-  )
+  );
 }
