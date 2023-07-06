@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 
-import Link from 'next/link'
-import { useContext } from 'react'
-import UserContext from '../context/userContext'
+import Link from "next/link";
+import { useContext } from "react";
+import UserContext from "../context/userContext";
 
 export default function Header() {
-  const a = useContext(UserContext)
+  const a = useContext(UserContext);
   return (
     <>
       <div
@@ -60,18 +60,21 @@ export default function Header() {
         </div>
         <div className="flex items-center pr-12">
           <div className=" px-1 text-right ">
-            {a.user !=null ? <Link
-              className="xl:inline-block  hidden hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
-              href="/home"
-            >
-              Home
-            </Link>:
-            <Link
-              className="xl:inline-block  hidden hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
-              href="/login"
-            >
-              Log in
-            </Link>}
+            {a.user != null ? (
+              <Link
+                className="xl:inline-block   hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
+                href="/home"
+              >
+                Home
+              </Link>
+            ) : (
+              <Link
+                className="xl:inline-block   hover:scale-105 bg-blue-500   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
+                href="/login"
+              >
+                Log in
+              </Link>
+            )}
             {/* <Link
               className="xl:inline-block  hidden hover:scale-105 bg-blue-700   items-center px-8 py-3 text-lg font-semibold tracking-tighter text-white"
               href="#"
@@ -111,5 +114,5 @@ export default function Header() {
         </div>
       </div>
     </>
-  )
+  );
 }
