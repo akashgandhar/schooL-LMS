@@ -105,7 +105,7 @@ export default function Cc() {
                     onChange={(e) => {
                       setFName(e.target.value);
                     }}
-                    value={fName+" "}
+                    value={fName}
                     className="uppercase tracking-tighter w-1/2 border-b-2 border-dashed border-black"
                     placeholder="Gaurdian Name"
                   />
