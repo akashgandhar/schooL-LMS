@@ -25,20 +25,20 @@ export default function ViewStd() {
 
   const [q, setQ] = useState();
 
-  const months = [
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-    "January",
-    "February",
-    "March",
-  ];
+  // const months = [
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  //   "January",
+  //   "February",
+  //   "March",
+  // ];
   const router = useRouter();
   const [students, setStudents] = useState([]);
 
@@ -171,7 +171,64 @@ export default function ViewStd() {
     }
   };
 
-  useEffect(() => {}, [classList]);
+  const months = [
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+    "January",
+    "February",
+    "March",
+    "OldDues",
+    "Admission",
+  ];
+
+  const [check, setCheck] = useState(false);
+
+  const setData = async () => {
+    console.log("start");
+    months.forEach(async (e) => {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`
+      );
+      try {
+        await getDocs(docRef).then((doct) => {
+          doct.forEach(async (docc) => {
+            // console.log(doc.data());
+            // console.log(students.Sr_Number);
+
+            const docRef = doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
+              docc.data().Sr_Number
+            );
+            // console.log(
+            //   students.find((e) => doc.data().Sr_Number == e.Sr_Number)
+            // );
+
+            await updateDoc(docRef, {
+              Address: students.find(
+                (e) => docc.data().Sr_Number == e.Sr_Number
+              ).Address,
+            });
+          });
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+    console.log("end");
+  };
+
+  useEffect(() => {
+    console.log(check);
+  }, [check]);
 
   return (
     <>
@@ -281,7 +338,12 @@ export default function ViewStd() {
             </div>
             <div>
               <div className="w-full flex justify-center p-4">
-                <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
+                <button
+                  onClick={() => {
+                    setData();
+                  }}
+                  class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full"
+                >
                   --- Class {className} ---
                 </button>
               </div>

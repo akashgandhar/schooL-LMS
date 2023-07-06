@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../../components/context/userContext";
@@ -98,6 +98,9 @@ export default function ViewDue() {
   })
 
   var total = 0;
+
+
+ 
   
 
   return (
@@ -248,7 +251,7 @@ export default function ViewDue() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             Address
                           </span>
-                          {e.Place}
+                          {e.Address}
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">

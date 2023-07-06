@@ -223,13 +223,29 @@ export default function NewStudent() {
       `users/${a.user}/sessions/${a.session}/studentsAccount`,
       sr
     );
-    deleteDoc(docRef).then(async () => {
+
+    const docRef2 = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`
+    );
+    const docRef3 = `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`;
+
+    try {
+      console.log(5);
+      const docSnap = await getDocs(docRef2);
+      docSnap.forEach(async (docs) => {
+        deleteDoc(doc(db, docRef3, docs.id));
+      });
+
+      console.log(9);
       await setDoc(docRef, {
         Anual_Fee: 5000,
         Class_Fee: classFee,
         transportfees: transportFee,
       });
-    });
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   const [count3, setCount3] = useState(0);
@@ -589,7 +605,7 @@ export default function NewStudent() {
                 transportStatus != transportStatusTemp ||
                 busStopName != busStopNameTemp
               ) {
-                // console.log(3);
+                console.log(3);
                 createAccount();
               }
             })
