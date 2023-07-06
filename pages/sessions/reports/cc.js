@@ -106,7 +106,7 @@ export default function Cc() {
                       setFName(e.target.value);
                     }}
                     value={fName+" "}
-                    className="uppercase w-1/2 border-b-2 border-dashed border-black"
+                    className="uppercase tracking-tighter w-1/2 border-b-2 border-dashed border-black"
                     placeholder="Gaurdian Name"
                   />
                 </span>
