@@ -132,6 +132,7 @@ export default function Cc() {
                     type="date"
                     className=" border-b-2 border-dashed border-black uppercase"
                     placeholder="Date"
+                    
                   />
                 </span>{" "}
                 to{" "}
@@ -178,7 +179,7 @@ export default function Cc() {
                 endeavors.
               </p>
             </div>
-            <div className="h-56"></div>
+            <div className="h-48"></div>
             <div className="flex justify-end p-2 mx-20 h-38 text-xl my-10 font-black items-center">
               Principal Signature
             </div>
