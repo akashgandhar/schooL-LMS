@@ -190,45 +190,45 @@ export default function ViewStd() {
 
   const [check, setCheck] = useState(false);
 
-  const setData = async () => {
-    console.log("start");
-    months.forEach(async (e) => {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`
-      );
-      try {
-        await getDocs(docRef).then((doct) => {
-          doct.forEach(async (docc) => {
-            // console.log(doc.data());
-            // console.log(students.Sr_Number);
+  // const setData = async () => {
+  //   console.log("start");
+  //   months.forEach(async (e) => {
+  //     const docRef = collection(
+  //       db,
+  //       `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`
+  //     );
+  //     try {
+  //       await getDocs(docRef).then((doct) => {
+  //         doct.forEach(async (docc) => {
+  //           // console.log(doc.data());
+  //           // console.log(students.Sr_Number);
 
-            const docRef = doc(
-              db,
-              `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
-              docc.data().Sr_Number
-            );
-            // console.log(
-            //   students.find((e) => doc.data().Sr_Number == e.Sr_Number)
-            // );
+  //           const docRef = doc(
+  //             db,
+  //             `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
+  //             docc.data().Sr_Number
+  //           );
+  //           // console.log(
+  //           //   students.find((e) => doc.data().Sr_Number == e.Sr_Number)
+  //           // );
 
-            await updateDoc(docRef, {
-              Address: students.find(
-                (e) => docc.data().Sr_Number == e.Sr_Number
-              ).Address,
-            });
-          });
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    });
-    console.log("end");
-  };
+  //           await updateDoc(docRef, {
+  //             Address: students.find(
+  //               (e) => docc.data().Sr_Number == e.Sr_Number
+  //             ).Address,
+  //           });
+  //         });
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   });
+  //   console.log("end");
+  // };
 
-  useEffect(() => {
-    console.log(check);
-  }, [check]);
+  // useEffect(() => {
+  //   console.log(check);
+  // }, [check]);
 
   return (
     <>
@@ -339,9 +339,9 @@ export default function ViewStd() {
             <div>
               <div className="w-full flex justify-center p-4">
                 <button
-                  onClick={() => {
-                    setData();
-                  }}
+                  // onClick={() => {
+                  //   setData();
+                  // }}
                   class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full"
                 >
                   --- Class {className} ---

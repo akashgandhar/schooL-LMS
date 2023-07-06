@@ -1,4 +1,10 @@
-import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../../components/context/userContext";
@@ -21,15 +27,14 @@ export default function ViewDue() {
     "February",
     "March",
     "OldDues",
-    "Admission"
+    "Admission",
   ];
 
   const [students, setStudents] = useState([]);
 
   const [month, setMonth] = useState();
-  
 
-  const getDues = async()=>{
+  const getDues = async () => {
     try {
       const docRef = collection(
         db,
@@ -42,17 +47,15 @@ export default function ViewDue() {
       });
       setStudents(list);
     } catch (e) {
-      alert(e.message)
+      alert(e.message);
     }
-  }
+  };
 
   const [classList, setClassList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const a = useContext(UserContext);
   const [className, setClassName] = useState();
   const [sectionName, setSectionName] = useState("");
-
-  
 
   const GetClassList = async () => {
     try {
@@ -92,16 +95,12 @@ export default function ViewDue() {
     }
   };
 
-  const componentRef = useRef()
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-  })
+  });
 
   var total = 0;
-
-
- 
-  
 
   return (
     <>
@@ -109,9 +108,7 @@ export default function ViewDue() {
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className="text-center font-bold text-2xl">
-                View Dues
-              </h1>
+              <h1 className="text-center font-bold text-2xl">View Dues</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -121,7 +118,10 @@ export default function ViewDue() {
                     >
                       Class*
                     </label>
-                    <select onClick={()=>{GetClassList()}}
+                    <select
+                      onClick={() => {
+                        GetClassList();
+                      }}
                       onChange={(e) => {
                         setClassName(e.target.value);
                       }}
@@ -131,7 +131,9 @@ export default function ViewDue() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e,index)=>{return(<option key={index}>{e.Name}</option>)})}
+                      {classList.map((e, index) => {
+                        return <option key={index}>{e.Name}</option>;
+                      })}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -141,7 +143,10 @@ export default function ViewDue() {
                     >
                       Section*
                     </label>
-                    <select onClick={()=>{GetSectionList()}}
+                    <select
+                      onClick={() => {
+                        GetSectionList();
+                      }}
                       onChange={(e) => {
                         setSectionName(e.target.value);
                       }}
@@ -151,7 +156,9 @@ export default function ViewDue() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {sectionList.map((e,index)=>{return(<option key={index}>{e.Name}</option>)})}
+                      {sectionList.map((e, index) => {
+                        return <option key={index}>{e.Name}</option>;
+                      })}
                     </select>
                   </div>
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -161,7 +168,7 @@ export default function ViewDue() {
                     >
                       Month*
                     </label>
-                    <select 
+                    <select
                       onChange={(e) => {
                         setMonth(e.target.value);
                       }}
@@ -171,10 +178,12 @@ export default function ViewDue() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {months.map((e,index)=>{return(<option key={index}>{e}</option>)})}
+                      {months.map((e, index) => {
+                        return <option key={index}>{e}</option>;
+                      })}
                     </select>
                   </div>
-                  
+
                   <button
                     onClick={() => {
                       getDues();
@@ -187,6 +196,17 @@ export default function ViewDue() {
               </div>
             </div>
             <div ref={componentRef} className="text-center">
+              <div className="w-full flex justify-between p-4">
+                <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
+                  Class: {className}
+                </button>
+                <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
+                  --- Due List ---
+                </button>
+                <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
+                  Upto: {month} 2023
+                </button>
+              </div>
               <table class="min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
@@ -211,82 +231,92 @@ export default function ViewDue() {
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Fee Due
                     </th>
-                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                        Transport Due
-                      </th>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                      Transport Due
+                    </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Total
                     </th>
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {students.sort((a, b) => (a.name > b.name ? 1 : -1))
-                      .map((e, index) => {
-                        if (e.Deleted == false || e.Deleted == undefined) {
-                   total += (Number(e.month_Due)>0?Number(e.month_Due):0)+(Number(e.transport_due)>0?Number(e.transport_due):0)
-                    return (
-                      <tr
-                        key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                      >
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            SID
-                          </span>
-                          {e.Sr_Number}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            name
-                          </span>
-                          {e.name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            fName
-                          </span>
-                          {e.father_name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Address
-                          </span>
-                          {e.Address}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            mobile
-                          </span>
-                          {e.Mobile}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            month
-                          </span>
-                          {e.month}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            fee_due
-                          </span>
-                          {(e.month_Due>0?e.month_Due:0)}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            transport_due
-                          </span>
-                          {e.transport_due>0?e.transport_due:0}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            total
-                          </span>
-                          {(Number(e.month_Due)>0?Number(e.month_Due):0)+(Number(e.transport_due)>0?Number(e.transport_due):0)}
-                        </td>
-                        
-                      </tr>
-                    )}
-                  })}
+                  {students
+                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .map((e, index) => {
+                      if (e.Deleted == false || e.Deleted == undefined) {
+                        total +=
+                          (Number(e.month_Due) > 0 ? Number(e.month_Due) : 0) +
+                          (Number(e.transport_due) > 0
+                            ? Number(e.transport_due)
+                            : 0);
+                        return (
+                          <tr
+                            key={index}
+                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                          >
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                SID
+                              </span>
+                              {e.Sr_Number}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                name
+                              </span>
+                              {e.name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                fName
+                              </span>
+                              {e.father_name}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                Address
+                              </span>
+                              {e.Address}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                mobile
+                              </span>
+                              {e.Mobile}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                month
+                              </span>
+                              {e.month}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                fee_due
+                              </span>
+                              {e.month_Due > 0 ? e.month_Due : 0}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                transport_due
+                              </span>
+                              {e.transport_due > 0 ? e.transport_due : 0}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                total
+                              </span>
+                              {(Number(e.month_Due) > 0
+                                ? Number(e.month_Due)
+                                : 0) +
+                                (Number(e.transport_due) > 0
+                                  ? Number(e.transport_due)
+                                  : 0)}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
                   <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
@@ -295,15 +325,23 @@ export default function ViewDue() {
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold">Total</td>
-                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold text-red-600">{total}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold">
+                      Total
+                    </td>
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold text-red-600">
+                      {total}
+                    </td>
                   </tr>
                 </tbody>
               </table>
-              <div className='flex justify-center items-center p-2'>
-
-              <button className='text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' onClick={handlePrint}>print</button>
-              </div>
+            </div>
+            <div className="flex justify-center items-center p-2">
+              <button
+                className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                onClick={handlePrint}
+              >
+                print
+              </button>
             </div>
           </div>
         </div>

@@ -29,42 +29,53 @@ export default function Tc() {
     "Subjects offered",
     "Whether qualified for promotion to the next higher class",
     "Month upto which the pupil has paid school dues?",
-    "Any fee concession availed of? if so the Roture of such concession.",
+    "Any fee concession availed of? if so the Nature of such concession.",
     "Total no. of working days",
     "Total no. of working days present",
     "Whether the pupil is NCC Cadet/Boy Scunt/Girl Guide (give details)",
-    "Games played or extra curricular activities in which the pupil usually took part (mention bchivement level)",
+    "Games played or extra curricular activities in which the pupil usually took part (mention achivement level)",
     "General conduct",
-    "Application of certificate",
-    "Actual issue of Certificate",
+    "Date Of Application of certificate",
+    "Date Of issue of Certificate",
     "Reason for leaving the school",
     "Any other remarks",
-    "Date on which pupil's name was struck off rolls of the school",
+    "Date on which pupil's name was struck off The rolls of the school",
   ];
 
   const [data, setData] = useState({});
   const [data1, setData1] = useState({});
 
+  // console.log(data1);
+  console.log(data);
+
+  const [count, setCount] = useState(0);
+
   const getData = async () => {
-    // console.log(a);
-    if (a.user && a.session) {
-      try {
-        const docRef = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
-          s.Sr_Number
-        );
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setData1(docSnap.data());
+    if (count < 2) {
+      // console.log(a);
+      if (a.user && a.session) {
+        try {
+          const docRef = doc(
+            db,
+            `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
+            s.Sr_Number
+          );
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setData1(docSnap.data());
+            setData(docSnap.data());
+            console.log(docSnap.data());
+            setCount(count + 1);
+          }
+        } catch (e) {
+          alert(e.message);
         }
-      } catch (e) {
-        alert(e.message);
       }
     }
   };
 
   const setTc = async () => {
+    console.log(data);
     try {
       // console.log(s);
       const docRef = doc(
@@ -82,7 +93,7 @@ export default function Tc() {
     // const myVar = 'f1';
     // console.log(data);
     getData();
-  }, [a, data]);
+  }, []);
 
   return (
     <center className="w-full py-7 text-[12pt]">
@@ -154,12 +165,32 @@ export default function Tc() {
               </tr>
               <tr className="font-bold flex justify-between px-5">
                 <td>
-                  Sr No. :{" "}
+                  Admission No. :{" "}
                   <span>
-                    <input className="" type="text" />
+                    <input
+                      value={data1.adm}
+                      onChange={(e) => {
+                        var temp = { ...data };
+                        temp[`adm`] = e.target.value;
+                        setData(temp);
+                      }}
+                      className="w-20"
+                      type="text"
+                    />
                   </span>{" "}
                 </td>
-                <td> </td>
+                <td>File No. <span>
+                    <input
+                      value={data1.filen}
+                      onChange={(e) => {
+                        var temp = { ...data };
+                        temp[`filen`] = e.target.value;
+                        setData(temp);
+                      }}
+                      className="w-20"
+                      type="text"
+                    />
+                  </span>{" "}</td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
               <tr className=" flex  px-5 mb-1">
