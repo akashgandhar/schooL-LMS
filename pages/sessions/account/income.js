@@ -30,27 +30,27 @@ export default function Income() {
   const [source, setSource] = useState();
   const [amount, setAmount] = useState();
   const [date, setDate] = useState(d);
+  const [searchDate, setSearchDate] = useState(d);
   const router = useRouter();
   const [count, setCount] = useState(0);
+  // console.log(date);
 
   const getIncome = async () => {
-    if (count < 1) {
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setIncomeList(list);
-        // console.log("run");
-        setCount(count + 1);
-      } catch (e) {
-        alert(e.message);
-      }
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${searchDate}/income`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setIncomeList(list);
+      // console.log("run");
+      setCount(count + 1);
+    } catch (e) {
+      alert(e.message);
     }
   };
 
@@ -73,9 +73,9 @@ export default function Income() {
     }
   };
 
-  useEffect(() => {
-    getIncome();
-  }, [incomeList,date]);
+  // useEffect(() => {
+  //   getIncome();
+  // }, [incomeList,date]);
 
   return (
     <>
@@ -130,7 +130,7 @@ export default function Income() {
                     <input
                       onChange={(e) => {
                         setDate(e.target.value);
-                        setCount(0)
+                        setCount(0);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       value={date}
@@ -150,6 +150,32 @@ export default function Income() {
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   >
                     Insert
+                  </button>
+                </div>
+                <div className="flex gap-2 items-center w-full">
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="company"
+                    >
+                      Date*
+                    </label>
+                    <input
+                      onChange={(e) => {
+                        setSearchDate(e.target.value);
+                      }}
+                      class="w-full  bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      value={searchDate}
+                      type="text"
+                      placeholder="DD-MM-YYYY"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => {getIncome()}}
+                    class="bg-blue-500 hover:bg-blue-700 text-white w-24 h-10 font-bold py-2 px-4 rounded-full"
+                  >
+                    Search
                   </button>
                 </div>
               </div>
