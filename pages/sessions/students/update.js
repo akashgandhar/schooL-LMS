@@ -267,6 +267,7 @@ export default function NewStudent() {
       }
     }
   };
+  console.log(transportFee,transportStatus,transportStatusTemp);
   const GetTransportFee = async () => {
     if (transportStatus === "Yes") {
       try {

@@ -75,7 +75,7 @@ export default function Income() {
 
   useEffect(() => {
     getIncome();
-  }, [incomeList]);
+  }, [incomeList,date]);
 
   return (
     <>
@@ -130,6 +130,7 @@ export default function Income() {
                     <input
                       onChange={(e) => {
                         setDate(e.target.value);
+                        setCount(0)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       value={date}
