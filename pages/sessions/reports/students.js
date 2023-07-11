@@ -144,7 +144,7 @@ export default function GatePass() {
     return 0
   })
 
-  const [columns, setColumns] = useState(["Sr_Number","ID","name","Father_Name","Class","Place","Mobile_Number"])
+  const [columns, setColumns] = useState(["Adm No.","ID","name","Father_Name","Class","Place","Mobile_Number"])
 
   // useEffect(() => {
   //   console.log(columns)
@@ -364,7 +364,7 @@ export default function GatePass() {
                               <span className="inline-block w-1/3 md:hidden font-bold">
                                 {col}
                               </span>
-                              {e[col]}
+                              {col== "Adm No."?e[Sr_Number]:e[col]}
                             </td>
                           ))}
                         </tr>
