@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import UserContext from "../../../components/context/userContext";
 import { db } from "../../../firebase";
+import { data } from "autoprefixer";
 
 export default function GatePass() {
   const router = useRouter();
@@ -20,6 +21,24 @@ export default function GatePass() {
   const [fName, setFName] = useState("");
   const [add, setAdd] = useState("");
   const [reason, setReason] = useState("");
+
+  const [current, setCurrent] = useState(new Date());
+  const d =
+    current.getDate() +
+    "-" +
+    (current.getMonth() + 1) +
+    "-" +
+    current.getFullYear() +
+    " & " +
+    current.getHours() +
+    ":" +
+    current.getMinutes() +
+    ":" +
+    current.getSeconds();
+
+  useEffect(() => {
+    setCurrent(new Date());
+  }, [current]);
 
   return (
     <center className="w-full py-7 text-[12pt]">
@@ -86,8 +105,11 @@ export default function GatePass() {
                 <td>School No. : 60978</td>
                 <td>Affiliation No. : 2132393</td>
               </tr>
-              <tr className="h-8"></tr>
-
+              <tr className="h-4"></tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td>Date & Time : {d}</td>
+              </tr>
+              <tr className="h-4"></tr>
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Student(s) Name: </td>
                 <textarea
@@ -138,6 +160,16 @@ export default function GatePass() {
                   placeholder="max words"
                 />
               </tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td className="w-1/2">Contact: </td>
+                <textarea
+                  onChange={(e) => setReason(e.target.value)}
+                  value={reason}
+                  type="text"
+                  className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
+                  placeholder="max words"
+                />
+              </tr>
               <tr className="h-20"></tr>
 
               <tr className="flex justify-between mx-5">
@@ -148,7 +180,7 @@ export default function GatePass() {
                   Signature of Office Supdt.{" "}
                 </td> */}
                 <td colspan="4" className="border-t-2 border-black py-2">
-                  <div>Principal with seal </div>
+                  <div>Principal Signature</div>
                 </td>
               </tr>
             </tbody>
@@ -210,7 +242,11 @@ export default function GatePass() {
                 <td>School No. : 60978</td>
                 <td>Affiliation No. : 2132393</td>
               </tr>
-              <tr className="h-8"></tr>
+              <tr className="h-4"></tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td>Date & Time : {d}</td>
+              </tr>
+              <tr className="h-4"></tr>
 
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Student(s) Name: </td>
@@ -262,6 +298,16 @@ export default function GatePass() {
                   placeholder="max words"
                 />
               </tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td className="w-1/2">Contact: </td>
+                <textarea
+                  onChange={(e) => setReason(e.target.value)}
+                  value={reason}
+                  type="text"
+                  className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
+                  placeholder="max words"
+                />
+              </tr>
               <tr className="h-20"></tr>
 
               <tr className="flex justify-between mx-5">
@@ -272,7 +318,7 @@ export default function GatePass() {
                   Signature of Office Supdt.{" "}
                 </td> */}
                 <td colspan="4" className="border-t-2 border-black py-2">
-                  <div>Principal with seal </div>
+                  <div>Principal Signature </div>
                 </td>
               </tr>
             </tbody>
