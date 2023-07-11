@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import UserContext from '../../../components/context/userContext'
 import { useReactToPrint } from 'react-to-print'
 
-export default function GatePass() {
+export default function StudentReports() {
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
