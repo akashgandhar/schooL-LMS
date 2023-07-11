@@ -354,7 +354,7 @@ export default function ViewStd() {
                       SN.
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      SrNo.
+                      Adm No.
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       SID
