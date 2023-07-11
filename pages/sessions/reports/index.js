@@ -273,6 +273,7 @@ export default function GatePass() {
                               >
                                 Character Certificate
                               </button>
+                              
                             </td>
                           </tr>
                         );

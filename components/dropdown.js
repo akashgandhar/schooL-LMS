@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-import Link from 'next/link'
+import { Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import Link from "next/link";
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -15,154 +15,157 @@ import {
   ShieldCheckIcon,
   Squares2X2Icon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import Example from './drop'
-import Drop from './drop'
-import { signOut } from 'firebase/auth'
-import { auth } from '../firebase'
-import { useRouter } from 'next/router'
+} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import Example from "./drop";
+import Drop from "./drop";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useRouter } from "next/router";
 
 const schoolTabs = [
   {
-    name: 'Session Manager',
-    href: '/sessions',
+    name: "Session Manager",
+    href: "/sessions",
   },
   {
-    name: 'Classes',
-    href: '/sessions/school/classes',
+    name: "Classes",
+    href: "/sessions/school/classes",
   },
   {
-    name: 'Bus Management',
-    href: '/sessions/school/buses',
+    name: "Bus Management",
+    href: "/sessions/school/buses",
   },
   {
-    name: 'Stop Management',
-    href: '/sessions/school/stops',
+    name: "Stop Management",
+    href: "/sessions/school/stops",
   },
   {
-    name: 'House Management',
-    href: '/sessions/school/house',
+    name: "House Management",
+    href: "/sessions/school/house",
   },
   {
-    name: 'Staff Management',
-    href: '/sessions/school/staff',
+    name: "Staff Management",
+    href: "/sessions/school/staff",
   },
-]
+];
 const examTabs = [
   {
-    name: 'Create Exams',
-    href: '/sessions/exams',
+    name: "Create Exams",
+    href: "/sessions/exams",
   },
   {
-    name: 'Map Subjects',
-    href: '/sessions/exams/mapSubject',
+    name: "Map Subjects",
+    href: "/sessions/exams/mapSubject",
   },
   {
-    name: 'Insert/Update Marks',
-    href: '/sessions/exams/marks',
+    name: "Insert/Update Marks",
+    href: "/sessions/exams/marks",
   },
   {
-    name: 'Create Rooms',
-    href: '/sessions/exams/createRooms',
+    name: "Create Rooms",
+    href: "/sessions/exams/createRooms",
   },
   {
-    name: 'Seating Arrangement',
-    href: '/sessions/exams/seatingArrangement',
+    name: "Seating Arrangement",
+    href: "/sessions/exams/seatingArrangement",
   },
-]
+];
 
 const studentTabs = [
   {
-    name: 'New Student',
-    href: '/sessions/students/newStudent',
+    name: "New Student",
+    href: "/sessions/students/newStudent",
   },
   {
-    name: 'View/Update Students',
-    href: '/sessions/students/viewStudent',
+    name: "View/Update Students",
+    href: "/sessions/students/viewStudent",
   },
   {
-    name: 'Student Sr',
-    href: '/sessions/students/studentSR',
+    name: "Student Sr",
+    href: "/sessions/students/studentSR",
   },
   {
-    name: 'Deleted Students',
-    href: '/sessions/students/deletedStudents',
+    name: "Deleted Students",
+    href: "/sessions/students/deletedStudents",
   },
-]
+];
 const accountTabs = [
   {
-    name: 'View Dues',
-    href: '/sessions/account/viewDue',
+    name: "View Dues",
+    href: "/sessions/account/viewDue",
   },
   {
-    name: 'Student Ledger',
-    href: '/sessions/account/studentLedger',
+    name: "Student Ledger",
+    href: "/sessions/account/studentLedger",
   },
   {
-    name: 'Pay Fees',
-    href: '/sessions/account/payFee',
+    name: "Pay Fees",
+    href: "/sessions/account/payFee",
   },
   {
-    name: 'Income',
-    href: '/sessions/account/income',
+    name: "Income",
+    href: "/sessions/account/income",
   },
   {
-    name: 'Expense',
-    href: '/sessions/account/expense',
+    name: "Expense",
+    href: "/sessions/account/expense",
   },
   {
-    name: 'DayBook',
-    href: '/sessions/account/dayBook',
+    name: "DayBook",
+    href: "/sessions/account/dayBook",
   },
   {
-    name: 'OldDues/Adm/Lab Fees',
-    href: '/sessions/account/prevDue',
+    name: "OldDues/Adm/Lab Fees",
+    href: "/sessions/account/prevDue",
   },
   // {
   //   name: 'Other Fees',
   //   href: '/sessions/account/otherFee',
   // },
   {
-    name: 'Insert Third Ward Fees',
-    href: '/sessions/account/insertOtherFee',
+    name: "Insert Third Ward Fees",
+    href: "/sessions/account/insertOtherFee",
   },
-]
+];
 const reports = [
   {
-    name: 'Students List',
-    href: '/sessions/reports/students',
+    name: "Students List",
+    href: "/sessions/reports/students",
   },
   {
-    name: 'Transport List',
-    href: '/sessions/reports/transport',
+    name: "Transport List",
+    href: "/sessions/reports/transport",
   },
   {
-    name: 'Certificates',
-    href: '/sessions/reports',
+    name: "Certificates",
+    href: "/sessions/reports",
   },
-  
-]
+  {
+    name: "Gate Passes",
+    href: "/sessions/reports/gatePass",
+  },
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Dropdown() {
-  const router = useRouter()
+  const router = useRouter();
   const signout = () => {
     signOut(auth)
       .then(() => {
-        router.push('/')
-        router.reload()
+        router.push("/");
+        router.reload();
         // Sign-out successful.
       })
       .catch((error) => {
         // An error happened.
-      })
-  }
+      });
+  };
   return (
-    <div className='flex justify-between items-center border-b-2 px-10'>
+    <div className="flex justify-between items-center border-b-2 px-10">
       <div>
         <Popover className="relative bg-white z-10">
           <div className="mx-auto max-w-10xl px-4 sm:px-6">
@@ -186,16 +189,16 @@ export default function Dropdown() {
                     <>
                       <Popover.Button
                         className={classNames(
-                          open ? 'text-gray-900' : 'text-gray-500',
-                          'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
                         <span>School</span>
                         {open && (
                           <ChevronUpIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -204,8 +207,8 @@ export default function Dropdown() {
                         {!open && (
                           <ChevronDownIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -250,16 +253,16 @@ export default function Dropdown() {
                     <>
                       <Popover.Button
                         className={classNames(
-                          open ? 'text-gray-900' : 'text-gray-500',
-                          'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
                         <span>Students</span>
                         {open && (
                           <ChevronUpIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -268,8 +271,8 @@ export default function Dropdown() {
                         {!open && (
                           <ChevronDownIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -314,16 +317,16 @@ export default function Dropdown() {
                     <>
                       <Popover.Button
                         className={classNames(
-                          open ? 'text-gray-900' : 'text-gray-500',
-                          'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
                         <span>Account</span>
                         {open && (
                           <ChevronUpIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -332,8 +335,8 @@ export default function Dropdown() {
                         {!open && (
                           <ChevronDownIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -377,16 +380,16 @@ export default function Dropdown() {
                     <>
                       <Popover.Button
                         className={classNames(
-                          open ? 'text-gray-900' : 'text-gray-500',
-                          'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
                         <span>Exams</span>
                         {open && (
                           <ChevronUpIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -395,8 +398,8 @@ export default function Dropdown() {
                         {!open && (
                           <ChevronDownIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -440,16 +443,16 @@ export default function Dropdown() {
                     <>
                       <Popover.Button
                         className={classNames(
-                          open ? 'text-gray-900' : 'text-gray-500',
-                          'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
                         <span>Reports</span>
                         {open && (
                           <ChevronUpIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -458,8 +461,8 @@ export default function Dropdown() {
                         {!open && (
                           <ChevronDownIcon
                             className={classNames(
-                              open ? 'text-gray-600' : 'text-gray-400',
-                              'ml-2 h-5 w-5 group-hover:text-gray-500',
+                              open ? "text-gray-600" : "text-gray-400",
+                              "ml-2 h-5 w-5 group-hover:text-gray-500"
                             )}
                             aria-hidden="true"
                           />
@@ -551,7 +554,10 @@ export default function Dropdown() {
         </Popover>
       </div>
       <div>
-        <button onClick={signout} class="bg-red-400 hover:bg-red-500 text-grey-darkest font-bold py-2 px-2 rounded inline-flex items-center">
+        <button
+          onClick={signout}
+          class="bg-red-400 hover:bg-red-500 text-grey-darkest font-bold py-2 px-2 rounded inline-flex items-center"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -572,5 +578,5 @@ export default function Dropdown() {
         </button>
       </div>
     </div>
-  )
+  );
 }
