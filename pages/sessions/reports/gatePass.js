@@ -15,90 +15,20 @@ export default function GatePass() {
 
   const a = useContext(UserContext);
 
-  const fields = [
-    "Name of the Pupil",
-    "Mother's Name",
-    "Father's/Guardian's Name",
-    "Date of Birth according to the Admission Register (In figure)",
-    "Nationality",
-    "Whether the pupil belongs to SC/ST/OBC category",
-    "Date of first admission in the school with class",
-    "Class in which the pupil last studies (in words)",
-    "Whether failed, if so once/twice in same class?",
-    "School/Board Examination last taken with result",
-    "Subjects offered",
-    "Whether qualified for promotion to the next higher class",
-    "Month upto which the pupil has paid school dues?",
-    "Any fee concession availed of? if so the Nature of such concession.",
-    "Total no. of working days",
-    "Total no. of working days present",
-    "Whether the pupil is NCC Cadet/Boy Scunt/Girl Guide (give details)",
-    "Games played or extra curricular activities in which the pupil usually took part (mention achivement level)",
-    "General conduct",
-    "Date Of Application of certificate",
-    "Date Of issue of Certificate",
-    "Reason for leaving the school",
-    "Any other remarks",
-    "Date on which pupil's name was struck off The rolls of the school",
-  ];
-
-  const [data, setData] = useState({});
-  const [data1, setData1] = useState({});
-
-  // console.log(data1);
-  console.log(data);
-
-  const [count, setCount] = useState(0);
-
-  const getData = async () => {
-    if (count < 2) {
-      // console.log(a);
-      if (a.user && a.session) {
-        try {
-          const docRef = doc(
-            db,
-            `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
-            s.Sr_Number
-          );
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setData1(docSnap.data());
-            setData(docSnap.data());
-            console.log(docSnap.data());
-            setCount(count + 1);
-          }
-        } catch (e) {
-          alert(e.message);
-        }
-      }
-    }
-  };
-
-  const setTc = async () => {
-    console.log(data);
-    try {
-      // console.log(s);
-      const docRef = doc(
-        db,
-        `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
-        s.Sr_Number
-      );
-      setDoc(docRef, data);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  useEffect(() => {
-    // const myVar = 'f1';
-    // console.log(data);
-    getData();
-  }, []);
+  const [sName, setSName] = useState("");
+  const [rName, setRName] = useState("");
+  const [fName, setFName] = useState("");
+  const [add, setAdd] = useState("");
+  const [reason, setReason] = useState("");
 
   return (
     <center className="w-full py-7 text-[12pt]">
       <div className="w-[250mm] max-h-[280mm] bg-no-repeat bg-center">
-        <div ref={componentRef} id="print" className="flex gap-1 mx-2 pt-5 pb-5 ">
+        <div
+          ref={componentRef}
+          id="print"
+          className="flex gap-1 mx-2 pt-5 pb-5 "
+        >
           <table className=" align-middle max-h-[300mm] mx-auto w-11/12 border-2 border-black text-[12pt]">
             <tbody>
               <tr>
@@ -161,6 +91,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Student(s) Name: </td>
                 <textarea
+                  onChange={(e) => setSName(e.target.value)}
+                  value={sName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -169,6 +101,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Father(s) Name: </td>
                 <textarea
+                  onChange={(e) => setFName(e.target.value)}
+                  value={fName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -177,6 +111,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Reciever's Name: </td>
                 <textarea
+                  onChange={(e) => setRName(e.target.value)}
+                  value={rName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -185,6 +121,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Address: </td>
                 <textarea
+                  onChange={(e) => setAdd(e.target.value)}
+                  value={add}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -193,6 +131,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Reason: </td>
                 <textarea
+                  onChange={(e) => setReason(e.target.value)}
+                  value={reason}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -275,6 +215,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Student(s) Name: </td>
                 <textarea
+                  onChange={(e) => setSName(e.target.value)}
+                  value={sName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -283,6 +225,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Father(s) Name: </td>
                 <textarea
+                  onChange={(e) => setFName(e.target.value)}
+                  value={fName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -291,6 +235,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Reciever's Name: </td>
                 <textarea
+                  onChange={(e) => setRName(e.target.value)}
+                  value={rName}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -299,6 +245,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Address: </td>
                 <textarea
+                  onChange={(e) => setAdd(e.target.value)}
+                  value={add}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
@@ -307,6 +255,8 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Reason: </td>
                 <textarea
+                  onChange={(e) => setReason(e.target.value)}
+                  value={reason}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
