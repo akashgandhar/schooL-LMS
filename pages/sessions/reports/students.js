@@ -364,7 +364,7 @@ export default function StudentReports() {
                               <span className="inline-block w-1/3 md:hidden font-bold">
                                 {col}
                               </span>
-                              {col== "Adm No."?e[Sr_Number]:e[col]}
+                              {col== "Adm No."?e["Sr_Number"]:e[col]}
                             </td>
                           ))}
                         </tr>
