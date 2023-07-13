@@ -144,7 +144,7 @@ export default function StudentReports() {
     return 0
   })
 
-  const [columns, setColumns] = useState(["Adm No.","ID","name","Father_Name","Class","Place","Mobile_Number"])
+  const [columns, setColumns] = useState(["Adm No.","ID","name","Father_Name","Class","Mobile_Number"])
 
   // useEffect(() => {
   //   console.log(columns)
@@ -299,7 +299,8 @@ export default function StudentReports() {
                     'Third_Ward',
                     'Transport_Fee',
                     'Transport_Status',
-                  ].map((attribute) => (
+                    'Place'
+                  ].sort((a, b) => a.localeCompare(b)).map((attribute) => (
                     <div key={attribute}>
                       <label className='flex items-center gap-1' >
                         <input
@@ -364,7 +365,8 @@ export default function StudentReports() {
                               <span className="inline-block w-1/3 md:hidden font-bold">
                                 {col}
                               </span>
-                              {col== "Adm No."?e["Sr_Number"]:e[col]}
+                              {/* {col== "Adm No."?e["ID"]:e[col]} */}
+                              {col === 'ID' ? e['Sr_Number'] : (col === 'Adm No.' ? e['ID'] : e[col])}
                             </td>
                           ))}
                         </tr>

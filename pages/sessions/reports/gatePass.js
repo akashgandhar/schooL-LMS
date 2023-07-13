@@ -21,6 +21,8 @@ export default function GatePass() {
   const [fName, setFName] = useState("");
   const [add, setAdd] = useState("");
   const [reason, setReason] = useState("");
+  const [contact, setContact] = useState("");
+  const [tStatus, setTStatus] = useState("");
 
   const [current, setCurrent] = useState(new Date());
   const d =
@@ -163,14 +165,24 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Contact: </td>
                 <textarea
-                  onChange={(e) => setReason(e.target.value)}
-                  value={reason}
+                  onChange={(e) => setContact(e.target.value)}
+                  value={contact}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
                 />
               </tr>
-              <tr className="h-20"></tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td className="w-1/2">Transport Status: </td>
+                <textarea
+                  onChange={(e) => setTStatus(e.target.value)}
+                  value={tStatus}
+                  type="text"
+                  className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
+                  placeholder="max words"
+                />
+              </tr>
+              <tr className="h-8"></tr>
 
               <tr className="flex justify-between mx-5">
                 <td colspan="3" className="border-t-2 border-black py-2">
@@ -301,14 +313,24 @@ export default function GatePass() {
               <tr className="font-bold flex justify-between px-5">
                 <td className="w-1/2">Contact: </td>
                 <textarea
-                  onChange={(e) => setReason(e.target.value)}
-                  value={reason}
+                  onChange={(e) => setContact(e.target.value)}
+                  value={contact}
                   type="text"
                   className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
                   placeholder="max words"
                 />
               </tr>
-              <tr className="h-20"></tr>
+              <tr className="font-bold flex justify-between px-5">
+                <td className="w-1/2">Transport Status: </td>
+                <textarea
+                  onChange={(e) => setTStatus(e.target.value)}
+                  value={tStatus}
+                  type="text"
+                  className="uppercase w-full text-[10pt] font-bold border-b-2 border-black border-dashed"
+                  placeholder="max words"
+                />
+              </tr>
+              <tr className="h-8"></tr>
 
               <tr className="flex justify-between mx-5">
                 <td colspan="3" className="border-t-2 border-black py-2">
