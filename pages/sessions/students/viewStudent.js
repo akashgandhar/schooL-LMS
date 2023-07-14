@@ -347,44 +347,44 @@ export default function ViewStd() {
                   --- Class {className} ---
                 </button>
               </div>
-              <table class="min-w-full border-collapse block md:table">
+              <table class="font-semibold min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
-                  <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                  <tr class="border border-black md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       SN.
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Adm No.
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       SID
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Student Name
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Father Name
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Class
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Section
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Mobile
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Address
                     </th>
 
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 {!q && (
-                  <tbody class="block md:table-row-group">
+                  <tbody class="font-semibold block md:table-row-group">
                     {students
                       .sort((a, b) => (a.name > b.name ? 1 : -1))
                       .filter(
@@ -395,63 +395,63 @@ export default function ViewStd() {
                           return (
                             <tr
                               key={index}
-                              class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                              class="bg-white font-semibold border border-black md:border-none block md:table-row"
                             >
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   sn
                                 </span>
                                 {index + 1}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   sn
                                 </span>
                                 {e.ID}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   SID
                                 </span>
                                 {e.Sr_Number}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   name
                                 </span>
                                 {e.name}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   fName
                                 </span>
                                 {e.Father_Name}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   class
                                 </span>
                                 {e.Class}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   section
                                 </span>
                                 {e.Section}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   mobile
                                 </span>
                                 {e.Mobile_Number}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   Address
                                 </span>
                                 {e.Address}
                               </td>
-                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <td class="p-2 md:border border-black text-left block md:table-cell">
                                 <span class="inline-block w-auto md:hidden font-bold">
                                   action
                                 </span>
@@ -515,63 +515,63 @@ export default function ViewStd() {
                             return (
                               <tr
                                 key={index}
-                                class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                                class="bg-white border border-black md:border-none block md:table-row"
                               >
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     sn
                                   </span>
                                   {index + 1}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     sn
                                   </span>
                                   {e.ID}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     SID
                                   </span>
                                   {e.Sr_Number}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     name
                                   </span>
                                   {e.name}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     fName
                                   </span>
                                   {e.Father_Name}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     class
                                   </span>
                                   {e.Class}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     section
                                   </span>
                                   {e.Section}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     mobile
                                   </span>
                                   {e.Mobile_Number}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     Address
                                   </span>
                                   {e.Address}
                                 </td>
-                                <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <td class="p-2 md:border border-black text-left block md:table-cell">
                                   <span class="inline-block w-auto md:hidden font-bold">
                                     action
                                   </span>
@@ -632,41 +632,42 @@ export default function ViewStd() {
         </div>
       </div>
 
-      <div className="hidden border-2  border-gray-600">
-        <table ref={componentRef} class=" min-w-full border-collapse  md:table">
+      <div  className=" hidden border-2  border-gray-600">
+        <div className="p-1 block" ref={componentRef}>
+        <table  class=" min-w-full border-collapse  md:table">
           <thead class="block md:table-header-group">
-            <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+            <tr class="border border-black md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 SN.
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 SrNo.
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 SID
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Student Name
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Father Name
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Class
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Section
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Mobile
               </th>
-              <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+              <th class="bg-gray-600 p-2 text-white font-bold md:border border-black text-left block md:table-cell">
                 Address
               </th>
             </tr>
           </thead>
           {!q && (
-            <tbody class="block md:table-row-group">
+            <tbody class="font-semibold block md:table-row-group">
               {students
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .filter((e) => e.Deleted === false || e.Deleted === undefined)
@@ -675,57 +676,57 @@ export default function ViewStd() {
                     return (
                       <tr
                         key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                        class="bg-white border border-black md:border-none block md:table-row"
                       >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             sn
                           </span>
                           {index + 1}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             sn
                           </span>
                           {e.ID}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             SID
                           </span>
                           {e.Sr_Number}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             name
                           </span>
                           {e.name}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             fName
                           </span>
                           {e.Father_Name}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             class
                           </span>
                           {e.Class}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             section
                           </span>
                           {e.Section}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             mobile
                           </span>
                           {e.Mobile_Number}
                         </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <td class="p-2 md:border border-black text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             Address
                           </span>
@@ -738,6 +739,7 @@ export default function ViewStd() {
             </tbody>
           )}
         </table>
+        </div>
       </div>
     </>
   );
