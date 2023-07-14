@@ -352,11 +352,11 @@ export default function StudentReports() {
               </div>
               <table class="min-w-full border-collapse block md:table">
                 <thead className="block md:table-header-group">
-                  <tr className="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                  <tr className="border border-black md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                     {columns.map((col) => (
                       <th
                         key={col}
-                        className="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell"
+                        className="bg-gray-600 p-2 text-white font-bold md:border md:border-black text-left block md:table-cell"
                       >
                         {col == "name" ? "Name" : col}
                       </th>
@@ -371,12 +371,12 @@ export default function StudentReports() {
                         return (
                           <tr
                             key={index}
-                            className="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                            className="bg-white border border-black md:border-none block md:table-row"
                           >
                             {columns.map((col) => (
                               <td
                                 key={col}
-                                className="p-2 md:border md:border-grey-500 text-left block md:table-cell"
+                                className="p-2 md:border md:border-black text-left block md:table-cell"
                               >
                                 <span className="inline-block w-1/3 md:hidden font-bold">
                                   {col}
@@ -408,6 +408,7 @@ export default function StudentReports() {
                     })}
                 </tbody>
               </table>
+            </div>
               <div className="flex justify-center items-center p-2">
                 <button
                   className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -416,7 +417,6 @@ export default function StudentReports() {
                   print
                 </button>
               </div>
-            </div>
           </div>
         </div>
       </div>
