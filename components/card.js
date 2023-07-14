@@ -1,13 +1,12 @@
-import { collection, getDocs } from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
-import { db } from '../firebase'
-import UserContext from './context/userContext'
+import { collection, getDocs } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
+import { db } from "../firebase";
+import UserContext from "./context/userContext";
 
 export default function Card() {
-  const [students, setStudents] = useState([])
-  const a = useContext(UserContext)
+  const [students, setStudents] = useState([]);
+  const a = useContext(UserContext);
 
-  
   const current = new Date();
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()
@@ -19,75 +18,72 @@ export default function Card() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-const [totalinc, setTotalInc] = useState(0)
-const [count, setCount] = useState(0)
+  const [totalinc, setTotalInc] = useState(0);
+  const [count, setCount] = useState(0);
 
   const GetStudents = async () => {
-    if(count<3){
-
+    if (count < 3) {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/AllStudents`,
-        )
-        const docSnap = await getDocs(docRef)
-        var list = []
-        docSnap.forEach((doc) => {
-          list.push(doc.data())
-        })
-        setStudents(list)
-        // console.log(count);
-        setCount(count+1)
-      }
-  }
-
-
-  const getIncome = async () => {
-    if(count<3){
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
+        `users/${a.user}/sessions/${a.session}/AllStudents`
       );
       const docSnap = await getDocs(docRef);
-      var list = 0;
+      var list = [];
       docSnap.forEach((doc) => {
-        list += Number(doc.data().Total_Paid);
+        list.push(doc.data());
       });
-      setTotalInc(list)
-      setCount(count+1)
-    } catch (e) {
-      alert(e.message)
-    }}
+      setStudents(list);
+      // console.log(count);
+      setCount(count + 1);
+    }
+  };
+
+  const getIncome = async () => {
+    if (count < 3) {
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = 0;
+        docSnap.forEach((doc) => {
+          list += Number(doc.data().Total_Paid);
+        });
+        setTotalInc(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
   };
 
   const getExpense = async () => {
-    if(count<3){
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = 0;
-      docSnap.forEach((doc) => {
-        list += Number(doc.data().Total_Paid);
-      });
-      setTotal(list)
-      setCount(count+1)
-    
-    } catch (e) {
-      alert(e.message)
-    }}
+    if (count < 3) {
+      try {
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = 0;
+        docSnap.forEach((doc) => {
+          list += Number(doc.data().Total_Paid);
+        });
+        setTotal(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
   };
 
   useEffect(() => {
-  
-     GetStudents();
-     getIncome();
-     getExpense();
+    GetStudents();
+    getIncome();
+    getExpense();
     //  console.log("run");
-
-  }, [students,totalinc,total])
+  }, [students, totalinc, total]);
 
   return (
     <div class="w-full px-6 py-6 mx-auto">
@@ -104,7 +100,11 @@ const [count, setCount] = useState(0)
                       Total Strength
                     </p>
                     <h5 class="mb-0 font-bold">
-                      {students.length}
+                      {
+                        students.filter(
+                          (e) => e.Deleted === false || e.Deleted === undefined
+                        ).length
+                      }
                       <span class="leading-normal text-sm font-weight-bolder text-lime-500"></span>
                     </h5>
                   </div>
@@ -134,15 +134,16 @@ const [count, setCount] = useState(0)
                     </p>
                     <h5 class="mb-0 font-bold">
                       {totalinc}
-                      <span class="leading-normal text-sm font-weight-bolder text-lime-500">
-                      
-                      </span>
+                      <span class="leading-normal text-sm font-weight-bolder text-lime-500"></span>
                     </h5>
                   </div>
                 </div>
                 <div class="px-3 text-right basis-1/3">
                   <div class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl ">
-                    <img src='https://cdn-icons-png.flaticon.com/512/2936/2936758.png' class="ni leading-none ni-world text-lg relative  text-white"/>
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/2936/2936758.png"
+                      class="ni leading-none ni-world text-lg relative  text-white"
+                    />
                   </div>
                 </div>
               </div>
@@ -162,22 +163,22 @@ const [count, setCount] = useState(0)
                     </p>
                     <h5 class="mb-0 font-bold">
                       {total}
-                      <span class="leading-normal text-sm font-weight-bolder text-lime-500">
-                      
-                      </span>
+                      <span class="leading-normal text-sm font-weight-bolder text-lime-500"></span>
                     </h5>
                   </div>
                 </div>
                 <div class="px-3 text-right basis-1/3">
                   <div class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl ">
-                    <img src='https://cdn-icons-png.flaticon.com/512/3707/3707999.png' class="ni leading-none ni-world text-lg relative  text-white"/>
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/3707/3707999.png"
+                      class="ni leading-none ni-world text-lg relative  text-white"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
 
         {/* <!-- card4 --> */}
         <div class="w-full max-w-full px-10 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
@@ -187,27 +188,27 @@ const [count, setCount] = useState(0)
                 <div class="flex-none w-2/3 max-w-full px-3">
                   <div>
                     <p class="mb-0 font-sans font-semibold leading-normal text-sm">
-                    Today's Balance
+                      Today's Balance
                     </p>
                     <h5 class="mb-0 font-bold">
-                    {Number(totalinc) - Number(total)}
-                      <span class="leading-normal text-sm font-weight-bolder text-lime-500">
-                      
-                      </span>
+                      {Number(totalinc) - Number(total)}
+                      <span class="leading-normal text-sm font-weight-bolder text-lime-500"></span>
                     </h5>
                   </div>
                 </div>
                 <div class="px-3 text-right basis-1/3">
                   <div class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl ">
-                    <img src='https://cdn-icons-png.flaticon.com/512/10164/10164637.png' class="ni leading-none ni-world text-lg relative  text-white"/>
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/10164/10164637.png"
+                      class="ni leading-none ni-world text-lg relative  text-white"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
-  )
+  );
 }
