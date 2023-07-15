@@ -518,12 +518,12 @@ import {
                                     }}
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                                   >
-                                    Delete
+                                    Restore
                                   </button>
                                   {isConfirm && (
                                     <button
                                       onClick={() => {
-                                        deleteStudent(e).then(() => {
+                                        restoreStudent(e).then(() => {
                                           setIsConfirm(false)
                                         })
                                       }}
