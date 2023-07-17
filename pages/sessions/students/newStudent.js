@@ -116,7 +116,7 @@ export default function NewStudent() {
     if (month == "April" || month == "May") {
       return fee * n;
     } else if (month == "June") {
-      return fee*2;
+      return fee * 2;
     } else {
       return fee * (n - 1);
     }
@@ -134,7 +134,9 @@ export default function NewStudent() {
         await setDoc(docRef, {
           month: e,
           month_Due:
-            rteStatus === "Yes" || ward === "Yes" ? 0 : classFee * (months.indexOf(e) + 1),
+            rteStatus === "Yes" || ward === "Yes"
+              ? 0
+              : classFee * (months.indexOf(e) + 1),
           transport_due: CalculatTransport(
             e,
             transportFee,
@@ -145,17 +147,14 @@ export default function NewStudent() {
           section: sectionName,
           father_name: fName,
           Place: place,
+          Address: address,
           Mobile: mobile,
           Sr_Number: sr,
           total:
-            (rteStatus === "Yes" || ward === "Yes"
+            rteStatus === "Yes" || ward === "Yes"
               ? 0
-              : (classFee * (months.indexOf(e) + 1)) +CalculatTransport(
-                e,
-                transportFee,
-                months.indexOf(e) + 1
-              ))
-            ,
+              : classFee * (months.indexOf(e) + 1) +
+                CalculatTransport(e, transportFee, months.indexOf(e) + 1),
         }).then(async () => {
           const dueRef = doc(
             db,
