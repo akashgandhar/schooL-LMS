@@ -146,23 +146,53 @@ const ExampleComponent = () => {
     }
   };
 
+  // const handleRandomSelection = () => {
+  //   const selectedClassStudents = students.filter((student) =>
+  //     selectedClasses.includes(student.Class)
+  //   );
+
+  //   const totalSelectedStudents = Math.min(
+  //     maxStudents,
+  //     selectedClassStudents.length
+  //   );
+  //   const shuffledStudents = selectedClassStudents.sort(
+  //     () => 0.5 - Math.random()
+  //   );
+  //   const randomStudents = shuffledStudents.slice(0, totalSelectedStudents);
+
+  //   setSelectedStudents(randomStudents);
+  //   // console.log("run",randomStudents);
+  // };
+
   const handleRandomSelection = () => {
+    if (!selectedExam || !selectedRoom) return;
+  
     const selectedClassStudents = students.filter((student) =>
       selectedClasses.includes(student.Class)
     );
-
-    const totalSelectedStudents = Math.min(
-      maxStudents,
-      selectedClassStudents.length
-    );
-    const shuffledStudents = selectedClassStudents.sort(
-      () => 0.5 - Math.random()
-    );
-    const randomStudents = shuffledStudents.slice(0, totalSelectedStudents);
-
-    setSelectedStudents(randomStudents);
-    // console.log("run",randomStudents);
+  
+    const maxStudentsPerClass = Math.floor(maxStudents / Math.min(selectedClasses.length, 3));
+  
+    const studentsByClass = {};
+    selectedClassStudents.forEach((student) => {
+      if (!studentsByClass[student.Class]) {
+        studentsByClass[student.Class] = [];
+      }
+      studentsByClass[student.Class].push(student);
+    });
+  
+    let selectedStudents = [];
+    for (const className of Object.keys(studentsByClass)) {
+      const classStudents = studentsByClass[className];
+      const totalSelectedStudentsFromClass = Math.min(maxStudentsPerClass, classStudents.length);
+      const shuffledStudents = classStudents.sort(() => 0.5 - Math.random());
+      const randomStudentsFromClass = shuffledStudents.slice(0, totalSelectedStudentsFromClass);
+      selectedStudents = selectedStudents.concat(randomStudentsFromClass);
+    }
+  
+    setSelectedStudents(selectedStudents);
   };
+  
 
   const filteredStudents = students.filter((student) =>
     selectedClasses.includes(student.Class)
@@ -261,7 +291,7 @@ const ExampleComponent = () => {
                     type="checkbox"
                     checked={selectedClasses.includes(className)}
                     onChange={(event) => handleClassCheck(event, className)}
-                    disabled={selectedStudents.length >= maxStudents}
+                    disabled={selectedStudents.length >= maxStudents || selectedClasses.length >= 3}
                   />
                   <span className="ml-2">{className}</span>
                 </div>
