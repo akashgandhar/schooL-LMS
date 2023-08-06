@@ -254,6 +254,16 @@ const ExampleComponent = () => {
           <button
             className="bg-blue-500 disabled:hidden  hover:bg-blue-700 hover:cursor-pointer text-white rounded-md px-4 py-2 mx-2 my-4"
             onClick={() => {
+              setSelectedClasses([]);
+              setSelectedStudents([]);
+              // console.log(selectedStudents);
+            }}
+          >
+            Clear Classes
+          </button>
+          <button
+            className="bg-blue-500 disabled:hidden  hover:bg-blue-700 hover:cursor-pointer text-white rounded-md px-4 py-2 mx-2 my-4"
+            onClick={() => {
               // console.log(selectedStudents);
               const selectedStudentsReduced = selectedStudents.map(
                 (student) => ({
