@@ -67,7 +67,7 @@ function SeatingArrangementPage() {
   });
 
   return (
-    <div className="w-full bg-gray-200 my-5 flex flex-col  mx-auto">
+    <div className="w-full p-4 bg-gray-200 my-5 flex flex-col  mx-auto">
       <div
         ref={componentRef}
         className="w-full  items-center flex justify-center"
@@ -78,7 +78,7 @@ function SeatingArrangementPage() {
           <h1 class=" items-center text-5xl mb-5 font-extrabold ">
             Seating Arrangement
             <br />
-            <span class="bg-blue-100  text-blue-800 text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded ml-2">
+            <span class="bg-blue-100  text-blue-800 text-2xl font-semibold  px-2.5 py-0.5 rounded ">
               {classKeys.map((e) => {
                 return <>{e},</>;
               })}
