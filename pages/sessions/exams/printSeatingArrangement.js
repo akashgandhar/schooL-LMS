@@ -78,17 +78,19 @@ function SeatingArrangementPage() {
           <h1 class=" items-center text-5xl mb-5 font-extrabold ">
             Seating Arrangement
             <br />
+            <span class="bg-red-100  text-red-800 text-2xl font-semibold  px-2.5 py-0.5 rounded ">
+              {examName}
+            </span>
+            <br />
             <span class="bg-blue-100  text-blue-800 text-2xl font-semibold  px-2.5 py-0.5 rounded ">
-              {classKeys.map((e) => {
-                return <>{e},</>;
-              })}
+              Room No.: {roomName}
             </span>
           </h1>
 
           <table className="table-fixed w-full ">
             <tbody>
               {tableData.map((row, rowIndex) => (
-                <tr className="flex gap-2" key={rowIndex}>
+                <tr className="flex gap-2 mb-10" key={rowIndex}>
                   {row.map((cell, cellIndex) => (
                     <td
                       key={cellIndex}
