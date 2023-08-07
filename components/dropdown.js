@@ -166,7 +166,7 @@ export default function Dropdown() {
   };
   return (
     <div className="flex justify-between items-center border-b-2 px-10">
-      <div className="max-w-[90%] overflow-clip">
+      <div className="max-w-[90%] overflow-x-clip">
         <Popover className="relative bg-white z-10">
           <div className="mx-auto max-w-10xl px-4 sm:px-6">
             <div className="flex items-center justify-between  border-gray-100 py-6 md:justify-start md:space-x-10">
