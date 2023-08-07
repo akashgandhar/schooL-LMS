@@ -248,7 +248,7 @@ export default function MarkSheet() {
                   <tbody>
                     {subjects.map((e, index) => {
                       return (
-                        <tr className="text-[12px] font-bold text-center">
+                        <tr key={index} className="text-[12px] font-bold text-center">
                           <td class="px-1  py-1 border-2 border-black">
                             {index + 1}
                           </td>
