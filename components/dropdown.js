@@ -70,6 +70,10 @@ const examTabs = [
     name: "Seating Arrangement",
     href: "/sessions/exams/seatingArrangement",
   },
+  {
+    name: "Print MarkSheet",
+    href: "/sessions/exams/studentMarksheet",
+  },
 ];
 
 const studentTabs = [

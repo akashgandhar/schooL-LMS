@@ -1,23 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { useRouter } from "next/router";
+import { collection, getDocs } from "firebase/firestore";
+import UserContext from "../../../components/context/userContext";
+import { db } from "../../../firebase";
 
 export default function MarkSheet() {
   const router = useRouter();
   const s = router.query;
-  const [name, setName] = useState(s.name);
-  const [fName, setFName] = useState(s.Father_Name);
-  const [className, setClassName] = useState(s.Class);
-  const [aDate, setADate] = useState();
-  const [pDate, setPDate] = useState();
+  const a = useContext(UserContext);
+  const [subjects, setSubjects] = useState([]);
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  // useEffect(() => {
-  //  console.log(s);
-  // }, [])
+  const getSubjects = async () => {
+    try {
+      const docRef = collection(
+        db,
+        `/users/${a.user}/sessions/${a.session}/exams/${s.examName}/classes/${s.Class}/subjects`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setSubjects(list);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  useEffect(() => {
+    getSubjects();
+  }, [subjects]);
+
+  // console.log(subjects);
 
   return (
     <div className="flex gap-5 flex-col justify-center items-center">
@@ -69,14 +88,14 @@ export default function MarkSheet() {
                   />
                 </div>
 
-                <table class="w-[95%] my-4">
+                <table class="w-[95%] mb-4 ">
                   <tbody class="bg-white text-[16px] font-bold ">
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
                       <td class="px-1 w-[160px]  py-1 border-2 border-black">
                         ADMISSION NO:
                       </td>
                       <td class="px-1 w-[328px] py-1 border-2 border-black">
-                        22
+                        {s.Sr_Number}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
                         BOARD REG.:
@@ -85,7 +104,7 @@ export default function MarkSheet() {
                         BY BIRTH
                       </td>
                       <td rowSpan={4} class="px-1  py-3  border-2 border-black">
-                        {true ? (
+                        {s.Gender === "Male" ? (
                           <img
                             src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/male-placeholder-image.jpeg?alt=media&token=961e8ee4-206e-416a-a320-fbc6ff4fb63a"
                             className="w-40 object-cover h-40 mx-auto"
@@ -103,13 +122,13 @@ export default function MarkSheet() {
                         STUDENT'S NAME:{" "}
                       </td>
                       <td class="px-1 w-[328px] py-1 border-2 border-black">
-                        22
+                        {s.name}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
                         CLASS/SECTION:{" "}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
-                        BY BIRTH
+                        {s.Class} / {s.Section}
                       </td>
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
@@ -117,13 +136,13 @@ export default function MarkSheet() {
                         FATHER'S NAME:{" "}
                       </td>
                       <td class="px-1 w-[328px] py-1 border-2 border-black">
-                        22
+                        {s.Father_Name}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
                         ROLL NO:{" "}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
-                        BY BIRTH
+                        00
                       </td>
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
@@ -131,13 +150,13 @@ export default function MarkSheet() {
                         MOTHER'S NAME:{" "}
                       </td>
                       <td class="px-1 w-[328px] py-1 border-2 border-black">
-                        22
+                        {s.Mother_Name}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
                         DOB:{" "}
                       </td>
                       <td class="px-1 py-1 w-[150px] border-2 border-black">
-                        BY BIRTH
+                        {s.Date_Of_Birth}
                       </td>
                     </tr>
                   </tbody>
@@ -176,18 +195,18 @@ export default function MarkSheet() {
                         GRAND TOTAL (100 MARKS)
                       </td>
                     </tr>
-                    <tr class=" text-center h-[100px] font-serif text-[11px]">
+                    <tr class=" text-center h-[100px] font-serif text-[15px]">
                       <td
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        THEORY{" "}
+                        PT 1 <br />&<br /> PT 2{" "}
                       </td>
                       <td
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        PRACTICAL / IA{" "}
+                        TERM 1
                       </td>
                       <td
                         rowSpan={2}
@@ -199,13 +218,13 @@ export default function MarkSheet() {
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        THEORY{" "}
+                        PT 3 <br />&<br /> PT 4{" "}
                       </td>
                       <td
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        PRACTICAL / IA{" "}
+                        TERM 2
                       </td>
                       <td
                         rowSpan={2}
@@ -227,21 +246,31 @@ export default function MarkSheet() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="text-[12px] font-bold text-center">
-                      <td class="px-1  py-1 border-2 border-black">CODE</td>
-                      <td class="px-1   py-1 border-2 border-black">SUBJECT</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">00</td>
-                      <td class="px-1   py-1 border-2 border-black">0.00</td>
-                    </tr>
+                    {subjects.map((e, index) => {
+                      return (
+                        <tr className="text-[12px] font-bold text-center">
+                          <td class="px-1  py-1 border-2 border-black">
+                            {index + 1}
+                          </td>
+                          <td class="px-1   py-1 border-2 border-black">
+                            {e.Name}
+                          </td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">
+                            0.00
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
 

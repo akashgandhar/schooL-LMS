@@ -7,15 +7,17 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import UserContext from "../../../components/context/userContext";
 
-export default function GatePass() {
+export default function StudentMarksheet() {
   const a = useContext(UserContext);
   const router = useRouter();
 
   const [className, setClassName] = useState("");
   const [sectionName, setSectionName] = useState("");
+  const [examName, setExamName] = useState("");
   const [studentList, setStudentList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const [classList, setClassList] = useState([]);
+  const [examList, setExamList] = useState([]);
 
   const GetClassList = async () => {
     try {
@@ -58,6 +60,24 @@ export default function GatePass() {
       };
     }
   };
+  const GetExamList = async () => {
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setExamList(list);
+    } catch {
+      (e) => {
+        alert(e.message);
+      };
+    }
+  };
 
   const GetStudentList = async () => {
     const docRef = collection(
@@ -81,41 +101,15 @@ export default function GatePass() {
     current.getMonth() + 1
   }-${current.getFullYear()}`;
 
-  const setTcCut = (student, rname) => {
-    try {
-      // console.log(student);
-      const docRef = doc(
-        db,
-        `users/${a.user}/sessions/${a.session}/Reports/${d}/${rname}`,
-        time
-      );
-      setDoc(docRef, {
-        Name: student.name,
-        Class: student.Class,
-        Section: student.Section,
-        Father_Name: student.Father_Name,
-        Mother_Name: student.Mother_Name,
-        Place: student.Place,
-        ID: time,
-        Report: rname,
-      }).then(() => {
-        router.push({
-          pathname: "/sessions/reports/tc",
-          query: student,
-        });
-      });
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
   return (
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
-              <h1 className="text-center font-bold text-2xl">Print Reports</h1>
+              <h1 className="text-center font-bold text-2xl">
+                Print MarkSheets
+              </h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3">
@@ -163,6 +157,31 @@ export default function GatePass() {
                     >
                       <option>Please Select</option>
                       {sectionList.map((e, index) => {
+                        return <option key={index}>{e.Name}</option>;
+                      })}
+                    </select>
+                  </div>
+
+                  <div class="md:w-1/2 px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="title"
+                    >
+                      Exam*
+                    </label>
+                    <select
+                      onClick={() => {
+                        GetExamList();
+                      }}
+                      onChange={(e) => {
+                        setExamName(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="title"
+                      placeholder="B.tech / cse / CSP242 "
+                    >
+                      <option>Please Select</option>
+                      {examList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -254,26 +273,17 @@ export default function GatePass() {
 
                               <button
                                 onClick={() => {
-                                  setTcCut(e, "TC");
-                                }}
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                              >
-                                Transfer Certificate
-                              </button>
-                              <button className="px-2"></button>
-
-                              <button
-                                onClick={() => {
+                                  e["examName"] = examName;
                                   router.push({
-                                    pathname: "/sessions/reports/cc",
+                                    pathname: "/sessions/exams/marksheet",
                                     query: e,
                                   });
                                 }}
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                               >
-                                Character Certificate
+                                Generate
                               </button>
-                              
+                              <button className="px-2"></button>
                             </td>
                           </tr>
                         );
