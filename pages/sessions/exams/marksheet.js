@@ -15,28 +15,71 @@ export default function MarkSheet() {
     content: () => componentRef.current,
   });
 
+  const [count, setCount] = useState(0);
   const getSubjects = async () => {
+    if (count < 2) {
+      try {
+        const docRef = collection(
+          db,
+          `/users/${a.user}/sessions/${a.session}/exams/${s.examName}/classes/${s.Class}/subjects`
+        );
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setSubjects(list);
+        setCount(count + 1);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+  };
+
+  const [marks, setMarks] = useState([]);
+
+  const getMarks = async () => {
     try {
       const docRef = collection(
         db,
-        `/users/${a.user}/sessions/${a.session}/exams/${s.examName}/classes/${s.Class}/subjects`
+        `users/${a.user}/sessions/${a.session}/exams/`
       );
       const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
+      var listmain = [[]];
+      docSnap.forEach(async (doc) => {
+        // list.push(doc.data());
+        const docRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/exams/${
+            doc.data().Name
+          }/classes/${s.Class}/subjects/`
+        );
+        var list = { Exam: "", marks: [] };
+        const docSnap = await getDocs(docRef);
+        docSnap.forEach((doc2) => {
+          list["Exam"] = doc.data().Name;
+          list["marks"].push(doc2.data());
+        });
+        // console.log(list);
+        listmain.push(list);
+        // console.log(listmain);
+        // console.log("lii"+listmain);
+        setMarks(listmain);
       });
-      setSubjects(list);
-    } catch (e) {
-      alert(e.message);
+      // setExamList(list);
+    } catch {
+      (e) => {
+        alert(e.message);
+      };
     }
   };
 
   useEffect(() => {
     getSubjects();
-  }, [subjects]);
+    getMarks();
+  }, [subjects, marks]);
 
-  // console.log(subjects);
+  console.log(marks);
 
   return (
     <div className="flex gap-5 flex-col justify-center items-center">
@@ -248,7 +291,10 @@ export default function MarkSheet() {
                   <tbody>
                     {subjects.map((e, index) => {
                       return (
-                        <tr key={index} className="text-[12px] font-bold text-center">
+                        <tr
+                          key={index}
+                          className="text-[12px] font-bold text-center"
+                        >
                           <td class="px-1  py-1 border-2 border-black">
                             {index + 1}
                           </td>
