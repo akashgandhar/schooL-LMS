@@ -1,7 +1,7 @@
 import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { useRouter } from "next/router";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
 import { db } from "../../../firebase";
 
@@ -14,10 +14,14 @@ export default function MarkSheet() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
   const [count, setCount] = useState(0);
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
+  const [count4, setCount4] = useState(0);
+
   const getSubjects = async () => {
-    if (count < 2) {
+    if (count1 < 2) {
       try {
         const docRef = collection(
           db,
@@ -29,7 +33,7 @@ export default function MarkSheet() {
           list.push(doc.data());
         });
         setSubjects(list);
-        setCount(count + 1);
+        setCount(count1 + 1);
       } catch (e) {
         alert(e.message);
       }
@@ -38,48 +42,106 @@ export default function MarkSheet() {
 
   const [marks, setMarks] = useState([]);
 
-  const getMarks = async () => {
-    try {
+  const [examList, setExamList] = useState([]);
+
+  const GetExamList = async () => {
+    if (count2 < 3) {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/exams/`
+        `users/${a.user}/sessions/${a.session}/exams`
       );
       const docSnap = await getDocs(docRef);
-      var listmain = [[]];
-      docSnap.forEach(async (doc) => {
-        // list.push(doc.data());
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/exams/${
-            doc.data().Name
-          }/classes/${s.Class}/subjects/`
-        );
-        var list = { Exam: "", marks: [] };
-        const docSnap = await getDocs(docRef);
-        docSnap.forEach((doc2) => {
-          list["Exam"] = doc.data().Name;
-          list["marks"].push(doc2.data());
-        });
-        // console.log(list);
-        listmain.push(list);
-        // console.log(listmain);
-        // console.log("lii"+listmain);
-        setMarks(listmain);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data().Name);
       });
-      // setExamList(list);
-    } catch {
-      (e) => {
-        alert(e.message);
-      };
+      setExamList(list);
+      setCount(count2 + 1);
     }
   };
 
+  const [subList, setSubList] = useState([]);
+
+  const GetSubList = async (exam) => {
+    if (count3 < 2) {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/classes/${s.Class}/subjects`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      // setSubList(list);
+      return list;
+      // console.log("run");
+      setCount(count3 + 1);
+    }
+  };
+  // console.log(subList);
+  // console.log(examList);
+  const GetMarks = async (exam) => {
+    const subs = await GetSubList(exam);
+    // console.log(subs);
+    try {
+      const list = {};
+
+      subs.forEach(async (e) => {
+        // console.log(1);
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/exams/${exam}/classes/${s.Class}/subjects/${e.Name}/students/`,
+          s.Sr_Number
+        );
+        const docSnap = await getDoc(docRef);
+        // console.log(docSnap.data());
+        if (docSnap.exists()) {
+          list[e.Name] = docSnap.data();
+          // console.log(list);
+        }
+      });
+      return list;
+    } catch (e) {
+      console.log("error" + e.message);
+      return null; // or handle the error as needed
+    }
+
+    return null; // or handle the case when count is greater than or equal to 2
+  };
+
+  const fetchMarksForExams = async (examList) => {
+    const results = {};
+
+    for (const exam of examList) {
+      const marks = await GetMarks(exam); // Assuming you have defined the GetMarks function
+      // console.log(marks);
+      if (marks !== null) {
+        results[exam] = marks;
+      }
+    }
+
+    return results;
+  };
+
+  // fetchMarksForExams(examList)
+  //   .then((results) => {
+  //     console.log(results);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+
+  // console.log(examList);
+
   useEffect(() => {
     getSubjects();
-    getMarks();
+    GetExamList();
+    GetSubList();
+    // getMarks();
   }, [subjects, marks]);
 
-  console.log(marks);
+  // console.log(marks);
 
   return (
     <div className="flex gap-5 flex-col justify-center items-center">
@@ -301,14 +363,14 @@ export default function MarkSheet() {
                           <td class="px-1   py-1 border-2 border-black">
                             {e.Name}
                           </td>
+                          <td class="px-1   py-1 border-2 border-black">20</td>
+                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">30</td>
                           <td class="px-1   py-1 border-2 border-black">00</td>
                           <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">20</td>
                           <td class="px-1   py-1 border-2 border-black">00</td>
-                          <td class="px-1   py-1 border-2 border-black">00</td>
-                          <td class="px-1   py-1 border-2 border-black">00</td>
-                          <td class="px-1   py-1 border-2 border-black">00</td>
-                          <td class="px-1   py-1 border-2 border-black">00</td>
-                          <td class="px-1   py-1 border-2 border-black">00</td>
+                          <td class="px-1   py-1 border-2 border-black">30</td>
                           <td class="px-1   py-1 border-2 border-black">00</td>
                           <td class="px-1   py-1 border-2 border-black">00</td>
                           <td class="px-1   py-1 border-2 border-black">
@@ -334,25 +396,49 @@ export default function MarkSheet() {
                       <td class="px-1 w-1/2 py-1 border-2 border-black">
                         Work Education
                       </td>
-                      <td class="px-1  py-1 border-2 border-black">22</td>
+                      <td class="px-1  py-1 border-2 border-black">
+                        <select className="appearance-none w-5">
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
                       <td class="px-1   py-1 border-2 border-black">
                         Art Education
                       </td>
-                      <td class="px-1  py-1 border-2 border-black">22</td>
+                      <td class="px-1  py-1 border-2 border-black">
+                        <select className="appearance-none w-5">
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
                       <td class="px-1   py-1 border-2 border-black">
                         Health & Physical Education
                       </td>
-                      <td class="px-1  py-1 border-2 border-black">22</td>
+                      <td class="px-1  py-1 border-2 border-black">
+                        <select className="appearance-none w-5">
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
                       <td class="px-1   py-1 border-2 border-black">
                         Discipline
                       </td>
-                      <td class="px-1  py-1 border-2 border-black">22</td>
+                      <td class="px-1  py-1 border-2 border-black">
+                        <select className="appearance-none w-5">
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                        </select>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

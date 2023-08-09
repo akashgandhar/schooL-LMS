@@ -233,11 +233,8 @@ export default function SMS() {
       id: 153244,
       text: "Dear parents/students it is informed you that {#var#} {#var#} {#var#} {#var#} {#var#}. Principal MJPS Sadabad",
       variables: [
-        "information1",
-        "information2",
-        "information3",
-        "information4",
-        "information5",
+        "information(150 WORDS)",
+        
       ],
     },
     {
@@ -249,11 +246,7 @@ export default function SMS() {
       id: 153246,
       text: "प्रिय अभिभावक, आपको अवगत कराया जाता है कि {#var#}{#var#}{#var#}{#var#}{#var#}. प्रधानाचार्य MJPS सादाबाद .",
       variables: [
-        "information1",
-        "information2",
-        "information3",
-        "information4",
-        "information5",
+        "information(150 WORDS)",
       ],
     },
     {

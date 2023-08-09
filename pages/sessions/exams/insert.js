@@ -1,97 +1,131 @@
-import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
-import { db } from '../../../firebase'
-import { collection, doc, updateDoc, getDocs, getDoc } from 'firebase/firestore'
-import UserContext from '../../../components/context/userContext'
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { db } from "../../../firebase";
+import {
+  collection,
+  doc,
+  updateDoc,
+  getDocs,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+import UserContext from "../../../components/context/userContext";
 
 export default function InsertMarks() {
-  const router = useRouter()
-  const current = new Date()
-  const a = useContext(UserContext)
+  const router = useRouter();
+  const current = new Date();
+  const a = useContext(UserContext);
   const d = `${current.getDate()}-${
     current.getMonth() + 1
-  }-${current.getFullYear()}`
+  }-${current.getFullYear()}`;
 
-  const [obtMarks, setObtMarks] = useState([])
-  const [amount, setAmount] = useState()
-  const [concession, setConcession] = useState(0)
-  const [concessionBy, setConcessionBy] = useState('nil')
+  const [obtMarks, setObtMarks] = useState({});
+  const [amount, setAmount] = useState();
+  const [concession, setConcession] = useState(0);
+  const [concessionBy, setConcessionBy] = useState("nil");
 
-  const s = router.query
+  const s = router.query;
 
   const [subList, setSubList] = useState([]);
-  const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
   const GetSubList = async () => {
-    if(count<2){
-
+    if (count < 2) {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
-        )
-        const docSnap = await getDocs(docRef)
-        var list = []
-        docSnap.forEach((doc) => {
-          list.push(doc.data())
-        })
-        setSubList(list)
-        // console.log("run");
-        setCount(count+1)
-      }
-  }
+        `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setSubList(list);
+      // console.log("run");
+      setCount(count + 1);
+    }
+  };
 
-  const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
-    current.getTime(),
-  )
+  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
+    current.getTime()
+  );
 
-  const [obt, setObt] = useState()
+  const [obt, setObt] = useState();
 
   const saveMarks = async (sub, per, max) => {
     if (!obt) {
-      alert('Enter Missing Details')
+      alert("Enter Missing Details");
     } else if (Number(obt) > Number(max)) {
-      alert('Marks Can Not Be Greater Than Max Marks');
+      alert("Marks Can Not Be Greater Than Max Marks");
       // console.log(obt,max);
     } else {
       try {
-        const docRef = `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`
-        await updateDoc(doc(db, docRef, sub), {
+        const docRef = `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects/${sub}/students/`;
+        await updateDoc(doc(db, docRef, s.Sr_Number), {
           OBTAINED_MARKS: obt,
           PERCENT: per,
+          MAX_MARKS: max,
+          SUBJECT: sub,
+          DATE: d,
         }).then(() => {
-          alert('success')
-        })
+          alert("success");
+        });
       } catch (e) {
-        console.error('Error adding document: ', e.message)
+        if (e.code === "not-found") {
+          try {
+            const docRef = `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects/${sub}/students/`;
+            await setDoc(doc(db, docRef, s.Sr_Number), {
+              OBTAINED_MARKS: obt,
+              PERCENT: per,
+              MAX_MARKS: max,
+              SUBJECT: sub,
+              DATE: d,
+            }).then(() => {
+              alert("success");
+            });
+          } catch (e) {
+            console.log(e.message);
+          }
+        } else {
+          console.log(e.code);
+        }
       }
     }
-  }
-
+  };
+  // console.log(subList);
   const GetMarks = async () => {
-    if(count <2){
-
+    if (count < 2) {
       try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
-          )
-          const docSnap = await getDocs(docRef)
-          var list = []
-          docSnap.forEach((doc) => {
-            list.push(doc.data())
-          })
-          setObtMarks(list)
-          setCount(count+1)
-        } catch (e) {
-          console.log(e.message)
-        }
+        var list = {};
+        subList.forEach(async (e) => {
+          const docRef = doc(
+            db,
+            `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects/${e.Name}/students/`,
+            s.Sr_Number
+          );
+          const docSnap = await getDoc(docRef);
+          // console.log(docSnap.data());
+          if (docSnap.exists()) {
+            // list.push(docSnap.data());
+            list[e.Name] = docSnap.data();
+          }
+          setObtMarks(list);
+          // console.log(obtMarks);
+        });
+        // console.log(list);
+
+        // console.log(obtMarks);
+      } catch (e) {
+        console.log(e.message);
+      }
     }
-  }
+  };
+  // console.log(obtMarks);
 
   useEffect(() => {
-    GetSubList()
-    GetMarks()
-  }, [subList, obtMarks])
+    GetSubList();
+    GetMarks();
+  }, [subList, obtMarks]);
 
   var totalObtained = 0;
   var totalMaximum = 0;
@@ -100,7 +134,7 @@ export default function InsertMarks() {
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
-          <div class="bg-gray-100 mx-auto w-screen h-auto bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+          <div class="bg-gray-100 mx-auto w-screen h-auto py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <div className=" flex text-center items-center justify-center font-bold text-2xl">
                 Insert/Update Marks Of <h1 className="mx-3">{s.exam}</h1>
@@ -207,8 +241,13 @@ export default function InsertMarks() {
                 <tbody class="block md:table-row-group">
                   {subList.map((e, index) => {
                     // console.log();
-                    totalObtained += Number(e.OBTAINED_MARKS);
+                    if (obtMarks[e.Name]) {
+                      totalObtained += Number(obtMarks[e.Name].OBTAINED_MARKS);
+                    }
+
                     totalMaximum += Number(e.MAX_MARKS);
+                    // console.log(obtMarks);
+                    console.log(obtMarks[e.Name]);
                     return (
                       <tr
                         key={index}
@@ -224,19 +263,31 @@ export default function InsertMarks() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             obtained Marks
                           </span>
-                          <input 
-                            type="tel"
-                            max={e.MAX_MARKS}
-                            onChange={(e) => {
-                              setObt(e.target.value)
-                            }}
-                            className="w-full p-1 placeholder:text-red-600 placeholder:p-1 placeholder:font-normal placeholder:italic font-bold"
-                            placeholder={
-                              obtMarks[index].OBTAINED_MARKS
-                                ? obtMarks[index].OBTAINED_MARKS
-                                : 'Enter Marks'
-                            }
-                          />
+                          {obtMarks[e.Name] ? (
+                            <input
+                              type="tel"
+                              max={e.MAX_MARKS}
+                              onChange={(e) => {
+                                setObt(e.target.value);
+                              }}
+                              className="w-full p-1 placeholder:text-red-600 placeholder:p-1 placeholder:font-normal placeholder:italic font-bold"
+                              placeholder={
+                                obtMarks[e.Name].OBTAINED_MARKS
+                                  ? obtMarks[e.Name].OBTAINED_MARKS
+                                  : "Enter Marks"
+                              }
+                            />
+                          ) : (
+                            <input
+                              type="tel"
+                              max={e.MAX_MARKS}
+                              onChange={(e) => {
+                                setObt(e.target.value);
+                              }}
+                              className="w-full p-1 placeholder:text-red-600 placeholder:p-1 placeholder:font-normal placeholder:italic font-bold"
+                              placeholder="Enter Marks"
+                            />
+                          )}
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
@@ -248,7 +299,13 @@ export default function InsertMarks() {
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             percent
                           </span>
-                          {obtMarks[index].PERCENT ? `${(obtMarks[index].PERCENT).toFixed(2)}%`:0}
+                          {obtMarks[e.Name] && (
+                            <span>
+                              {obtMarks[e.Name].PERCENT
+                                ? `${obtMarks[e.Name].PERCENT.toFixed(2)}%`
+                                : 0}
+                            </span>
+                          )}
                         </td>
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                           <span class="inline-block w-1/3 md:hidden font-bold">
@@ -259,9 +316,9 @@ export default function InsertMarks() {
                               // console.log(e.MAX_MARKS);
                               saveMarks(
                                 e.Name,
-                                ((obt / e.MAX_MARKS) * 100),
+                                (obt / e.MAX_MARKS) * 100,
                                 e.MAX_MARKS
-                              )
+                              );
                             }}
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                           >
@@ -269,40 +326,35 @@ export default function InsertMarks() {
                           </button>
                         </td>
                       </tr>
-                    )
+                    );
                   })}
                   <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                    <td
-                      class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold"
-                    >
+                    <td class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold">
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         TOTAL
                       </span>
                       Grand Total
                     </td>
-                    <td
-                      class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold"
-                    >
+                    <td class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold">
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         obtained
                       </span>
                       {totalObtained}
                     </td>
-                    <td
-                      class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold"
-                    >
+                    <td class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold">
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         tmax
                       </span>
                       {totalMaximum}
                     </td>
-                    <td colSpan={2}
+                    <td
+                      colSpan={2}
                       class="p-2 md:border md:border-grey-500 block md:table-cell text-left font-bold"
                     >
                       <span class="inline-block w-1/3 md:hidden font-bold">
                         percent
                       </span>
-                      {((totalObtained/totalMaximum)*100).toFixed(2)}%
+                      {((totalObtained / totalMaximum) * 100).toFixed(2)}%
                     </td>
                   </tr>
                 </tbody>
@@ -316,15 +368,15 @@ export default function InsertMarks() {
                   onClick={async () => {
                     const docRef = collection(
                       db,
-                      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`,
-                    )
-                    const docSnap = await getDocs(docRef)
+                      `users/${a.user}/sessions/${a.session}/exams/${s.exam}/classes/${s.Class}/subjects`
+                    );
+                    const docSnap = await getDocs(docRef);
                     docSnap.forEach((doc) => {
                       if (!doc.data().OBTAINED_MARKS) {
                       }
-                    })
-                    alert('Marks Added Successfully')
-                    router.push('/sessions/exams/marks')
+                    });
+                    alert("Marks Added Successfully");
+                    router.push("/sessions/exams/marks");
                   }}
                 >
                   Submit
@@ -335,5 +387,5 @@ export default function InsertMarks() {
         </div>
       </div>
     </>
-  )
+  );
 }
