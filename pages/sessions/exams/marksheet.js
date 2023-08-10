@@ -33,7 +33,7 @@ export default function MarkSheet() {
           list.push(doc.data());
         });
         setSubjects(list);
-        setCount(count1 + 1);
+        setCount1(count1 + 1);
       } catch (e) {
         alert(e.message);
       }
@@ -56,7 +56,7 @@ export default function MarkSheet() {
         list.push(doc.data().Name);
       });
       setExamList(list);
-      setCount(count2 + 1);
+      setCount2(count2 + 1);
     }
   };
 
@@ -74,16 +74,16 @@ export default function MarkSheet() {
         list.push(doc.data());
       });
       // setSubList(list);
+      setCount3(count3 + 1);
       return list;
       // console.log("run");
-      setCount(count3 + 1);
     }
   };
   // console.log(subList);
   // console.log(examList);
   const GetMarks = async (exam) => {
     const subs = await GetSubList(exam);
-    // console.log(subs);
+    console.log("run");
     try {
       const list = {};
 
@@ -111,37 +111,43 @@ export default function MarkSheet() {
   };
 
   const fetchMarksForExams = async (examList) => {
-    const results = {};
+    if (count < 3) {
+      const results = {};
 
-    for (const exam of examList) {
-      const marks = await GetMarks(exam); // Assuming you have defined the GetMarks function
-      // console.log(marks);
-      if (marks !== null) {
-        results[exam] = marks;
+      for (const exam of examList) {
+        const marks = await GetMarks(exam); // Assuming you have defined the GetMarks function
+        // console.log(marks);
+        if (marks !== null) {
+          results[exam] = marks;
+        }
       }
+      setCount(count + 1);
+      return results;
     }
-
-    return results;
   };
 
-  // fetchMarksForExams(examList)
-  //   .then((results) => {
-  //     console.log(results);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
+  const [results, setResults] = useState({});
 
-  // console.log(examList);
+  // console.log(results);
+  
+
 
   useEffect(() => {
     getSubjects();
     GetExamList();
     GetSubList();
+
+    fetchMarksForExams(examList)
+      .then((results) => {
+        setResults(results);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     // getMarks();
   }, [subjects, marks]);
 
-  // console.log(marks);
+  console.log(results);
 
   return (
     <div className="flex gap-5 flex-col justify-center items-center">
