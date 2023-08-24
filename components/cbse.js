@@ -258,7 +258,7 @@ export default function Cbse() {
       <div className="border-2 w-full my-2 mt-20 "></div>
       <Link
         target="1"
-        href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Mandatory%20Disclosure%20Details%20_%20SARAS%204.0.pdf?alt=media&token=7a9c1346-52a9-4778-a958-73c51fd22859"
+        href="https://drive.google.com/file/d/10JuDERiSVKBQoFzOJIJQpjdS7qiJZdDk/view?usp=drive_link"
         className="w-full text-3xl font-bold text-red-600"
       >
         APPENDIX -IX (MANDATORY PUBLIC DISCLOSURE)
