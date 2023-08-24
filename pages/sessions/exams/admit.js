@@ -6,7 +6,7 @@ import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
 
-export default function Marks() {
+export default function Admit() {
     const [students, setStudents] = useState([]);
 
 
