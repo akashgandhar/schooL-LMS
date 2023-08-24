@@ -239,7 +239,7 @@ export default function Main() {
                     <thead>
                       <tr>
                         {/* <td className="border-r-2 w-1/3">Quick Links</td> */}
-                        <td className="border-r-2 w-2/3">Circulars</td>
+                        <td className="border-r-2 font-bold w-2/3">Circulars</td>
                         <td className="w-1/3 font-bold ">Calender</td>
                       </tr>
                     </thead>
