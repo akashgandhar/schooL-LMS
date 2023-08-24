@@ -191,7 +191,7 @@ export default function Main() {
                       <h1 className="font-bold">Events</h1>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center w-fit">
+                  {/* <div className="flex flex-col justify-center items-center w-fit">
                     <div>
                       <img
                         width={100}
@@ -202,7 +202,7 @@ export default function Main() {
                     <div>
                       <h1 className="font-bold">Calender</h1>
                     </div>
-                  </div>
+                  </div> */}
                   <Link
                     href="/cbse"
                     className="flex hover:scale-105 flex-col justify-center items-center w-fit"
@@ -240,7 +240,7 @@ export default function Main() {
                       <tr>
                         {/* <td className="border-r-2 w-1/3">Quick Links</td> */}
                         <td className="border-r-2 w-2/3">Circulars</td>
-                        <td className="w-1/3">Calender</td>
+                        <td className="w-1/3 font-bold ">Calender</td>
                       </tr>
                     </thead>
                     <tbody>
