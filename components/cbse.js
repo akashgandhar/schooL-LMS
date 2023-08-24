@@ -203,7 +203,7 @@ export default function Cbse() {
     { id: 4, title: 'INTERNET FACILITY (Y/N)', value: 'Yes' },
     { id: 5, title: 'NUMBER OF GIRLS TOILETS', value: 'Toilets – 12 ; Urinals- 20' },
     { id: 6, title: 'NUMBER OF BOYS TOILETS', value: 'Toilets – 15 ; Urinals-24' },
-    { id: 7, title: 'LINK OF YOUTUBE VIDEOS OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL', value: 'Add link here' }
+    { id: 7, title: 'LINK OF YOUTUBE VIDEOS OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL', value: 'https://www.youtube.com/watch?v=NH1sf_AHgKE' }
   ];
   
 
