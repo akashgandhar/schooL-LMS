@@ -197,18 +197,43 @@ export default function Cbse() {
   ];
 
   const infrastructure = [
-    { id: 1, title: 'TOTAL CAMPUS AREA OF THE SCHOOL (IN SQUARE METRE)', value: '2.5 Acre' },
-    { id: 2, title: 'NO AND SIZE OF THE CLASSROOMS (IN SQUARE METRE)', value: '24 Rooms-46 m2  and 06 Rooms-36 m2' },
-    { id: 3, title: 'NO AND SIZE OF LABORATORY IS INCLUDING COMPUTER LAB (IN SQUARE METRE)', value: '3 Labs-56 m2 and 1 computer labs-56 m2' },
-    { id: 4, title: 'INTERNET FACILITY (Y/N)', value: 'Yes' },
-    { id: 5, title: 'NUMBER OF GIRLS TOILETS', value: 'Toilets – 12 ; Urinals- 20' },
-    { id: 6, title: 'NUMBER OF BOYS TOILETS', value: 'Toilets – 15 ; Urinals-24' },
-    { id: 7, title: 'LINK OF YOUTUBE VIDEOS OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL', value: 'https://www.youtube.com/watch?v=NH1sf_AHgKE' }
+    {
+      id: 1,
+      title: "TOTAL CAMPUS AREA OF THE SCHOOL (IN SQUARE METRE)",
+      value: "2.5 Acre",
+    },
+    {
+      id: 2,
+      title: "NO AND SIZE OF THE CLASSROOMS (IN SQUARE METRE)",
+      value: "24 Rooms-46 m2  and 06 Rooms-36 m2",
+    },
+    {
+      id: 3,
+      title:
+        "NO AND SIZE OF LABORATORY IS INCLUDING COMPUTER LAB (IN SQUARE METRE)",
+      value: "3 Labs-56 m2 and 1 computer labs-56 m2",
+    },
+    { id: 4, title: "INTERNET FACILITY (Y/N)", value: "Yes" },
+    {
+      id: 5,
+      title: "NUMBER OF GIRLS TOILETS",
+      value: "Toilets – 12 ; Urinals- 20",
+    },
+    {
+      id: 6,
+      title: "NUMBER OF BOYS TOILETS",
+      value: "Toilets – 15 ; Urinals-24",
+    },
+    {
+      id: 7,
+      title:
+        "LINK OF YOUTUBE VIDEOS OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL",
+      value: "https://www.youtube.com/watch?v=NH1sf_AHgKE",
+    },
   ];
-  
 
   return (
-    <div className="w-full flex flex-col items-center justify-center p-10 px-60">
+    <div className="w-full flex flex-col items-center justify-center p-10 px-20 xl:px-60">
       <div className="h-24"></div>
       <div className="flex w-full justify-between">
         <div className="flex flex-col">
@@ -230,7 +255,12 @@ export default function Cbse() {
         </span>
       </div>
 
-      <div className="border-2 w-full mt-20 "></div>
+      <div className="border-2 w-full my-2 mt-20 "></div>
+      <div className="w-full text-3xl font-bold text-red-600">
+        APPENDIX -IX (MANDATORY PUBLIC DISCLOSURE)
+        <span className="text-xl underline">Click to view document</span>
+      </div>
+      <div className="border-2 w-full mt-2"></div>
 
       <div className="w-full pt-10">
         <h1 className="text-4xl font-serif text-red-600">
@@ -396,7 +426,7 @@ export default function Cbse() {
                 <h1 className="  my-2 font-semibold " key={index}>
                   {e.id}. {e.title} : {e.count}
                 </h1>
-                {e.teachers.map((t,index) => {
+                {e.teachers.map((t, index) => {
                   return (
                     <h2 key={index} className="my-1 mx-5 font-semibold">
                       &bull; {t.category} : {t.count}
@@ -425,7 +455,6 @@ export default function Cbse() {
       </div>
 
       <div className="border-2 w-full my-10 "></div>
-
 
       <div className="w-full pt-10">
         <h1 className="text-4xl font-serif text-red-600">
