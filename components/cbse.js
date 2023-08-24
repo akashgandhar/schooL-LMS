@@ -256,10 +256,14 @@ export default function Cbse() {
       </div>
 
       <div className="border-2 w-full my-2 mt-20 "></div>
-      <div className="w-full text-3xl font-bold text-red-600">
+      <Link
+        target="1"
+        href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Mandatory%20Disclosure%20Details%20_%20SARAS%204.0.pdf?alt=media&token=7a9c1346-52a9-4778-a958-73c51fd22859"
+        className="w-full text-3xl font-bold text-red-600"
+      >
         APPENDIX -IX (MANDATORY PUBLIC DISCLOSURE)
         <span className="text-xl underline">Click to view document</span>
-      </div>
+      </Link>
       <div className="border-2 w-full mt-2"></div>
 
       <div className="w-full pt-10">
