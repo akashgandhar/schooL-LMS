@@ -74,6 +74,14 @@ const examTabs = [
     name: "Print MarkSheet",
     href: "/sessions/exams/studentMarksheet",
   },
+  {
+    name: "Datesheet",
+    href: "/sessions/exams/setExamDates",
+  },
+  {
+    name: "Print Admit Card",
+    href: "/sessions/exams/admit",
+  },
 ];
 
 const studentTabs = [

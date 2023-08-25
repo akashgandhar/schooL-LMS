@@ -96,7 +96,7 @@ export default function MapDates() {
       setSubjectList(list);
     }
   };
-  console.log(subjectList);
+//   console.log(subjectList);
 
   const GetClassList = async () => {
     if (count < 3) {
@@ -189,6 +189,8 @@ export default function MapDates() {
                       type="text"
                       placeholder="do not write duplicate"
                     >
+                                              <option>Please Select</option>
+
                       {subjectList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}

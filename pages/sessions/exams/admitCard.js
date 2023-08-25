@@ -88,15 +88,15 @@ export default function AdmitCard() {
       </button>
       <div
         ref={componentRef}
-        className="h-[280mm] flex mx-auto justify-center max-w-[280mm] bg-no-repeat bg-center"
+        className="h-[280mm]  flex mx-auto justify-center max-w-[280mm] bg-no-repeat bg-center"
       >
         <div
           id="print"
-          className="flex w-[280mm] flex-row flex-wrap gap-1 mx-2 pt-5 pb-5 "
+          className="flex w-[280mm] h-[280mm] flex-row flex-wrap  gap-1 mx-2 pt-5 pb-5 "
         >
           {data.map((std) => {
             return (
-              <table className={` align-middle h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
+              <table className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
                 <tbody className="">
                   <tr>
                     <td className="h-auto col-span-9 flex items-center justify-between">
@@ -230,14 +230,14 @@ export default function AdmitCard() {
 
                   <tr className="h-0"></tr>
 
-                  <tr className="flex justify-between mx-5">
-                    <td colspan="3" className="border-t-2 border-black py-2">
+                  <tr className="flex justify-between mt-2 mx-5">
+                    <td colspan="3" className=" border-black py-2">
                       Teacher's Signature
                     </td>
                     {/* <td colspan="2" className="border-t-2 border-black py-2">
                   Signature of Office Supdt.{" "}
                 </td> */}
-                    <td colspan="4" className="border-t-2 border-black py-2">
+                    <td colspan="4" className="  border-black py-2">
                       <div>Principal Signature</div>
                     </td>
                   </tr>
