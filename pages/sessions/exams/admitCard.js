@@ -25,7 +25,7 @@ export default function AdmitCard() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     // Simulating fetching data (replace this with your actual data fetching)
     setTimeout(() => {
       try {

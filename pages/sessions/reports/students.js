@@ -156,9 +156,9 @@ export default function StudentReports() {
   // useEffect(() => {
   //     // console.log(columns)
   //   }, [studentList])
-  sortedStudents.map((e) => {
-    console.log(e["Date_Of_Birth"]?.seconds);
-  });
+  // sortedStudents.map((e) => {
+  //   console.log(e["Date_Of_Birth"]?.seconds);
+  // });
   // console.log();
   // console.log("sortedStudents");
 

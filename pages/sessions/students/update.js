@@ -231,13 +231,13 @@ export default function NewStudent() {
     const docRef3 = `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`;
 
     try {
-      console.log(5);
+      // console.log(5);
       const docSnap = await getDocs(docRef2);
       docSnap.forEach(async (docs) => {
         deleteDoc(doc(db, docRef3, docs.id));
       });
 
-      console.log(9);
+      // console.log(9);
       await setDoc(docRef, {
         Anual_Fee: 5000,
         Class_Fee: classFee,
@@ -267,7 +267,7 @@ export default function NewStudent() {
       }
     }
   };
-  console.log(transportFee,transportStatus,transportStatusTemp);
+  // console.log(transportFee,transportStatus,transportStatusTemp);
   const GetTransportFee = async () => {
     if (transportStatus === "Yes") {
       try {
@@ -606,7 +606,7 @@ export default function NewStudent() {
                 transportStatus != transportStatusTemp ||
                 busStopName != busStopNameTemp
               ) {
-                console.log(3);
+                // console.log(3);
                 createAccount();
               }
             })

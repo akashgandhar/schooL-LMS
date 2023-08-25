@@ -83,7 +83,7 @@ export default function MarkSheet() {
   // console.log(examList);
   const GetMarks = async (exam) => {
     const subs = await GetSubList(exam);
-    console.log("run");
+    // console.log("run");
     try {
       const list = {};
 
@@ -147,7 +147,7 @@ export default function MarkSheet() {
     // getMarks();
   }, [subjects, marks]);
 
-  console.log(results);
+  // console.log(results);
 
   return (
     <div className="flex gap-5 flex-col justify-center items-center">

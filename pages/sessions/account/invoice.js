@@ -37,7 +37,7 @@ export default function Invoice() {
     "November",
     "December",
   ];
-  console.log(months[s.Month]);
+  // console.log(months[s.Month]);
 
   const [dues, setDues] = useState(0);
 
@@ -71,7 +71,7 @@ export default function Invoice() {
     getDues();
   }, []);
 
-  console.log(dues);
+  // console.log(dues);
 
   return (
     <div>

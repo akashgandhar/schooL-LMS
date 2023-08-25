@@ -247,7 +247,7 @@ export default function InsertMarks() {
 
                     totalMaximum += Number(e.MAX_MARKS);
                     // console.log(obtMarks);
-                    console.log(obtMarks[e.Name]);
+                    // console.log(obtMarks[e.Name]);
                     return (
                       <tr
                         key={index}

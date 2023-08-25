@@ -154,7 +154,7 @@ export default function Test() {
                     en.Fees * (months.indexOf(e) + 1) +
                     CalculatTransport(e, transportFee, months.indexOf(e) + 1),
                 });
-                console.log("success");
+                // console.log("success");
               } catch (e) {
                 console.log(e.message);
               }
@@ -186,7 +186,7 @@ export default function Test() {
           await updateDoc(docRef, {
             ID: d.data().ID ? d.data().ID : 0,
           }).then(() => {
-            console.log("success");
+            // console.log("success");
           });
         });
       } catch (e) {
