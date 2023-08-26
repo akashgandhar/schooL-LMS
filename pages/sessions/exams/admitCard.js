@@ -211,7 +211,7 @@ export default function AdmitCard() {
                       <tbody>
                         {SubjectList.map((sub, index) => {
                           return (
-                            <tr class="border-b dark:border-neutral-500">
+                            <tr key={index} class="border-b dark:border-neutral-500">
                               <td class="whitespace-nowrap border-r px-6 py-2 font-medium dark:border-neutral-500">
                                 {index + 1}
                               </td>
