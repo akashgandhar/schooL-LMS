@@ -94,9 +94,9 @@ export default function AdmitCard() {
           id="print"
           className="flex w-[280mm] h-[280mm] flex-row flex-wrap  gap-1 mx-2 pt-5 pb-5 "
         >
-          {data.map((std) => {
+          {data.map((std,index) => {
             return (
-              <table className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
+              <table key={index} className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
                 <tbody className="">
                   <tr>
                     <td className="h-auto col-span-9 flex items-center justify-between">
