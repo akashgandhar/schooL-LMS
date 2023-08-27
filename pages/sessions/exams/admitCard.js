@@ -94,9 +94,14 @@ export default function AdmitCard() {
           id="print"
           className="flex w-[280mm] h-[280mm] flex-row flex-wrap  gap-1 mx-2 pt-5 pb-5 "
         >
-          {data.map((std,index) => {
+          {data.map((std, index) => {
             return (
-              <table key={index} className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
+              <table
+                key={index}
+                className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${
+                  s.Type == "bulk" ? "w-[49%]" : "w-[65%]"
+                } border-2 border-black text-[12pt]`}
+              >
                 <tbody className="">
                   <tr>
                     <td className="h-auto col-span-9 flex items-center justify-evenly">
@@ -198,7 +203,7 @@ export default function AdmitCard() {
                             scope="col"
                             class="border-r px-6 py-2 dark:border-neutral-500"
                           >
-                            Name
+                            Subject
                           </th>
                           <th
                             scope="col"
@@ -209,16 +214,46 @@ export default function AdmitCard() {
                         </tr>
                       </thead>
                       <tbody>
-                        {SubjectList.map((sub, index) => {
+                        {SubjectList.sort((a, b) => {
+                          const datePartsA = a.Date
+                            ? a.Date.split("-").map((part) => parseInt(part))
+                            : [];
+                          const datePartsB = b.Date
+                            ? b.Date.split("-").map((part) => parseInt(part))
+                            : [];
+
+                          if (
+                            datePartsA.length === 3 &&
+                            datePartsB.length === 3
+                          ) {
+                            const dateA = new Date(
+                              datePartsA[2],
+                              datePartsA[1] - 1,
+                              datePartsA[0]
+                            );
+                            const dateB = new Date(
+                              datePartsB[2],
+                              datePartsB[1] - 1,
+                              datePartsB[0]
+                            );
+
+                            return dateA - dateB;
+                          } else {
+                            return 0; // Default comparison value if date parts are not valid
+                          }
+                        }).map((sub, index) => {
                           return (
-                            <tr key={index} class="border-b dark:border-neutral-500">
+                            <tr
+                              key={index}
+                              class="border-b dark:border-neutral-500"
+                            >
                               <td class="whitespace-nowrap border-r px-6 py-2 font-medium dark:border-neutral-500">
                                 {index + 1}
                               </td>
-                              <td class="whitespace-nowrap border-r px-6 py-2 dark:border-neutral-500">
+                              <td class="whitespace-nowrap border-r px-6 py-2 font-bold dark:border-neutral-500">
                                 {sub.Name}
                               </td>
-                              <td class="whitespace-nowrap border-r px-6 py-2 dark:border-neutral-500">
+                              <td class="whitespace-nowrap font-bold border-r px-6 py-2 dark:border-neutral-500">
                                 {sub.Date ? sub.Date : "Not Set"}
                               </td>
                             </tr>
