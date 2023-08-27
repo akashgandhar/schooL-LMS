@@ -161,7 +161,7 @@ export default function AdmitCard() {
                   <tr className="h-4"></tr>
                   <tr className="font-bold border-black border border-b-0 p-1 flex justify-between mx-5">
                     <td className="w-full border-r border-black">
-                      Student(s) Name{" "}
+                      Name Of Student{" "}
                     </td>
                     <td className="uppercase text-center w-full text-[10pt] font-bold border-black ">
                       {std.name}
@@ -169,7 +169,7 @@ export default function AdmitCard() {
                   </tr>
                   <tr className="font-bold border-black border border-b-0 p-1 flex items-center justify-between mx-5">
                     <td className="w-full border-r border-black">
-                      Father(s) Name{" "}
+                      Father&apos;s Name{" "}
                     </td>
                     <td className="uppercase w-full text-center text-[10pt] font-bold border-black ">
                       {std.Father_Name}
