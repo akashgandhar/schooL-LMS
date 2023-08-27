@@ -155,7 +155,7 @@ export default function AdmitCard() {
                   </tr>
                   <tr className="h-4"></tr>
                   <tr className="font-bold underline italic text-xl flex justify-center px-5">
-                    <td>Exam: {s ? s.Exam : "Loading..."}</td>
+                    <td>EXAM: {s ? s.Exam : "Loading..."}</td>
                     {/* <td>Date : {d}</td> */}
                   </tr>
                   <tr className="h-4"></tr>
