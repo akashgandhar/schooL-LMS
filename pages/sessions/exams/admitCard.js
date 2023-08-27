@@ -99,7 +99,7 @@ export default function AdmitCard() {
               <table key={index} className={` align-middle break-after-page mt-10 mb-5 h-auto max-h-[160mm] mx-auto ${s.Type == "bulk"?"w-[49%]":"w-[65%]"} border-2 border-black text-[12pt]`}>
                 <tbody className="">
                   <tr>
-                    <td className="h-auto col-span-9 flex items-center justify-between">
+                    <td className="h-auto col-span-9 flex items-center justify-evenly">
                       <img
                         src="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Akash%20Gandhar%2FLOGOa.png?alt=media&token=7ca8a823-a8a0-4316-8b80-3bbdb6e994f7"
                         className="float-left ml-4 h-24 mt-2 mix-blend-color-burn"
