@@ -42,7 +42,7 @@ export default function StaffDetails() {
       <div className="h-24"></div>
       <div className="flex flex-col items-center justify-center gap-1">
         <img
-          src="/principle.jpg"
+          src="/mpimage.jpg"
           alt="principle"
           className="h-96 w-96 border-2 object-cover"
         />

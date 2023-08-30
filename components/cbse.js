@@ -28,7 +28,7 @@ export default function Cbse() {
     {
       id: 5,
       title: "PRINCIPAL NAME AND QUALIFICATION",
-      result: "Mr Mahendra Pal Singh, Principal, M.Sc, B.Ed",
+      result: "Mr Mahendra Pal Singh, Principal, M.A., B.Ed",
     },
     {
       id: 6,
@@ -181,15 +181,15 @@ export default function Cbse() {
       title: "TOTAL NO OF TEACHERS",
       teachers: [
         { category: "PGT", count: "12" },
-        { category: "TGT", count: "14" },
-        { category: "PRT", count: "08" },
+        { category: "TGT", count: "15" },
+        { category: "PRT", count: "15" },
       ],
     },
     {
       id: 3,
       title: "TEACHERS SECTION RATIO",
       ratio: "1:1.5",
-      teachers: "36",
+      teachers: "42",
       sections: "24",
     },
     { id: 4, title: "DETAILS OF SPECIAL EDUCATOR", count: "01" },
@@ -205,7 +205,7 @@ export default function Cbse() {
     {
       id: 2,
       title: "NO AND SIZE OF THE CLASSROOMS (IN SQUARE METRE)",
-      value: "24 Rooms-46 m2  and 06 Rooms-36 m2",
+      value: "26 Rooms-46 m2 and 10 Rooms-36 m2",
     },
     {
       id: 3,
