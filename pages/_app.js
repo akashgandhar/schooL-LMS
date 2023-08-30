@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <title> M J PUBLIC SCHOOL</title>
         <meta name="description" content="Created by akash gandhar" />
         <meta name="viewport" content="width=1024"></meta>
-        <link rel="icon" href="/LOGOT.png" />
+        <link rel="icon" href="/logot.png" />
       </Head>
       <UserState>
         <Component {...pageProps} />

@@ -179,6 +179,38 @@ export default function Main() {
                       <h1 className="font-bold">Fee Chart</h1>
                     </div>
                   </Link>
+                  <Link
+                    target="_blank"
+                    href="https://drive.google.com/file/d/1vZtc1T-WUHxyiINOBosfNXTjPYLhAZpt/view?usp=drive_link"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="/books.jpg"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Book List</h1>
+                    </div>
+                  </Link>
+                  <Link
+                    target="0"
+                    href="https://firebasestorage.googleapis.com/v0/b/assign-eefa5.appspot.com/o/Fee_Structure.pdf?alt=media&token=f70eba44-2c0e-41a6-bff6-9d588346148b"
+                    className="flex hover:scale-105 flex-col justify-center items-center w-fit"
+                  >
+                    <div>
+                      <img
+                        width={100}
+                        height={100}
+                        src="https://i0.wp.com/sagritaraschoolportblair.com/wp-content/uploads/2021/04/fees.jpg?w=490&ssl=1"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Fee Chart</h1>
+                    </div>
+                  </Link>
                   <div className="flex flex-col justify-center items-center w-fit">
                     <div>
                       <img
