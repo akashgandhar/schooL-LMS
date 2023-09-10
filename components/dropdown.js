@@ -71,6 +71,10 @@ const examTabs = [
     href: "/sessions/exams/seatingArrangement",
   },
   {
+    name: "View Old Arrangement",
+    href: "/sessions/exams/viewArrangements",
+  },
+  {
     name: "Print MarkSheet",
     href: "/sessions/exams/studentMarksheet",
   },

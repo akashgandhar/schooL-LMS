@@ -13,7 +13,7 @@ import { db } from "../../../firebase";
 import UserContext from "../../../components/context/userContext";
 import { useRouter } from "next/router";
 
-export default function seatingArrangement() {
+export default function ViewArrangements() {
   const [examList, setExamList] = useState([]);
   const [roomList, setRoomList] = useState([]);
   const [count, setCount] = useState(0);
@@ -94,8 +94,8 @@ export default function seatingArrangement() {
                       }}
                     >
                       <option>Plese Select</option>
-                      {examList.map((exam) => {
-                        return <option>{exam.Name}</option>;
+                      {examList.map((exam,index) => {
+                        return <option key={index}>{exam.Name}</option>;
                       })}
                       ;
                     </select>
@@ -117,8 +117,8 @@ export default function seatingArrangement() {
                       }}
                     >
                       <option>Plese Select</option>
-                      {roomList.map((room) => {
-                        return <option value={room.Name}>{room.Name}</option>;
+                      {roomList.map((room,index) => {
+                        return <option key={index} value={room.Name}>{room.Name}</option>;
                       })}
                     </select>
                   </div>
