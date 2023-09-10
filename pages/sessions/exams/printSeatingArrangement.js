@@ -1,65 +1,182 @@
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import { db } from "../../../firebase";
+import UserContext from "../../../components/context/userContext";
 
 function SeatingArrangementPage() {
   const router = useRouter();
-  const { selectedStudents, examName, roomName, roomSeats, studentsPerSeat } =
-    router.query;
+  const { exam, room } = router.query;
+  const [old, setOld] = useState(false);
+  // const [tableData, setTableData] = useState([]);
+  const maxSeatsPerRow = 3;
+  const [assignedStudents, setAssignedStudents] = useState([]);
+  const a = useContext(UserContext);
+  const [oldArrangementArray, setOldArrangementArray] = useState([]);
 
-  // Parse the selected students
-  const parsedSelectedStudents = selectedStudents
-    ? JSON.parse(selectedStudents)
-    : [];
+  const getAssignStudents = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/rooms/${room}/Students`,
+        "Arrangement"
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setAssignedStudents(docSnap.data().Students);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
-  // Parse roomSeats and studentsPerSeat
-  const parsedRoomSeats = Number(roomSeats) || 0;
-  const parsedStudentsPerSeat = Number(studentsPerSeat) || 3; // Default to 3 if not provided
+  useEffect(() => {
+    if (exam && room) {
+      getAssignStudents();
+    }
+  }, [exam, room]);
 
-  const numRows = Math.ceil(parsedRoomSeats / parsedStudentsPerSeat);
-  const numCols = parsedStudentsPerSeat;
+  // console.log(assignedStudents);
 
-  const tableData = Array.from({ length: numRows }, () =>
-    Array.from({ length: numCols }, () => [])
-  );
+  // const students = [...]; // Replace with your student data
+  // const maxSeatsPerRow = 3; // Maximum seats per row (always 3 columns)
+  const maxSeats = 15; // Change this to the maximum number of seats you want
 
   // Group students by class
   const studentsByClass = {};
-  parsedSelectedStudents.forEach((student) => {
-    const studentClass = student.Class;
-    if (!studentsByClass[studentClass]) {
-      studentsByClass[studentClass] = [];
+
+  assignedStudents.forEach((student) => {
+    const className = student.Class;
+    if (!studentsByClass[className]) {
+      studentsByClass[className] = [];
     }
-    studentsByClass[studentClass].push(student);
+    studentsByClass[className].push(student);
   });
 
-  // Distribute students from different classes evenly across the seats
-  let currentRow = 0;
-  let currentCol = 0;
+  // Create an array of seats, each initialized as an empty array
+  const seatingArrangement = Array.from({ length: maxSeats }, () => []);
 
-  const classKeys = Object.keys(studentsByClass);
-  for (let classIndex = 0; classIndex < classKeys.length; classIndex++) {
-    const currentClassKey = classKeys[classIndex];
-    const currentClass = studentsByClass[currentClassKey];
+  // Distribute students evenly into the seats
+  const classNames = Object.keys(studentsByClass);
+  let currentSeatIndex = 0;
 
-    for (
-      let studentIndex = 0;
-      studentIndex < currentClass.length;
-      studentIndex++
-    ) {
-      tableData[currentRow][currentCol].push(currentClass[studentIndex]);
+  classNames.forEach((className) => {
+    const studentsOfClass = studentsByClass[className];
+    for (let i = 0; i < studentsOfClass.length; i++) {
+      const student = studentsOfClass[i];
+      seatingArrangement[currentSeatIndex].push(student);
+      currentSeatIndex = (currentSeatIndex + 1) % maxSeats;
+    }
+  });
 
-      currentRow++;
-      if (currentRow >= numRows) {
-        currentRow = 0;
-        currentCol++;
-        if (currentCol >= numCols) {
-          currentCol = 0;
-        }
+  // console.log("seat", seatingArrangement);
+
+  function arrayToObj(seatingArrangement) {
+    const seatingArrangementObject = {};
+
+    for (let rowIndex = 0; rowIndex < seatingArrangement.length; rowIndex++) {
+      for (
+        let colIndex = 0;
+        colIndex < seatingArrangement[rowIndex].length;
+        colIndex++
+      ) {
+        const seatKey = `Seat_${rowIndex + 1}_${colIndex + 1}`;
+        seatingArrangementObject[seatKey] =
+          seatingArrangement[rowIndex][colIndex];
       }
     }
+
+    return seatingArrangementObject;
   }
-  // console.log(classKeys);
+
+  // Function to convert an object to a 2D array
+  function objToArray(seatingArrangementObject) {
+    const numRows = Math.max(
+      ...Object.keys(seatingArrangementObject).map((seatKey) =>
+        parseInt(seatKey.split("_")[1], 10)
+      )
+    );
+    const numCols = Math.max(
+      ...Object.keys(seatingArrangementObject).map((seatKey) =>
+        parseInt(seatKey.split("_")[2], 10)
+      )
+    );
+
+    const seatingArrangement = Array.from({ length: numRows }, () =>
+      Array.from({ length: numCols }, () => null)
+    );
+
+    Object.keys(seatingArrangementObject).forEach((seatKey) => {
+      const [_, rowIndex, colIndex] = seatKey.split("_");
+      seatingArrangement[rowIndex - 1][colIndex - 1] =
+        seatingArrangementObject[seatKey];
+    });
+
+    return seatingArrangement;
+  }
+
+  const seatingArrangementObject = arrayToObj(seatingArrangement);
+  // console.log(seatingArrangementObject);
+
+  const seatingArrangementArray = objToArray(oldArrangementArray);
+  // console.log(seatingArrangementArray);
+
+  const getArrangement = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/rooms/${room}/Students`,
+        "Arrangement"
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setOldArrangementArray(docSnap.data().StudentArrangements);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const setArrangement = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/rooms/${room}/Students`,
+        "Arrangement"
+      );
+      await updateDoc(docRef, {
+        StudentArrangements: seatingArrangementObject,
+      }).catch((e) => {
+        console.log(e.message);
+        return;
+      });
+      alert("Saved");
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const deleteAssigned = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/rooms/${room}/Students`,
+        "Arrangement"
+      );
+      await deleteDoc(docRef)
+        .catch((e) => {
+          console.log(e.message);
+          return;
+        })
+        .then(() => {
+          alert("Deleted");
+          router.replace("/sessions/exams/seatingArrangement");
+        });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -72,56 +189,130 @@ function SeatingArrangementPage() {
         ref={componentRef}
         className="w-full  items-center flex justify-center"
       >
-        <div className="h-[21cm] flex-col flex text-center items-center w-[29.7cm] p-4 bg-white">
+        <div className=" flex-col flex text-center items-center w-[29.7cm] p-4 bg-white">
           {/* <h1 className="">Seating Arrangement</h1> */}
 
           <h1 class=" items-center text-5xl mb-5 font-extrabold ">
             Seating Arrangement
             <br />
             <span class="bg-red-100  text-red-800 text-2xl font-semibold  px-2.5 py-0.5 rounded ">
-              {examName}
+              {exam}
             </span>
             <br />
             <span class="bg-blue-100  text-blue-800 text-2xl font-semibold  px-2.5 py-0.5 rounded ">
-              Room No.: {roomName}
+              Room No.: {room}
             </span>
           </h1>
 
           <table className="table-fixed w-full ">
-            <tbody>
-              {tableData.map((row, rowIndex) => (
-                <tr className="flex gap-2 mb-10" key={rowIndex}>
-                  {row.map((cell, cellIndex) => (
-                    <td
-                      key={cellIndex}
-                      className={`w-1/3 flex border border-black items-center justify-center text-center`}
-                    >
-                      {cell.map((studentInfo, studentIndex) => (
-                        <>
-                          <div
-                            key={studentIndex}
-                            className={`${
-                              studentIndex < 2 && "border-r"
-                            } overflow-hidden text-xs flex justify-center items-center border-black w-1/3 aspect-video p-2`}
-                          >
-                            {studentInfo.name} <br /> ({studentInfo.Class})
-                          </div>
-                        </>
+            {!old ? (
+              <tbody>
+                {Array.from({
+                  length: Math.ceil(maxSeats / maxSeatsPerRow),
+                }).map((_, rowIndex) => (
+                  <tr className="flex gap-2 mb-10" key={rowIndex}>
+                    {seatingArrangement
+                      .slice(
+                        rowIndex * maxSeatsPerRow,
+                        (rowIndex + 1) * maxSeatsPerRow
+                      )
+                      .map((row, columnIndex) => (
+                        <td
+                          key={columnIndex}
+                          className={`w-1/3 flex border border-black items-center justify-center text-center`}
+                        >
+                          {Array.from({ length: maxSeatsPerRow }).map(
+                            (_, divIndex) => (
+                              <div
+                                key={divIndex}
+                                className={`overflow-hidden text-xs flex justify-center items-center border-black w-1/3 aspect-video p-2`}
+                              >
+                                {row[divIndex] ? (
+                                  <div>
+                                    {row[divIndex].name} <br /> (
+                                    {row[divIndex].Class})
+                                  </div>
+                                ) : (
+                                  <div className="w-1/3 h-1/3" />
+                                )}
+                              </div>
+                            )
+                          )}
+                        </td>
                       ))}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <tbody>
+                {Array.from({
+                  length: Math.ceil(maxSeats / maxSeatsPerRow),
+                }).map((_, rowIndex) => (
+                  <tr className="flex gap-2 mb-5" key={rowIndex}>
+                    {seatingArrangementArray
+                      .slice(
+                        rowIndex * maxSeatsPerRow,
+                        (rowIndex + 1) * maxSeatsPerRow
+                      )
+                      .map((row, columnIndex) => (
+                        <td
+                          key={columnIndex}
+                          className={`w-1/3 flex border border-black items-center justify-center text-center`}
+                        >
+                          {Array.from({ length: maxSeatsPerRow }).map(
+                            (_, divIndex) => (
+                              <div
+                                key={divIndex}
+                                className={`overflow-hidden text-xs flex justify-center items-center border-black w-1/3 aspect-video p-2`}
+                              >
+                                {row[divIndex] ? (
+                                  <div>
+                                    {row[divIndex].name} <br /> (
+                                    {row[divIndex].Class})
+                                  </div>
+                                ) : (
+                                  <div className="w-1/3 h-1/3" />
+                                )}
+                              </div>
+                            )
+                          )}
+                        </td>
+                      ))}
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </table>
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-5">
         <button
+          onClick={() => {
+            getArrangement();
+            setOld(!old);
+          }}
+          class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          {old ? " Get New " : "Get Last "}
+        </button>
+        <button
+          onClick={setArrangement}
+          class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Save New
+        </button>
+        <button
           onClick={handlePrint}
           class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
         >
           Print
+        </button>
+
+        <button
+          onClick={deleteAssigned}
+          class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Delete Assigned
         </button>
       </div>
     </div>
