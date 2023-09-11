@@ -170,9 +170,32 @@ function SeatingArrangementPage() {
           return;
         })
         .then(() => {
+          deleteAllAssigned();
+        })
+        .catch((e) => {
+          console.log(e.message);
+          return;
+        })
+        .then(() => {
           alert("Deleted");
           router.replace("/sessions/exams/seatingArrangement");
         });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const deleteAllAssigned = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${exam}/Students`,
+        "Arrangement"
+      );
+      await deleteDoc(docRef).catch((e) => {
+        console.log(e.message);
+        return;
+      });
     } catch (e) {
       console.log(e.message);
     }
