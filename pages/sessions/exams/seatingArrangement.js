@@ -155,6 +155,9 @@ export default function SeatingArrangement() {
           return;
         })
         .then(() => {
+          setAllAssignStudents();
+        })
+        .then(() => {
           router.push({
             pathname: "/sessions/exams/printSeatingArrangement",
             query: {
@@ -186,9 +189,62 @@ export default function SeatingArrangement() {
     }
   };
 
+  const [AllPreviosStudentList, setAllPreviosStudentList] = useState([]);
+
+  const AllMergedArray = [...selectedStudentList, ...AllPreviosStudentList];
+
+  const AlluniqueMergedArray = Array.from(
+    new Set(AllMergedArray.map((student) => student.ID))
+  ).map((id) => AllMergedArray.find((student) => student.ID === id));
+
+  const getAllAssignStudents = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${examName}/Students`,
+        "Arrangement"
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setAllPreviosStudentList(docSnap.data().Students);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const AllSubstractedArray = studentList.filter((obj2) => {
+    // Check if obj2's "ID" is not present in array1
+    return !AllPreviosStudentList.some((obj1) => obj1.ID === obj2.ID);
+  });
+
   useEffect(() => {
     getAssignStudents();
-  }, [roomName]);
+    getAllAssignStudents();
+  }, [roomName, examName]);
+
+  const setAllAssignStudents = async () => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/exams/${examName}/Students`,
+        "Arrangement"
+      );
+      await updateDoc(docRef, {
+        Students: AlluniqueMergedArray,
+      }).catch((e) => {
+        if (e.code === "not-found") {
+          setDoc(docRef, {
+            Students: AlluniqueMergedArray,
+          });
+        }
+        console.log(e.code);
+        return;
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   return (
     <>
@@ -216,7 +272,7 @@ export default function SeatingArrangement() {
                       }}
                     >
                       <option>Plese Select</option>
-                      {examList.map((exam,index) => {
+                      {examList.map((exam, index) => {
                         return <option key={index}>{exam.Name}</option>;
                       })}
                       ;
@@ -239,8 +295,12 @@ export default function SeatingArrangement() {
                       }}
                     >
                       <option>Plese Select</option>
-                      {roomList.map((room,index) => {
-                        return <option key={index} value={room.Name}>{room.Name}</option>;
+                      {roomList.map((room, index) => {
+                        return (
+                          <option key={index} value={room.Name}>
+                            {room.Name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
@@ -347,8 +407,18 @@ export default function SeatingArrangement() {
                   </tr>
                 </thead>
                 <tbody class="font-semibold block md:table-row-group">
-                  {subtractedArray
-                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                  {AllSubstractedArray.sort((a, b) => {
+                    // First, compare by "Class"
+                    const classComparison = a.Class.localeCompare(b.Class);
+
+                    // If the classes are the same, then compare by "name"
+                    if (classComparison === 0) {
+                      return a.name.localeCompare(b.name);
+                    }
+
+                    return classComparison;
+                  })
+
                     .filter(
                       (e) => e.Deleted === false || e.Deleted === undefined
                     )
