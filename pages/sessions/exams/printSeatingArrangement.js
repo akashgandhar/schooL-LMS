@@ -185,6 +185,8 @@ function SeatingArrangementPage() {
     }
   };
 
+  console.log(exam);
+
   const deleteAllAssigned = async () => {
     try {
       const docRef = doc(
