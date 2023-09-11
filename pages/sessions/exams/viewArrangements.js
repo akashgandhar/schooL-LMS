@@ -23,6 +23,8 @@ export default function ViewArrangements() {
   const [selectedClassList, setSelectedClassList] = useState([]);
   const router = useRouter();
   const a = useContext(UserContext);
+  const maxSeat =
+    roomList.find((item) => item.Name === roomName)?.No_Of_Seats || 0;
 
   const GetExamList = async () => {
     if (count < 2) {
@@ -126,7 +128,7 @@ export default function ViewArrangements() {
                     onClick={() => {
                       router.push({
                         pathname: "/sessions/exams/printSeatingArrangement",
-                        query: { exam: examName, room: roomName },
+                        query: { exam: examName, room: roomName, maxSeats:maxSeat },
                       });
                     }}
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"

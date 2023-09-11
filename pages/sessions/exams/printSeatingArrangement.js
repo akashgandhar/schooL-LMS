@@ -7,13 +7,18 @@ import UserContext from "../../../components/context/userContext";
 
 function SeatingArrangementPage() {
   const router = useRouter();
-  const { exam, room } = router.query;
+  const { exam, room, maxSeats } = router.query;
   const [old, setOld] = useState(false);
   // const [tableData, setTableData] = useState([]);
   const maxSeatsPerRow = 3;
   const [assignedStudents, setAssignedStudents] = useState([]);
   const a = useContext(UserContext);
   const [oldArrangementArray, setOldArrangementArray] = useState([]);
+
+  // console.log();
+  if(maxSeats == undefined){
+    maxSeats = 0;
+  }
 
   const getAssignStudents = async () => {
     try {
@@ -41,7 +46,7 @@ function SeatingArrangementPage() {
 
   // const students = [...]; // Replace with your student data
   // const maxSeatsPerRow = 3; // Maximum seats per row (always 3 columns)
-  const maxSeats = 15; // Change this to the maximum number of seats you want
+  // Change this to the maximum number of seats you want
 
   // Group students by class
   const studentsByClass = {};
@@ -339,6 +344,7 @@ function SeatingArrangementPage() {
         >
           Delete Assigned
         </button>
+        
       </div>
     </div>
   );
