@@ -17,6 +17,9 @@ export default function PrintSlips() {
   const [oldArrangementArray, setOldArrangementArray] = useState([]);
   const a = useContext(UserContext);
 
+  var count = 0;
+
+
   const getArrangement = async () => {
     try {
       const docRef = doc(
@@ -103,7 +106,7 @@ export default function PrintSlips() {
   return (
     <div className="w-full p-4 bg-gray-200 my-5 flex flex-col  mx-auto">
       <div
-        ref={componentRef}
+        
         className="w-full  items-center flex justify-center"
       >
         <div className=" flex-col flex text-center items-center w-[29.7cm] p-4 bg-white">
@@ -121,7 +124,7 @@ export default function PrintSlips() {
             </span>
           </h1>
 
-          <table className="table-fixed w-full h-fit">
+          <table ref={componentRef} className="table-fixed  w-full h-fit">
             <tbody>
               {Array.from({
                 length: Math.ceil(maxSeats / maxSeatsPerRow),
@@ -158,7 +161,7 @@ export default function PrintSlips() {
                                           Seat No.:{" "}
                                         </td>
                                         <td className="text-left flex-1 truncate border-black border">
-                                          {columnIndex + rowIndex * 3 + 1}
+                                          {++count}
                                         </td>
                                       </tr>
                                       <tr className="w-full flex">

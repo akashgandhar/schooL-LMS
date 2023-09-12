@@ -11,15 +11,11 @@
   
 } */
 
+/*  */
+
 @media print {
   .PrintItem {
       page-break-inside: avoid; /* Avoid breaking items inside a page */
-      page-break-before: always; /* Start each pair of items on a new page */
-  }
-
-  /* Select every second item to ensure they appear in pairs on each page */
-  .PrintItem:nth-child(odd) {
-      page-break-before: auto; /* Allow breaking before odd-numbered items (reset) */
   }
 }
 

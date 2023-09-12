@@ -209,6 +209,64 @@ function SeatingArrangementPage() {
     }
   };
 
+  // console.log(seatingArrangement);
+
+  // Example array
+  const data = [
+    [
+      {
+        RTE_Status: "No",
+        fees: "1000",
+        Category: "OBC",
+        Third_Ward: "No",
+        Address: "BEEJALPUR EDALPUR",
+      },
+      {
+        RTE_Status: "No",
+        fees: "1100",
+        Category: "OBC",
+        Address: "RAYA ROAD SADABAD",
+        Third_Ward: "Yes",
+      },
+      {
+        RTE_Status: "",
+        fees: "1100",
+        Category: "OBC",
+        Third_Ward: "",
+        Address: "JHAGRAR",
+      },
+    ],
+    // ... (other arrays of objects)
+  ];
+
+  // Function to get distinct classes and total number of students
+  function getClassStats(data) {
+    const classStats = {};
+
+    // Iterate through the array
+    data.forEach((subArray) => {
+      subArray.forEach((student) => {
+        const studentClass = student.Class; // Change this to the property that represents the class
+
+        // If the class is not in classStats, initialize it with a count of 1
+        if (!classStats[studentClass]) {
+          classStats[studentClass] = 1;
+        } else {
+          // If the class is already in classStats, increment the count
+          classStats[studentClass]++;
+        }
+      });
+    });
+
+    return classStats;
+  }
+
+  // Get the class statistics
+  const classStatistics = getClassStats(seatingArrangement);
+  const classStatisticsOld = getClassStats(seatingArrangementArray);
+
+  // console.log(classStatistics);
+
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -314,6 +372,25 @@ function SeatingArrangementPage() {
               </tbody>
             )}
           </table>
+          {!old ? (
+            <tr>
+              {Object.entries(classStatistics).map(([className, count]) => (
+                <td className="text-red-500" key={className}>
+                  <span className="font-bold text-black">{className}</span>:{" "}
+                  {count} students,{" "}
+                </td>
+              ))}
+            </tr>
+          ) : (
+            <tr>
+              {Object.entries(classStatisticsOld).map(([className, count]) => (
+                <td className="text-red-500" key={className}>
+                  <span className="font-bold text-black">{className}</span>:{" "}
+                  {count} students,{" "}
+                </td>
+              ))}
+            </tr>
+          )}
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-5">
