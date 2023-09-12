@@ -7,7 +7,8 @@ import UserContext from "../../../components/context/userContext";
 
 function SeatingArrangementPage() {
   const router = useRouter();
-  const { exam, room, maxSeats } = router.query;
+  const { exam, room } = router.query;
+  var maxSeats = router.query.maxSeats;
   const [old, setOld] = useState(false);
   // const [tableData, setTableData] = useState([]);
   const maxSeatsPerRow = 3;
@@ -16,7 +17,7 @@ function SeatingArrangementPage() {
   const [oldArrangementArray, setOldArrangementArray] = useState([]);
 
   // console.log();
-  if(maxSeats == undefined){
+  if (maxSeats == undefined) {
     maxSeats = 0;
   }
 
@@ -344,7 +345,17 @@ function SeatingArrangementPage() {
         >
           Delete Assigned
         </button>
-        
+        <button
+          onClick={() => {
+            router.push({
+              pathname: "/sessions/exams/printSlips",
+              query: { exam: exam, room: room, maxSeats: maxSeats },
+            });
+          }}
+          class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Print Slips
+        </button>
       </div>
     </div>
   );
