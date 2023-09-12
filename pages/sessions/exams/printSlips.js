@@ -5,7 +5,7 @@ import { db } from "../../../firebase";
 import UserContext from "../../../components/context/userContext";
 import { doc, getDoc } from "firebase/firestore";
 
-export default function printSlips() {
+export default function PrintSlips() {
   const router = useRouter();
   const data = router.query;
   const exam = data.exam;
