@@ -44,6 +44,7 @@ export default function NewStudent() {
   const [className, setClassName] = useState(s.Class);
   const [classNameTemp, setClassNameTemp] = useState(s.Class);
   const [sectionName, setSectionName] = useState(s.Section);
+  const [sectionNameTemp, setSectionNameTemp] = useState(s.Section);
   const [transportStatus, setTransportStatus] = useState(s.Transport_Status);
   const [transportStatusTemp, setTransportStatusTemp] = useState(
     s.Transport_Status
@@ -489,7 +490,7 @@ export default function NewStudent() {
     } else {
       var oldSr = [];
       try {
-        if (className != classNameTemp) {
+        if (className != classNameTemp || sectionName != sectionNameTemp) {
           await updateDoc(
             doc(
               db,
