@@ -352,7 +352,13 @@ export default function StudentReports() {
               </div>
               <table class="min-w-full border-collapse block md:table">
                 <thead className="block md:table-header-group">
+                  
                   <tr className="border border-black md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                  <th
+                        className="bg-gray-600 p-2 text-white font-bold md:border md:border-black text-left block md:table-cell"
+                      >
+                        SN.
+                      </th>
                     {columns.map((col) => (
                       <th
                         key={col}
@@ -366,13 +372,15 @@ export default function StudentReports() {
                 <tbody className="block md:table-row-group font-semibold">
                   {sortedStudents
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
-                    .map((e, index) => {
-                      if (e.Deleted == false || e.Deleted == undefined) {
+                    .filter((std)=>std.Deleted == false || std.Deleted == undefined).map((e, index) => {
                         return (
                           <tr
                             key={index}
                             className="bg-white border border-black md:border-none block md:table-row"
                           >
+                            <td className="p-2 md:border md:border-black text-left block md:table-cell">
+                              {index + 1}
+                            </td>
                             {columns.map((col) => (
                               <td
                                 key={col}
@@ -404,7 +412,7 @@ export default function StudentReports() {
                             ))}
                           </tr>
                         );
-                      }
+                      
                     })}
                 </tbody>
               </table>

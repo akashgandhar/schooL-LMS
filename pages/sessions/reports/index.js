@@ -185,6 +185,9 @@ export default function GatePass() {
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      SN
+                    </th>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       SID
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
@@ -211,7 +214,6 @@ export default function GatePass() {
                       (e) => e.Deleted === false || e.Deleted === undefined
                     )
                     .map((e, index) => {
-                      if (e.Deleted == false || e.Deleted == undefined) {
                         return (
                           <tr
                             key={index}
@@ -219,7 +221,13 @@ export default function GatePass() {
                           >
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
-                                Name
+                                SN
+                              </span>
+                              {index+1}
+                            </td>
+                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                SID
                               </span>
                               {e.Sr_Number}
                             </td>
@@ -277,7 +285,7 @@ export default function GatePass() {
                             </td>
                           </tr>
                         );
-                      }
+                      
                     })}
                 </tbody>
               </table>

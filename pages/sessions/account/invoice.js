@@ -57,7 +57,7 @@ export default function Invoice() {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists) {
-          setDues(docSnap.data().month_Due);
+          setDues(docSnap?.data()?.month_Due || 0);
           setCount(count + 1);
         }
         // setStudents(list);
