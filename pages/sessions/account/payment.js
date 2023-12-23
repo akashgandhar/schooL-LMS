@@ -1,7 +1,7 @@
-import { async } from "@firebase/util";
-import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
-import { db } from "../../../firebase";
+import { async } from '@firebase/util'
+import { useRouter } from 'next/router'
+import React, { use, useContext, useEffect, useState } from 'react'
+import { db } from '../../../firebase'
 import {
   FieldValue,
   Timestamp,
@@ -11,43 +11,52 @@ import {
   increment,
   setDoc,
   updateDoc,
-} from "firebase/firestore";
-import UserContext from "../../../components/context/userContext";
-import { Input } from "postcss";
-import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+} from 'firebase/firestore'
+import UserContext from '../../../components/context/userContext'
+import { Input } from 'postcss'
+import ReactDatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function Payment() {
-  const router = useRouter();
-  const [current, setCurrent] = useState(new Date());
-  const a = useContext(UserContext);
+  const router = useRouter()
+  const [current, setCurrent] = useState(new Date())
+  const a = useContext(UserContext)
   const [d, setD] = useState(
-    `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
-  );
-  const [month, setMonth] = useState(current.getMonth());
+    `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`,
+  )
+  const [month, setMonth] = useState(current.getMonth())
 
-  const [mode, setMode] = useState();
-  const [amount, setAmount] = useState();
-  const [concession, setConcession] = useState(0);
-  const [concessionBy, setConcessionBy] = useState("nil");
+  const [mode, setMode] = useState()
+  const [amount, setAmount] = useState()
+  const [concession, setConcession] = useState(0)
+  const [concessionBy, setConcessionBy] = useState('nil')
+
+  useEffect(() => {
+    if (localStorage.getItem('date')) {
+      var date = localStorage.getItem('date').split('-')
+      setCurrent(new Date(date[2], date[1] - 1, date[0]))
+      setD(localStorage.getItem('date'))
+      setMonth(date[1] - 1)
+    }
+  }, [])
 
   const months = [
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-    "January",
-    "February",
-    "March",
-  ];
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+    'January',
+    'February',
+    'March',
+  ]
 
-  const s = router.query;
-  const [type, setType] = useState();
+  const s = router.query
+  const [type, setType] = useState()
   var [students, setStudents] = useState({
     April: {
       transport_due: 0,
@@ -109,46 +118,46 @@ export default function Payment() {
       transport_due: 0,
       total: 0,
     },
-  });
+  })
 
-  var data = s;
+  var data = s
 
   const getDue = async () => {
-    var final = {};
+    var final = {}
     months.forEach(async (e) => {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/${e}/students`,
-          s.Sr_Number
-        );
-        const docSnap = await getDoc(docRef);
-        var list = {};
+          s.Sr_Number,
+        )
+        const docSnap = await getDoc(docRef)
+        var list = {}
 
         if (docSnap.exists()) {
-          final[e] = docSnap.data();
+          final[e] = docSnap.data()
         }
         //   final.push(list);
       } catch (e) {
-        console.log(e);
+        console.log(e)
       } finally {
         if (Object.keys(final).length == 12) {
-          setStudents(final);
+          setStudents(final)
         }
       }
-    });
-  };
-  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
-    current.getTime()
-  );
+    })
+  }
+  const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
+    current.getTime(),
+  )
 
   const pay = async () => {
     try {
       const docRef = doc(
         db,
         `users/${a.user}/sessions/${a.session}/studentsAccount/${s.Sr_Number}/records`,
-        d + "+" + time
-      );
+        d + '+' + time,
+      )
 
       await setDoc(docRef, {
         Total_Paid_Amount: Number(amount) + Number(concession),
@@ -160,91 +169,91 @@ export default function Payment() {
         Time: time,
       })
         .then(async () => {
-          await payFee();
+          await payFee()
         })
         .then(async () => {
-          await addIncome();
+          await addIncome()
         })
         .then(() => {
-          alert("paid SuccessFully");
-          data["mode"] = mode;
-          data["Amount"] = Number(amount);
-          data["Concession"] = concession;
-          data["ConcessionBy"] = concessionBy;
-          data["Date"] = d;
-          data["Month"] = month+1;
-          router.push({ pathname: "/sessions/account/invoice", query: data });
-        });
+          alert('paid SuccessFully')
+          data['mode'] = mode
+          data['Amount'] = Number(amount)
+          data['Concession'] = concession
+          data['ConcessionBy'] = concessionBy
+          data['Date'] = d
+          data['Month'] = month + 1
+          router.push({ pathname: '/sessions/account/invoice', query: data })
+        })
     } catch (e) {
-      console.log(e.message);
+      console.log(e.message)
     }
-  };
+  }
 
   const payFee = async () => {
-    if (mode == "Old Dues") {
+    if (mode == 'Old Dues') {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/OldDues/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
           month_Due: increment(Number(-(Number(amount) + Number(concession)))),
           total: increment(Number(-(Number(amount) + Number(concession)))),
-        });
+        })
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-    if (mode == "Admission Fee") {
+    if (mode == 'Admission Fee') {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Admission/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
           month_Due: increment(Number(-(Number(amount) + Number(concession)))),
           total: increment(Number(-(Number(amount) + Number(concession)))),
-        });
+        })
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-    if (mode == "Exam/Lab Fee") {
+    if (mode == 'Exam/Lab Fee') {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Exam/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
           month_Due: increment(Number(-(Number(amount) + Number(concession)))),
           total: increment(Number(-(Number(amount) + Number(concession)))),
-        });
+        })
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-    if (mode == "Third ward Fee") {
+    if (mode == 'Third ward Fee') {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
         await updateDoc(docRef, {
           lastUpdate: Timestamp.now(),
           month_Due: increment(
-            Number(Number(-(Number(amount) + Number(concession))))
+            Number(Number(-(Number(amount) + Number(concession)))),
           ),
           total: increment(Number(-(Number(amount) + Number(concession)))),
-        });
+        })
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
     months.map(async (e) => {
@@ -252,9 +261,9 @@ export default function Payment() {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/${e}/students`,
-          s.Sr_Number
-        );
-        if (mode === "Monthly Fee") {
+          s.Sr_Number,
+        )
+        if (mode === 'Monthly Fee') {
           await updateDoc(docRef, {
             lastUpdate: Timestamp.now(),
             month_Due: increment(-(Number(amount) + Number(concession))),
@@ -263,20 +272,20 @@ export default function Payment() {
             const dueRef = doc(
               db,
               `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/`,
-              e
-            );
+              e,
+            )
 
             await updateDoc(
               dueRef,
               {
                 total_Due: increment(-(Number(amount) + Number(concession))),
               },
-              { merge: true }
-            );
-          });
+              { merge: true },
+            )
+          })
         }
 
-        if (mode === "Transport Fee") {
+        if (mode === 'Transport Fee') {
           await updateDoc(docRef, {
             lastUpdate: Timestamp.now(),
             transport_due: increment(-(Number(amount) + Number(concession))),
@@ -285,31 +294,31 @@ export default function Payment() {
             const dueRef = doc(
               db,
               `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/`,
-              e
-            );
+              e,
+            )
 
             await updateDoc(
               dueRef,
               {
                 total_Due: increment(-(Number(amount) + Number(concession))),
               },
-              { merge: true }
-            );
-          });
+              { merge: true },
+            )
+          })
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
-    });
-  };
+    })
+  }
 
   const addIncome = async () => {
     try {
       const docRef = doc(
         db,
         `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`,
-        time
-      );
+        time,
+      )
 
       await setDoc(docRef, {
         Total_Paid_Amount: Number(amount) + Number(concession),
@@ -319,18 +328,18 @@ export default function Payment() {
         Mode: mode,
         name: `${mode} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`,
         Time: time,
-      });
+      })
     } catch {}
-  };
+  }
 
-  const [oldDue, setOldDue] = useState(0);
-  const [admDue, setAdmDue] = useState(0);
-  const [otherDue, setOtherDue] = useState(0);
-  const [examDue, setExamDue] = useState(0);
-  const [count, setCount] = useState(0);
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [count3, setCount3] = useState(0);
+  const [oldDue, setOldDue] = useState(0)
+  const [admDue, setAdmDue] = useState(0)
+  const [otherDue, setOtherDue] = useState(0)
+  const [examDue, setExamDue] = useState(0)
+  const [count, setCount] = useState(0)
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
+  const [count3, setCount3] = useState(0)
 
   const getOldDues = async () => {
     if (count < 1) {
@@ -338,60 +347,60 @@ export default function Payment() {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/OldDues/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
 
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef)
 
         if (docSnap.exists) {
-          setOldDue(docSnap.data().total);
-          setCount(count + 1);
+          setOldDue(docSnap.data().total)
+          setCount(count + 1)
         }
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-  };
+  }
   const getAdmDues = async () => {
     if (count2 < 1) {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Admission/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
 
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef)
 
         if (docSnap.exists) {
-          setAdmDue(docSnap.data().total);
-          setCount2(count2 + 1);
+          setAdmDue(docSnap.data().total)
+          setCount2(count2 + 1)
         }
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-  };
+  }
   const getExamDues = async () => {
     if (count3 < 1) {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/Exam/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
 
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef)
 
         if (docSnap.exists) {
-          setExamDue(docSnap.data().total);
-          setCount3(count2 + 1);
+          setExamDue(docSnap.data().total)
+          setCount3(count2 + 1)
         }
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-  };
+  }
 
   const getOtherDues = async () => {
     if (count1 < 1) {
@@ -399,30 +408,30 @@ export default function Payment() {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${s.Class}/sections/${s.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
-          s.Sr_Number
-        );
+          s.Sr_Number,
+        )
 
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef)
 
         if (docSnap.exists) {
-          setOtherDue(docSnap.data().total);
-          setCount1(count + 1);
+          setOtherDue(docSnap.data().total)
+          setCount1(count + 1)
         }
       } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
-  };
+  }
 
   useEffect(() => {
-    getOldDues();
-    getOtherDues();
-    getAdmDues();
-    getExamDues();
+    getOldDues()
+    getOtherDues()
+    getAdmDues()
+    getExamDues()
     // GetFeeList();
-  }, [oldDue, otherDue, admDue]);
+  }, [oldDue, otherDue, admDue])
 
-  const classes = ["IX", "X", "XI", "XII"];
+  const classes = ['IX', 'X', 'XI', 'XII']
 
   return (
     <>
@@ -501,13 +510,19 @@ export default function Payment() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       selected={current}
                       onChange={(e) => {
-                        setCurrent(e);
+                        setCurrent(e)
                         setD(
                           `${e.getDate()}-${
                             e.getMonth() + 1
-                          }-${e.getFullYear()}`
-                        );
-                        setMonth(e.getMonth());
+                          }-${e.getFullYear()}`,
+                        )
+                        localStorage.setItem(
+                          'date',
+                          `${e.getDate()}-${
+                            e.getMonth() + 1
+                          }-${e.getFullYear()}`,
+                        )
+                        setMonth(e.getMonth())
                       }}
                     />
                   </div>
@@ -537,7 +552,7 @@ export default function Payment() {
                   <button
                     class="bg-blue-500 w-full hover:bg-blue-700  text-white font-bold  py-2 px-4 rounded-full"
                     onClick={() => {
-                      getDue();
+                      getDue()
                     }}
                   >
                     Get Current Dues
@@ -584,7 +599,7 @@ export default function Payment() {
                             ? students[e].month_Due
                             : 0}
                         </td>
-                        {e == "June" ? (
+                        {e == 'June' ? (
                           <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                             <span class="inline-block w-1/3 md:hidden font-bold">
                               transport fee
@@ -612,7 +627,7 @@ export default function Payment() {
                               : 0)}
                         </td>
                       </tr>
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -629,7 +644,7 @@ export default function Payment() {
                     </label>
                     <select
                       onChange={(e) => {
-                        setMode(e.target.value);
+                        setMode(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                     >
@@ -653,7 +668,7 @@ export default function Payment() {
                     </label>
                     <input
                       onChange={(e) => {
-                        setAmount(e.target.value);
+                        setAmount(e.target.value)
                       }}
                       placeholder="Amount"
                       type="tel"
@@ -671,7 +686,7 @@ export default function Payment() {
                     </label>
                     <input
                       onChange={(e) => {
-                        setConcession(e.target.value);
+                        setConcession(e.target.value)
                       }}
                       placeholder="Concession"
                       value={concession}
@@ -689,7 +704,7 @@ export default function Payment() {
                     {concession > 0 && (
                       <input
                         onChange={(e) => {
-                          setConcessionBy(e.target.value);
+                          setConcessionBy(e.target.value)
                         }}
                         placeholder="concession By"
                         class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -701,9 +716,9 @@ export default function Payment() {
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   onClick={() => {
                     if (!mode || !amount) {
-                      alert("Information Missing");
+                      alert('Information Missing')
                     } else {
-                      pay();
+                      pay()
                     }
                   }}
                 >
@@ -715,5 +730,5 @@ export default function Payment() {
         </div>
       </div>
     </>
-  );
+  )
 }
