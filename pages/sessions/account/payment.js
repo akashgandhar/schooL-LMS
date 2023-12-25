@@ -151,7 +151,10 @@ export default function Payment() {
     current.getTime(),
   )
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const pay = async () => {
+    setIsLoading(true)
     try {
       const docRef = doc(
         db,
@@ -168,6 +171,11 @@ export default function Payment() {
         Date: d,
         Time: time,
       })
+        .catch((error) => {
+          alert('Error in Adding Record', error.message)
+          setIsLoading(false)
+          return
+        })
         .then(async () => {
           await payFee()
         })
@@ -182,11 +190,16 @@ export default function Payment() {
           data['ConcessionBy'] = concessionBy
           data['Date'] = d
           data['Month'] = month + 1
-          router.push({ pathname: '/sessions/account/invoice', query: data })
+          router.replace({ pathname: '/sessions/account/invoice', query: data })
+        })
+        .then(() => {
+          setIsLoading(false)
         })
     } catch (e) {
       console.log(e.message)
+      setIsLoading(false)
     }
+    // setIsLoading(false)
   }
 
   const payFee = async () => {
@@ -329,7 +342,11 @@ export default function Payment() {
         name: `${mode} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`,
         Time: time,
       })
-    } catch {}
+    } catch {
+      ;(error) => {
+        alert('Error in Adding Income', error.message)
+      }
+    }
   }
 
   const [oldDue, setOldDue] = useState(0)
@@ -713,6 +730,7 @@ export default function Payment() {
                   </div>
                 </div>
                 <button
+                  disabled={isLoading}
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   onClick={() => {
                     if (!mode || !amount) {
@@ -722,7 +740,7 @@ export default function Payment() {
                     }
                   }}
                 >
-                  Pay Now
+                  {isLoading ? 'Loading..' : 'Pay Now'}
                 </button>
               </div>
             </div>
