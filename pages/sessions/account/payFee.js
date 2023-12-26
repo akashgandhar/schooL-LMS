@@ -229,6 +229,9 @@ export default function PayFee() {
                       Student Name
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                      Class
+                    </th>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
                       Father Name
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
@@ -265,6 +268,12 @@ export default function PayFee() {
                                   name
                                 </span>
                                 {e.name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  name
+                                </span>
+                                {e.Class}
                               </td>
                               <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
