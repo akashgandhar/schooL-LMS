@@ -271,7 +271,7 @@ export default function PayFee() {
                               </td>
                               <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
-                                  name
+                                  class
                                 </span>
                                 {e.Class}
                               </td>
@@ -341,6 +341,12 @@ export default function PayFee() {
                                   name
                                 </span>
                                 {e.name}
+                              </td>
+                              <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  class
+                                </span>
+                                {e.Class}
                               </td>
                               <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
