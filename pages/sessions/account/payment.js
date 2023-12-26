@@ -153,6 +153,11 @@ export default function Payment() {
 
   const pay = async () => {
     setIsLoading(true)
+
+    const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
+      current.getTime(),
+    )
+    
     try {
       const docRef = doc(
         db,
