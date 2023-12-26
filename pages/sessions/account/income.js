@@ -243,7 +243,7 @@ export default function Income() {
                               // console.log(e);
                               const docRef = doc(
                                 db,
-                                `users/${a.user}/sessions/${a.session}/dayBook/${date}/income`,
+                                `users/${a.user}/sessions/${a.session}/dayBook/${searchDate}/income`,
                                 e.Time
                               );
                               deleteDoc(docRef);
