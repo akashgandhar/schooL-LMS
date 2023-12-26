@@ -322,8 +322,8 @@ export default function Payment() {
             )
           })
         }
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        console.log(err)
       }
     })
   }
