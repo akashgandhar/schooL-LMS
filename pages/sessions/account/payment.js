@@ -147,9 +147,7 @@ export default function Payment() {
       }
     })
   }
-  const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
-    current.getTime(),
-  )
+  
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -329,6 +327,10 @@ export default function Payment() {
     console.log("income added")
     console.log(d)
     console.log(time)
+
+    const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
+      current.getTime(),
+    )
     try {
       const docRef = doc(
         db,
@@ -336,7 +338,7 @@ export default function Payment() {
         time,
       )
 
-      await updateDoc(docRef, {
+      await setDoc(docRef, {
         Total_Paid_Amount: Number(amount) + Number(concession),
         Total_Paid: Number(amount),
         Concession: concession,
