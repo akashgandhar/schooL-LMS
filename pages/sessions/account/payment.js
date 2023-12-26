@@ -139,7 +139,7 @@ export default function Payment() {
         }
         //   final.push(list);
       } catch (e) {
-        console.log(e)
+        console.log("1", e)
       } finally {
         if (Object.keys(final).length == 12) {
           setStudents(final)
@@ -147,7 +147,7 @@ export default function Payment() {
       }
     })
   }
-  
+
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -199,7 +199,7 @@ export default function Payment() {
           setIsLoading(false)
         })
     } catch (err) {
-      console.log(err.message)
+      console.log("2", err.message)
       setIsLoading(false)
     }
     // setIsLoading(false)
@@ -219,7 +219,7 @@ export default function Payment() {
           total: increment(Number(-(Number(amount) + Number(concession)))),
         })
       } catch (e) {
-        console.log(e.message)
+        console.log("3", e.message)
       }
     }
     if (mode == 'Admission Fee') {
@@ -235,7 +235,7 @@ export default function Payment() {
           total: increment(Number(-(Number(amount) + Number(concession)))),
         })
       } catch (e) {
-        console.log(e.message)
+        console.log("4", e.message)
       }
     }
     if (mode == 'Exam/Lab Fee') {
@@ -251,7 +251,7 @@ export default function Payment() {
           total: increment(Number(-(Number(amount) + Number(concession)))),
         })
       } catch (e) {
-        console.log(e.message)
+        console.log("5", e.message)
       }
     }
     if (mode == 'Third ward Fee') {
@@ -269,7 +269,7 @@ export default function Payment() {
           total: increment(Number(-(Number(amount) + Number(concession)))),
         })
       } catch (e) {
-        console.log(e.message)
+        console.log("6", e.message)
       }
     }
     months.map(async (e) => {
@@ -323,7 +323,7 @@ export default function Payment() {
           })
         }
       } catch (err) {
-        console.log(err)
+        console.log("7", err)
       }
     })
   }
@@ -331,11 +331,12 @@ export default function Payment() {
   const addIncome = async () => {
     console.log("income added")
     console.log(d)
-    
+
     const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
-      current.getTime(),
-      )
-      console.log(time)
+      new Date().getTime(),
+    )
+
+    console.log("8", time)
     try {
       const docRef = doc(
         db,
@@ -384,7 +385,7 @@ export default function Payment() {
           setCount(count + 1)
         }
       } catch (e) {
-        console.log(e.message)
+        console.log("9", e.message)
       }
     }
   }
@@ -404,7 +405,7 @@ export default function Payment() {
           setCount2(count2 + 1)
         }
       } catch (e) {
-        console.log(e.message)
+        console.log("10", e.message)
       }
     }
   }
@@ -424,7 +425,7 @@ export default function Payment() {
           setCount3(count2 + 1)
         }
       } catch (e) {
-        console.log(e.message)
+        console.log("12", e.message)
       }
     }
   }
@@ -445,7 +446,7 @@ export default function Payment() {
           setCount1(count + 1)
         }
       } catch (e) {
-        console.log(e.message)
+        console.log("13", e.message)
       }
     }
   }
@@ -539,14 +540,12 @@ export default function Payment() {
                       onChange={(e) => {
                         setCurrent(e)
                         setD(
-                          `${e.getDate()}-${
-                            e.getMonth() + 1
+                          `${e.getDate()}-${e.getMonth() + 1
                           }-${e.getFullYear()}`,
                         )
                         localStorage.setItem(
                           'date',
-                          `${e.getDate()}-${
-                            e.getMonth() + 1
+                          `${e.getDate()}-${e.getMonth() + 1
                           }-${e.getFullYear()}`,
                         )
                         setMonth(e.getMonth())
