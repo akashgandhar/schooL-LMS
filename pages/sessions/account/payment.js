@@ -336,7 +336,7 @@ export default function Payment() {
         time,
       )
 
-      await setDoc(docRef, {
+      await updateDoc(docRef, {
         Total_Paid_Amount: Number(amount) + Number(concession),
         Total_Paid: Number(amount),
         Concession: concession,
