@@ -331,11 +331,11 @@ export default function Payment() {
   const addIncome = async () => {
     console.log("income added")
     console.log(d)
-    console.log(time)
-
+    
     const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
       current.getTime(),
-    )
+      )
+      console.log(time)
     try {
       const docRef = doc(
         db,
