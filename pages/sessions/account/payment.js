@@ -157,7 +157,7 @@ export default function Payment() {
     const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
       current.getTime(),
     )
-    
+
     try {
       const docRef = doc(
         db,
@@ -351,8 +351,6 @@ export default function Payment() {
         Mode: mode,
         name: `${mode} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`,
         Time: time,
-      }).catch((e)=>{
-        console.log("error", e.message)
       })
     } catch {
       (error) => {
