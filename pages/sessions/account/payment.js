@@ -326,6 +326,8 @@ export default function Payment() {
   }
 
   const addIncome = async () => {
+    console.log("income added")
+    console.log(d)
     try {
       const docRef = doc(
         db,
@@ -343,7 +345,7 @@ export default function Payment() {
         Time: time,
       })
     } catch {
-      ;(error) => {
+      (error) => {
         alert('Error in Adding Income', error.message)
       }
     }
