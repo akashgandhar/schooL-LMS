@@ -343,6 +343,8 @@ export default function Payment() {
         Mode: mode,
         name: `${mode} Of ${s.name} s/o ${s.Father_Name} (${s.Class})`,
         Time: time,
+      }).catch((e)=>{
+        console.log("error", e.message)
       })
     } catch {
       (error) => {
