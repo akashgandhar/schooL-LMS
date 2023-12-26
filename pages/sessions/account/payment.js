@@ -328,6 +328,7 @@ export default function Payment() {
   const addIncome = async () => {
     console.log("income added")
     console.log(d)
+    console.log(time)
     try {
       const docRef = doc(
         db,
