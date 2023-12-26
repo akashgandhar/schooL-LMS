@@ -198,8 +198,8 @@ export default function Payment() {
         .then(() => {
           setIsLoading(false)
         })
-    } catch (e) {
-      console.log(e.message)
+    } catch (err) {
+      console.log(err.message)
       setIsLoading(false)
     }
     // setIsLoading(false)
