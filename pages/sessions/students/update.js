@@ -204,7 +204,7 @@ export default function NewStudent() {
                 Snap.data().total_Due +
                 (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
                 (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
-            });
+            }, {merge: true});
           } else {
             await setDoc(dueRef, {
               total_Due:
@@ -494,7 +494,7 @@ export default function NewStudent() {
           await updateDoc(
             doc(
               db,
-              `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
+              `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionNameTemp}/students`,
               sr
             ),
             {
@@ -506,7 +506,7 @@ export default function NewStudent() {
             try {
               const docRef = doc(
                 db,
-                `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/due/${e}/students`,
+                `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionNameTemp}/due/${e}/students`,
                 sr
               );
               await updateDoc(docRef, {
@@ -605,7 +605,8 @@ export default function NewStudent() {
                 rteStatus != rteStatusTemp ||
                 className != classNameTemp ||
                 transportStatus != transportStatusTemp ||
-                busStopName != busStopNameTemp
+                busStopName != busStopNameTemp ||
+                sectionName != sectionNameTemp
               ) {
                 // console.log(3);
                 createAccount();
@@ -617,7 +618,8 @@ export default function NewStudent() {
                 rteStatus != rteStatusTemp ||
                 className != classNameTemp ||
                 transportStatus != transportStatusTemp ||
-                busStopNameTemp != busStopName
+                busStopNameTemp != busStopName ||
+                sectionName != sectionNameTemp
               ) {
                 // console.log(transportFee);
                 createDues();
