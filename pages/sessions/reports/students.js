@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import Nav from "../../../components/navbar";
-import Header from "../../../components/dropdown";
-import { auth, db } from "../../../firebase";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import Nav from '../../../components/navbar'
+import Header from '../../../components/dropdown'
+import { auth, db, storage } from '../../../firebase'
 import {
   collection,
   doc,
@@ -9,149 +9,151 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
-} from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "next/router";
-import UserContext from "../../../components/context/userContext";
-import { useReactToPrint } from "react-to-print";
+} from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useRouter } from 'next/router'
+import UserContext from '../../../components/context/userContext'
+import { useReactToPrint } from 'react-to-print'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
 export default function StudentReports() {
-  const componentRef = useRef();
+  const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-  });
+  })
 
-  const a = useContext(UserContext);
-  const router = useRouter();
+  const a = useContext(UserContext)
+  const router = useRouter()
 
-  const [className, setClassName] = useState("");
-  const [sectionName, setSectionName] = useState("");
-  const [studentList, setStudentList] = useState([]);
-  const [sectionList, setSectionList] = useState([]);
-  const [classList, setClassList] = useState([]);
+  const [className, setClassName] = useState('')
+  const [sectionName, setSectionName] = useState('')
+  const [studentList, setStudentList] = useState([])
+  const [sectionList, setSectionList] = useState([])
+  const [classList, setClassList] = useState([])
 
   const GetClassList = async () => {
     try {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/classes`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
+        `users/${a.user}/sessions/${a.session}/classes`,
+      )
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setClassList(list);
+        list.push(doc.data())
+      })
+      setClassList(list)
     } catch {
-      (e) => {
+      ;(e) => {
         if (!className) {
-          alert("select class first");
+          alert('select class first')
         }
-      };
+      }
     }
-  };
+  }
 
   const GetSectionList = async () => {
     try {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/classes/${className}/sections`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections`,
+      )
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setSectionList(list);
+        list.push(doc.data())
+      })
+      setSectionList(list)
     } catch {
-      (e) => {
+      ;(e) => {
         if (!className) {
-          alert("select class first");
+          alert('select class first')
         }
-      };
+      }
     }
-  };
+  }
 
   const GetStudentList = async () => {
-    var docRef;
+    var docRef
     if (className && sectionName) {
       docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`
-      );
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`,
+      )
     } else {
       docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/AllStudents`
-      );
+        `users/${a.user}/sessions/${a.session}/AllStudents`,
+      )
     }
-    const docSnap = await getDocs(docRef);
-    var list = [];
+    const docSnap = await getDocs(docRef)
+    var list = []
     docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setStudentList(list);
-  };
+      list.push(doc.data())
+    })
+    setStudentList(list)
+  }
 
   const SearchStudent = async (q) => {
-    var docRef;
+    var docRef
     if (className && sectionName) {
       docRef = query(
         collection(
           db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`,
         ),
-        q
-      );
+        q,
+      )
     } else {
       docRef = query(
         collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-        q
-      );
+        q,
+      )
     }
     try {
-      const docSnap = await getDocs(docRef);
-      var list = [];
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setStudentList(list);
+        list.push(doc.data())
+      })
+      setStudentList(list)
     } catch (e) {
-      alert(e.message);
+      alert(e.message)
     }
-  };
+  }
 
   const rlist = [
-    "All Students",
-    "Class Wise",
-    "RTE Students",
-    "Third Wards",
-    "All Male",
-    "All Female",
-  ];
-  const [q, setQ] = useState();
+    'All Students',
+    'Class Wise',
+    'RTE Students',
+    'Third Wards',
+    'All Male',
+    'All Female',
+  ]
+  const [q, setQ] = useState()
 
-  const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [selectedAttributes, setSelectedAttributes] = useState([])
 
   const sortedStudents = studentList.sort((a, b) => {
     if (a.Class < b.Class) {
-      return -1;
+      return -1
     }
     if (a.Class > b.Class) {
-      return 1;
+      return 1
     }
-    return 0;
-  });
+    return 0
+  })
 
   const [columns, setColumns] = useState([
-    "Adm No.",
-    "ID",
-    "name",
-    "Father_Name",
-    "Mother_Name",
-    "Mobile_Number",
-  ]);
+    'Adm No.',
+    'ID',
+    'name',
+    'Father_Name',
+    'Mother_Name',
+    'Mobile_Number',
+  ])
 
   // useEffect(() => {
   //     // console.log(columns)
@@ -161,6 +163,56 @@ export default function StudentReports() {
   // });
   // console.log();
   // console.log("sortedStudents");
+
+  const handleUpload = (img, data) => {
+    if (!data.Class || !data.Section || !data.Section) {
+      alert('Write Name, Class and Section First')
+    } else {
+      const storageRef = ref(
+        storage,
+        `${a.user}/${a.session}/${data.Class}/${data.Section}/${data.Section}.jpg`,
+      )
+      const file = img
+      const uploadTask = uploadBytesResumable(storageRef, file)
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        },
+
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            // setImgUrl(downloadURL)
+            const docRef = doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${data.Class}/sections/${data.Section}/students/${data.Sr_Number}`,
+            )
+
+            const docRef2 = doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/AllStudents/${data.Sr_Number}`,
+            )
+
+            await updateDoc(docRef, {
+              Image: downloadURL,
+            })
+
+            await updateDoc(docRef2, {
+              Image: downloadURL,
+            })
+
+            alert('uploaded')
+          })
+        },
+      )
+    }
+  }
 
   return (
     <>
@@ -180,13 +232,13 @@ export default function StudentReports() {
                     </label>
                     <select
                       onClick={() => {
-                        GetClassList();
+                        GetClassList()
                       }}
                       onChange={(e) => {
-                        if (e.target.value == "Please Select") {
-                          setClassName("");
+                        if (e.target.value == 'Please Select') {
+                          setClassName('')
                         } else {
-                          setClassName(e.target.value);
+                          setClassName(e.target.value)
                         }
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -195,7 +247,7 @@ export default function StudentReports() {
                     >
                       <option>Please Select</option>
                       {classList.map((e, index) => {
-                        return <option key={index}>{e.Name}</option>;
+                        return <option key={index}>{e.Name}</option>
                       })}
                     </select>
                   </div>
@@ -209,10 +261,10 @@ export default function StudentReports() {
                     </label>
                     <select
                       onClick={() => {
-                        GetSectionList();
+                        GetSectionList()
                       }}
                       onChange={(e) => {
-                        setSectionName(e.target.value);
+                        setSectionName(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -220,7 +272,7 @@ export default function StudentReports() {
                     >
                       <option>Please Select</option>
                       {sectionList.map((e, index) => {
-                        return <option key={index}>{e.Name}</option>;
+                        return <option key={index}>{e.Name}</option>
                       })}
                     </select>
                   </div>
@@ -233,10 +285,10 @@ export default function StudentReports() {
                     </label>
                     <select
                       onChange={(e) => {
-                        if (e.target.value == "Please Select") {
-                          setQ("");
+                        if (e.target.value == 'Please Select') {
+                          setQ('')
                         } else {
-                          setQ(e.target.value);
+                          setQ(e.target.value)
                         }
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -245,34 +297,34 @@ export default function StudentReports() {
                     >
                       <option>Please Select</option>
                       {rlist.map((e, index) => {
-                        return <option key={index}>{e}</option>;
+                        return <option key={index}>{e}</option>
                       })}
                     </select>
                   </div>
 
                   <button
                     onClick={() => {
-                      if (q == "Class Wise") {
-                        GetStudentList();
+                      if (q == 'Class Wise') {
+                        GetStudentList()
                       }
-                      if (!q || q == "All Students") {
-                        GetStudentList();
+                      if (!q || q == 'All Students') {
+                        GetStudentList()
                       }
-                      if (q == "RTE Students") {
-                        const s = where("RTE_Status", "==", "Yes");
-                        SearchStudent(s);
+                      if (q == 'RTE Students') {
+                        const s = where('RTE_Status', '==', 'Yes')
+                        SearchStudent(s)
                       }
-                      if (q == "Third Wards") {
-                        const s = where("Third_Ward", "==", "Yes");
-                        SearchStudent(s);
+                      if (q == 'Third Wards') {
+                        const s = where('Third_Ward', '==', 'Yes')
+                        SearchStudent(s)
                       }
-                      if (q == "All Male") {
-                        const s = where("Gender", "==", "Male");
-                        SearchStudent(s);
+                      if (q == 'All Male') {
+                        const s = where('Gender', '==', 'Male')
+                        SearchStudent(s)
                       }
-                      if (q == "All Female") {
-                        const s = where("Gender", "==", "Female");
-                        SearchStudent(s);
+                      if (q == 'All Female') {
+                        const s = where('Gender', '==', 'Female')
+                        SearchStudent(s)
                       }
                     }}
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
@@ -284,35 +336,35 @@ export default function StudentReports() {
                 <div className="h-32 overflow-scroll border-2 p-2">
                   {[
                     ,
-                    "Aadhar",
-                    "Aadhar_Available",
-                    "Additional_Subject",
-                    "Address",
-                    "Age",
-                    "BusStop_Name",
-                    "Caste",
-                    "Category",
-                    "City",
-                    "Date_Of_Birth",
-                    "Father_Mobile_Number",
-                    "Fees",
-                    "Gender",
-                    "House",
-                    "Image",
-                    "Last_School",
-                    "Last_School_Address",
-                    "Last_School_Board",
-                    "Last_School_Result",
-                    "Mother_Name",
-                    "PinCode",
-                    "RTE_Status",
-                    "Religion",
-                    "Section",
-                    "Third_Ward",
-                    "Transport_Fee",
-                    "Transport_Status",
-                    "Place",
-                    "Class",
+                    'Aadhar',
+                    'Aadhar_Available',
+                    'Additional_Subject',
+                    'Address',
+                    'Age',
+                    'BusStop_Name',
+                    'Caste',
+                    'Category',
+                    'City',
+                    'Date_Of_Birth',
+                    'Father_Mobile_Number',
+                    'Fees',
+                    'Gender',
+                    'House',
+                    'Image',
+                    'Last_School',
+                    'Last_School_Address',
+                    'Last_School_Board',
+                    'Last_School_Result',
+                    'Mother_Name',
+                    'PinCode',
+                    'RTE_Status',
+                    'Religion',
+                    'Section',
+                    'Third_Ward',
+                    'Transport_Fee',
+                    'Transport_Status',
+                    'Place',
+                    'Class',
                   ]
                     .sort((a, b) => a.localeCompare(b))
                     .map((attribute) => (
@@ -323,11 +375,11 @@ export default function StudentReports() {
                             checked={columns.includes(attribute)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setColumns([...columns, attribute]);
+                                setColumns([...columns, attribute])
                               } else {
                                 setColumns(
-                                  columns.filter((col) => col !== attribute)
-                                );
+                                  columns.filter((col) => col !== attribute),
+                                )
                               }
                             }}
                           />
@@ -341,30 +393,27 @@ export default function StudentReports() {
             <div ref={componentRef} className="p-2">
               <div className="flex justify-between items-center p-2">
                 <div class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
-                  Class : {className ? className : "All"}
+                  Class : {className ? className : 'All'}
                 </div>
                 <div class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
-                  Student Reports : {q ? q : "All Students"}
+                  Student Reports : {q ? q : 'All Students'}
                 </div>
                 <div class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
-                  Section : {sectionName ? sectionName : "All"}
+                  Section : {sectionName ? sectionName : 'All'}
                 </div>
               </div>
               <table class="min-w-full border-collapse block md:table">
                 <thead className="block md:table-header-group">
-                  
                   <tr className="border border-black md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-                  <th
-                        className="bg-gray-600 p-2 text-white font-bold md:border md:border-black text-left block md:table-cell"
-                      >
-                        SN.
-                      </th>
+                    <th className="bg-gray-600 p-2 text-white font-bold md:border md:border-black text-left block md:table-cell">
+                      SN.
+                    </th>
                     {columns.map((col) => (
                       <th
                         key={col}
                         className="bg-gray-600 p-2 text-white font-bold md:border md:border-black text-left block md:table-cell"
                       >
-                        {col == "name" ? "Name" : col}
+                        {col == 'name' ? 'Name' : col}
                       </th>
                     ))}
                   </tr>
@@ -372,47 +421,80 @@ export default function StudentReports() {
                 <tbody className="block md:table-row-group font-semibold">
                   {sortedStudents
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
-                    .filter((std)=>std.Deleted == false || std.Deleted == undefined).map((e, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            className="bg-white border border-black md:border-none block md:table-row"
-                          >
-                            <td className="p-2 md:border md:border-black text-left block md:table-cell">
-                              {index + 1}
+                    .filter(
+                      (std) => std.Deleted == false || std.Deleted == undefined,
+                    )
+                    .map((e, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          className="bg-white border border-black md:border-none block md:table-row"
+                        >
+                          <td className="p-2 md:border md:border-black text-left block md:table-cell">
+                            {index + 1}
+                          </td>
+                          {columns.map((col) => (
+                            <td
+                              key={col}
+                              className="p-2 md:border md:border-black text-left block md:table-cell"
+                            >
+                              <span className="inline-block w-1/3 md:hidden font-bold">
+                                {col}
+                              </span>
+                              {/* {col== "Adm No."?e["ID"]:e[col]} */}
+                              {/* {col === 'ID' ? e['Sr_Number'] : (col === 'Adm No.' ? e['ID'] : e[col])} */}
+                              {col === 'ID' ? (
+                                e['Sr_Number']
+                              ) : col === 'Adm No.' ? (
+                                e['ID']
+                              ) : col === 'Date_Of_Birth' ? (
+                                typeof e[col] === 'string' ? (
+                                  e[col]
+                                ) : e[col]?.seconds ? (
+                                  new Date(
+                                    e[col].seconds * 1000,
+                                  ).toLocaleDateString('en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                  })
+                                ) : (
+                                  'nil'
+                                )
+                              ) : col == 'Image' ? (
+                                <div>
+                                  {e[col] ==
+                                    'https://st3.depositphotos.com/13159112/17145/v/450/depositphotos_171453724-stock-illustration-default-avatar-profile-icon-grey.jpg' ||
+                                  e[col] == null ||
+                                  e[col] == undefined ? (
+                                    <>
+                                      <input
+                                        onChange={(img) => {
+                                          handleUpload(img.target.files[0], e)
+                                        }}
+                                        id="company"
+                                        type="file"
+                                        placeholder="1111"
+                                      />
+                                      {/* <button className="bg-blue-500 py-1 px-2 text-white rounded-lg">
+                                        Upload
+                                      </button> */}
+                                    </>
+                                  ) : (
+                                    <img
+                                      src={e[col]}
+                                      alt="student image"
+                                      className="w-20 h-20 object-cover"
+                                    />
+                                  )}
+                                </div>
+                              ) : (
+                                e[col]
+                              )}
                             </td>
-                            {columns.map((col) => (
-                              <td
-                                key={col}
-                                className="p-2 md:border md:border-black text-left block md:table-cell"
-                              >
-                                <span className="inline-block w-1/3 md:hidden font-bold">
-                                  {col}
-                                </span>
-                                {/* {col== "Adm No."?e["ID"]:e[col]} */}
-                                {/* {col === 'ID' ? e['Sr_Number'] : (col === 'Adm No.' ? e['ID'] : e[col])} */}
-                                {col === "ID"
-                                  ? e["Sr_Number"]
-                                  : col === "Adm No."
-                                  ? e["ID"]
-                                  : col === "Date_Of_Birth"
-                                  ? typeof e[col] === "string"
-                                    ? e[col]
-                                    : e[col]?.seconds
-                                    ? new Date(
-                                        e[col].seconds * 1000
-                                      ).toLocaleDateString("en-GB", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                      })
-                                    : "nil"
-                                  : e[col]}
-                              </td>
-                            ))}
-                          </tr>
-                        );
-                      
+                          ))}
+                        </tr>
+                      )
                     })}
                 </tbody>
               </table>
@@ -429,5 +511,5 @@ export default function StudentReports() {
         </div>
       </div>
     </>
-  );
+  )
 }
