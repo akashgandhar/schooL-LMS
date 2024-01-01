@@ -10,173 +10,165 @@ import {
   setDoc,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import Nav from "../../../components/navbar";
-import Header from "../../../components/dropdown";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { auth, db, storage } from "../../../firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import UserContext from "../../../components/context/userContext";
-import { async } from "@firebase/util";
-import { Input } from "postcss";
-import DatePicker from "react-datepicker";
+} from 'firebase/firestore'
+import { useRouter } from 'next/router'
+import { useContext, useEffect, useState } from 'react'
+import Nav from '../../../components/navbar'
+import Header from '../../../components/dropdown'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { auth, db, storage } from '../../../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import UserContext from '../../../components/context/userContext'
+import { async } from '@firebase/util'
+import { Input } from 'postcss'
+import DatePicker from 'react-datepicker'
 
-import "react-datepicker/dist/react-datepicker.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import 'react-datepicker/dist/react-datepicker.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function NewStudent() {
-  const router = useRouter();
-  const s = router.query;
-  const [sr, setSr] = useState(s.Sr_Number);
-  const [name, setName] = useState(s.name);
-  const [fName, setFName] = useState(s.Father_Name);
-  const [mName, setMName] = useState(s.Mother_Name);
-  const [id, setId] = useState(s.ID);
-  const [mobile, setMobile] = useState(s.Mobile_Number);
-  const [fmobile, setFMobile] = useState(s.Father_Mobile_Number);
-  const [age, setAge] = useState(s.Age);
-  const [address, setAddress] = useState(s.Address);
-  const [ward, setWard] = useState(s.Third_Ward);
-  const [wardTemp, setWardTemp] = useState(s.Third_Ward);
-  const [addSub, setAddSub] = useState(s.Additional_Subject);
-  const [className, setClassName] = useState(s.Class);
-  const [classNameTemp, setClassNameTemp] = useState(s.Class);
-  const [sectionName, setSectionName] = useState(s.Section);
-  const [sectionNameTemp, setSectionNameTemp] = useState(s.Section);
-  const [transportStatus, setTransportStatus] = useState(s.Transport_Status);
+  const router = useRouter()
+  const s = router.query
+  const [sr, setSr] = useState(s.Sr_Number)
+  const [name, setName] = useState(s.name)
+  const [fName, setFName] = useState(s.Father_Name)
+  const [mName, setMName] = useState(s.Mother_Name)
+  const [id, setId] = useState(s.ID)
+  const [mobile, setMobile] = useState(s.Mobile_Number)
+  const [fmobile, setFMobile] = useState(s.Father_Mobile_Number)
+  const [age, setAge] = useState(s.Age)
+  const [address, setAddress] = useState(s.Address)
+  const [ward, setWard] = useState(s.Third_Ward)
+  const [wardTemp, setWardTemp] = useState(s.Third_Ward)
+  const [addSub, setAddSub] = useState(s.Additional_Subject)
+  const [className, setClassName] = useState(s.Class)
+  const [classNameTemp, setClassNameTemp] = useState(s.Class)
+  const [sectionName, setSectionName] = useState(s.Section)
+  const [sectionNameTemp, setSectionNameTemp] = useState(s.Section)
+  const [transportStatus, setTransportStatus] = useState(s.Transport_Status)
   const [transportStatusTemp, setTransportStatusTemp] = useState(
-    s.Transport_Status
-  );
-  const [busStopName, setBusStopName] = useState(s.BusStop_Name);
-  const [busStopNameTemp, setBusStopNameTemp] = useState(s.BusStop_Name);
+    s.Transport_Status,
+  )
+  const [busStopName, setBusStopName] = useState(s.BusStop_Name)
+  const [busStopNameTemp, setBusStopNameTemp] = useState(s.BusStop_Name)
   // const [busNumber, setBusNumber] = useState("NaN");
-  const [category, setCategory] = useState(s.Category);
-  const [caste, setCaste] = useState(s.Caste);
-  const [religion, setReligion] = useState(s.Religion);
-  const [place, setPlace] = useState(s.Place);
-  const [city, setCity] = useState(s.City);
-  const [pincode, setPincode] = useState(s.PinCode);
-  const [gender, setGender] = useState(s.Gender);
-  const [lSchool, setLSchool] = useState(s.Last_School);
-  const [lSchoolAdd, setLSchoolAdd] = useState(s.Last_School_Address);
-  const [lSchoolBoard, setLSchoolBoard] = useState(s.Last_School_Board);
-  const [lSchoolResult, setLSchoolResult] = useState(s.Last_School_Result);
-  const [tcStatus, setTcStatus] = useState(s.Tc_Available);
-  const [rteStatus, setRteStatus] = useState(s.RTE_Status);
-  const [rteStatusTemp, setRteStatusTemp] = useState(s.RTE_Status);
-  const [admissionDay, setAdmissionDay] = useState("");
-  const [admissionMonth, setAdmissionMonth] = useState("");
-  const [admissionYear, setAdmissionYear] = useState("");
-  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available);
-  const [house, setHouse] = useState(s.House);
+  const [category, setCategory] = useState(s.Category)
+  const [caste, setCaste] = useState(s.Caste)
+  const [religion, setReligion] = useState(s.Religion)
+  const [place, setPlace] = useState(s.Place)
+  const [city, setCity] = useState(s.City)
+  const [pincode, setPincode] = useState(s.PinCode)
+  const [gender, setGender] = useState(s.Gender)
+  const [lSchool, setLSchool] = useState(s.Last_School)
+  const [lSchoolAdd, setLSchoolAdd] = useState(s.Last_School_Address)
+  const [lSchoolBoard, setLSchoolBoard] = useState(s.Last_School_Board)
+  const [lSchoolResult, setLSchoolResult] = useState(s.Last_School_Result)
+  const [tcStatus, setTcStatus] = useState(s.Tc_Available)
+  const [rteStatus, setRteStatus] = useState(s.RTE_Status)
+  const [rteStatusTemp, setRteStatusTemp] = useState(s.RTE_Status)
+  const [admissionDay, setAdmissionDay] = useState('')
+  const [admissionMonth, setAdmissionMonth] = useState('')
+  const [admissionYear, setAdmissionYear] = useState('')
+  const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available)
+  const [house, setHouse] = useState(s.House)
 
-  const [tcFile, setTcFile] = useState("nil");
-  const [aadharFile, setAadharFile] = useState("nil");
-  const [image, setImage] = useState("nil");
+  const [tcFile, setTcFile] = useState('nil')
+  const [aadharFile, setAadharFile] = useState('nil')
+  const [image, setImage] = useState('nil')
 
-  const [imgUrl, setImgUrl] = useState(s.Image);
-  const [tcUrl, setTcUrl] = useState("nil");
-  const [aadharUrl, setAadharUrl] = useState(s.Aadhar);
+  const [imgUrl, setImgUrl] = useState(s.Image)
+  const [tcUrl, setTcUrl] = useState('nil')
+  const [aadharUrl, setAadharUrl] = useState(s.Aadhar)
 
-  const [classList, setClassList] = useState([]);
-  const [sectionList, setSectionList] = useState([]);
-  const [stopList, setStopList] = useState([]);
-  const [houseList, setHouseList] = useState([]);
+  const [classList, setClassList] = useState([])
+  const [sectionList, setSectionList] = useState([])
+  const [stopList, setStopList] = useState([])
+  const [houseList, setHouseList] = useState([])
 
-  const [classFee, setClassFee] = useState();
-  const [transportFee, setTransportFee] = useState(0);
+  const [classFee, setClassFee] = useState()
+  const [transportFee, setTransportFee] = useState(0)
 
-  const a = useContext(UserContext);
+  const a = useContext(UserContext)
 
-  const current = new Date();
-  const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
-    current.getTime()
-  );
+  const current = new Date()
+  const time = new Intl.DateTimeFormat('en-IN', { timeStyle: 'medium' }).format(
+    current.getTime(),
+  )
 
   const d = `${current.getDate()}-${
     current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  }-${current.getFullYear()}`
 
-  const [date, setDate] = useState();
-  const [dateTemp, setDateTemp] = useState();
-  const [dob, setDob] = useState(s.Date_Of_Birth);
+  const [date, setDate] = useState()
+  const [dateTemp, setDateTemp] = useState()
+  const [dob, setDob] = useState(s.Date_Of_Birth)
   // console.log("test:", date);
   const getDate = async () => {
     const docRef = doc(
       db,
       `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
-      sr
-    );
+      sr,
+    )
     try {
-      const docSnap = await getDoc(docRef);
+      const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         // console.log(docSnap.data().Admission_Date.seconds);
         // console.log("exist");
-        setDate(docSnap.data().Admission_Date.seconds * 1000);
-        setDateTemp(docSnap.data().Admission_Date);
+        setDate(docSnap.data().Admission_Date.seconds * 1000)
+        setDateTemp(docSnap.data().Admission_Date)
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
-  useEffect(() => {
-    // console.log("DATE : " + s.Admission_Date);
-    getDate();
-    GetClassList();
-    GetSectionList();
-    GetClassFee();
-  }, [className, sectionName, classFee]);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const months = [
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-    "January",
-    "February",
-    "March",
-  ];
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+    'January',
+    'February',
+    'March',
+  ]
 
   const CalculatTransport = (month, fee, n) => {
-    if (month == "April" || month == "May") {
-      return fee * n;
-    } else if (month == "June") {
-      return fee * 2;
+    if (month == 'April' || month == 'May') {
+      return fee * n
+    } else if (month == 'June') {
+      return fee * 2
     } else {
-      return fee * (n - 1);
+      return fee * (n - 1)
     }
-  };
+  }
 
   const createDues = async () => {
     // console.log(transportFee);
-    var total = 0;
+    var total = 0
     months.forEach(async (e) => {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
-          sr
-        );
+          sr,
+        )
         await setDoc(docRef, {
           month: e,
           month_Due:
-            rteStatus === "Yes" || ward === "Yes"
+            rteStatus === 'Yes' || ward === 'Yes'
               ? 0
               : classFee * (months.indexOf(e) + 1),
           transport_due: CalculatTransport(
             e,
             transportFee,
-            months.indexOf(e) + 1
+            months.indexOf(e) + 1,
           ),
           name: name,
           class: className,
@@ -186,7 +178,7 @@ export default function NewStudent() {
           Mobile: mobile,
           Sr_Number: sr,
           total:
-            rteStatus === "Yes" || ward === "Yes"
+            rteStatus === 'Yes' || ward === 'Yes'
               ? 0
               : classFee * (months.indexOf(e) + 1) +
                 CalculatTransport(e, transportFee, months.indexOf(e) + 1),
@@ -194,266 +186,253 @@ export default function NewStudent() {
           const dueRef = doc(
             db,
             `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/`,
-            e
-          );
-          const Snap = await getDoc(dueRef);
+            e,
+          )
+          const Snap = await getDoc(dueRef)
 
           if (Snap.exists()) {
-            await updateDoc(dueRef, {
-              total_Due:
-                Snap.data().total_Due +
-                (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
-                (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
-            }, {merge: true});
+            await updateDoc(
+              dueRef,
+              {
+                total_Due:
+                  Snap.data().total_Due +
+                  (rteStatus === 'Yes'
+                    ? 0
+                    : classFee * (months.indexOf(e) + 1)) +
+                  (e === 'June' ? 0 : transportFee * (months.indexOf(e) + 1)),
+              },
+              { merge: true },
+            )
           } else {
             await setDoc(dueRef, {
               total_Due:
-                (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
-                (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
-            });
+                (rteStatus === 'Yes' ? 0 : classFee * (months.indexOf(e) + 1)) +
+                (e === 'June' ? 0 : transportFee * (months.indexOf(e) + 1)),
+            })
           }
-        });
+        })
       } catch (e) {
-        alert(e.message);
+        alert(e.message)
       }
-    });
-  };
+    })
+  }
   const createAccount = async () => {
     const docRef = doc(
       db,
       `users/${a.user}/sessions/${a.session}/studentsAccount`,
-      sr
-    );
+      sr,
+    )
 
     const docRef2 = collection(
       db,
-      `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`
-    );
-    const docRef3 = `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`;
+      `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`,
+    )
+    const docRef3 = `users/${a.user}/sessions/${a.session}/studentsAccount/${sr}/records`
 
     try {
       // console.log(5);
-      const docSnap = await getDocs(docRef2);
+      const docSnap = await getDocs(docRef2)
       docSnap.forEach(async (docs) => {
-        deleteDoc(doc(db, docRef3, docs.id));
-      });
+        deleteDoc(doc(db, docRef3, docs.id))
+      })
 
       // console.log(9);
       await setDoc(docRef, {
         Anual_Fee: 5000,
         Class_Fee: classFee,
         transportfees: transportFee,
-      });
+      })
     } catch (e) {
-      alert(e.message);
+      alert(e.message)
     }
-  };
+  }
 
-  const [count3, setCount3] = useState(0);
-  const GetClassFee = async () => {
-    if (count3 < 2) {
-      try {
-        const docRef = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes`,
-          className
-        );
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists) {
-          setClassFee(docSnap.data().Class_Fee);
-          setCount3(count3 + 1);
-        }
-      } catch {
-        alert("class value missing");
-      }
-    }
-  };
+  const [count3, setCount3] = useState(0)
+
   // console.log(transportFee,transportStatus,transportStatusTemp);
   const GetTransportFee = async () => {
-    if (transportStatus === "Yes") {
+    if (transportStatus === 'Yes') {
       try {
         const docRef = doc(
           db,
           `users/${a.user}/sessions/${a.session}/stops`,
-          busStopName
-        );
-        const docSnap = await getDoc(docRef);
+          busStopName,
+        )
+        const docSnap = await getDoc(docRef)
         if (docSnap.exists) {
-          setTransportFee(docSnap.data().Stop_Fee);
+          setTransportFee(docSnap.data().Stop_Fee)
           // console.log(transportFee);
-          setCount(count + 1);
+          setCount(count + 1)
         }
       } catch (e) {
-        alert("plese Select bus stop first");
+        alert('plese Select bus stop first')
       }
     }
-  };
+  }
 
-  const [count, setCount] = useState(0);
-  const [count1, setCount1] = useState(0);
+  const [count, setCount] = useState(0)
+  const [count1, setCount1] = useState(0)
 
   useEffect(() => {
-    GetTransportFee();
-    GetHouseList();
-    GetStopList();
-  }, [transportFee, house, transportStatus, busStopName]);
+    GetTransportFee()
+    GetHouseList()
+    GetStopList()
+  }, [transportFee, house, transportStatus, busStopName])
 
   const GetClassList = async () => {
     const docRef = collection(
       db,
-      `users/${a.user}/sessions/${a.session}/classes`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
+      `users/${a.user}/sessions/${a.session}/classes`,
+    )
+    const docSnap = await getDocs(docRef)
+    var list = []
     docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setClassList(list);
-  };
+      list.push(doc.data())
+    })
+    setClassList(list)
+  }
 
   const GetSectionList = async () => {
     try {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/classes/${className}/sections`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections`,
+      )
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setSectionList(list);
+        list.push(doc.data())
+      })
+      setSectionList(list)
     } catch {
-      (e) => {
+      ;(e) => {
         if (!className) {
-          alert("select class first");
+          alert('select class first')
         }
-      };
+      }
     }
-  };
+  }
 
   const GetHouseList = async () => {
     if (count1 < 2) {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/houses`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
+        `users/${a.user}/sessions/${a.session}/houses`,
+      )
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-        setCount1(count1 + 1);
-      });
-      setHouseList(list);
+        list.push(doc.data())
+        setCount1(count1 + 1)
+      })
+      setHouseList(list)
     }
-  };
+  }
 
-  const [count2, setCount2] = useState(0);
+  const [count2, setCount2] = useState(0)
 
   const GetStopList = async () => {
     if (count2 < 2) {
       const docRef = collection(
         db,
-        `users/${a.user}/sessions/${a.session}/stops`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
+        `users/${a.user}/sessions/${a.session}/stops`,
+      )
+      const docSnap = await getDocs(docRef)
+      var list = []
       docSnap.forEach((doc) => {
-        list.push(doc.data());
-        setCount2(count2 + 1);
-      });
-      setStopList(list);
+        list.push(doc.data())
+        setCount2(count2 + 1)
+      })
+      setStopList(list)
     }
-  };
+  }
 
   const handleUpload = (img) => {
     if (!className || !name || !sectionName) {
-      alert("Write Name, Class and Section First");
+      alert('Write Name, Class and Section First')
     } else {
       const storageRef = ref(
         storage,
-        `${a.user}/${a.session}/${className}/${sectionName}/${name}.jpg`
-      );
-      const file = img;
-      const uploadTask = uploadBytesResumable(storageRef, file);
+        `${a.user}/${a.session}/${className}/${sectionName}/${name}.jpg`,
+      )
+      const file = img
+      const uploadTask = uploadBytesResumable(storageRef, file)
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         (snapshot) => {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         },
 
         (error) => {
           // Handle unsuccessful uploads
         },
         () => {
-          alert("uploaded");
+          alert('uploaded')
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImgUrl(downloadURL);
-          });
-        }
-      );
+            setImgUrl(downloadURL)
+          })
+        },
+      )
     }
-  };
+  }
 
   const handleUploadTc = (docs) => {
     const storageRef = ref(
       storage,
-      `${a.user}/${a.session}/${className}/${sectionName}/${name}/TC.jpg`
-    );
-    const file = docs;
-    const uploadTask = uploadBytesResumable(storageRef, file);
+      `${a.user}/${a.session}/${className}/${sectionName}/${name}/TC.jpg`,
+    )
+    const file = docs
+    const uploadTask = uploadBytesResumable(storageRef, file)
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
       },
       (error) => {
         // Handle unsuccessful uploads
       },
       () => {
-        alert("uploaded");
+        alert('uploaded')
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setTcUrl(downloadURL);
-        });
-      }
-    );
-  };
+          setTcUrl(downloadURL)
+        })
+      },
+    )
+  }
 
   const handleUploadAadhar = (docs) => {
     const storageRef = ref(
       storage,
-      `${a.user}/${a.session}/${className}/${sectionName}/${name}/Aadhar.jpg`
-    );
-    const file = docs;
-    const uploadTask = uploadBytesResumable(storageRef, file);
+      `${a.user}/${a.session}/${className}/${sectionName}/${name}/Aadhar.jpg`,
+    )
+    const file = docs
+    const uploadTask = uploadBytesResumable(storageRef, file)
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
       },
       (error) => {
         // Handle unsuccessful uploads
       },
       () => {
-        alert("uploaded");
+        alert('uploaded')
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setAadharUrl(downloadURL);
-        });
-      }
-    );
-  };
+          setAadharUrl(downloadURL)
+        })
+      },
+    )
+  }
 
   const submitForm = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     if (
       (!sr ||
         !name ||
@@ -486,36 +465,36 @@ export default function NewStudent() {
         !religion,
       !id)
     ) {
-      alert("some information is missing");
+      alert('some information is missing')
     } else {
-      var oldSr = [];
+      var oldSr = []
       try {
         if (className != classNameTemp || sectionName != sectionNameTemp) {
           await updateDoc(
             doc(
               db,
               `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionNameTemp}/students`,
-              sr
+              sr,
             ),
             {
               Deleted: true,
-            }
-          );
+            },
+          )
 
           months.forEach(async (e) => {
             try {
               const docRef = doc(
                 db,
                 `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionNameTemp}/due/${e}/students`,
-                sr
-              );
+                sr,
+              )
               await updateDoc(docRef, {
                 Deleted: true,
-              });
+              })
             } catch (e) {
-              alert(e.message);
+              alert(e.message)
             }
-          });
+          })
         }
 
         // console.log(1);
@@ -528,7 +507,7 @@ export default function NewStudent() {
             doc(
               db,
               `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`,
-              sr
+              sr,
             ),
             {
               Sr_Number: sr,
@@ -569,34 +548,34 @@ export default function NewStudent() {
               created: Timestamp.now(),
               Fees: classFee,
               Transport_Fee: transportFee,
-            }
+            },
           )
             .then(async () => {
               // console.log(2);
               const sessionRef = doc(
                 db,
                 `users/${a.user}/sessions/${a.session}/classes/${className}/sections/`,
-                sectionName
-              );
+                sectionName,
+              )
               const classRef = doc(
                 db,
                 `users/${a.user}/sessions/${a.session}/classes/`,
-                className
-              );
+                className,
+              )
 
-              const sesSnap = await getDoc(sessionRef);
-              const classSnap = await getDoc(classRef);
+              const sesSnap = await getDoc(sessionRef)
+              const classSnap = await getDoc(classRef)
 
               if (sesSnap.exists() && classSnap.exists()) {
                 await updateDoc(classRef, {
                   Strength: classSnap.data().Strength + 1,
-                });
+                })
                 await updateDoc(sessionRef, {
                   Strength: sesSnap.data().Strength + 1,
-                });
+                })
               } else {
                 // doc.data() will be undefined in this case
-                console.log("No such document!");
+                console.log('No such document!')
               }
             })
             .then(() => {
@@ -609,7 +588,7 @@ export default function NewStudent() {
                 sectionName != sectionNameTemp
               ) {
                 // console.log(3);
-                createAccount();
+                createAccount()
               }
             })
             .then(() => {
@@ -622,7 +601,7 @@ export default function NewStudent() {
                 sectionName != sectionNameTemp
               ) {
                 // console.log(transportFee);
-                createDues();
+                createDues()
               }
             })
             .then(async () => {
@@ -631,7 +610,7 @@ export default function NewStudent() {
                 doc(
                   db,
                   `users/${a.user}/sessions/${a.session}/AllStudents`,
-                  sr
+                  sr,
                 ),
                 {
                   Sr_Number: sr,
@@ -671,24 +650,61 @@ export default function NewStudent() {
                   Aadhar: aadharUrl,
                   created: Timestamp.now(),
                   fees: classFee,
-                }
-              );
+                },
+              )
             })
             .then(() => {
-              alert("student Updated successfully");
+              alert('student Updated successfully')
               // router.reload();
-            });
+            })
         } catch (e) {
-          console.error("Error adding document: ", e);
+          console.error('Error adding document: ', e)
         }
       } catch (e) {
-        alert(e.message);
-        setIsLoading(false);
+        alert(e.message)
+        setIsLoading(false)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
-  };
+  }
+
+  console.log(classFee)
+
+  useEffect(() => {
+    // console.log("DATE : " + s.Admission_Date);
+    const GetClassFee = async () => {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes`,
+          className,
+        )
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists) {
+          setClassFee(docSnap.data().Class_Fee)
+          console.log(docSnap.data())
+        }
+      } catch {
+        alert('class value missing')
+      }
+    }
+
+    getDate()
+    GetClassList()
+    GetSectionList()
+    GetClassFee()
+  }, [
+    className,
+    sectionName,
+    classFee,
+    getDate,
+    GetClassList,
+    GetSectionList,
+    count3,
+    a.user,
+    a.session,
+  ])
 
   // useEffect(() => {
   //   console.log(date);
@@ -699,7 +715,6 @@ export default function NewStudent() {
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen   py-20 px-12 lg:px-24 shadow-xl mb-24">
-            
             <div>
               <h1 className="text-center font-bold text-2xl">
                 New Student Details
@@ -708,7 +723,7 @@ export default function NewStudent() {
                 <section class="flex items-center justify-center max-w-fit mx-auto pb-10">
                   <input
                     onChange={(e) => {
-                      setImage(e.target.files[0]);
+                      setImage(e.target.files[0])
                     }}
                     id="company"
                     type="file"
@@ -717,7 +732,7 @@ export default function NewStudent() {
                   {a.user && (
                     <button
                       onClick={() => {
-                        handleUpload(image);
+                        handleUpload(image)
                       }}
                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                     >
@@ -739,7 +754,7 @@ export default function NewStudent() {
                     <input
                       value={sr}
                       onChange={(e) => {
-                        setSr(e.target.value);
+                        setSr(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
@@ -757,7 +772,7 @@ export default function NewStudent() {
                     <input
                       value={id}
                       onChange={(e) => {
-                        setId(e.target.value);
+                        setId(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -775,7 +790,7 @@ export default function NewStudent() {
                     <input
                       value={name}
                       onChange={(e) => {
-                        setName(e.target.value);
+                        setName(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -795,7 +810,7 @@ export default function NewStudent() {
                     <input
                       value={fName}
                       onChange={(e) => {
-                        setFName(e.target.value);
+                        setFName(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
@@ -813,7 +828,7 @@ export default function NewStudent() {
                     <input
                       value={mName}
                       onChange={(e) => {
-                        setMName(e.target.value);
+                        setMName(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -833,7 +848,7 @@ export default function NewStudent() {
                     <input
                       value={dob}
                       onChange={(e) => {
-                        setDob(e.target.value);
+                        setDob(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -851,7 +866,7 @@ export default function NewStudent() {
                     <input
                       value={mobile}
                       onChange={(e) => {
-                        setMobile(e.target.value);
+                        setMobile(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -871,7 +886,7 @@ export default function NewStudent() {
                     <input
                       value={fmobile}
                       onChange={(e) => {
-                        setFMobile(e.target.value);
+                        setFMobile(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
@@ -889,7 +904,7 @@ export default function NewStudent() {
                     <input
                       value={age}
                       onChange={(e) => {
-                        setAge(e.target.value);
+                        setAge(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
@@ -911,14 +926,14 @@ export default function NewStudent() {
                       <select
                         value={className}
                         onChange={(e) => {
-                          setClassName(e.target.value);
+                          setClassName(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
                         <option>Please Select</option>
                         {classList.map((e, index) => {
-                          return <option key={index}>{e.Name}</option>;
+                          return <option key={index}>{e.Name}</option>
                         })}
                       </select>
                     </div>
@@ -935,14 +950,14 @@ export default function NewStudent() {
                       <select
                         value={sectionName}
                         onChange={(e) => {
-                          setSectionName(e.target.value);
+                          setSectionName(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
                       >
                         <option>{sectionName}</option>
                         {sectionList.map((e, index) => {
-                          return <option key={index}>{e.Name}</option>;
+                          return <option key={index}>{e.Name}</option>
                         })}
                       </select>
                     </div>
@@ -960,9 +975,9 @@ export default function NewStudent() {
                       <select
                         value={transportStatus}
                         onChange={(e) => {
-                          setTransportStatus(e.target.value);
-                          if(e.target.value === "No"){
-                            setTransportFee(0);
+                          setTransportStatus(e.target.value)
+                          if (e.target.value === 'No') {
+                            setTransportFee(0)
                           }
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
@@ -983,17 +998,17 @@ export default function NewStudent() {
                       Bus Stop Name
                     </label>
                     <div>
-                      {transportStatus == "Yes" && (
+                      {transportStatus == 'Yes' && (
                         <select
                           value={busStopName}
                           onChange={(e) => {
-                            setBusStopName(e.target.value);
+                            setBusStopName(e.target.value)
                           }}
                           class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                           id="department"
                         >
                           {stopList.map((e, index) => {
-                            return <option key={index}>{e.Stop_Name}</option>;
+                            return <option key={index}>{e.Stop_Name}</option>
                           })}
                         </select>
                       )}
@@ -1010,14 +1025,14 @@ export default function NewStudent() {
                       <select
                         value={house}
                         onChange={(e) => {
-                          setHouse(e.target.value);
+                          setHouse(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
                       >
                         <option>{house}</option>
                         {houseList.map((e, index) => {
-                          return <option key={index}>{e.Name}</option>;
+                          return <option key={index}>{e.Name}</option>
                         })}
                       </select>
                     </div>
@@ -1035,7 +1050,7 @@ export default function NewStudent() {
                     <input
                       value={religion}
                       onChange={(e) => {
-                        setReligion(e.target.value);
+                        setReligion(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1053,7 +1068,7 @@ export default function NewStudent() {
                     <input
                       value={category}
                       onChange={(e) => {
-                        setCategory(e.target.value);
+                        setCategory(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1071,7 +1086,7 @@ export default function NewStudent() {
                     <input
                       value={caste}
                       onChange={(e) => {
-                        setCaste(e.target.value);
+                        setCaste(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1091,7 +1106,7 @@ export default function NewStudent() {
                     <select
                       value={addSub}
                       onChange={(e) => {
-                        setAddSub(e.target.value);
+                        setAddSub(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1113,7 +1128,7 @@ export default function NewStudent() {
                     <select
                       value={ward}
                       onChange={(e) => {
-                        setWard(e.target.value);
+                        setWard(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1137,7 +1152,7 @@ export default function NewStudent() {
                     <input
                       value={address}
                       onChange={(e) => {
-                        setAddress(e.target.value);
+                        setAddress(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1157,7 +1172,7 @@ export default function NewStudent() {
                     <input
                       value={place}
                       onChange={(e) => {
-                        setPlace(e.target.value);
+                        setPlace(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1175,7 +1190,7 @@ export default function NewStudent() {
                     <input
                       value={city}
                       onChange={(e) => {
-                        setCity(e.target.value);
+                        setCity(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1195,7 +1210,7 @@ export default function NewStudent() {
                     <input
                       value={pincode}
                       onChange={(e) => {
-                        setPincode(e.target.value);
+                        setPincode(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1215,7 +1230,7 @@ export default function NewStudent() {
                       <select
                         value={gender}
                         onChange={(e) => {
-                          setGender(e.target.value);
+                          setGender(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
@@ -1238,7 +1253,7 @@ export default function NewStudent() {
                     <input
                       value={lSchool}
                       onChange={(e) => {
-                        setLSchool(e.target.value);
+                        setLSchool(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1256,7 +1271,7 @@ export default function NewStudent() {
                     <input
                       value={lSchoolAdd}
                       onChange={(e) => {
-                        setLSchoolAdd(e.target.value);
+                        setLSchoolAdd(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1276,7 +1291,7 @@ export default function NewStudent() {
                     <input
                       value={lSchoolBoard}
                       onChange={(e) => {
-                        setLSchoolBoard(e.target.value);
+                        setLSchoolBoard(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1294,7 +1309,7 @@ export default function NewStudent() {
                     <input
                       value={lSchoolResult}
                       onChange={(e) => {
-                        setLSchoolResult(e.target.value);
+                        setLSchoolResult(e.target.value)
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="application-link"
@@ -1316,7 +1331,7 @@ export default function NewStudent() {
                       <select
                         value={tcStatus}
                         onChange={(e) => {
-                          setTcStatus(e.target.value);
+                          setTcStatus(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
@@ -1339,7 +1354,7 @@ export default function NewStudent() {
                       <select
                         value={rteStatus}
                         onChange={(e) => {
-                          setRteStatus(e.target.value);
+                          setRteStatus(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="department"
@@ -1363,8 +1378,8 @@ export default function NewStudent() {
                           selected={date}
                           onChange={(e) => {
                             // console.log("new", date);
-                            setDate(e);
-                            setDateTemp(e);
+                            setDate(e)
+                            setDateTemp(e)
                           }}
                           dateFormat="dd/MM/yyyy"
                         />
@@ -1382,11 +1397,11 @@ export default function NewStudent() {
                       Upload TC*
                     </label>
                     <div>
-                      {tcStatus == "Yes" && (
+                      {tcStatus == 'Yes' && (
                         <>
                           <input
                             onChange={(e) => {
-                              setTcFile(e.target.files[0]);
+                              setTcFile(e.target.files[0])
                             }}
                             type="file"
                             class="w-auto bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
@@ -1394,7 +1409,7 @@ export default function NewStudent() {
                           />
                           <button
                             onClick={(e) => {
-                              handleUploadTc(tcFile);
+                              handleUploadTc(tcFile)
                             }}
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                           >
@@ -1415,7 +1430,7 @@ export default function NewStudent() {
                       <select
                         value={aadharStatus}
                         onChange={(e) => {
-                          setAadharStatus(e.target.value);
+                          setAadharStatus(e.target.value)
                         }}
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="job-type"
@@ -1434,12 +1449,12 @@ export default function NewStudent() {
                       Aadhar Number*
                     </label>
                     <div>
-                      {aadharStatus == "Yes" && (
+                      {aadharStatus == 'Yes' && (
                         <>
                           <input
                             value={aadharUrl}
                             onChange={(e) => {
-                              setAadharUrl(e.target.value);
+                              setAadharUrl(e.target.value)
                             }}
                             type="text"
                             class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
@@ -1459,13 +1474,13 @@ export default function NewStudent() {
                     <div>
                       <button
                         onClick={() => {
-                          submitForm();
+                          submitForm()
                           // console.log(gender);
                         }}
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full flex justify-center border border-gray-200  text-sm  pr-8 mb-3 hover:scale-105"
                       >
                         {!isLoading ? (
-                          "Submit"
+                          'Submit'
                         ) : (
                           <svg
                             class="h-12 w-12 animate-spin"
@@ -1492,7 +1507,7 @@ export default function NewStudent() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 {

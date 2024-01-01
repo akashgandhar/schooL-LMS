@@ -177,7 +177,7 @@ export default function ViewStd() {
       alert('Deleted SuccessFully')
     } catch (e) {
       alert(e.message)
-    }
+    } 
   }
 
   const months = [
