@@ -280,75 +280,109 @@ export default function OldFee() {
                 <tbody class="block md:table-row-group">
                   {students
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .filter(
+                      (e) => e.Deleted === false || e.Deleted === undefined
+                    )
                     .map((e, index) => {
-                      if (e.Deleted == false || e.Deleted == undefined) {
-                        return (
-                          <tr
-                            key={index}
-                            class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                          >
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                      return (
+                        <tr
+                          key={index}
+                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                        >
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              SID
+                            </span>
+                            {e.Sr_Number}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              name
+                            </span>
+                            {e.name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              fName
+                            </span>
+                            {e.Father_Name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Address
+                            </span>
+                            {e.Place}
+                          </td>
+                          <td class="px-2  h-full md:border md:border-grey-500 text-left table-cell items-center">
+                            <div className="flex my-1 w-full">
                               <span class="inline-block w-1/3 md:hidden font-bold">
-                                SID
+                                old fee
                               </span>
-                              {e.Sr_Number}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                              <input
+                                onChange={(e) => {
+                                  setOldDue(e.target.value);
+                                }}
+                                type="tel"
+                                className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  mx-2"
+                                placeholder="0"
+                              ></input>
+                              <button
+                                id="svbtn"
+                                onClick={() => {
+                                  setDues(
+                                    e.Sr_Number,
+                                    e.name,
+                                    e.Father_Name,
+                                    e.Place,
+                                    e.Mobile_Number
+                                  );
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </td>
+                          <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
+                            <div className="flex w-full my-1">
                               <span class="inline-block w-1/3 md:hidden font-bold">
-                                name
+                                adm fee
                               </span>
-                              {e.name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                fName
-                              </span>
-                              {e.Father_Name}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                Address
-                              </span>
-                              {e.Place}
-                            </td>
-                            <td class="px-2  h-full md:border md:border-grey-500 text-left table-cell items-center">
-                              <div className="flex my-1 w-full">
-                                <span class="inline-block w-1/3 md:hidden font-bold">
-                                  old fee
-                                </span>
-                                <input
-                                  onChange={(e) => {
-                                    setOldDue(e.target.value);
-                                  }}
-                                  type="tel"
-                                  className="font-bold x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  mx-2"
-                                  placeholder="0"
-                                ></input>
-                                <button
-                                  id="svbtn"
-                                  onClick={() => {
-                                    setDues(
-                                      e.Sr_Number,
-                                      e.name,
-                                      e.Father_Name,
-                                      e.Place,
-                                      e.Mobile_Number
-                                    );
-                                  }}
-                                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                                >
-                                  Save
-                                </button>
-                              </div>
-                            </td>
+                              <input
+                                onChange={(e) => {
+                                  setAdmFee(e.target.value);
+                                }}
+                                type="tel"
+                                className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
+                                placeholder="0"
+                              ></input>
+                              <button
+                                id="svbtn"
+                                onClick={() => {
+                                  setAdm(
+                                    e.Sr_Number,
+                                    e.name,
+                                    e.Father_Name,
+                                    e.Place,
+                                    e.Mobile_Number
+                                  );
+                                }}
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </td>
+                          {classes.includes(className) && (
                             <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
                               <div className="flex w-full my-1">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
-                                  adm fee
+                                  Exam fee
                                 </span>
                                 <input
                                   onChange={(e) => {
-                                    setAdmFee(e.target.value);
+                                    e.preventDefault();
+                                    setExamFee(e.target.value);
                                   }}
                                   type="tel"
                                   className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
@@ -356,8 +390,9 @@ export default function OldFee() {
                                 ></input>
                                 <button
                                   id="svbtn"
-                                  onClick={() => {
-                                    setAdm(
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setExam(
                                       e.Sr_Number,
                                       e.name,
                                       e.Father_Name,
@@ -371,39 +406,8 @@ export default function OldFee() {
                                 </button>
                               </div>
                             </td>
-                            {classes.includes(className) && (
-                              <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
-                                <div className="flex w-full my-1">
-                                  <span class="inline-block w-1/3 md:hidden font-bold">
-                                    Exam fee
-                                  </span>
-                                  <input
-                                    onChange={(e) => {
-                                      setExamFee(e.target.value);
-                                    }}
-                                    type="tel"
-                                    className="font-bold mx-2 x p-2 w-full h-10 placeholder:text-red-700 placeholder:font-bold  "
-                                    placeholder="0"
-                                  ></input>
-                                  <button
-                                    id="svbtn"
-                                    onClick={() => {
-                                      setExam(
-                                        e.Sr_Number,
-                                        e.name,
-                                        e.Father_Name,
-                                        e.Place,
-                                        e.Mobile_Number
-                                      );
-                                    }}
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-                                  >
-                                    Save
-                                  </button>
-                                </div>
-                              </td>
-                            )}
-                            {/* <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
+                          )}
+                          {/* <td class="px-2 h-full md:border md:border-grey-500 text-left table-cell items-center">
                               <div className="flex w-full my-1">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
                                   adm fee
@@ -434,16 +438,15 @@ export default function OldFee() {
                               </div>
                             </td> */}
 
-                            {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                          {/* <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 action
                               </span>
                               
                               
                             </td> */}
-                          </tr>
-                        );
-                      }
+                        </tr>
+                      );
                     })}
                 </tbody>
               </table>
