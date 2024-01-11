@@ -135,24 +135,34 @@ export default function OldFee() {
     }
   };
   const setExam = async (sr, name, fName, place, mobile) => {
-    const docRef = doc(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
-      sr
-    );
+    console.log("db", db);
+
+    console.log(sr, name, fName, place, mobile, className, sectionName, a);
+
     try {
-      await setDoc(docRef, {
-        name: name,
-        month: "Exam",
-        class: className,
-        section: sectionName,
-        father_name: fName,
-        Place: place,
-        Mobile: mobile,
-        Sr_Number: sr,
-        month_Due: Number(examFee),
-        total: Number(examFee),
-      }).then(() => {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
+        sr
+      );
+
+      console.log("docRef", docRef);
+      await setDoc(
+        docRef,
+        {
+          name: name,
+          month: "Exam",
+          class: className,
+          section: sectionName,
+          father_name: fName,
+          Place: place,
+          Mobile: mobile,
+          Sr_Number: sr,
+          month_Due: Number(examFee),
+          total: Number(examFee),
+        },
+        { merge: true }
+      ).then(() => {
         alert("saved");
       });
     } catch (e) {
@@ -279,7 +289,9 @@ export default function OldFee() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {students
-                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .sort((a, b) =>
+                      a.name > b.name ? 1 : a.name === b.name ? 0 : -1
+                    )
                     .filter(
                       (e) => e.Deleted === false || e.Deleted === undefined
                     )
@@ -390,8 +402,9 @@ export default function OldFee() {
                                 ></input>
                                 <button
                                   id="svbtn"
-                                  onClick={(e) => {
-                                    e.preventDefault();
+                                  onClick={(ev) => {
+                                    ev.preventDefault();
+                                    console.log(e);
                                     setExam(
                                       e.Sr_Number,
                                       e.name,
