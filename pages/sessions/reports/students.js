@@ -153,6 +153,7 @@ export default function StudentReports() {
     "Father_Name",
     "Mother_Name",
     "Mobile_Number",
+    "Image",
   ]);
 
   // useEffect(() => {
