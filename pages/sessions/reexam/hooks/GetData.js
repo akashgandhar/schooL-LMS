@@ -3,6 +3,13 @@ import { useContext, useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import UserContext from "../../../../components/context/userContext";
 
+
+export default function Context() {
+  return (
+    <div>context</div>
+  )
+}
+
 export const UseMarkSheetStream = (uid, selectedExam) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);

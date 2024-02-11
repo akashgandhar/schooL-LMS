@@ -19,6 +19,14 @@ import React, {
 } from "react";
 import UserContext from "../../../../components/context/userContext";
 
+
+export default function Context() {
+  return (
+    <div>context</div>
+  )
+}
+
+
 // Create the MarkSheetContext
 const MarkSheetContext = createContext();
 
