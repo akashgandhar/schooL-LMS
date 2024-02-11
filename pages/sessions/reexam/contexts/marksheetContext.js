@@ -365,7 +365,6 @@ const MarkSheetProvider = ({ children }) => {
 };
 
 // Create the useMarkSheet hook
-export const useMarkSheet = () => useContext(MarkSheetContext);
+const useMarkSheet = () => useContext(MarkSheetContext);
 
-
-export default MarkSheetContext;
+export { MarkSheetProvider, useMarkSheet };
