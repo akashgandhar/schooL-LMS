@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import UserContext from "../../../../components/context/userContext";
 
-export const UseMarkSheetStream = (uid, selectedExam) => {
+const UseMarkSheetStream = (uid, selectedExam) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,3 +30,5 @@ export const UseMarkSheetStream = (uid, selectedExam) => {
 
   return { data, error, isLoading };
 };
+
+export default UseMarkSheetStream;

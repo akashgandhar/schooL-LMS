@@ -201,6 +201,6 @@ const ExamProvider = ({ children }) => {
 };
 
 // Create the useExam hook
-const useExam = () => useContext(ExamContext);
+export const useExam = () => useContext(ExamContext);
 
-export { ExamProvider, useExam };
+export default ExamProvider;

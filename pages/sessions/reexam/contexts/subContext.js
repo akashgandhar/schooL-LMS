@@ -102,6 +102,7 @@ const SubjectProvider = ({ children }) => {
 };
 
 // Create the useExam hook
-const useSubject = () => useContext(SubjectContext);
+export const useSubject = () => useContext(SubjectContext);
 
-export { SubjectProvider, useSubject };
+
+export default SubjectProvider;
