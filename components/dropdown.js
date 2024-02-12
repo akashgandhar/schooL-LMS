@@ -56,24 +56,24 @@ const examTabs = [
   },
   {
     name: "Create Subjects",
-    href: "/sessions/exams/createSubjects",
+    href: "/sessions/reexam/createSubjects",
   },
   {
     name: "Assign Subjects",
-    href: "/sessions/exams/assignSubjects",
+    href: "/sessions/reexam/assignSubjects",
   },
   {
     name: "Assign Student Subjects",
-    href: "/sessions/exams/assignSubToStudents",
+    href: "/sessions/reexam/assignSubToStudents",
   },
 
   {
     name: "Set Subject Max Marks",
-    href: "/sessions/exams/setMaxMarks",
+    href: "/sessions/reexam/setMaxMarks",
   },
   {
     name: "Student MarkSheets",
-    href: "/sessions/exams/studentMarksheets",
+    href: "/sessions/reexam/studentMarksheets",
   },
   // {
   //   name: "Print MarkSheet",
