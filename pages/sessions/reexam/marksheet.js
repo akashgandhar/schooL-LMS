@@ -451,7 +451,7 @@ export default function Marksheet() {
                                     selectedStudentId
                                   );
                                 }}
-                                className="w-12 p-1 placeholder:text-black"
+                                className="w-7 p-1 placeholder:text-black"
                               />
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
@@ -482,7 +482,7 @@ export default function Marksheet() {
                                     selectedStudentId
                                   );
                                 }}
-                                className="w-12 p-1 placeholder:text-black"
+                                className="w-7 p-1 placeholder:text-black"
                               />
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
@@ -525,7 +525,7 @@ export default function Marksheet() {
                                     selectedStudentId
                                   );
                                 }}
-                                className="w-12 p-1 placeholder:text-black"
+                                className="w-7 p-1 placeholder:text-black"
                               />
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
@@ -556,7 +556,7 @@ export default function Marksheet() {
                                     selectedStudentId
                                   );
                                 }}
-                                className=" w-12 p-1 placeholder:text-black"
+                                className=" w-7 p-1 placeholder:text-black"
                               />
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
