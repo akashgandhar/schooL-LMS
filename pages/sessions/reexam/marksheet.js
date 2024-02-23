@@ -559,7 +559,7 @@ export default function Marksheet() {
                     </tr>
                     <tr class="text-[#b8121d]  h-[44px] text-[15px]">
                       <td class="px-1   py-1 border-2 border-black">
-                        Art Education
+                        General Studies
                       </td>
                       <td class="px-1  py-1 border-2 border-black">
                         <input
