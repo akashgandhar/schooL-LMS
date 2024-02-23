@@ -19,13 +19,9 @@ import React, {
 } from "react";
 import UserContext from "../../../../components/context/userContext";
 
-
 export default function Context() {
-  return (
-    <div>context</div>
-  )
+  return <div>context</div>;
 }
-
 
 // Create the MarkSheetContext
 const MarkSheetContext = createContext();
@@ -36,21 +32,9 @@ const MarkSheetProvider = ({ children }) => {
   const [markSheet, setMarkSheet] = useState([]);
 
   const [selectedStudentId, setSelectedStudentId] = useState("");
-  const [selectedClassName, setSelectedClassName] = useState(
-    localStorage.getItem("className") || ""
-  );
-  const [selectedSectionName, setSelectedSectionName] = useState(
-    localStorage.getItem("sectionName") || ""
-  );
-  const [selectedExam, setSelectedExam] = useState(
-    localStorage.getItem("examName") || ""
-  );
-
-
-  console.log("selectedClassName", selectedClassName);
-  console.log("selectedSectionName", selectedSectionName);
-  console.log("selectedExam", selectedExam);
-  
+  const [selectedClassName, setSelectedClassName] = useState("");
+  const [selectedSectionName, setSelectedSectionName] = useState("");
+  const [selectedExam, setSelectedExam] = useState("");
 
   const [lastUpdated, setLastUpdated] = useState("");
 
@@ -59,6 +43,23 @@ const MarkSheetProvider = ({ children }) => {
   const [student, setStudent] = useState({});
 
   const [subjectDetails, setSubjectDetails] = useState([]);
+
+  useEffect(() => {
+    if (window && localStorage) {
+      if (localStorage.getItem("selectedStudentId")) {
+        setSelectedStudentId(localStorage.getItem("selectedStudentId"));
+      }
+      if (localStorage.getItem("selectedClassName")) {
+        setSelectedClassName(localStorage.getItem("selectedClassName"));
+      }
+      if (localStorage.getItem("selectedSectionName")) {
+        setSelectedSectionName(localStorage.getItem("selectedSectionName"));
+      }
+      if (localStorage.getItem("selectedExam")) {
+        setSelectedExam(localStorage.getItem("selectedExam"));
+      }
+    }
+  }, []);
 
   const onChangeMarkSheet = (name, value) => {
     const docRef = doc(
@@ -380,7 +381,7 @@ const MarkSheetProvider = ({ children }) => {
         GetStudentDetails,
         UpdateMarks,
         lastUpdated,
-        UpdateCoActivities
+        UpdateCoActivities,
       }}
     >
       {children}
