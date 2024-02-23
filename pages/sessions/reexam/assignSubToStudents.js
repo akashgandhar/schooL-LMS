@@ -301,7 +301,7 @@ export default function AssignSubToStudents() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {studentList
-                    .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .sort((a, b) => (a.name > b.name ? 1 : a.Sr_Number > b.Sr_Number ? 1 : -1))
                     .filter(
                       (e) => e.Deleted === false || e.Deleted === undefined
                     )
