@@ -36,9 +36,21 @@ const MarkSheetProvider = ({ children }) => {
   const [markSheet, setMarkSheet] = useState([]);
 
   const [selectedStudentId, setSelectedStudentId] = useState("");
-  const [selectedClassName, setSelectedClassName] = useState("");
-  const [selectedSectionName, setSelectedSectionName] = useState("");
-  const [selectedExam, setSelectedExam] = useState("");
+  const [selectedClassName, setSelectedClassName] = useState(
+    localStorage.getItem("className") || ""
+  );
+  const [selectedSectionName, setSelectedSectionName] = useState(
+    localStorage.getItem("sectionName") || ""
+  );
+  const [selectedExam, setSelectedExam] = useState(
+    localStorage.getItem("examName") || ""
+  );
+
+
+  console.log("selectedClassName", selectedClassName);
+  console.log("selectedSectionName", selectedSectionName);
+  console.log("selectedExam", selectedExam);
+  
 
   const [lastUpdated, setLastUpdated] = useState("");
 

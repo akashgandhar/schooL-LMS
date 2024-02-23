@@ -15,7 +15,9 @@ export default function StudentMarksheet() {
   const [className, setClassName] = useState("");
   const [sectionName, setSectionName] = useState("");
   const [examName, setExamName] = useState("");
-  const [studentList, setStudentList] = useState([]);
+  const [studentList, setStudentList] = useState(
+    JSON.parse(localStorage.getItem("studentList")) || []
+  );
   const [sectionList, setSectionList] = useState([]);
   const [classList, setClassList] = useState([]);
   const [examList, setExamList] = useState([]);
@@ -116,6 +118,7 @@ export default function StudentMarksheet() {
       list.push(doc.data());
     });
     setStudentList(list);
+    localStorage.setItem("studentList", JSON.stringify(list));
   };
 
   const current = new Date();
@@ -152,6 +155,7 @@ export default function StudentMarksheet() {
                       onChange={(e) => {
                         setClassName(e.target.value);
                         setSelectedClassName(e.target.value);
+                        localStorage.setItem("className", e.target.value);
                       }}
                       value={selectedClassName}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -179,6 +183,7 @@ export default function StudentMarksheet() {
                       onChange={(e) => {
                         setSectionName(e.target.value);
                         setSelectedSectionName(e.target.value);
+                        localStorage.setItem("sectionName", e.target.value);
                       }}
                       value={selectedSectionName}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -206,6 +211,7 @@ export default function StudentMarksheet() {
                       onChange={(e) => {
                         setExamName(e.target.value);
                         setSelectedExam(e.target.value);
+                        localStorage.setItem("examName", e.target.value);
                       }}
                       value={selectedExam}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -214,7 +220,11 @@ export default function StudentMarksheet() {
                     >
                       <option>Please Select</option>
                       {examList.map((e, index) => {
-                        return <option value={e.Name} key={index}>{e.Name}</option>;
+                        return (
+                          <option value={e.Name} key={index}>
+                            {e.Name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
@@ -305,9 +315,7 @@ export default function StudentMarksheet() {
                             <button
                               onClick={() => {
                                 setSelectedStudentId(e.Sr_Number);
-                                router.push(
-                                  `/sessions/reexam/marksheet/`
-                                );
+                                router.push(`/sessions/reexam/marksheet/`);
                               }}
                               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
                             >

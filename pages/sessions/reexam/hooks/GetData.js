@@ -36,7 +36,7 @@ export const UseMarkSheetStream = (uid, selectedExam) => {
     );
 
     return () => unsubscribe();
-  }, [a.user, a.session, selectedExam, uid]);
+  }, [a.user, a.session, selectedExam, uid, router]);
 
   return { data, error, isLoading };
 };
