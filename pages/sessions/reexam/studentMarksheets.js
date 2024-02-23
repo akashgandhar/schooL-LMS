@@ -15,12 +15,18 @@ export default function StudentMarksheet() {
   const [className, setClassName] = useState("");
   const [sectionName, setSectionName] = useState("");
   const [examName, setExamName] = useState("");
-  const [studentList, setStudentList] = useState(
-    JSON.parse(localStorage.getItem("studentList")) || []
-  );
+  const [studentList, setStudentList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const [classList, setClassList] = useState([]);
   const [examList, setExamList] = useState([]);
+
+  useEffect(() => {
+    if (window && localStorage) {
+      if (localStorage.getItem("studentList")) {
+        setStudentList(JSON.parse(localStorage.getItem("studentList")));
+      }
+    }
+  }, []);
 
   const {
     markSheet,
