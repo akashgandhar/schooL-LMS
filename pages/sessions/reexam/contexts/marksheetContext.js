@@ -213,8 +213,9 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term1T") {
+        console.log("Term1T");
         const data = await getDoc(docRef);
-        var Term_1 = data.data().Term_1 || [];
+        var Term_1 = data.data()?.Term_1 || [];
 
         const subIndex = Term_1.findIndex((e) => e.Name === sub);
         if (subIndex === -1) {
@@ -236,6 +237,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term1P") {
+        console.log("Term1P");
         const data = await getDoc(docRef);
         var Term_1 = data.data().Term_1 || [];
 
@@ -259,6 +261,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term2T") {
+        console.log("Term2T");
         const data = await getDoc(docRef);
         var Term_2 = data.data().Term_2 || [];
 
@@ -282,6 +285,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term2P") {
+        console.log("Term2P");
         const data = await getDoc(docRef);
         var Term_2 = data.data().Term_2 || [];
 
