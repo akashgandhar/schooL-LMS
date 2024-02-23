@@ -249,7 +249,7 @@ export default function AssignSubToStudents() {
             </div>
 
             <div className="p-2 mb-1 flex items-center w-full border-2">
-              <div className="flex flex-1 ">
+              <div className="flex flex-1 overflow-auto whitespace-nowrap">
                 {newSelectedSubjects?.map((sub, index) => (
                   <div
                     key={index}
