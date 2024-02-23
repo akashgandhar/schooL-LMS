@@ -142,8 +142,8 @@ export default function AssignSubToStudents() {
       const checkedStudents = selectedStudents.filter((item) => item.checked);
 
       const newData = [
-        ...data?.Students || [],
-        ...checkedStudents.map((item) => item.sid) || [],
+        ...(data?.Students || []),
+        ...(checkedStudents.map((item) => item.sid) || []),
       ];
 
       await setDoc(docRef, { Students: newData }, { merge: true });
@@ -301,9 +301,11 @@ export default function AssignSubToStudents() {
                 </thead>
                 <tbody class="block md:table-row-group">
                   {studentList
-                    .sort((a, b) => (a.name > b.name ? 1 : a.Sr_Number > b.Sr_Number ? 1 : -1))
                     .filter(
                       (e) => e.Deleted === false || e.Deleted === undefined
+                    )
+                    .sort((a, b) =>
+                      a.name > b.name ? 1 : a.Sr_Number > b.Sr_Number ? 1 : -1
                     )
                     .map((e, index) => {
                       return (
