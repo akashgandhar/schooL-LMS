@@ -91,6 +91,14 @@ export default function Marksheet() {
 
   console.log(s);
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className="flex gap-5 flex-col justify-center items-center">
       <center className="w-full py-7 ">
