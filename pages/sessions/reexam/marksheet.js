@@ -70,24 +70,46 @@ export default function Marksheet() {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
+  const CalculateRemarks = (grade) => {
+    if (grade === "A1") {
+      return "Outstanding";
+    } else if (grade === "A2") {
+      return "Excellent";
+    } else if (grade === "B1") {
+      return "Very good";
+    } else if (grade === "B2") {
+      return "Good";
+    } else if (grade === "C1") {
+      return "Average";
+    } else if (grade === "C2") {
+      return "Satisfactory";
+    } else if (grade === "D") {
+      return "Needs Improvement";
+    } else if (grade === "E") {
+      return "Essential Repeat";
+    } else if (grade === "Abs") {
+      return "Absent";
+    }
+  };
+
   const CalculateGrade = (percentage) => {
     console.log("percentage", percentage);
     if (percentage >= 90) {
-      return "O";
+      return "A1";
     } else if (percentage >= 80) {
-      return "A+";
+      return "A2";
     } else if (percentage >= 70) {
-      return "A";
+      return "B1";
     } else if (percentage >= 60) {
-      return "B+";
+      return "B2";
     } else if (percentage >= 50) {
-      return "B";
+      return "C1";
     } else if (percentage >= 40) {
-      return "C";
+      return "C2";
     } else if (percentage >= 33) {
       return "D";
     } else {
-      return "F";
+      return "E";
     }
   };
 
@@ -140,7 +162,7 @@ export default function Marksheet() {
                     </span>
                   </div>
 
-                  <div className="ml-5  float-right ">
+                  <div className="ml-5 float-right ">
                     <center
                       className="float-left"
                       style={{ lineHeight: "0.5" }}
@@ -399,7 +421,7 @@ export default function Marksheet() {
                               {e.Name.match(/\((\d+)\)/)[1]}
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
-                              {e.Name.replace(/\(\d+\)/, '')}
+                              {e.Name.replace(/\(\d+\)/, "")}
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
                               {e.MMT}
@@ -759,7 +781,7 @@ export default function Marksheet() {
                                   2)) *
                             100
                           ).toFixed(2)
-                        ) === "F" ||
+                        ) === "E" ||
                         CalculateGrade(
                           (
                             (CalculateGrandTotal() /
@@ -778,8 +800,24 @@ export default function Marksheet() {
                       <td class="px-1 w-[20%] font-normal py-1 border-2 border-black">
                         Class Teacher Remarks
                       </td>
-                      <td class="px-1 w-[30%] py-1 border-2 border-black">
-                        <input
+                      <td class="px-1 w-[30%] py-1 text-[#b8121d] border-2 border-black">
+                        {CalculateRemarks(
+                          CalculateGrade(
+                            (
+                              (CalculateGrandTotal() /
+                                (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
+                                  2 +
+                                  subjectDetails.reduce(
+                                    (a, b) => a + b.MMP,
+                                    0
+                                  ) *
+                                    2)) *
+                              100
+                            ).toFixed(2)
+                          )
+                        )}
+
+                        {/* <input
                           placeholder={
                             isLoading
                               ? "Loading..."
@@ -793,11 +831,11 @@ export default function Marksheet() {
                             );
                           }}
                           className="w-full p-1 placeholder:text-[#b8121d]"
-                        />
+                        /> */}
                       </td>
                       <td class="px-1 w-[20%] py-1 font-normal border-2 border-black">
                         {" "}
-                        School Reopens on{" "}
+                        New Seesion Begins on{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
                         {" "}
