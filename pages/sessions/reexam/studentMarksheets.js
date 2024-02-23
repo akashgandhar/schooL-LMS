@@ -21,7 +21,7 @@ export default function StudentMarksheet() {
   const [examList, setExamList] = useState([]);
 
   useEffect(() => {
-    if (window && localStorage) {
+    if (localStorage) {
       if (localStorage.getItem("studentList")) {
         setStudentList(JSON.parse(localStorage.getItem("studentList")));
       }

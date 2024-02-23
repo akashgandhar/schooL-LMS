@@ -45,18 +45,16 @@ const MarkSheetProvider = ({ children }) => {
   const [subjectDetails, setSubjectDetails] = useState([]);
 
   useEffect(() => {
-    if (window && localStorage) {
-      if (localStorage.getItem("selectedStudentId")) {
-        setSelectedStudentId(localStorage.getItem("selectedStudentId"));
+    if (localStorage) {
+      
+      if (localStorage.getItem("className")) {
+        setSelectedClassName(localStorage.getItem("className"));
       }
-      if (localStorage.getItem("selectedClassName")) {
-        setSelectedClassName(localStorage.getItem("selectedClassName"));
+      if (localStorage.getItem("sectionName")) {
+        setSelectedSectionName(localStorage.getItem("sectionName"));
       }
-      if (localStorage.getItem("selectedSectionName")) {
-        setSelectedSectionName(localStorage.getItem("selectedSectionName"));
-      }
-      if (localStorage.getItem("selectedExam")) {
-        setSelectedExam(localStorage.getItem("selectedExam"));
+      if (localStorage.getItem("examName")) {
+        setSelectedExam(localStorage.getItem("examName"));
       }
     }
   }, []);
