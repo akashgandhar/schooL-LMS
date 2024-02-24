@@ -44,9 +44,93 @@ const MarkSheetProvider = ({ children }) => {
 
   const [subjectDetails, setSubjectDetails] = useState([]);
 
+  const [studentNew, setStudentNew] = useState("");
+
+  const [studentNewSubjects, setStudentNewSubjects] = useState([]);
+
+  const ReloadStudentNewSubjects = useCallback(async () => {
+    const studentSubjectsRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/subjects`
+    );
+
+    const studentSubjectsQuery = query(
+      studentSubjectsRef,
+      where("Students", "array-contains", studentNew.trim())
+    );
+
+    const querySnapshot = await getDocs(studentSubjectsQuery);
+
+    var studentSubjects = [];
+
+    if (querySnapshot.size > 0) {
+      querySnapshot.forEach((doc) => {
+        studentSubjects.push(doc.data());
+      });
+    }
+
+    setStudentNewSubjects(studentSubjects);
+  }, [a.session, a.user, studentNew]);
+
+  useEffect(() => {
+    if (studentNew) {
+      const studentSubjectsRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/subjects`
+      );
+
+      const studentSubjectsQuery = query(
+        studentSubjectsRef,
+        where("Students", "array-contains", studentNew.trim())
+      );
+
+      getDocs(studentSubjectsQuery).then((querySnapshot) => {
+        var studentSubjects = [];
+        querySnapshot.forEach((doc) => {
+          studentSubjects.push(doc.data());
+        });
+        setStudentNewSubjects(studentSubjects);
+      });
+    }
+  }, [a.session, a.user, studentNew]);
+
+  console.log("studentNewSubjects", studentNewSubjects);
+
+  const DeleteStudentNewSubjects = async (sub) => {
+    // console.log(sub, student);
+    const student = studentNew;
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/subjects/${sub}`
+      );
+
+      const data = await getDoc(docRef);
+      var students = data.data().Students || [];
+
+      const index = students.indexOf(student);
+      if (index > -1) {
+        students.splice(index, 1);
+      }
+
+      setDoc(
+        docRef,
+        {
+          Students: students,
+        },
+        { merge: true }
+      ).then(() => {
+        setLastUpdated(new Date().toISOString());
+        alert("Deleted");
+      });
+    } catch (e) {
+      console.error("Error updating document: ", e.message);
+      return;
+    }
+  };
+
   useEffect(() => {
     if (localStorage) {
-      
       if (localStorage.getItem("className")) {
         setSelectedClassName(localStorage.getItem("className"));
       }
@@ -380,6 +464,12 @@ const MarkSheetProvider = ({ children }) => {
         UpdateMarks,
         lastUpdated,
         UpdateCoActivities,
+        studentNew,
+        setStudentNew,
+        studentNewSubjects,
+        setStudentNewSubjects,
+        DeleteStudentNewSubjects,
+        ReloadStudentNewSubjects,
       }}
     >
       {children}

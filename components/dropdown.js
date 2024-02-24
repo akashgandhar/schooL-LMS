@@ -75,10 +75,10 @@ const examTabs = [
     name: "Student MarkSheets",
     href: "/sessions/reexam/studentMarksheets",
   },
-  // {
-  //   name: "Print MarkSheet",
-  //   href: "/sessions/exams/studentMarksheet",
-  // },
+  {
+    name: "Delete Student Subjects",
+    href: "/sessions/reexam/studentSubjectChange",
+  },
   // {
   //   name: "Datesheet",
   //   href: "/sessions/exams/setExamDates",
