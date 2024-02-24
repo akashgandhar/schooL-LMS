@@ -92,6 +92,10 @@ const MarkSheetProvider = ({ children }) => {
         setStudentNewSubjects(studentSubjects);
       });
     }
+
+    if (studentNew === "") {
+      setStudentNewSubjects([]);
+    }
   }, [a.session, a.user, studentNew]);
 
   console.log("studentNewSubjects", studentNewSubjects);
