@@ -96,11 +96,7 @@ export default function StudentMarksheet() {
     }
   };
 
-  useEffect(() => {
-    if (className) {
-      GetSectionList();
-    }
-  }, [GetSectionList, className]);
+  
 
   const GetExamList = async () => {
     try {
