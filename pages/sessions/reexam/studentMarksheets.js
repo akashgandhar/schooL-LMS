@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import UserContext from "../../../components/context/userContext";
 import { useMarkSheet } from "./contexts/marksheetContext";
+import { useCallback } from "react/cjs/react.production.min";
 
 export default function StudentMarksheet() {
   const a = useContext(UserContext);
@@ -94,6 +95,13 @@ export default function StudentMarksheet() {
       };
     }
   };
+
+  useEffect(() => {
+    if (className) {
+      GetSectionList();
+    }
+  }, [GetSectionList, className]);
+
   const GetExamList = async () => {
     try {
       const docRef = collection(
