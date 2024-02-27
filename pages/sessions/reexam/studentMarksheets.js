@@ -116,7 +116,7 @@ export default function StudentMarksheet() {
   const GetStudentList = async () => {
     const docRef = collection(
       db,
-      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`
+      `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${selectedSectionName}/students`
     );
     const docSnap = await getDocs(docRef);
     var list = [];

@@ -440,6 +440,37 @@ const MarkSheetProvider = ({ children }) => {
     }
   };
 
+  const [bulkStudents, setBulkStudents] = useState([]);
+
+  const GetStudentDerailsClassWise = useCallback(async () => {
+    const collectionRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/classes/${selectedClassName}/sections/${selectedSectionName}/students`
+    );
+
+    const querySnapshot = await getDocs(collectionRef);
+
+    var list = [];
+
+    if (querySnapshot.size > 0) {
+      querySnapshot.forEach((doc) => {
+        if (doc?.data()?.Deleted !== true) {
+          list.push(doc.data());
+        }
+      });
+    }
+
+    setBulkStudents(list);
+  }, [a.session, a.user, selectedClassName, selectedSectionName]);
+
+
+  const [bulkSubjects, setBulkSubjects] = useState([]);
+
+  // const GetSubjectStudentWise = useCallback(async () => { 
+
+
+
+
   return (
     <MarkSheetContext.Provider
       value={{
