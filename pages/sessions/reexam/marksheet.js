@@ -4,6 +4,7 @@ import { useExam } from "./contexts/context";
 import { UseMarkSheetStream } from "./hooks/GetData";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { useEffect } from "react/cjs/react.production.min";
 
 export default function Marksheet() {
   const {
@@ -132,8 +133,15 @@ export default function Marksheet() {
 
   console.log(s);
 
+  const [passFlag, setPassFlag] = useState(false);
 
+  const [resultFlag, setResultFlag] = useState(false);
 
+  useEffect(() => {
+    if (passFlag > 5) {
+      setResultFlag(true);
+    }
+  }, [passFlag]);
 
   if (isLoading) {
     return (
@@ -415,6 +423,25 @@ export default function Marksheet() {
                         return 0;
                       })
                       .map((e, index) => {
+                        var T1Theory =
+                          marksheet?.Term_1?.find(
+                            (subject) => subject.Name === e.Name
+                          )?.Theory || "0";
+
+                        var T2Theory =
+                          marksheet?.Term_2?.find(
+                            (subject) => subject.Name === e.Name
+                          )?.Theory || "0";
+
+                        var sum = parseFloat(T1Theory) + parseFloat(T2Theory);
+                        var maxMarks = e.MMT * 2;
+
+                        var percentage = (sum / maxMarks) * 100;
+
+                        if (percentage >= 33) {
+                          setPassFlag(passFlag + 1);
+                        }
+
                         return (
                           <tr
                             key={index}
@@ -775,7 +802,7 @@ export default function Marksheet() {
                         Result{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
-                        {CalculateGrade(
+                        {/* {CalculateGrade(
                           (
                             (CalculateGrandTotal() /
                               (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
@@ -796,7 +823,9 @@ export default function Marksheet() {
                           ).toFixed(2)
                         ) === "Abs"
                           ? "FAIL"
-                          : "PASS"}
+                          : "PASS"} */}
+
+                        {resultFlag ? "FAIL" : "PASS"}
                       </td>
                     </tr>
                     <tr class=" h-[44px] text-[15px]">
