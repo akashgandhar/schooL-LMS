@@ -132,6 +132,9 @@ export default function Marksheet() {
 
   console.log(s);
 
+
+
+
   if (isLoading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
