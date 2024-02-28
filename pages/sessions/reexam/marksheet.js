@@ -4,7 +4,6 @@ import { useExam } from "./contexts/context";
 import { UseMarkSheetStream } from "./hooks/GetData";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { useEffect } from "react/cjs/react.production.min";
 
 export default function Marksheet() {
   const {
@@ -133,15 +132,30 @@ export default function Marksheet() {
 
   console.log(s);
 
-  const [passFlag, setPassFlag] = useState(false);
+  // const [result, setResult] = React.useState(0);
 
-  const [resultFlag, setResultFlag] = useState(false);
+  const MarkResult = () => {
+    var res = 0;
+    subjectDetails.map((e) => {
+      const term1 =
+        marksheet?.Term_1?.find((subject) => subject.Name === e.Name)?.Theory ||
+        0;
+      const term2 =
+        marksheet?.Term_2?.find((subject) => subject.Name === e.Name)?.Theory ||
+        0;
 
-  useEffect(() => {
-    if (passFlag > 5) {
-      setResultFlag(true);
-    }
-  }, [passFlag]);
+      const term1percent = (term1 / e.MMT) * 100;
+      const term2percent = (term2 / e.MMT) * 100;
+
+      if (term1percent >= 33 && term2percent >= 33) {
+        res = res + 1;
+      }
+    });
+
+    return res;
+  };
+
+  // console.log(result);
 
   if (isLoading) {
     return (
@@ -423,25 +437,7 @@ export default function Marksheet() {
                         return 0;
                       })
                       .map((e, index) => {
-                        var T1Theory =
-                          marksheet?.Term_1?.find(
-                            (subject) => subject.Name === e.Name
-                          )?.Theory || "0";
-
-                        var T2Theory =
-                          marksheet?.Term_2?.find(
-                            (subject) => subject.Name === e.Name
-                          )?.Theory || "0";
-
-                        var sum = parseFloat(T1Theory) + parseFloat(T2Theory);
-                        var maxMarks = e.MMT * 2;
-
-                        var percentage = (sum / maxMarks) * 100;
-
-                        if (percentage >= 33) {
-                          setPassFlag(passFlag + 1);
-                        }
-
+                        // MarkResult(e.MMT, e.Name);
                         return (
                           <tr
                             key={index}
@@ -802,6 +798,7 @@ export default function Marksheet() {
                         Result{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
+                        {MarkResult() < 5 ? "FAIL" : "PASS"}
                         {/* {CalculateGrade(
                           (
                             (CalculateGrandTotal() /
@@ -824,8 +821,6 @@ export default function Marksheet() {
                         ) === "Abs"
                           ? "FAIL"
                           : "PASS"} */}
-
-                        {resultFlag ? "FAIL" : "PASS"}
                       </td>
                     </tr>
                     <tr class=" h-[44px] text-[15px]">
