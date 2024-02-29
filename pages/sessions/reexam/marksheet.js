@@ -116,16 +116,16 @@ export default function Marksheet() {
   const CalculateGrandTotal = () => {
     return (
       parseFloat(
-        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Theory), 0) || 0
+        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Theory || 0), 0) || 0
       ) +
       parseFloat(
-        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Practical), 0) || 0
+        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Practical || 0), 0) || 0
       ) +
       parseFloat(
-        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Theory), 0) || 0
+        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Theory || 0) , 0) || 0
       ) +
       parseFloat(
-        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Practical), 0) || 0
+        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Practical || 0), 0) || 0
       )
     );
   };
