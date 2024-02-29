@@ -116,16 +116,24 @@ export default function Marksheet() {
   const CalculateGrandTotal = () => {
     return (
       parseFloat(
-        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Theory || 0), 0) || 0
+        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Theory || 0), 0) ||
+          0
       ) +
       parseFloat(
-        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Practical || 0), 0) || 0
+        marksheet?.Term_1?.reduce(
+          (a, b) => a + parseFloat(b.Practical || 0),
+          0
+        ) || 0
       ) +
       parseFloat(
-        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Theory || 0) , 0) || 0
+        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Theory || 0), 0) ||
+          0
       ) +
       parseFloat(
-        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Practical || 0), 0) || 0
+        marksheet?.Term_2?.reduce(
+          (a, b) => a + parseFloat(b.Practical || 0),
+          0
+        ) || 0
       )
     );
   };
@@ -135,7 +143,6 @@ export default function Marksheet() {
   const [result, setResult] = useState(0);
 
   const MarkResult = useCallback(() => {
-    
     var res = 0;
     subjectDetails.map((e) => {
       const term1 =
@@ -145,12 +152,12 @@ export default function Marksheet() {
         marksheet?.Term_2?.find((subject) => subject.Name === e.Name)?.Theory ||
         0;
 
-        console.log(term1, term2, e.MMT);
+      console.log(term1, term2, e.MMT);
 
-      const term1percent = (term1 / e.MMT) * 100;
-      const term2percent = (term2 / e.MMT) * 100;
+      const percent =
+        ((parseFloat(term1) + parseFloat(term2)) / (e.MMT * 2)) * 100;
 
-      if (term1percent >= 33 && term2percent >= 33) {
+      if (percent >= 33) {
         res = res + 1;
       }
     });
@@ -163,8 +170,6 @@ export default function Marksheet() {
   useEffect(() => {
     MarkResult();
   }, [MarkResult, marksheet]);
-
-
 
   console.log(result);
 
