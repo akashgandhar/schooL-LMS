@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useMarkSheet } from "./contexts/marksheetContext";
 import { useExam } from "./contexts/context";
 import { UseMarkSheetStream } from "./hooks/GetData";
@@ -57,7 +57,7 @@ export default function Marksheet() {
     content: () => componentRef.current,
   });
 
-  console.log("marksheet", marksheet);
+  // console.log("marksheet", marksheet);
 
   const date = lastUpdated ? new Date(lastUpdated) : new Date();
 
@@ -93,7 +93,7 @@ export default function Marksheet() {
   };
 
   const CalculateGrade = (percentage) => {
-    console.log("percentage", percentage);
+    // console.log("percentage", percentage);
     if (percentage >= 90) {
       return "A1";
     } else if (percentage >= 80) {
@@ -130,11 +130,12 @@ export default function Marksheet() {
     );
   };
 
-  console.log(s);
+  // console.log(s);
 
-  // const [result, setResult] = React.useState(0);
+  const [result, setResult] = useState(0);
 
-  const MarkResult = () => {
+  const MarkResult = useCallback(() => {
+    
     var res = 0;
     subjectDetails.map((e) => {
       const term1 =
@@ -144,6 +145,8 @@ export default function Marksheet() {
         marksheet?.Term_2?.find((subject) => subject.Name === e.Name)?.Theory ||
         0;
 
+        console.log(term1, term2, e.MMT);
+
       const term1percent = (term1 / e.MMT) * 100;
       const term2percent = (term2 / e.MMT) * 100;
 
@@ -152,10 +155,18 @@ export default function Marksheet() {
       }
     });
 
-    return res;
-  };
+    setResult(res);
+  }, [subjectDetails, marksheet]);
 
   // console.log(result);
+
+  useEffect(() => {
+    MarkResult();
+  }, [MarkResult, marksheet]);
+
+
+
+  console.log(result);
 
   if (isLoading) {
     return (
@@ -798,7 +809,7 @@ export default function Marksheet() {
                         Result{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
-                        {MarkResult() < 5 ? "FAIL" : "PASS"}
+                        {result < 5 ? "FAIL" : "PASS"}
                         {/* {CalculateGrade(
                           (
                             (CalculateGrandTotal() /
