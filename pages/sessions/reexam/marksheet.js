@@ -405,7 +405,7 @@ export default function Marksheet() {
                       >
                         {["X", "IX", "XI", "XII"].includes(s.Class)
                           ? "PRACTICAL / IA"
-                          : "Practical Assessment"}
+                          : "Internal Assessment"}
                       </td>
                       <td
                         rowSpan={2}
@@ -427,7 +427,7 @@ export default function Marksheet() {
                       >
                         {["X", "IX", "XI", "XII"].includes(s.Class)
                           ? "PRACTICAL / IA"
-                          : "Practical Assessment"}
+                          : "Internal Assessment"}
                       </td>
                       <td
                         rowSpan={2}
