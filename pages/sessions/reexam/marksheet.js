@@ -460,7 +460,7 @@ export default function Marksheet() {
                             className="text-[12px] font-bold text-center"
                           >
                             <td class="px-1  py-1 border-2 border-black">
-                              {e.Name.match(/\((\d+)\)/)[1]}
+                              {e.Name.match(/\((\d+)\)/)?.[1]}
                             </td>
                             <td class="px-1   py-1 border-2 border-black">
                               {e.Name.replace(/\(\d+\)/, "")}

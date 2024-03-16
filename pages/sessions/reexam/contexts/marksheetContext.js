@@ -166,26 +166,59 @@ const MarkSheetProvider = ({ children }) => {
     });
   };
 
+
+
   const GetSubjectDetails = useCallback(async () => {
     const docRef = collection(
       db,
       `users/${a.user}/sessions/${a.session}/exams/${selectedExam}/subjects/`
     );
-
-    const q = query(docRef, where("Name", "in", subjects));
-
-    const querySnapshot = await getDocs(q);
-
-    var list = [];
-
-    if (querySnapshot.size > 0) {
-      querySnapshot.forEach((doc) => {
-        list.push(doc.data());
-      });
+  
+    // Splitting the subjects array into chunks of maximum 10 elements
+    const subjectChunks = [];
+    for (let i = 0; i < subjects.length; i += 10) {
+      subjectChunks.push(subjects.slice(i, i + 10));
     }
-
-    setSubjectDetails(list);
+  
+    // Performing queries for each chunk of subjects
+    const promises = subjectChunks.map(async chunk => {
+      const q = query(docRef, where("Name", "in", chunk));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => doc.data());
+    });
+  
+    // Resolving all promises and merging the results
+    const results = await Promise.all(promises);
+    const mergedResults = results.flat();
+  
+    setSubjectDetails(mergedResults);
   }, [a.session, a.user, selectedExam, subjects]);
+
+
+  // const GetSubjectDetails = useCallback(async () => {
+  //   const docRef = collection(
+  //     db,
+  //     `users/${a.user}/sessions/${a.session}/exams/${selectedExam}/subjects/`
+  //   );
+
+  //   const q = query(docRef, where("Name", "in", subjects));
+
+  //   const querySnapshot = await getDocs(q);
+
+  //   var list = [];
+
+  //   if (querySnapshot.size > 0) {
+  //     querySnapshot.forEach((doc) => {
+  //       list.push(doc.data());
+  //     });
+  //   }
+
+  //   setSubjectDetails(list);
+  // }, [a.session, a.user, selectedExam, subjects]);
+
+
+
+
 
   useEffect(() => {
     if (subjects.length > 0 && selectedExam) {
