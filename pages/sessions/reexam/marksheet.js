@@ -395,13 +395,17 @@ export default function Marksheet() {
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        THEORY
+                        {["X", "IX", "XI", "XII"].includes(s.Class)
+                          ? "THEORY"
+                          : "UT"}
                       </td>
                       <td
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        PRACTICAL / IA
+                        {["X", "IX", "XI", "XII"].includes(s.Class)
+                          ? "PRACTICAL / IA"
+                          : "Practical Assessment"}
                       </td>
                       <td
                         rowSpan={2}
@@ -413,13 +417,17 @@ export default function Marksheet() {
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        THEORY
+                        {["X", "IX", "XI", "XII"].includes(s.Class)
+                          ? "THEORY"
+                          : "UT"}
                       </td>
                       <td
                         colSpan={2}
                         class="px-1 py-1 w-[160px] border-2 border-black"
                       >
-                        PRACTICAL / IA
+                        {["X", "IX", "XI", "XII"].includes(s.Class)
+                          ? "PRACTICAL / IA"
+                          : "Practical Assessment"}
                       </td>
                       <td
                         rowSpan={2}
