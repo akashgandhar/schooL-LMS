@@ -130,6 +130,10 @@ export default function Marksheet() {
         ) || 0
       ) +
       parseFloat(
+        marksheet?.Term_1?.reduce((a, b) => a + parseFloat(b.Total || 0), 0) ||
+          0
+      ) +
+      parseFloat(
         marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Theory || 0), 0) ||
           0
       ) +
@@ -138,6 +142,10 @@ export default function Marksheet() {
           (a, b) => a + parseFloat(b.Practical || 0),
           0
         ) || 0
+      ) +
+      parseFloat(
+        marksheet?.Term_2?.reduce((a, b) => a + parseFloat(b.Total || 0), 0) ||
+          0
       )
     );
   };
@@ -657,12 +665,12 @@ export default function Marksheet() {
                   <table class="w-[95%] mt-1 mb-4">
                     <thead class="bg-white text-[16px]  font-bold ">
                       <tr class="text-[#000000] text-center h-[44px] font-serif text-[15px]">
-                        <td
+                        {/* <td
                           rowSpan={3}
                           class="px-1 w-[53px]  py-1 border-2 border-black"
                         >
                           SUBJECT CODE
-                        </td>
+                        </td> */}
                         <td
                           rowSpan={3}
                           class="px-1 w-[160px] py-1 border-2 border-black"
@@ -699,44 +707,52 @@ export default function Marksheet() {
                           colSpan={2}
                           class="px-1 py-1 w-[160px] border-2 border-black"
                         >
-                          UT
+                          UT <br />
+                          (20)
                         </td>
                         <td
                           colSpan={2}
                           class="px-1 py-1 w-[160px] border-2 border-black"
                         >
-                          IA
+                          IA <br />
+                          (5)
                         </td>
                         <td class="px-1 py-1 w-[100px] border-2 border-black">
-                           Term 
+                          Term <br />
+                          (25)
                         </td>
 
                         <td
                           rowSpan={1}
                           class="px-1 py-1 w-[100px] text-[15px]   border-2 border-black"
                         >
-                          TOTAL{" "}
+                          TOTAL <br />
+                          (50)
                         </td>
                         <td
                           colSpan={2}
                           class="px-1 py-1 w-[160px] border-2 border-black"
                         >
-                          UT
+                          UT <br />
+                          (20)
                         </td>
                         <td
                           colSpan={2}
                           class="px-1 py-1 w-[160px] border-2 border-black"
                         >
-                          IA
+                          IA <br />
+                          (5)
                         </td>
                         <td class="px-1 py-1 w-[100px] border-2 border-black">
-                          Term
+                          Term <br />
+                          (25)
                         </td>
                         <td
                           rowSpan={1}
                           class="px-1 py-1 text-[15px] w-[100px] border-2 border-black"
                         >
-                          TOTAL{" "}
+                          TOTAL <br />
+                          (50)
                         </td>
                       </tr>
                     </thead>
@@ -760,9 +776,9 @@ export default function Marksheet() {
                               key={index}
                               className="text-[12px] font-bold text-center"
                             >
-                              <td class="px-1  py-1 border-2 border-black">
+                              {/* <td class="px-1  py-1 border-2 border-black">
                                 {e.Name.match(/\((\d+)\)/)?.[1]}
-                              </td>
+                              </td> */}
                               <td class="px-1   py-1 border-2 border-black">
                                 {e.Name.replace(/\(\d+\)/, "")}
                               </td>
@@ -1033,100 +1049,220 @@ export default function Marksheet() {
                   </table>
                 )}
 
-                <table class="w-[95%] mt-1 mb-4">
-                  <tbody class="bg-white text-[16px] text-left font-bold ">
-                    <tr class="text-[#b8121d]  h-[44px] text-[15px]">
-                      <td
-                        colSpan={2}
-                        class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
-                      >
-                        CO-SCHOLASTIC AREAS (ON 3 POINT GRADING SCALE)
-                      </td>
-                    </tr>
-                    <tr class="text-[#b8121d]  h-[44px] text-[15px]">
-                      <td class="px-1 w-1/2 py-1 border-2 border-black">
-                        Work Education
-                      </td>
-                      <td class="px-1  py-1 border-2 border-black">
-                        <input
-                          placeholder={
-                            isLoading ? "Loading..." : marksheet?.work || "0"
-                          }
-                          onChange={(event) => {
-                            UpdateCoActivities(
-                              "work",
-                              event.target.value,
-                              selectedStudentId
-                            );
-                          }}
-                          className="appearance-none w-5 placeholder:text-[#b8121d]"
-                        />
-                      </td>
-                    </tr>
-                    <tr class="text-[#b8121d]  h-[44px] text-[15px]">
-                      <td class="px-1   py-1 border-2 border-black">
-                        General Studies
-                      </td>
-                      <td class="px-1  py-1 border-2 border-black">
-                        <input
-                          placeholder={
-                            isLoading ? "Loading..." : marksheet?.art || "0"
-                          }
-                          onChange={(event) => {
-                            UpdateCoActivities(
-                              "art",
-                              event.target.value,
-                              selectedStudentId
-                            );
-                          }}
-                          className="appearance-none w-5 placeholder:text-[#b8121d]"
-                        />
-                      </td>
-                    </tr>
-                    <tr class="text-[#b8121d]  h-[44px] text-[15px]">
-                      <td class="px-1   py-1 border-2 border-black">
-                        Health & Physical Education
-                      </td>
-                      <td class="px-1  py-1 border-2 border-black">
-                        <input
-                          placeholder={
-                            isLoading ? "Loading..." : marksheet?.health || "0"
-                          }
-                          onChange={(event) => {
-                            UpdateCoActivities(
-                              "health",
-                              event.target.value,
-                              selectedStudentId
-                            );
-                          }}
-                          className="appearance-none w-5 placeholder:text-[#b8121d]"
-                        />
-                      </td>
-                    </tr>
-                    <tr class="text-[#b8121d]  h-[44px] text-[15px]">
-                      <td class="px-1 py-1 border-2 border-black">
-                        Discipline
-                      </td>
-                      <td class="px-1  py-1 border-2 border-black">
-                        <input
-                          placeholder={
-                            isLoading
-                              ? "Loading..."
-                              : marksheet?.discipline || "0"
-                          }
-                          onChange={(event) => {
-                            UpdateCoActivities(
-                              "discipline",
-                              event.target.value,
-                              selectedStudentId
-                            );
-                          }}
-                          className="appearance-none placeholder:text-[#b8121d] w-5"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                {["X", "IX", "XI", "XII"].includes(s.Class) === false && (
+                  <table class="w-[95%] mt-1 mb-4">
+                    <tbody class="bg-white text-[16px] text-left font-bold ">
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td
+                          colSpan={2}
+                          class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
+                        >
+                          Additional Subjects (on 5 point grading scale)
+                        </td>
+                      </tr>
+
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1   py-1 border-2 border-black">
+                          Drawing
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading
+                                ? "Loading..."
+                                : marksheet?.drawing || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "drawing",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none w-5 placeholder:text-[#b8121d]"
+                          />
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1 py-1 w-1/2 border-2 border-black">
+                          General Knowledge
+                        </td>
+                        <td class="px-1   py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading ? "Loading..." : marksheet?.gk || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "gk",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none placeholder:text-[#b8121d] w-5"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+
+                {["X", "IX", "XI", "XII"].includes(s.Class) ? (
+                  <table class="w-[95%] mt-1 mb-4">
+                    <tbody class="bg-white text-[16px] text-left font-bold ">
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td
+                          colSpan={2}
+                          class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
+                        >
+                          CO-SCHOLASTIC AREAS (ON 3 POINT GRADING SCALE)
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1 w-1/2 py-1 border-2 border-black">
+                          Work Education
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading ? "Loading..." : marksheet?.work || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "work",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none w-5 placeholder:text-[#b8121d]"
+                          />
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1   py-1 border-2 border-black">
+                          General Studies
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading ? "Loading..." : marksheet?.art || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "art",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none w-5 placeholder:text-[#b8121d]"
+                          />
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1   py-1 border-2 border-black">
+                          Health & Physical Education
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading
+                                ? "Loading..."
+                                : marksheet?.health || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "health",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none w-5 placeholder:text-[#b8121d]"
+                          />
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1 py-1 border-2 border-black">
+                          Discipline
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading
+                                ? "Loading..."
+                                : marksheet?.discipline || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "discipline",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none placeholder:text-[#b8121d] w-5"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                ) : (
+                  <table class="w-[95%] mt-1 mb-4">
+                    <tbody class="bg-white text-[16px] text-left font-bold ">
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td
+                          colSpan={2}
+                          class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
+                        >
+                          CO-SCHOLASTIC AREAS (ON 3 POINT GRADING SCALE)
+                        </td>
+                      </tr>
+
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1 w-1/2  py-1 border-2 border-black">
+                          Health & Physical Education
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading
+                                ? "Loading..."
+                                : marksheet?.health || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "health",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none w-5 placeholder:text-[#b8121d]"
+                          />
+                        </td>
+                      </tr>
+                      <tr class="text-[#b8121d]  h-[44px] text-[15px]">
+                        <td class="px-1 py-1 border-2 border-black">
+                          Discipline
+                        </td>
+                        <td class="px-1  py-1 border-2 border-black">
+                          <input
+                            placeholder={
+                              isLoading
+                                ? "Loading..."
+                                : marksheet?.discipline || "0"
+                            }
+                            onChange={(event) => {
+                              UpdateCoActivities(
+                                "discipline",
+                                event.target.value,
+                                selectedStudentId
+                              );
+                            }}
+                            className="appearance-none placeholder:text-[#b8121d] w-5"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
                 <table class="w-[95%] mt-1 mb-4">
                   <tbody class="bg-white text-[16px] text-center font-serif font-bold ">
                     <tr class="text-[#3cb60c]  h-[44px] text-[15px]">
@@ -1149,11 +1285,18 @@ export default function Marksheet() {
                       </td>
                     </tr>
                     <tr class="text-[#3cb60c]  h-[44px] text-[15px]">
-                      <td class="px-1 w-1/3 py-1 border-2 border-black">
-                        {CalculateGrandTotal()}/{" "}
-                        {subjectDetails.reduce((a, b) => a + b.MMT, 0) * 2 +
-                          subjectDetails.reduce((a, b) => a + b.MMP, 0) * 2}
-                      </td>
+                      {["X", "IX", "XI", "XII"].includes(s.Class) ? (
+                        <td class="px-1 w-1/3 py-1 border-2 border-black">
+                          {CalculateGrandTotal()}/{" "}
+                          {subjectDetails.reduce((a, b) => a + b.MMT, 0) * 2 +
+                            subjectDetails.reduce((a, b) => a + b.MMP, 0) * 2}
+                        </td>
+                      ) : (
+                        <td class="px-1 w-1/3 py-1 border-2 border-black">
+                          {CalculateGrandTotal()}/{" "}
+                          {subjectDetails.reduce((a, b) => a + 50, 0) * 2 }
+                        </td>
+                      )}
                       <td class="px-1 w-1/3 py-1 border-2 border-black">
                         {(
                           (CalculateGrandTotal() /
