@@ -48,7 +48,6 @@ export default function Marksheet() {
   useEffect(() => {
     setSubjectDetails([]);
   }, [GetSubjectDetails, selectedClassName, setSubjectDetails]);
-  
 
   const { data: marksheet, isLoading } = UseMarkSheetStream(
     selectedStudentId,
@@ -355,304 +354,684 @@ export default function Marksheet() {
                     </tr>
                   </tbody>
                 </table>
-                <table class="w-[95%] mt-1 mb-4">
-                  <thead class="bg-white text-[16px]  font-bold ">
-                    <tr class="text-[#000000] text-center h-[44px] font-serif text-[15px]">
-                      <td
-                        rowSpan={4}
-                        class="px-1 w-[53px]  py-1 border-2 border-black"
-                      >
-                        SUBJECT CODE
-                      </td>
-                      <td
-                        rowSpan={4}
-                        class="px-1 w-[160px] py-1 border-2 border-black"
-                      >
-                        SUBJECT
-                      </td>
-                      <td
-                        colSpan={5}
-                        class="px-1 py-1 w-[150px] border-2 border-black"
-                      >
-                        TERM I (
-                        {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
+                {["X", "IX", "XI", "XII"].includes(s.Class) ? (
+                  <table class="w-[95%] mt-1 mb-4">
+                    <thead class="bg-white text-[16px]  font-bold ">
+                      <tr class="text-[#000000] text-center h-[44px] font-serif text-[15px]">
+                        <td
+                          rowSpan={4}
+                          class="px-1 w-[53px]  py-1 border-2 border-black"
+                        >
+                          SUBJECT CODE
+                        </td>
+                        <td
+                          rowSpan={4}
+                          class="px-1 w-[160px] py-1 border-2 border-black"
+                        >
+                          SUBJECT
+                        </td>
+                        <td
+                          colSpan={5}
+                          class="px-1 py-1 w-[150px] border-2 border-black"
+                        >
+                          TERM I (
+                          {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
                           subjectDetails.reduce((a, b) => a + b.MMP, 0)}{" "} */}
-                        50 MARKS )
-                      </td>
-                      <td
-                        colSpan={5}
-                        class="px-1 py-1 w-[150px] border-2 border-black"
-                      >
-                        TERM II (
-                        {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
+                          50 MARKS )
+                        </td>
+                        <td
+                          colSpan={5}
+                          class="px-1 py-1 w-[150px] border-2 border-black"
+                        >
+                          TERM II (
+                          {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
                           subjectDetails.reduce((a, b) => a + b.MMP, 0)}{" "} */}
-                        50 MARKS)
-                      </td>
-                      <td
-                        rowSpan={4}
-                        class="px-1 w-[80px] py-3  border-2 border-black"
-                      >
-                        GRAND TOTAL (100 MARKS)
-                      </td>
-                    </tr>
-                    <tr class=" text-center h-[100px] font-serif text-[15px]">
-                      <td
-                        colSpan={2}
-                        class="px-1 py-1 w-[160px] border-2 border-black"
-                      >
-                        {["X", "IX", "XI", "XII"].includes(s.Class)
-                          ? "THEORY"
-                          : "UT"}
-                      </td>
-                      <td
-                        colSpan={2}
-                        class="px-1 py-1 w-[160px] border-2 border-black"
-                      >
-                        {["X", "IX", "XI", "XII"].includes(s.Class)
-                          ? "PRACTICAL / IA"
-                          : "Internal Assessment"}
-                      </td>
-                      <td
-                        rowSpan={2}
-                        class="px-1 py-1 w-[100px] text-[15px]   border-2 border-black"
-                      >
-                        TOTAL{" "}
-                      </td>
-                      <td
-                        colSpan={2}
-                        class="px-1 py-1 w-[160px] border-2 border-black"
-                      >
-                        {["X", "IX", "XI", "XII"].includes(s.Class)
-                          ? "THEORY"
-                          : "UT"}
-                      </td>
-                      <td
-                        colSpan={2}
-                        class="px-1 py-1 w-[160px] border-2 border-black"
-                      >
-                        {["X", "IX", "XI", "XII"].includes(s.Class)
-                          ? "PRACTICAL / IA"
-                          : "Internal Assessment"}
-                      </td>
-                      <td
-                        rowSpan={2}
-                        class="px-1 py-1 text-[15px] w-[100px] border-2 border-black"
-                      >
-                        TOTAL{" "}
-                      </td>
-                    </tr>
-                    <tr class="font-serif text-center h-[44px] text-[13px]">
-                      <td class="px-1 py-1  border-2 border-black">MM</td>
-                      <td class="px-1 py-1  border-2 border-black">OBT</td>
-                      <td class="px-1 py-1  border-2 border-black">MM</td>
-                      <td class="px-1 py-1  border-2 border-black">OBT</td>
-                      <td class="px-1 py-1  border-2 border-black">MM</td>
-                      <td class="px-1 py-1  border-2 border-black">OBT</td>
-                      <td class="px-1 py-1  border-2 border-black">MM</td>
-                      <td class="px-1 py-1  border-2 border-black">OBT</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subjectDetails
-                      .sort((a, b) => {
-                        const nameA = a.Name.trim().toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.Name.trim().toUpperCase(); // ignore upper and lowercase
-                        if (nameA < nameB) {
-                          return -1;
-                        }
-                        if (nameA > nameB) {
-                          return 1;
-                        }
-                        return 0;
-                      })
-                      .map((e, index) => {
-                        // MarkResult(e.MMT, e.Name);
-                        return (
-                          <tr
-                            key={index}
-                            className="text-[12px] font-bold text-center"
-                          >
-                            <td class="px-1  py-1 border-2 border-black">
-                              {e.Name.match(/\((\d+)\)/)?.[1]}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {e.Name.replace(/\(\d+\)/, "")}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {e.MMT}
-                            </td>
-                            <td class="px-1 py-1 border-2 border-black">
-                              <input
-                                placeholder={
-                                  isLoading
-                                    ? "Loading..."
-                                    : marksheet && marksheet.Term_1
-                                    ? marksheet?.Term_1?.find(
-                                        (subject) => subject.Name === e.Name
-                                      )?.Theory || "0"
-                                    : ""
-                                }
-                                onChange={(event) => {
-                                  if (event.target.value > e.MMT) {
-                                    alert(
-                                      "Marks cannot be greater than Maximum Marks"
-                                    );
-                                    return;
+                          50 MARKS)
+                        </td>
+                        <td
+                          rowSpan={4}
+                          class="px-1 w-[80px] py-3  border-2 border-black"
+                        >
+                          GRAND TOTAL (100 MARKS)
+                        </td>
+                      </tr>
+                      <tr class=" text-center h-[100px] font-serif text-[15px]">
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          {["X", "IX", "XI", "XII"].includes(s.Class)
+                            ? "THEORY"
+                            : "UT"}
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          {["X", "IX", "XI", "XII"].includes(s.Class)
+                            ? "PRACTICAL / IA"
+                            : "Internal Assessment"}
+                        </td>
+                        <td
+                          rowSpan={2}
+                          class="px-1 py-1 w-[100px] text-[15px]   border-2 border-black"
+                        >
+                          TOTAL{" "}
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          {["X", "IX", "XI", "XII"].includes(s.Class)
+                            ? "THEORY"
+                            : "UT"}
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          {["X", "IX", "XI", "XII"].includes(s.Class)
+                            ? "PRACTICAL / IA"
+                            : "Internal Assessment"}
+                        </td>
+                        <td
+                          rowSpan={2}
+                          class="px-1 py-1 text-[15px] w-[100px] border-2 border-black"
+                        >
+                          TOTAL{" "}
+                        </td>
+                      </tr>
+                      <tr class="font-serif text-center h-[44px] text-[13px]">
+                        <td class="px-1 py-1  border-2 border-black">MM</td>
+                        <td class="px-1 py-1  border-2 border-black">OBT</td>
+                        <td class="px-1 py-1  border-2 border-black">MM</td>
+                        <td class="px-1 py-1  border-2 border-black">OBT</td>
+                        <td class="px-1 py-1  border-2 border-black">MM</td>
+                        <td class="px-1 py-1  border-2 border-black">OBT</td>
+                        <td class="px-1 py-1  border-2 border-black">MM</td>
+                        <td class="px-1 py-1  border-2 border-black">OBT</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {subjectDetails
+                        .sort((a, b) => {
+                          const nameA = a.Name.trim().toUpperCase(); // ignore upper and lowercase
+                          const nameB = b.Name.trim().toUpperCase(); // ignore upper and lowercase
+                          if (nameA < nameB) {
+                            return -1;
+                          }
+                          if (nameA > nameB) {
+                            return 1;
+                          }
+                          return 0;
+                        })
+                        .map((e, index) => {
+                          // MarkResult(e.MMT, e.Name);
+                          return (
+                            <tr
+                              key={index}
+                              className="text-[12px] font-bold text-center"
+                            >
+                              <td class="px-1  py-1 border-2 border-black">
+                                {e.Name.match(/\((\d+)\)/)?.[1]}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.Name.replace(/\(\d+\)/, "")}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.MMT}
+                              </td>
+                              <td class="px-1 py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_1
+                                      ? marksheet?.Term_1?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Theory || "0"
+                                      : ""
                                   }
-                                  UpdateMarks(
-                                    e.Name,
-                                    event.target.value,
-                                    "Term1T",
-                                    selectedStudentId
-                                  );
-                                }}
-                                className="w-7 p-1 placeholder:text-black"
-                              />
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {e.MMP}
-                            </td>
-                            <td class="px-1 py-1 border-2 border-black">
-                              <input
-                                placeholder={
-                                  isLoading
-                                    ? "Loading..."
-                                    : marksheet && marksheet.Term_1
-                                    ? marksheet?.Term_1?.find(
-                                        (subject) => subject.Name === e.Name
-                                      )?.Practical || "0"
-                                    : ""
-                                }
-                                onChange={(event) => {
-                                  if (event.target.value > e.MMP) {
-                                    alert(
-                                      "Marks cannot be greater than Maximum Marks"
+                                  onChange={(event) => {
+                                    if (event.target.value > e.MMT) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term1T",
+                                      selectedStudentId
                                     );
-                                    return;
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.MMP}
+                              </td>
+                              <td class="px-1 py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_1
+                                      ? marksheet?.Term_1?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Practical || "0"
+                                      : ""
                                   }
-                                  UpdateMarks(
-                                    e.Name,
-                                    event.target.value,
-                                    "Term1P",
-                                    selectedStudentId
-                                  );
-                                }}
-                                className="w-7 p-1 placeholder:text-black"
-                              />
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {parseFloat(
-                                marksheet?.Term_1?.find(
-                                  (subject) => subject.Name === e.Name
-                                )?.Practical || "0"
-                              ) +
-                                parseFloat(
-                                  marksheet?.Term_1?.find(
-                                    (subject) => subject.Name === e.Name
-                                  )?.Theory || "0"
-                                )}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {e.MMT}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              <input
-                                placeholder={
-                                  isLoading
-                                    ? "Loading..."
-                                    : marksheet && marksheet.Term_2
-                                    ? marksheet?.Term_2?.find(
-                                        (subject) => subject.Name === e.Name
-                                      )?.Theory || "0"
-                                    : ""
-                                }
-                                onChange={(event) => {
-                                  if (event.target.value > e.MMT) {
-                                    alert(
-                                      "Marks cannot be greater than Maximum Marks"
+                                  onChange={(event) => {
+                                    if (event.target.value > e.MMP) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term1P",
+                                      selectedStudentId
                                     );
-                                    return;
-                                  }
-                                  UpdateMarks(
-                                    e.Name,
-                                    event.target.value,
-                                    "Term2T",
-                                    selectedStudentId
-                                  );
-                                }}
-                                className="w-7 p-1 placeholder:text-black"
-                              />
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {e.MMP}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              <input
-                                placeholder={
-                                  isLoading
-                                    ? "Loading..."
-                                    : marksheet && marksheet.Term_2
-                                    ? marksheet?.Term_2?.find(
-                                        (subject) => subject.Name === e.Name
-                                      )?.Practical || "0"
-                                    : ""
-                                }
-                                onChange={(event) => {
-                                  if (event.target.value > e.MMP) {
-                                    alert(
-                                      "Marks cannot be greater than Maximum Marks"
-                                    );
-                                    return;
-                                  }
-                                  UpdateMarks(
-                                    e.Name,
-                                    event.target.value,
-                                    "Term2P",
-                                    selectedStudentId
-                                  );
-                                }}
-                                className=" w-7 p-1 placeholder:text-black"
-                              />
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {parseFloat(
-                                marksheet?.Term_2?.find(
-                                  (subject) => subject.Name === e.Name
-                                )?.Practical || "0"
-                              ) +
-                                parseFloat(
-                                  marksheet?.Term_2?.find(
-                                    (subject) => subject.Name === e.Name
-                                  )?.Theory || "0"
-                                )}
-                            </td>
-                            <td class="px-1   py-1 border-2 border-black">
-                              {parseFloat(
-                                marksheet?.Term_2?.find(
-                                  (subject) => subject.Name === e.Name
-                                )?.Practical || "0"
-                              ) +
-                                parseFloat(
-                                  marksheet?.Term_2?.find(
-                                    (subject) => subject.Name === e.Name
-                                  )?.Theory || "0"
-                                ) +
-                                parseFloat(
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
                                   marksheet?.Term_1?.find(
                                     (subject) => subject.Name === e.Name
                                   )?.Practical || "0"
                                 ) +
-                                parseFloat(
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  )}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.MMT}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_2
+                                      ? marksheet?.Term_2?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Theory || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > e.MMT) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term2T",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.MMP}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_2
+                                      ? marksheet?.Term_2?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Practical || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > e.MMP) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term2P",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className=" w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
+                                  marksheet?.Term_2?.find(
+                                    (subject) => subject.Name === e.Name
+                                  )?.Practical || "0"
+                                ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  )}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
+                                  marksheet?.Term_2?.find(
+                                    (subject) => subject.Name === e.Name
+                                  )?.Practical || "0"
+                                ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Practical || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <table class="w-[95%] mt-1 mb-4">
+                    <thead class="bg-white text-[16px]  font-bold ">
+                      <tr class="text-[#000000] text-center h-[44px] font-serif text-[15px]">
+                        <td
+                          rowSpan={3}
+                          class="px-1 w-[53px]  py-1 border-2 border-black"
+                        >
+                          SUBJECT CODE
+                        </td>
+                        <td
+                          rowSpan={3}
+                          class="px-1 w-[160px] py-1 border-2 border-black"
+                        >
+                          SUBJECT
+                        </td>
+                        <td
+                          colSpan={6}
+                          class="px-1 py-1 w-[150px] border-2 border-black"
+                        >
+                          TERM I (
+                          {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
+                          subjectDetails.reduce((a, b) => a + b.MMP, 0)}{" "} */}
+                          50 MARKS )
+                        </td>
+                        <td
+                          colSpan={6}
+                          class="px-1 py-1 w-[150px] border-2 border-black"
+                        >
+                          TERM II (
+                          {/* {subjectDetails.reduce((a, b) => a + b.MMT, 0) +
+                          subjectDetails.reduce((a, b) => a + b.MMP, 0)}{" "} */}
+                          50 MARKS)
+                        </td>
+                        <td
+                          rowSpan={3}
+                          class="px-1 w-[80px] py-3  border-2 border-black"
+                        >
+                          GRAND TOTAL (100 MARKS)
+                        </td>
+                      </tr>
+                      <tr class=" text-center h-[100px] font-serif text-[15px]">
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          UT
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          IA
+                        </td>
+                        <td class="px-1 py-1 w-[100px] border-2 border-black">
+                           Term 
+                        </td>
+
+                        <td
+                          rowSpan={1}
+                          class="px-1 py-1 w-[100px] text-[15px]   border-2 border-black"
+                        >
+                          TOTAL{" "}
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          UT
+                        </td>
+                        <td
+                          colSpan={2}
+                          class="px-1 py-1 w-[160px] border-2 border-black"
+                        >
+                          IA
+                        </td>
+                        <td class="px-1 py-1 w-[100px] border-2 border-black">
+                          Term
+                        </td>
+                        <td
+                          rowSpan={1}
+                          class="px-1 py-1 text-[15px] w-[100px] border-2 border-black"
+                        >
+                          TOTAL{" "}
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {subjectDetails
+                        .sort((a, b) => {
+                          const nameA = a.Name.trim().toUpperCase(); // ignore upper and lowercase
+                          const nameB = b.Name.trim().toUpperCase(); // ignore upper and lowercase
+                          if (nameA < nameB) {
+                            return -1;
+                          }
+                          if (nameA > nameB) {
+                            return 1;
+                          }
+                          return 0;
+                        })
+                        .map((e, index) => {
+                          // MarkResult(e.MMT, e.Name);
+                          return (
+                            <tr
+                              key={index}
+                              className="text-[12px] font-bold text-center"
+                            >
+                              <td class="px-1  py-1 border-2 border-black">
+                                {e.Name.match(/\((\d+)\)/)?.[1]}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {e.Name.replace(/\(\d+\)/, "")}
+                              </td>
+                              {/* <td class="px-1   py-1 border-2 border-black">
+                              {e.MMT}
+                            </td> */}
+                              <td
+                                colSpan={2}
+                                class="px-1 py-1 border-2 border-black"
+                              >
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_1
+                                      ? marksheet?.Term_1?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Theory || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 20) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term1T",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              {/* <td class="px-1   py-1 border-2 border-black">
+                              {e.MMP}
+                            </td> */}
+                              <td
+                                colSpan={2}
+                                class="px-1 py-1 border-2 border-black"
+                              >
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_1
+                                      ? marksheet?.Term_1?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Practical || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 5) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term1P",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1 py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_1
+                                      ? marksheet?.Term_1?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Total || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 25) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term1TP",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
                                   marksheet?.Term_1?.find(
                                     (subject) => subject.Name === e.Name
-                                  )?.Theory || "0"
-                                )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                  )?.Practical || "0"
+                                ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Total || "0"
+                                  )}
+                              </td>
+                              {/* <td class="px-1   py-1 border-2 border-black">
+                              {e.MMT}
+                            </td> */}
+                              <td
+                                colSpan={2}
+                                class="px-1   py-1 border-2 border-black"
+                              >
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_2
+                                      ? marksheet?.Term_2?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Theory || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 20) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term2T",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className="w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              {/* <td class="px-1   py-1 border-2 border-black">
+                              {e.MMP}
+                            </td> */}
+                              <td
+                                colSpan={2}
+                                class="px-1   py-1 border-2 border-black"
+                              >
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_2
+                                      ? marksheet?.Term_2?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Practical || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 5) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term2P",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className=" w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                <input
+                                  placeholder={
+                                    isLoading
+                                      ? "Loading..."
+                                      : marksheet && marksheet.Term_2
+                                      ? marksheet?.Term_2?.find(
+                                          (subject) => subject.Name === e.Name
+                                        )?.Total || "0"
+                                      : ""
+                                  }
+                                  onChange={(event) => {
+                                    if (event.target.value > 25) {
+                                      alert(
+                                        "Marks cannot be greater than Maximum Marks"
+                                      );
+                                      return;
+                                    }
+                                    UpdateMarks(
+                                      e.Name,
+                                      event.target.value,
+                                      "Term2TP",
+                                      selectedStudentId
+                                    );
+                                  }}
+                                  className=" w-7 p-1 placeholder:text-black"
+                                />
+                              </td>
+
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
+                                  marksheet?.Term_2?.find(
+                                    (subject) => subject.Name === e.Name
+                                  )?.Practical || "0"
+                                ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Total || "0"
+                                  )}
+                              </td>
+                              <td class="px-1   py-1 border-2 border-black">
+                                {parseFloat(
+                                  marksheet?.Term_2?.find(
+                                    (subject) => subject.Name === e.Name
+                                  )?.Practical || "0"
+                                ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_2?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Total || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Practical || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Theory || "0"
+                                  ) +
+                                  parseFloat(
+                                    marksheet?.Term_1?.find(
+                                      (subject) => subject.Name === e.Name
+                                    )?.Total || "0"
+                                  )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                )}
 
                 <table class="w-[95%] mt-1 mb-4">
                   <tbody class="bg-white text-[16px] text-left font-bold ">

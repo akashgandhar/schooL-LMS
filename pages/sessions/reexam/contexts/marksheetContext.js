@@ -167,7 +167,6 @@ const MarkSheetProvider = ({ children }) => {
   };
 
   const GetSubjectDetails = useCallback(async () => {
-    
     const docRef = collection(
       db,
       `users/${a.user}/sessions/${a.session}/exams/${selectedExam}/subjects/`
@@ -383,6 +382,54 @@ const MarkSheetProvider = ({ children }) => {
           });
         } else {
           Term_1[subIndex].Practical = Number(value);
+        }
+        setDoc(
+          docRef,
+          {
+            Term_1: Term_1,
+          },
+          { merge: true }
+        ).then(() => {
+          setLastUpdated(new Date().toISOString());
+        });
+      } else if (type === "Term2TP") {
+        const data = await getDoc(docRef);
+        var Term_2 = data.data().Term_2 || [];
+
+        const subIndex = Term_2.findIndex((e) => e.Name === sub);
+        if (subIndex === -1) {
+          Term_2.push({
+            Name: sub,
+            Theory: 0,
+            Practical: 0,
+            Total: Number(value),
+          });
+        } else {
+          Term_2[subIndex].Total = Number(value);
+        }
+        setDoc(
+          docRef,
+          {
+            Term_2: Term_2,
+          },
+          { merge: true }
+        ).then(() => {
+          setLastUpdated(new Date().toISOString());
+        });
+      } else if (type === "Term1TP") {
+        const data = await getDoc(docRef);
+        var Term_1 = data.data().Term_1 || [];
+
+        const subIndex = Term_1.findIndex((e) => e.Name === sub);
+        if (subIndex === -1) {
+          Term_1.push({
+            Name: sub,
+            Theory: 0,
+            Practical: 0,
+            Total: Number(value),
+          });
+        } else {
+          Term_1[subIndex].Total = Number(value);
         }
         setDoc(
           docRef,
