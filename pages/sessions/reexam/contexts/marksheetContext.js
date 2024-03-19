@@ -98,7 +98,7 @@ const MarkSheetProvider = ({ children }) => {
     }
   }, [a.session, a.user, studentNew]);
 
-  console.log("studentNewSubjects", studentNewSubjects);
+  // console.log("studentNewSubjects", studentNewSubjects);
 
   const DeleteStudentNewSubjects = async (sub) => {
     // console.log(sub, student);
@@ -166,34 +166,39 @@ const MarkSheetProvider = ({ children }) => {
     });
   };
 
-
-
   const GetSubjectDetails = useCallback(async () => {
+    
     const docRef = collection(
       db,
       `users/${a.user}/sessions/${a.session}/exams/${selectedExam}/subjects/`
     );
-  
+
     // Splitting the subjects array into chunks of maximum 10 elements
     const subjectChunks = [];
     for (let i = 0; i < subjects.length; i += 10) {
       subjectChunks.push(subjects.slice(i, i + 10));
     }
-  
+
     // Performing queries for each chunk of subjects
-    const promises = subjectChunks.map(async chunk => {
+    const promises = subjectChunks.map(async (chunk) => {
       const q = query(docRef, where("Name", "in", chunk));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => doc.data());
+      return querySnapshot.docs.map((doc) => doc.data());
     });
-  
+
     // Resolving all promises and merging the results
     const results = await Promise.all(promises);
     const mergedResults = results.flat();
-  
+
+    console.log(
+      "merged result",
+      mergedResults?.filter((e) => {
+        return subjects.includes(e.Name);
+      })
+    );
+
     setSubjectDetails(mergedResults);
   }, [a.session, a.user, selectedExam, subjects]);
-
 
   // const GetSubjectDetails = useCallback(async () => {
   //   const docRef = collection(
@@ -215,10 +220,6 @@ const MarkSheetProvider = ({ children }) => {
 
   //   setSubjectDetails(list);
   // }, [a.session, a.user, selectedExam, subjects]);
-
-
-
-
 
   useEffect(() => {
     if (subjects.length > 0 && selectedExam) {
@@ -244,7 +245,7 @@ const MarkSheetProvider = ({ children }) => {
       )
     );
 
-    console.log("studentSubjectsQuerySnapshot", studentSubjectsQuerySnapshot);
+    // console.log("studentSubjectsQuerySnapshot", studentSubjectsQuerySnapshot);
 
     var studentSubjects = [];
 
@@ -267,7 +268,7 @@ const MarkSheetProvider = ({ children }) => {
       });
     });
 
-    console.log("examSubjects", studentSubjects);
+    // console.log("examSubjects", studentSubjects);
 
     const intersection = studentSubjects.filter((x) =>
       examSubjects.includes(x)
@@ -290,7 +291,7 @@ const MarkSheetProvider = ({ children }) => {
 
     const fetchedData = await getDoc(docRef);
 
-    console.log("fetchedData", fetchedData);
+    // console.log("fetchedData", fetchedData);
     if (!fetchedData.exists()) {
       console.log("No such document!");
 
@@ -312,12 +313,12 @@ const MarkSheetProvider = ({ children }) => {
     }
   }, [GetStudentDetails, selectedStudentId]);
 
-  console.log("subjects", subjects);
+  // console.log("subjects", subjects);
 
   // const [lastUpdated, setLastUpdated] = useState(null);
 
   const UpdateMarks = async (sub, value, type, student) => {
-    console.log(sub, value, type, student, selectedExam);
+    // console.log(sub, value, type, student, selectedExam);
     try {
       const docRef = doc(
         db,
@@ -345,7 +346,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term1T") {
-        console.log("Term1T");
+        // console.log("Term1T");
         const data = await getDoc(docRef);
         var Term_1 = data.data()?.Term_1 || [];
 
@@ -369,7 +370,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term1P") {
-        console.log("Term1P");
+        // console.log("Term1P");
         const data = await getDoc(docRef);
         var Term_1 = data.data().Term_1 || [];
 
@@ -393,7 +394,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term2T") {
-        console.log("Term2T");
+        // console.log("Term2T");
         const data = await getDoc(docRef);
         var Term_2 = data.data().Term_2 || [];
 
@@ -417,7 +418,7 @@ const MarkSheetProvider = ({ children }) => {
           setLastUpdated(new Date().toISOString());
         });
       } else if (type === "Term2P") {
-        console.log("Term2P");
+        // console.log("Term2P");
         const data = await getDoc(docRef);
         var Term_2 = data.data().Term_2 || [];
 
@@ -451,7 +452,7 @@ const MarkSheetProvider = ({ children }) => {
   };
 
   const UpdateCoActivities = async (sub, value, student) => {
-    console.log(sub, value, student, selectedExam);
+    // console.log(sub, value, student, selectedExam);
     try {
       const docRef = doc(
         db,
@@ -496,13 +497,12 @@ const MarkSheetProvider = ({ children }) => {
     setBulkStudents(list);
   }, [a.session, a.user, selectedClassName, selectedSectionName]);
 
-
   const [bulkSubjects, setBulkSubjects] = useState([]);
 
-  // const GetSubjectStudentWise = useCallback(async () => { 
+  console.log("Subject Details", subjectDetails);
+  console.log("Subjects", subjects);
 
-
-
+  // const GetSubjectStudentWise = useCallback(async () => {
 
   return (
     <MarkSheetContext.Provider

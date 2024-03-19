@@ -45,6 +45,11 @@ export default function Marksheet() {
   //   return 0;
   // }));
 
+  useEffect(() => {
+    setSubjectDetails([]);
+  }, [GetSubjectDetails, selectedClassName, setSubjectDetails]);
+  
+
   const { data: marksheet, isLoading } = UseMarkSheetStream(
     selectedStudentId,
     selectedExam
