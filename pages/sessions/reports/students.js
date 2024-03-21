@@ -429,7 +429,16 @@ export default function StudentReports() {
                 </thead>
                 <tbody className="block md:table-row-group font-semibold">
                   {sortedStudents
-                    // .sort((a, b) => (a.name > b.name ? 1 : -1))
+                    .sort((a, b) => {
+                      if (a.name < b.name) {
+                        return -1;
+                      } else if (a.name > b.name) {
+                        return 1;
+                      } else {
+                        // If names are equal, compare by Sr_Number
+                        return a.Sr_Number - b.Sr_Number;
+                      }
+                    })
                     .filter(
                       (std) => std.Deleted == false || std.Deleted == undefined
                     )
