@@ -98,19 +98,19 @@ export default function Marksheet() {
 
   const CalculateGrade = (percentage) => {
     // console.log("percentage", percentage);
-    if (percentage >= 90) {
+    if (percentage > 90) {
       return "A1";
-    } else if (percentage >= 80) {
+    } else if (percentage > 80) {
       return "A2";
-    } else if (percentage >= 70) {
+    } else if (percentage > 70) {
       return "B1";
-    } else if (percentage >= 60) {
+    } else if (percentage > 60) {
       return "B2";
-    } else if (percentage >= 50) {
+    } else if (percentage > 50) {
       return "C1";
-    } else if (percentage >= 40) {
+    } else if (percentage > 40) {
       return "C2";
-    } else if (percentage >= 33) {
+    } else if (percentage > 33) {
       return "D";
     } else {
       return "E";
@@ -166,8 +166,11 @@ export default function Marksheet() {
 
       console.log(term1, term2, e.MMT);
 
-      const percent =
-        ((parseFloat(term1) + parseFloat(term2)) / (e.MMT * 2)) * 100;
+      var percent = 0;
+
+      percent = ["X", "IX", "XI", "XII"].includes(s.Class)
+        ? ((parseFloat(term1) + parseFloat(term2)) / (e.MMT * 2)) * 100
+        : ((parseFloat(term1) + parseFloat(term2)) / 50) * 100;
 
       if (percent >= 33) {
         res = res + 1;
@@ -1212,7 +1215,7 @@ export default function Marksheet() {
                           colSpan={2}
                           class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
                         >
-                          CO-SCHOLASTIC AREAS (ON 3 POINT GRADING SCALE)
+                          Co-Scholastic Areas (on 3 point Grading Scale)
                         </td>
                       </tr>
 
@@ -1270,12 +1273,12 @@ export default function Marksheet() {
                         colSpan={3}
                         class="px-1 text-center text-[18px] font-serif py-1 border-2 border-black"
                       >
-                        FINAL RESULT
+                        Final Result
                       </td>
                     </tr>
                     <tr class="text-[#3cb60c]  h-[44px] text-[15px]">
                       <td class="px-1 w-1/3 py-1 border-2 border-black">
-                        TOTAL MARKS OBTAINED
+                        MARKS OBTAINED
                       </td>
                       <td class="px-1 w-1/3 py-1 border-2 border-black">
                         PERCENTAGE
@@ -1314,18 +1317,30 @@ export default function Marksheet() {
                           {((CalculateGrandTotal() / 600) * 100).toFixed(2)}%
                         </td>
                       )}
-                      <td class="px-1 w-1/3 py-1 border-2 border-black">
-                        {CalculateGrade(
-                          (
-                            (CalculateGrandTotal() /
-                              (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
-                                2 +
-                                subjectDetails.reduce((a, b) => a + b.MMP, 0) *
-                                  2)) *
-                            100
-                          ).toFixed(2)
-                        )}
-                      </td>
+                      {["X", "IX", "XI", "XII"].includes(s.Class) ? (
+                        <td class="px-1 w-1/3 py-1 border-2 border-black">
+                          {CalculateGrade(
+                            (
+                              (CalculateGrandTotal() /
+                                (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
+                                  2 +
+                                  subjectDetails.reduce(
+                                    (a, b) => a + b.MMP,
+                                    0
+                                  ) *
+                                    2)) *
+                              100
+                            ).toFixed(2)
+                          )}
+                        </td>
+                      ) : (
+                        <td class="px-1 w-1/3 py-1 border-2 border-black">
+                          {CalculateGrade(
+                            ((CalculateGrandTotal() / 600) * 100).toFixed(2)
+                          )}
+                          %
+                        </td>
+                      )}
                     </tr>
                   </tbody>
                 </table>
@@ -1356,7 +1371,7 @@ export default function Marksheet() {
                         Result{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
-                        {result < 5 ? "FAIL" : "PASS"}
+                        {result < 5 ? "FAILED" : "PASSED"}
                         {/* {CalculateGrade(
                           (
                             (CalculateGrandTotal() /
@@ -1420,7 +1435,7 @@ export default function Marksheet() {
                       </td>
                       <td class="px-1 w-[20%] py-1 font-normal border-2 border-black">
                         {" "}
-                        New Seesion Begins on{" "}
+                        New Session Begins on{" "}
                       </td>
                       <td class="px-1 w-[30%] py-1 border-2 border-black">
                         {" "}
