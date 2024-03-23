@@ -799,7 +799,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_1
                                       ? marksheet?.Term_1?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Theory || "0"
+                                        )?.Theory || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
@@ -833,7 +833,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_1
                                       ? marksheet?.Term_1?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Practical || "0"
+                                        )?.Practical || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
@@ -861,7 +861,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_1
                                       ? marksheet?.Term_1?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Total || "0"
+                                        )?.Total || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
@@ -913,7 +913,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_2
                                       ? marksheet?.Term_2?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Theory || "0"
+                                        )?.Theory || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
@@ -947,7 +947,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_2
                                       ? marksheet?.Term_2?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Practical || "0"
+                                        )?.Practical || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
@@ -975,7 +975,7 @@ export default function Marksheet() {
                                       : marksheet && marksheet.Term_2
                                       ? marksheet?.Term_2?.find(
                                           (subject) => subject.Name === e.Name
-                                        )?.Total || "0"
+                                        )?.Total || "Ab"
                                       : ""
                                   }
                                   onChange={(event) => {
