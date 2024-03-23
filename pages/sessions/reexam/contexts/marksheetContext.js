@@ -357,7 +357,7 @@ const MarkSheetProvider = ({ children }) => {
             Practical: 0,
           });
         } else {
-          Term_1[subIndex].Theory = Number(value);
+          Term_1[subIndex].Theory = value;
         }
         setDoc(
           docRef,
@@ -381,7 +381,7 @@ const MarkSheetProvider = ({ children }) => {
             Practical: value,
           });
         } else {
-          Term_1[subIndex].Practical = Number(value);
+          Term_1[subIndex].Practical = value;
         }
         setDoc(
           docRef,
@@ -402,10 +402,10 @@ const MarkSheetProvider = ({ children }) => {
             Name: sub,
             Theory: 0,
             Practical: 0,
-            Total: Number(value),
+            Total: value,
           });
         } else {
-          Term_2[subIndex].Total = Number(value);
+          Term_2[subIndex].Total = value;
         }
         setDoc(
           docRef,
@@ -426,10 +426,10 @@ const MarkSheetProvider = ({ children }) => {
             Name: sub,
             Theory: 0,
             Practical: 0,
-            Total: Number(value),
+            Total: value,
           });
         } else {
-          Term_1[subIndex].Total = Number(value);
+          Term_1[subIndex].Total = value;
         }
         setDoc(
           docRef,
@@ -453,7 +453,7 @@ const MarkSheetProvider = ({ children }) => {
             Practical: 0,
           });
         } else {
-          Term_2[subIndex].Theory = Number(value);
+          Term_2[subIndex].Theory = value;
         }
         setDoc(
           docRef,
@@ -477,7 +477,7 @@ const MarkSheetProvider = ({ children }) => {
             Practical: value,
           });
         } else {
-          Term_2[subIndex].Practical = Number(value);
+          Term_2[subIndex].Practical = value;
         }
         setDoc(
           docRef,
