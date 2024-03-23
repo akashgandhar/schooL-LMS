@@ -1370,31 +1370,17 @@ export default function Marksheet() {
                       <td class="px-1 w-[20%] font-normal py-1 border-2 border-black">
                         Result{" "}
                       </td>
-                      <td class="px-1 w-[30%] py-1 border-2 border-black">
-                        {result < 5 ? "FAILED" : "PASSED"}
-                        {/* {CalculateGrade(
-                          (
-                            (CalculateGrandTotal() /
-                              (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
-                                2 +
-                                subjectDetails.reduce((a, b) => a + b.MMP, 0) *
-                                  2)) *
-                            100
-                          ).toFixed(2)
-                        ) === "E" ||
-                        CalculateGrade(
-                          (
-                            (CalculateGrandTotal() /
-                              (subjectDetails.reduce((a, b) => a + b.MMT, 0) *
-                                2 +
-                                subjectDetails.reduce((a, b) => a + b.MMP, 0) *
-                                  2)) *
-                            100
-                          ).toFixed(2)
-                        ) === "Abs"
-                          ? "FAIL"
-                          : "PASS"} */}
-                      </td>
+                      {["X", "IX", "XI", "XII"].includes(s.Class) ? (
+                        <td class="px-1 w-[30%] py-1 border-2 border-black">
+                          {result < 5 ? "FAILED" : "PASSED"}
+                        </td>
+                      ) : (
+                        <td class="px-1 w-[30%] py-1 border-2 border-black">
+                          {((CalculateGrandTotal() / 600) * 100).toFixed(2) < 33
+                            ? "FAILED"
+                            : "PASSED"}
+                        </td>
+                      )}
                     </tr>
                     <tr class=" h-[44px] text-[15px]">
                       <td class="px-1 w-[20%] font-normal py-1 border-2 border-black">
