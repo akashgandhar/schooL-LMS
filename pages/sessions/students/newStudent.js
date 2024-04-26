@@ -44,6 +44,12 @@ export default function NewStudent() {
   const [sectionName, setSectionName] = useState("");
   const [transportStatus, setTransportStatus] = useState("");
   const [busStopName, setBusStopName] = useState("NaN");
+  const [subject1, setSubject1] = useState("no subject");
+  const [subject2, setSubject2] = useState("no subject");
+  const [subject3, setSubject3] = useState("no subject");
+  const [subject4, setSubject4] = useState("no subject");
+  const [subject5, setSubject5] = useState("no subject");
+  const [subject6, setSubject6] = useState("no subject");
   // const [busNumber, setBusNumber] = useState("NaN");
   const [category, setCategory] = useState("");
   const [caste, setCaste] = useState("");
@@ -465,6 +471,12 @@ export default function NewStudent() {
               Third_Ward: ward,
               Place: place,
               City: city,
+              Subject1: subject1,
+              Subject2: subject2,
+              Subject3: subject3,
+              Subject4: subject4,
+              Subject5: subject5,
+              Subject6: subject6,
               Additional_Subject: addSub,
               PinCode: pincode,
               Gender: gender,
@@ -540,6 +552,12 @@ export default function NewStudent() {
                   Age: age,
                   File_Number: file,
                   Pen: pen,
+                  Subject1: subject1,
+                  Subject2: subject2,
+                  Subject3: subject3,
+                  Subject4: subject4,
+                  Subject5: subject5,
+                  Subject6: subject6,
                   Third_Ward: ward,
                   Additional_Subject: addSub,
                   Address: address,
@@ -941,6 +959,192 @@ export default function NewStudent() {
     }
   };
 
+  const MigrateOldFeeFromSession = async ({ session }) => {
+    setIsLoading(true);
+    studentList
+      .filter((e) => e.Deleted === false || e.Deleted === undefined)
+      .forEach(async (e) => {
+        const newClass =
+          e.Class === "NRY"
+            ? "LKG"
+            : e.Class === "LKG"
+            ? "UKG"
+            : e.Class === "UKG"
+            ? "I"
+            : e.Class === "I"
+            ? "II"
+            : e.Class === "II"
+            ? "III"
+            : e.Class === "III"
+            ? "IV"
+            : e.Class === "IV"
+            ? "V"
+            : e.Class === "V"
+            ? "VI"
+            : e.Class === "VI"
+            ? "VII"
+            : e.Class === "VII"
+            ? "VIII"
+            : e.Class === "VIII"
+            ? "IX"
+            : e.Class === "IX"
+            ? "X"
+            : e.Class === "X"
+            ? "XI"
+            : e.Class === "XI"
+            ? "XII"
+            : "OLD";
+
+        var marchFee = 0;
+        var oldoldDues = 0;
+        var AdmissionFee = 0;
+        var otherDues = 0;
+        var examDues = 0;
+        try {
+          const docRefMarch = doc(
+            db,
+            `users/${a.user}/sessions/${session}/classes/${e.Class}/sections/${e.Section}/due/March/students`,
+            e.Sr_Number
+          );
+
+          const docSnapMarch = await getDoc(docRefMarch);
+          if (docSnapMarch.exists) {
+            marchFee =
+              docSnapMarch.data()?.total === undefined ||
+              docSnapMarch.data()?.total == NaN
+                ? 0
+                : docSnapMarch.data()?.total > 0
+                ? docSnapMarch.data()?.total
+                : 0;
+            console.log(docSnapMarch.data());
+          } else {
+            marchFee = 0;
+          }
+
+          const docRefOldDues = doc(
+            db,
+            `users/${a.user}/sessions/${session}/classes/${e.Class}/sections/${e.Section}/due/OldDues/students`,
+            e.Sr_Number
+          );
+
+          const docSnapOldDues = await getDoc(docRefOldDues);
+
+          if (docSnapOldDues.exists) {
+            oldoldDues =
+              docSnapOldDues.data()?.total === undefined ||
+              docSnapOldDues.data()?.total == NaN
+                ? 0
+                : docSnapOldDues.data().total > 0
+                ? docSnapOldDues.data().total
+                : 0;
+            console.log(docSnapOldDues.data());
+          }
+
+          const docRefAdmission = doc(
+            db,
+            `users/${a.user}/sessions/${session}/classes/${e.Class}/sections/${e.Section}/due/Admission/students`,
+            e.Sr_Number
+          );
+
+          const docSnapAdmission = await getDoc(docRefAdmission);
+
+          if (docSnapAdmission.exists) {
+            AdmissionFee =
+              docSnapAdmission.data()?.total === undefined ||
+              docSnapAdmission.data()?.total == NaN
+                ? 0
+                : docSnapAdmission.data().total > 0
+                ? docSnapAdmission.data().total
+                : 0;
+            console.log(docSnapAdmission.data());
+          }
+
+          const docRefOtherDues = doc(
+            db,
+            `users/${a.user}/sessions/${session}/classes/${e.Class}/sections/${e.Section}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+            e.Sr_Number
+          );
+
+          const docSnapOtherDues = await getDoc(docRefOtherDues);
+
+          if (docSnapOtherDues.exists) {
+            otherDues =
+              docSnapOtherDues.data()?.total === undefined ||
+              docSnapOtherDues.data()?.total == NaN
+                ? 0
+                : docSnapOtherDues.data().total > 0
+                ? docSnapOtherDues.data().total
+                : 0;
+
+            console.log(docSnapOtherDues.data());
+          }
+
+          const docRefExamDues = doc(
+            db,
+            `users/${a.user}/sessions/${session}/classes/${e.Class}/sections/${e.Section}/due/Exam/students`,
+            e.Sr_Number
+          );
+
+          const docSnapExamDues = await getDoc(docRefExamDues);
+
+          if (docSnapExamDues.exists) {
+            examDues =
+              docSnapExamDues.data()?.total === undefined ||
+              docSnapExamDues.data()?.total == NaN
+                ? 0
+                : docSnapExamDues.data().total > 0
+                ? docSnapExamDues.data().total
+                : 0;
+            console.log(docSnapExamDues.data());
+          }
+
+          console.log(
+            Number(oldoldDues) +
+              Number(marchFee) +
+              Number(AdmissionFee) +
+              Number(otherDues) +
+              Number(examDues)
+          );
+
+          await setDoc(
+            doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/OldDues/students`,
+              e.Sr_Number
+            ),
+            {
+              month: "OldDues",
+              month_Due:
+                Number(oldoldDues) +
+                Number(marchFee) +
+                Number(AdmissionFee) +
+                Number(otherDues) +
+                Number(examDues),
+              name: e.name,
+              class: newClass,
+              section: e.Section,
+              father_name: e.Father_Name,
+              Place: e.Place,
+              Address: e.Address,
+              Mobile: e.Mobile_Number,
+              Sr_Number: e.Sr_Number,
+              total:
+                Number(oldoldDues) +
+                Number(marchFee) +
+                Number(AdmissionFee) +
+                Number(otherDues) +
+                Number(examDues),
+            }
+          );
+        } catch (e) {
+          console.log(e);
+        }
+
+        setCount(count + 1);
+      });
+    setIsLoading(false);
+  };
+
   if (isLoading) {
     return (
       <div>
@@ -999,7 +1203,7 @@ export default function NewStudent() {
                 <button
                   onClick={async () => {
                     setIsLoading(true);
-                    await handleImport();
+                    await MigrateOldFeeFromSession({ session: "2023-2024" });
                     setIsLoading(false);
                   }}
                 >
@@ -1392,6 +1596,136 @@ export default function NewStudent() {
                       type="text"
                       placeholder="Caste"
                     />
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 1
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject1(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 2
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject2(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 3
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject3(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 4
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject4(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 5
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject5(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 6
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject6(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div class="-mx-3 md:flex mb-6">

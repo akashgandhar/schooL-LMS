@@ -74,6 +74,13 @@ export default function NewStudent() {
   const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available);
   const [house, setHouse] = useState(s.House);
 
+  const [subject1, setSubject1] = useState(s.Subject1 ?? "no subject");
+  const [subject2, setSubject2] = useState(s.Subject2 ?? "no subject");
+  const [subject3, setSubject3] = useState(s.Subject3 ?? "no subject");
+  const [subject4, setSubject4] = useState(s.Subject4 ?? "no subject");
+  const [subject5, setSubject5] = useState(s.Subject5 ?? "no subject");
+  const [subject6, setSubject6] = useState(s.Subject6 ?? "no subject");
+
   const [tcFile, setTcFile] = useState("nil");
   const [aadharFile, setAadharFile] = useState("nil");
   const [image, setImage] = useState("nil");
@@ -528,6 +535,14 @@ export default function NewStudent() {
               Mobile_Number: mobile,
               Father_Mobile_Number: fmobile,
               Age: age,
+              Pen: pen,
+              File_Number: file,
+              Subject1: subject1,
+              Subject2: subject2,
+              Subject3: subject3,
+              Subject4: subject4,
+              Subject5: subject5,
+              Subject6: subject6,
               Address: address,
               Transport_Status: transportStatus,
               BusStop_Name: busStopName,
@@ -633,6 +648,12 @@ export default function NewStudent() {
                   Age: age,
                   Pen: pen,
                   File_Number: file,
+                  Subject1: subject1,
+                  Subject2: subject2,
+                  Subject3: subject3,
+                  Subject4: subject4,
+                  Subject5: subject5,
+                  Subject6: subject6,
                   Third_Ward: ward,
                   Additional_Subject: addSub,
                   Address: address,
@@ -1122,6 +1143,136 @@ export default function NewStudent() {
                       type="text"
                       placeholder="Caste"
                     />
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 1
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject1(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 2
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject2(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 3
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject3(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 4
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject4(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 5
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject5(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="location"
+                    >
+                      Subject 6
+                    </label>
+                    <div>
+                      <select
+                        onChange={(e) => {
+                          setSubject6(e.target.value);
+                        }}
+                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
+                        id="location"
+                      >
+                        <option>Please Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div class="-mx-3 md:flex mb-6">
