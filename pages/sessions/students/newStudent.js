@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   query,
   setDoc,
   updateDoc,
@@ -33,7 +34,9 @@ export default function NewStudent() {
   const [id, setId] = useState("");
   const [mobile, setMobile] = useState("");
   const [fmobile, setFMobile] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState(0);
+  const [file, setFile] = useState("");
+  const [pen, setPen] = useState("");
   const [address, setAddress] = useState("");
   const [ward, setWard] = useState("");
   const [addSub, setAddSub] = useState("");
@@ -76,7 +79,7 @@ export default function NewStudent() {
   const [stopList, setStopList] = useState([]);
   const [houseList, setHouseList] = useState([]);
 
-  const [classFee, setClassFee] = useState();
+  const [classFee, setClassFee] = useState(0);
   const [transportFee, setTransportFee] = useState(0);
 
   const a = useContext(UserContext);
@@ -195,6 +198,7 @@ export default function NewStudent() {
   };
 
   const GetClassFee = async () => {
+    console.log("class check", className);
     try {
       const docRef = doc(
         db,
@@ -205,8 +209,9 @@ export default function NewStudent() {
       if (docSnap.exists) {
         setClassFee(docSnap.data().Class_Fee);
       }
-    } catch {
+    } catch (e) {
       alert("class value missing");
+      console.log(e);
     }
   };
   const GetTransportFee = async () => {
@@ -384,6 +389,8 @@ export default function NewStudent() {
         !mobile ||
         !fmobile ||
         !age ||
+        !file ||
+        !pen ||
         !address ||
         !ward ||
         !transportStatus ||
@@ -448,6 +455,8 @@ export default function NewStudent() {
               Mobile_Number: mobile,
               Father_Mobile_Number: fmobile,
               Age: age,
+              File_Number: file,
+              Pen: pen,
               Address: address,
               Transport_Status: transportStatus,
               BusStop_Name: busStopName,
@@ -529,6 +538,8 @@ export default function NewStudent() {
                   Father_Mobile_Number: fmobile,
                   Religion: religion,
                   Age: age,
+                  File_Number: file,
+                  Pen: pen,
                   Third_Ward: ward,
                   Additional_Subject: addSub,
                   Address: address,
@@ -568,12 +579,434 @@ export default function NewStudent() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+  // const [count, setCount] = useState(0);
+  const [status, setStatus] = useState("idle");
+  const [indivisualPercent, setIndivisualPercent] = useState(0);
+
+  const [studentList, setStudentList] = useState([{}]);
+
+  const ImportFromSession = async ({ session }) => {
+    setStatus("started");
+    const docRef = collection(
+      db,
+      `users/${a.user}/sessions/${session}/AllStudents`
+    );
+
+    var list = [];
+    const docSnap = await getDocs(docRef);
+    docSnap.forEach((doc) => {
+      list.push(doc.data());
+    });
+
+    setStudentList(list);
+  };
+
+  console.log(studentList);
+
+  const [count, setCount] = useState(0);
+
+  const handleImport = async () => {
+    setStatus("Importing Stated");
+
+    var total = studentList.length;
+
+    studentList.forEach(async (e) => {
+      setStatus("Importing " + e.Sr_Number);
+      const newClass =
+        e.Class === "NRY"
+          ? "LKG"
+          : e.Class === "LKG"
+          ? "UKG"
+          : e.Class === "UKG"
+          ? "I"
+          : e.Class === "I"
+          ? "II"
+          : e.Class === "II"
+          ? "III"
+          : e.Class === "III"
+          ? "IV"
+          : e.Class === "IV"
+          ? "V"
+          : e.Class === "V"
+          ? "VI"
+          : e.Class === "VI"
+          ? "VII"
+          : e.Class === "VII"
+          ? "VIII"
+          : e.Class === "VIII"
+          ? "IX"
+          : e.Class === "IX"
+          ? "X"
+          : e.Class === "X"
+          ? "XI"
+          : e.Class === "XI"
+          ? "XII"
+          : "NRY";
+
+      const cfees = await GetNewClassFee(newClass);
+      const tfees = await GetNewTransportFee(e.BusStop_Name);
+
+      console.log(cfees);
+
+      try {
+        var oldSr = [];
+        try {
+          const q = query(
+            collection(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`
+            ),
+            where("Sr_Number", "==", e.Sr_Number)
+          );
+
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            oldSr.push(doc.data().Sr_Number);
+          });
+        } catch {}
+
+        if (oldSr.length >= 1) {
+          console.log("SID already exist");
+        } else {
+          try {
+            await setDoc(
+              doc(
+                db,
+                `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`,
+                e.Sr_Number
+              ),
+              {
+                Sr_Number: e.Sr_Number,
+                ID: e.ID,
+                Class: newClass,
+                Section: e.Section,
+                name: e.name,
+                Father_Name: e.Father_Name,
+                Mother_Name: e.Mother_Name,
+                Religion: e.Religion,
+                Date_Of_Birth: e.Date_Of_Birth,
+                Mobile_Number: e.Mobile_Number,
+                Father_Mobile_Number: e.Father_Mobile_Number,
+                Age: e.Age,
+                Address: e.Address,
+                Transport_Status: e.Transport_Status,
+                BusStop_Name: e.BusStop_Name,
+                Category: e.Category,
+                Caste: e.Caste,
+                Third_Ward: e.Third_Ward,
+                Place: e.Place,
+                City: e.City,
+                Additional_Subject: e.Additional_Subject,
+                PinCode: e.PinCode,
+                Gender: e.Gender,
+                Last_School: e.Last_School,
+                Last_School_Address: e.Last_School_Address,
+                Last_School_Board: e.Last_School_Board,
+                Last_School_Result: e.Last_School_Result,
+                RTE_Status: e.RTE_Status,
+                Admission_Date: e.Admission_Date ?? Timestamp.now(),
+                Tc_Available: e.Tc_Available,
+                Aadhar_Available: e.Aadhar_Available,
+                House: e.House,
+                Image: e.Image,
+                TC: e.TC,
+                Aadhar: e.Aadhar,
+                created: Timestamp.now(),
+                Fees:
+                  e.RTE_Status === "Yes" || e.Third_Ward === "Yes" ? 0 : cfees,
+                Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
+              }
+            )
+              .then(async () => {
+                const sessionRef = doc(
+                  db,
+                  `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/`,
+                  e.Section
+                );
+                const classRef = doc(
+                  db,
+                  `users/${a.user}/sessions/${a.session}/classes/`,
+                  newClass
+                );
+
+                const sesSnap = await getDoc(sessionRef);
+                const classSnap = await getDoc(classRef);
+
+                if (sesSnap.exists() && classSnap.exists()) {
+                  await updateDoc(classRef, {
+                    Strength: classSnap.data().Strength + 1,
+                  });
+                  await updateDoc(sessionRef, {
+                    Strength: sesSnap.data().Strength + 1,
+                  });
+                } else {
+                  // doc.data() will be undefined in this case
+                  console.log("No such document!");
+                }
+              })
+              .then(async () => {
+                try {
+                  const docRef = doc(
+                    db,
+                    `users/${a.user}/sessions/${a.session}/studentsAccount`,
+                    e.Sr_Number
+                  );
+                  await setDoc(docRef, {
+                    Anual_Fee: 5000,
+                    Class_Fee:
+                      e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                        ? 0
+                        : cfees,
+                    transportfees: e.Transport_Status === "Yes" ? tfees : 0,
+                  });
+                } catch (error) {
+                  console.log("Error adding document: ", error);
+                }
+              })
+              .then(() => {
+                var total = 0;
+                months.forEach(async (ed) => {
+                  try {
+                    const docRef = doc(
+                      db,
+                      `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/${ed}/students`,
+                      e.Sr_Number
+                    );
+                    await setDoc(docRef, {
+                      month: ed,
+                      month_Due:
+                        e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                          ? 0
+                          : cfees * (months.indexOf(ed) + 1),
+                      transport_due: CalculatTransport(
+                        ed,
+                        tfees,
+                        months.indexOf(ed) + 1
+                      ),
+                      name: name,
+                      class: className,
+                      section: sectionName,
+                      father_name: fName,
+                      Place: place,
+                      Address: address,
+                      Mobile: mobile,
+                      Sr_Number: sr,
+                      total:
+                        rteStatus === "Yes" || ward === "Yes"
+                          ? 0
+                          : cfees * (months.indexOf(ed) + 1) +
+                            CalculatTransport(e, tfees, months.indexOf(ed) + 1),
+                    }).then(async () => {
+                      const dueRef = doc(
+                        db,
+                        `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/`,
+                        ed
+                      );
+                      const Snap = await getDoc(dueRef);
+
+                      if (Snap.exists()) {
+                        await updateDoc(dueRef, {
+                          total_Due:
+                            Snap.data().total_Due +
+                            (rteStatus === "Yes"
+                              ? 0
+                              : cfees * (months.indexOf(ed) + 1)) +
+                            (ed === "June"
+                              ? 0
+                              : tfees * (months.indexOf(ed) + 1)),
+                        });
+                      } else {
+                        await setDoc(dueRef, {
+                          total_Due:
+                            (e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                              ? 0
+                              : cfees * (months.indexOf(ed) + 1)) +
+                            (ed === "June"
+                              ? 0
+                              : tfees * (months.indexOf(ed) + 1)),
+                        });
+                      }
+                    });
+                  } catch (ec) {
+                    console.log(ec);
+                  }
+                });
+              })
+              .then(async () => {
+                await setDoc(
+                  doc(
+                    db,
+                    `users/${a.user}/sessions/${a.session}/AllStudents`,
+                    e.Sr_Number
+                  ),
+                  {
+                    Sr_Number: e.Sr_Number,
+                    ID: e.ID,
+                    Class: newClass,
+                    Section: e.Section,
+                    name: e.name,
+                    Father_Name: e.Father_Name,
+                    Mother_Name: e.Mother_Name,
+                    Religion: e.Religion,
+                    Date_Of_Birth: e.Date_Of_Birth,
+                    Mobile_Number: e.Mobile_Number,
+                    Father_Mobile_Number: e.Father_Mobile_Number,
+                    Age: e.Age,
+                    Address: e.Address,
+                    Transport_Status: e.Transport_Status,
+                    BusStop_Name: e.BusStop_Name,
+                    Category: e.Category,
+                    Caste: e.Caste,
+                    Third_Ward: e.Third_Ward,
+                    Place: e.Place,
+                    City: e.City,
+                    Additional_Subject: e.Additional_Subject,
+                    PinCode: e.PinCode,
+                    Gender: e.Gender,
+                    Last_School: e.Last_School,
+                    Last_School_Address: e.Last_School_Address,
+                    Last_School_Board: e.Last_School_Board,
+                    Last_School_Result: e.Last_School_Result,
+                    RTE_Status: e.RTE_Status,
+                    Admission_Date: e.Admission_Date ?? Timestamp.now(),
+                    Tc_Available: e.Tc_Available,
+                    Aadhar_Available: e.Aadhar_Available,
+                    House: e.House,
+                    Image: e.Image,
+                    TC: e.TC,
+                    Aadhar: e.Aadhar,
+                    created: Timestamp.now(),
+                    Fees:
+                      e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                        ? 0
+                        : cfees,
+                    Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
+                  }
+                );
+              })
+              .then(() => {
+                setCount(count + 1);
+
+                // router.reload();
+              });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  };
+
+  const GetNewClassFee = async (newClass) => {
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes`,
+        newClass
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists) {
+        return docSnap.data().Class_Fee;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      console.log("class value missing");
+      console.log(e);
+      return 0;
+    }
+  };
+
+  const GetNewTransportFee = async (busStopName) => {
+    console.log(busStopName);
+    try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/stops`,
+        busStopName
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists) {
+        return docSnap.data().Stop_Fee ?? 0;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      console.log("plese Select bus stop first");
+      console.log(e);
+      return 0;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div>
+        <div className="flex items-center justify-center h-screen">
+          <div className="w-96 h-96 bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center">
+            <h1 className="text-2xl font-bold">Importing Data</h1>
+            <div className="w-full h-1 bg-gray-200 my-2">
+              <div
+                className="h-1 bg-blue-500"
+                style={{ width: `${(count / studentList.length) * 100}%` }}
+              ></div>
+            </div>
+            <h1 className="text-xl font-bold">{status}</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-auto">
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen  bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
+              {/* <h1 className="text-center text-xl w-full flex ">
+                Want to Migrate Data : {"  "}
+                <button
+                  className="font-bold"
+                  onClick={async () => {
+                    if (!confirm("Are you sure you want to migrate data?")) {
+                      return;
+                    }
+
+                    if (!confirm("Caution! The Action is Irreplaceable.")) {
+                      return;
+                    }
+                    if (
+                      !confirm("Do you reload the page after session change?")
+                    ) {
+                      return;
+                    }
+
+                    if (!a.user || a.session === "2021-2022") {
+                      alert("Please select a session or relogin");
+                      return;
+                    }
+
+                    setIsLoading(true);
+                    await ImportFromSession({ session: "2023-2024" });
+                    setIsLoading(false);
+                  }}
+                >
+                  Click Here
+                </button>
+                <button
+                  onClick={async () => {
+                    setIsLoading(true);
+                    await handleImport();
+                    setIsLoading(false);
+                  }}
+                >
+                  start
+                </button>
+              </h1> */}
+
               <h1 className="text-center font-bold text-2xl">
                 New Student Details
               </h1>
@@ -639,6 +1072,24 @@ export default function NewStudent() {
                   <div class="md:w-1/2 px-3">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="department"
+                    >
+                      Admission Date
+                    </label>
+                    <div>
+                      <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                        <DatePicker
+                          selected={date}
+                          onChange={(e) => setDate(e)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                  <div class="md:w-1/2 px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="title"
                     >
                       Student Name
@@ -653,8 +1104,6 @@ export default function NewStudent() {
                       placeholder="student name"
                     />
                   </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
@@ -749,16 +1198,16 @@ export default function NewStudent() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="title"
                     >
-                      Student's Age on 31-March-{current.getFullYear()}
+                      Pen Number
                     </label>
                     <input
                       onChange={(e) => {
-                        setAge(e.target.value);
+                        setPen(e.target.value);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      placeholder="Age"
+                      placeholder="PEN Number"
                     />
                   </div>
                 </div>
@@ -1144,7 +1593,7 @@ export default function NewStudent() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="application-link"
                     >
-                      Last School Result
+                      result of previous class
                     </label>
                     <input
                       onChange={(e) => {
@@ -1184,6 +1633,24 @@ export default function NewStudent() {
                   <div class="md:w-1/2 px-3">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="title"
+                    >
+                      File Number
+                    </label>
+                    <input
+                      onChange={(e) => {
+                        setFile(e.target.value);
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="title"
+                      type="text"
+                      placeholder="student name"
+                    />
+                  </div>
+
+                  <div class="md:w-1/2 px-3">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="department"
                     >
                       RTE Status
@@ -1200,22 +1667,6 @@ export default function NewStudent() {
                         <option>Yes</option>
                         <option>No</option>
                       </select>
-                    </div>
-                  </div>
-                  <div class="md:w-1/2 px-3">
-                    <label
-                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                      for="department"
-                    >
-                      Admission Date
-                    </label>
-                    <div>
-                      <div class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                        <DatePicker
-                          selected={date}
-                          onChange={(e) => setDate(e)}
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>

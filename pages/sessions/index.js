@@ -1,11 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
-import {
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import UserContext from "../../components/context/userContext";
 
@@ -16,27 +11,25 @@ export default function Index() {
   const [sessionSelected, setSessionSelected] = useState();
   const a = useContext(UserContext);
 
-  const [count,setCount] = useState(0);
-
+  const [count, setCount] = useState(0);
 
   const GetSessionList = async () => {
-    if(count<1){
-    try{
-
-      const docRef = collection(db, `users/${a.user}/sessions`);
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-    }catch(e){
-      alert(e.message)
+    if (count < 1) {
+      try {
+        const docRef = collection(db, `users/${a.user}/sessions`);
+        const docSnap = await getDocs(docRef);
+        var list = [];
+        docSnap.forEach((doc) => {
+          list.push(doc.data());
+        });
+      } catch (e) {
+        alert(e.message);
+      }
+      // console.log("run");
+      setSessionList(list);
+      setCount(count + 1);
     }
-    // console.log("run");
-    setSessionList(list);
-    setCount(count+1)}
   };
-
 
   // useEffect(() => {
   //   GetSessionList();
@@ -72,6 +65,9 @@ export default function Index() {
     }
   };
 
+  const [migrateFrom, setMigrateFrom] = useState();
+  const [migrateTo, setMigrateTo] = useState();
+
   return (
     <>
       <div className="w-screen">
@@ -97,7 +93,7 @@ export default function Index() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="company"
                       type="text"
-                      placeholder="Netboard"
+                      placeholder="From Year"
                     />
                   </div>
                   <div class="md:w-1/2 px-3">
@@ -114,7 +110,7 @@ export default function Index() {
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       id="title"
                       type="text"
-                      placeholder="B.tech / cse / CSP242 "
+                      placeholder="To Year"
                     />
                   </div>
                   <button
@@ -139,10 +135,11 @@ export default function Index() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="location"
                     >
-                      Mode*
+                      Current Session*
                     </label>
                     <div>
-                      <select onClick={GetSessionList}
+                      <select
+                        onClick={GetSessionList}
                         onChange={(e) => {
                           setSessionSelected(e.target.value);
                         }}
@@ -163,11 +160,12 @@ export default function Index() {
                     }}
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   >
-                    Add
+                    Save
                   </button>
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

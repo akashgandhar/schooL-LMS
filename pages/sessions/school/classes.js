@@ -2,7 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Nav from "../../../components/navbar";
 import Header from "../../../components/dropdown";
 import { auth, db } from "../../../firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../../components/context/userContext";
 
@@ -36,7 +43,7 @@ export default function Classes() {
 
   const createClass = async () => {
     if (!className || !classFee || !noSections) {
-      alert("Enter Missing Details")
+      alert("Enter Missing Details");
     } else {
       try {
         const docRef = `users/${a.user}/sessions/${a.session}/classes`;
@@ -44,7 +51,7 @@ export default function Classes() {
           Name: className,
           No_Of_Sections: noSections,
           Class_Fee: classFee,
-          Strength:0
+          Strength: 0,
         });
         createSections(className, noSections);
       } catch (e) {
@@ -66,14 +73,89 @@ export default function Classes() {
     setClassList(list);
   };
 
-const [isConfirm, setIsConfirm] = useState(false);
-  
+  const [isConfirm, setIsConfirm] = useState(false);
+
+  const ImportClassFromSession = async ({ session }) => {
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${session}/classes`
+      );
+      const docSnap = await getDocs(docRef);
+      docSnap.forEach(async (docx) => {
+        setDoc(
+          doc(
+            db,
+            `users/${a.user}/sessions/${a.session}/classes`,
+            docx.data().Name
+          ),
+          {
+            Name: docx.data().Name,
+            No_Of_Sections: docx.data().No_Of_Sections,
+            Class_Fee: docx.data().Class_Fee,
+            Strength: docx.data().Strength,
+          }
+        );
+        const docRef2 = collection(
+          db,
+          `users/${a.user}/sessions/${session}/classes/${
+            docx.data().Name
+          }/sections`
+        );
+        const docSnap2 = await getDocs(docRef2);
+        docSnap2.forEach(async (doc2) => {
+          setDoc(
+            doc(
+              db,
+              `users/${a.user}/sessions/${a.session}/classes/${
+                docx.data().Name
+              }/sections`,
+              doc2.data().Name
+            ),
+            {
+              Name: doc2.data().Name,
+              Parent_Class: doc2.data().Parent_Class,
+              Strength: doc2.data().Strength,
+            }
+          );
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading)
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
 
   return (
     <>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto py-20 px-12 lg:px-24 shadow-xl mb-24">
+            {/* <h1 className="text-center w-full flex items-center gap-2 font-bold text-xl">
+              Want to import ?
+              <button
+                onClick={async () => {
+                  if (!confirm("Are you sure you want to import ?")) {
+                    return;
+                  }
+                  setIsLoading(true);
+                  await ImportClassFromSession({ session: "2021-2022" });
+                  setIsLoading(false);
+                }}
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold  px-4 rounded-full"
+              >
+                Click Here
+              </button>
+            </h1> */}
+
             <div>
               <h1 className="text-center font-bold text-2xl">Add New Class</h1>
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -197,19 +279,31 @@ const [isConfirm, setIsConfirm] = useState(false);
                           <span class="inline-block w-1/3 md:hidden font-bold">
                             Actions
                           </span>
-                          
-                          <button onClick={()=>{
-                           setIsConfirm(true)
-                          }} class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">
+
+                          <button
+                            onClick={() => {
+                              setIsConfirm(true);
+                            }}
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                          >
                             Delete
                           </button>
-                          {isConfirm && <button onClick={()=>{
-                            const docRef = doc(db,`users/${a.user}/sessions/${a.session}/classes`,e.Name);
-                            deleteDoc(docRef);
-                            setIsConfirm(false);
-                          }} class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">
-                            Confirm
-                          </button>}
+                          {isConfirm && (
+                            <button
+                              onClick={() => {
+                                const docRef = doc(
+                                  db,
+                                  `users/${a.user}/sessions/${a.session}/classes`,
+                                  e.Name
+                                );
+                                deleteDoc(docRef);
+                                setIsConfirm(false);
+                              }}
+                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                            >
+                              Confirm
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );
