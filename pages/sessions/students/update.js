@@ -1216,9 +1216,11 @@ export default function NewStudent() {
                         <option>Biology</option>
                         <option>History</option>
                         <option>Political Science</option>
-                        <option>Economics</option><option>Accountancy</option>
+                        <option>Economics</option>
+                        <option>Accountancy</option>
                         <option>Business Studies</option>
                         <option>Geography</option>
+                        <option>Computer Science</option>
                         <option>Physical Education</option>
                         <option>Information Technology</option>
                       </select>
@@ -1250,9 +1252,11 @@ export default function NewStudent() {
                         <option>Biology</option>
                         <option>History</option>
                         <option>Political Science</option>
-                        <option>Economics</option><option>Accountancy</option>
+                        <option>Economics</option>
+                        <option>Accountancy</option>
                         <option>Business Studies</option>
                         <option>Geography</option>
+                        <option>Computer Science</option>
                         <option>Physical Education</option>
                         <option>Information Technology</option>
                       </select>
@@ -1282,9 +1286,11 @@ export default function NewStudent() {
                         <option>Biology</option>
                         <option>History</option>
                         <option>Political Science</option>
-                        <option>Economics</option><option>Accountancy</option>
+                        <option>Economics</option>
+                        <option>Accountancy</option>
                         <option>Business Studies</option>
                         <option>Geography</option>
+                        <option>Computer Science</option>
                         <option>Physical Education</option>
                         <option>Information Technology</option>
                       </select>
@@ -1314,9 +1320,11 @@ export default function NewStudent() {
                         <option>Biology</option>
                         <option>History</option>
                         <option>Political Science</option>
-                        <option>Economics</option><option>Accountancy</option>
+                        <option>Economics</option>
+                        <option>Accountancy</option>
                         <option>Business Studies</option>
                         <option>Geography</option>
+                        <option>Computer Science</option>
                         <option>Physical Education</option>
                         <option>Information Technology</option>
                       </select>
@@ -1343,6 +1351,7 @@ export default function NewStudent() {
                     >
                       <option>Please Select</option>
                       <option>Compter </option>
+                      <option>Computer Science</option>
                       <option>Physical Education</option>
                     </select>
                   </div>
