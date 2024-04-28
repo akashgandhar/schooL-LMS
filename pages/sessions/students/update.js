@@ -949,7 +949,7 @@ export default function NewStudent() {
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="title"
                     >
-                      Student's Age on 31-March-{current.getFullYear()}
+                      Pen Number
                     </label>
                     <input
                       value={pen}
