@@ -418,7 +418,7 @@ export default function NewStudent() {
         !house ||
         !addSub ||
         !religion,
-      !id)
+      !file || !pen || !id)
     ) {
       alert("some information is missing");
     } else {
@@ -1614,9 +1614,11 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Hindi</option>
+                        <option>English</option>
+                        <option>Hindi Core</option>
+                        <option>English Core</option>
                       </select>
                     </div>
                   </div>
@@ -1635,9 +1637,11 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Hindi</option>
+                        <option>English</option>
+                        <option>Hindi Core</option>
+                        <option>English Core</option>
                       </select>
                     </div>
                   </div>
@@ -1656,9 +1660,22 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Biology</option>
+                        <option>History</option>
+                        <option>Political Science</option>
+                        <option>Economics</option>
+                        <option>Business Studies</option>
+                        <option>Geography</option>
+                        <option>Physical Education</option>
+                        <option>Information Technology</option>
+                        
+                      
                       </select>
                     </div>
                   </div>
@@ -1679,9 +1696,20 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Biology</option>
+                        <option>History</option>
+                        <option>Political Science</option>
+                        <option>Economics</option>
+                        <option>Business Studies</option>
+                        <option>Geography</option>
+                        <option>Physical Education</option>
+                        <option>Information Technology</option>
                       </select>
                     </div>
                   </div>
@@ -1700,9 +1728,20 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Biology</option>
+                        <option>History</option>
+                        <option>Political Science</option>
+                        <option>Economics</option>
+                        <option>Business Studies</option>
+                        <option>Geography</option>
+                        <option>Physical Education</option>
+                        <option>Information Technology</option>
                       </select>
                     </div>
                   </div>
@@ -1721,9 +1760,20 @@ export default function NewStudent() {
                         class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                         id="location"
                       >
-                        <option>Please Select</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option>No Subject</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Biology</option>
+                        <option>History</option>
+                        <option>Political Science</option>
+                        <option>Economics</option>
+                        <option>Business Studies</option>
+                        <option>Geography</option>
+                        <option>Physical Education</option>
+                        <option>Information Technology</option>
                       </select>
                     </div>
                   </div>
