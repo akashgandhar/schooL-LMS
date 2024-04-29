@@ -42,10 +42,53 @@ export default function ViewDue() {
       );
       const docSnap = await getDocs(docRef);
       var list = [];
-      docSnap.forEach((doc) => {
-
-        list.push(doc.data());
+      docSnap.forEach(async (docx) => {
         // admision + old dues + third ward + exam/lab
+        const docRefAdmission = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
+          doc.id
+        );
+        const docSnapAdmission = await getDoc(docRefAdmission);
+
+        const docRefOldDues = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`,
+          doc.id
+        );
+
+        const docSnapOldDues = await getDoc(docRefOldDues);
+
+        const docRefThirdWard = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+          doc.id
+        );
+
+        const docSnapThirdWard = await getDoc(docRefThirdWard);
+
+        const docRefExamLab = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/ExamLab/students`,
+          doc.id
+        );
+
+        const docSnapExamLab = await getDoc(docRefExamLab);
+
+        list.push({
+          Sr_Number: docx.id,
+          name: docx.data().name,
+          father_name: docx.data().father_name,
+          Address: docx.data().Address,
+          Mobile: docx.data().Mobile,
+          month_Due: docx.data().month_Due,
+          transport_due: docx.data().transport_due,
+          Deleted: docx.data().Deleted,
+          Admission: docSnapAdmission.data().month_Due,
+          OldDues: docSnapOldDues.data().month_Due,
+          ThirdWard: docSnapThirdWard.data().month_Due,
+          ExamLab: docSnapExamLab.data().month_Due,
+        });
       });
       setStudents(list);
     } catch (e) {
@@ -290,7 +333,10 @@ export default function ViewDue() {
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 composite
                               </span>
-                              will implemented soon
+                              {(e.Admission > 0 ? e.Admission : 0) +
+                                (e.OldDues > 0 ? e.OldDues : 0) +
+                                (e.ThirdWard > 0 ? e.ThirdWard : 0) +
+                                (e.ExamLab > 0 ? e.ExamLab : 0)}
                             </td>
                             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
