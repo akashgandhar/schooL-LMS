@@ -1154,7 +1154,7 @@ export default function NewStudent() {
                       Subject 1
                     </label>
                     <div>
-                      <select
+                      <select value={subject1}
                         onChange={(e) => {
                           setSubject1(e.target.value);
                         }}
@@ -1177,7 +1177,7 @@ export default function NewStudent() {
                       Subject 2
                     </label>
                     <div>
-                      <select
+                      <select value={subject2}
                         onChange={(e) => {
                           setSubject2(e.target.value);
                         }}
@@ -1200,7 +1200,7 @@ export default function NewStudent() {
                       Subject 3
                     </label>
                     <div>
-                      <select
+                      <select value={subject3}
                         onChange={(e) => {
                           setSubject3(e.target.value);
                         }}
@@ -1236,7 +1236,7 @@ export default function NewStudent() {
                       Subject 4
                     </label>
                     <div>
-                      <select
+                      <select value={subject4}
                         onChange={(e) => {
                           setSubject4(e.target.value);
                         }}
@@ -1270,7 +1270,7 @@ export default function NewStudent() {
                       Subject 5
                     </label>
                     <div>
-                      <select
+                      <select value={subject5}
                         onChange={(e) => {
                           setSubject5(e.target.value);
                         }}
@@ -1304,7 +1304,7 @@ export default function NewStudent() {
                       Subject 6
                     </label>
                     <div>
-                      <select
+                      <select value={subject6}
                         onChange={(e) => {
                           setSubject6(e.target.value);
                         }}

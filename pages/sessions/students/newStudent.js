@@ -629,293 +629,329 @@ export default function NewStudent() {
 
     var total = studentList.length;
 
-    studentList.forEach(async (e) => {
-      setStatus("Importing " + e.Sr_Number);
-      const newClass =
-        e.Class === "NRY"
-          ? "LKG"
-          : e.Class === "LKG"
-          ? "UKG"
-          : e.Class === "UKG"
-          ? "I"
-          : e.Class === "I"
-          ? "II"
-          : e.Class === "II"
-          ? "III"
-          : e.Class === "III"
-          ? "IV"
-          : e.Class === "IV"
-          ? "V"
-          : e.Class === "V"
-          ? "VI"
-          : e.Class === "VI"
-          ? "VII"
-          : e.Class === "VII"
-          ? "VIII"
-          : e.Class === "VIII"
-          ? "IX"
-          : e.Class === "IX"
-          ? "X"
-          : e.Class === "X"
-          ? "XI"
-          : e.Class === "XI"
-          ? "XII"
-          : "NRY";
+    studentList
+      ?.filter((e) => e.Deleted === false || e.Deleted === undefined)
+      .forEach(async (e) => {
+        setStatus("Importing " + e.Sr_Number);
+        const newClass =
+          e.Class === "NRY"
+            ? "LKG"
+            : e.Class === "LKG"
+            ? "UKG"
+            : e.Class === "UKG"
+            ? "I"
+            : e.Class === "I"
+            ? "II"
+            : e.Class === "II"
+            ? "III"
+            : e.Class === "III"
+            ? "IV"
+            : e.Class === "IV"
+            ? "V"
+            : e.Class === "V"
+            ? "VI"
+            : e.Class === "VI"
+            ? "VII"
+            : e.Class === "VII"
+            ? "VIII"
+            : e.Class === "VIII"
+            ? "IX"
+            : e.Class === "IX"
+            ? "X"
+            : e.Class === "X"
+            ? "XI"
+            : e.Class === "XI"
+            ? "XII"
+            : "NRY";
 
-      const cfees = await GetNewClassFee(newClass);
-      const tfees = await GetNewTransportFee(e.BusStop_Name);
+        const cfees = await GetNewClassFee(newClass);
+        const tfees = await GetNewTransportFee(e.BusStop_Name);
 
-      console.log(cfees);
+        console.log(cfees);
 
-      try {
-        var oldSr = [];
         try {
-          const q = query(
-            collection(
-              db,
-              `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`
-            ),
-            where("Sr_Number", "==", e.Sr_Number)
-          );
+          //   var oldSr = [];
+          //   try {
+          //     const q = query(
+          //       collection(
+          //         db,
+          //         `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`
+          //       ),
+          //       where("Sr_Number", "==", e.Sr_Number)
+          //     );
 
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
-            oldSr.push(doc.data().Sr_Number);
-          });
-        } catch {}
+          //     const querySnapshot = await getDocs(q);
+          //     querySnapshot.forEach((doc) => {
+          //       oldSr.push(doc.data().Sr_Number);
+          //     });
+          //   } catch {}
 
-        if (oldSr.length >= 1) {
-          console.log("SID already exist");
-        } else {
+          // if (oldSr.length >= 1) {
+          //   console.log("SID already exist");
+          // } else {
           try {
-            await setDoc(
-              doc(
-                db,
-                `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`,
-                e.Sr_Number
-              ),
-              {
-                Sr_Number: e.Sr_Number,
-                ID: e.ID,
-                Class: newClass,
-                Section: e.Section,
-                name: e.name,
-                Father_Name: e.Father_Name,
-                Mother_Name: e.Mother_Name,
-                Religion: e.Religion,
-                Date_Of_Birth: e.Date_Of_Birth,
-                Mobile_Number: e.Mobile_Number,
-                Father_Mobile_Number: e.Father_Mobile_Number,
-                Age: e.Age,
-                Address: e.Address,
-                Transport_Status: e.Transport_Status,
-                BusStop_Name: e.BusStop_Name,
-                Category: e.Category,
-                Caste: e.Caste,
-                Third_Ward: e.Third_Ward,
-                Place: e.Place,
-                City: e.City,
-                Additional_Subject: e.Additional_Subject,
-                PinCode: e.PinCode,
-                Gender: e.Gender,
-                Last_School: e.Last_School,
-                Last_School_Address: e.Last_School_Address,
-                Last_School_Board: e.Last_School_Board,
-                Last_School_Result: e.Last_School_Result,
-                RTE_Status: e.RTE_Status,
-                Admission_Date: e.Admission_Date ?? Timestamp.now(),
-                Tc_Available: e.Tc_Available,
-                Aadhar_Available: e.Aadhar_Available,
-                House: e.House,
-                Image: e.Image,
-                TC: e.TC,
-                Aadhar: e.Aadhar,
-                created: Timestamp.now(),
-                Fees:
-                  e.RTE_Status === "Yes" || e.Third_Ward === "Yes" ? 0 : cfees,
-                Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
-              }
-            )
-              .then(async () => {
-                const sessionRef = doc(
+            // await setDoc(
+            //   doc(
+            //     db,
+            //     `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/students`,
+            //     e.Sr_Number
+            //   ),
+            //   {
+            //     Sr_Number: e.Sr_Number,
+            //     ID: e.ID,
+            //     Class: newClass,
+            //     Section: e.Section,
+            //     name: e.name,
+            //     Father_Name: e.Father_Name,
+            //     Mother_Name: e.Mother_Name,
+            //     Religion: e.Religion,
+            //     Date_Of_Birth: e.Date_Of_Birth,
+            //     Mobile_Number: e.Mobile_Number,
+            //     Father_Mobile_Number: e.Father_Mobile_Number,
+            //     Age: e.Age,
+            //     Address: e.Address,
+            //     Transport_Status: e.Transport_Status,
+            //     BusStop_Name: e.BusStop_Name,
+            //     Category: e.Category,
+            //     Caste: e.Caste,
+            //     Third_Ward: e.Third_Ward,
+            //     Place: e.Place,
+            //     City: e.City,
+            //     Additional_Subject: e.Additional_Subject,
+            //     PinCode: e.PinCode,
+            //     Gender: e.Gender,
+            //     Last_School: e.Last_School,
+            //     Last_School_Address: e.Last_School_Address,
+            //     Last_School_Board: e.Last_School_Board,
+            //     Last_School_Result: e.Last_School_Result,
+            //     RTE_Status: e.RTE_Status,
+            //     Admission_Date: e.Admission_Date ?? Timestamp.now(),
+            //     Tc_Available: e.Tc_Available,
+            //     Aadhar_Available: e.Aadhar_Available,
+            //     House: e.House,
+            //     Image: e.Image,
+            //     TC: e.TC,
+            //     Aadhar: e.Aadhar,
+            //     created: Timestamp.now(),
+            //     Fees:
+            //       e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+            //         ? 0
+            //         : cfees,
+            //     Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
+            //   },
+            //   { merge: true }
+            // )
+            // .then(async () => {
+            //   const sessionRef = doc(
+            //     db,
+            //     `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/`,
+            //     e.Section
+            //   );
+            //   const classRef = doc(
+            //     db,
+            //     `users/${a.user}/sessions/${a.session}/classes/`,
+            //     newClass
+            //   );
+
+            //   const sesSnap = await getDoc(sessionRef);
+            //   const classSnap = await getDoc(classRef);
+
+            //   if (sesSnap.exists() && classSnap.exists()) {
+            //     await updateDoc(
+            //       classRef,
+            //       {
+            //         Strength: classSnap.data().Strength + 1,
+            //       },
+            //       { merge: true }
+            //     );
+            //     await updateDoc(
+            //       sessionRef,
+            //       {
+            //         Strength: sesSnap.data().Strength + 1,
+            //       },
+            //       { merge: true }
+            //     );
+            //   } else {
+            //     // doc.data() will be undefined in this case
+            //     console.log("No such document!");
+            //   }
+            // })
+            // .then(async () => {
+            // try {
+            //   const docRef = doc(
+            //     db,
+            //     `users/${a.user}/sessions/${a.session}/studentsAccount`,
+            //     e.Sr_Number
+            //   );
+            //   await setDoc(
+            //     docRef,
+            //     {
+            //       Anual_Fee: 5000,
+            //       Class_Fee:
+            //         e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+            //           ? 0
+            //           : cfees,
+            //       transportfees: e.Transport_Status === "Yes" ? tfees : 0,
+            //     },
+            //     { merge: true }
+            //   );
+            // } catch (error) {
+            //   console.log("Error adding document: ", error);
+            // }
+            // })
+            // .then(() => {
+            var total = 0;
+            months.forEach(async (ed) => {
+              try {
+                const docRef = doc(
                   db,
-                  `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/`,
-                  e.Section
-                );
-                const classRef = doc(
-                  db,
-                  `users/${a.user}/sessions/${a.session}/classes/`,
-                  newClass
+                  `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/${ed}/students`,
+                  e.Sr_Number
                 );
 
-                const sesSnap = await getDoc(sessionRef);
-                const classSnap = await getDoc(classRef);
-
-                if (sesSnap.exists() && classSnap.exists()) {
-                  await updateDoc(classRef, {
-                    Strength: classSnap.data().Strength + 1,
-                  });
-                  await updateDoc(sessionRef, {
-                    Strength: sesSnap.data().Strength + 1,
-                  });
-                } else {
-                  // doc.data() will be undefined in this case
-                  console.log("No such document!");
-                }
-              })
-              .then(async () => {
-                try {
-                  const docRef = doc(
-                    db,
-                    `users/${a.user}/sessions/${a.session}/studentsAccount`,
-                    e.Sr_Number
-                  );
-                  await setDoc(docRef, {
-                    Anual_Fee: 5000,
-                    Class_Fee:
+                console.log(e.Sr_Number, docRef);
+                await setDoc(
+                  docRef,
+                  {
+                    month: ed,
+                    month_Due:
                       e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
                         ? 0
-                        : cfees,
-                    transportfees: e.Transport_Status === "Yes" ? tfees : 0,
-                  });
-                } catch (error) {
-                  console.log("Error adding document: ", error);
-                }
-              })
-              .then(() => {
-                var total = 0;
-                months.forEach(async (ed) => {
-                  try {
-                    const docRef = doc(
-                      db,
-                      `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/${ed}/students`,
-                      e.Sr_Number
-                    );
-                    await setDoc(docRef, {
-                      month: ed,
-                      month_Due:
-                        e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
-                          ? 0
-                          : cfees * (months.indexOf(ed) + 1),
-                      transport_due: CalculatTransport(
-                        ed,
-                        tfees,
-                        months.indexOf(ed) + 1
-                      ),
-                      name: name,
-                      class: className,
-                      section: sectionName,
-                      father_name: fName,
-                      Place: place,
-                      Address: address,
-                      Mobile: mobile,
-                      Sr_Number: sr,
-                      total:
-                        rteStatus === "Yes" || ward === "Yes"
-                          ? 0
-                          : cfees * (months.indexOf(ed) + 1) +
-                            CalculatTransport(e, tfees, months.indexOf(ed) + 1),
-                    }).then(async () => {
-                      const dueRef = doc(
-                        db,
-                        `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/`,
-                        ed
-                      );
-                      const Snap = await getDoc(dueRef);
+                        : cfees * (months.indexOf(ed) + 1),
+                    transport_due: CalculatTransport(
+                      ed,
+                      tfees,
+                      months.indexOf(ed) + 1
+                    ),
+                    name: e.name,
+                    class: newClass,
+                    section: e.Section,
+                    father_name: e.Father_Name,
+                    Place: e.Place,
+                    Address: e.Address,
+                    Mobile: e.Mobile_Number,
+                    Sr_Number: e.Sr_Number,
+                    total:
+                      rteStatus === "Yes" || ward === "Yes"
+                        ? 0
+                        : cfees * (months.indexOf(ed) + 1) +
+                          CalculatTransport(e, tfees, months.indexOf(ed) + 1),
+                  },
+                  {
+                    merge: true,
+                  }
+                ).then(async () => {
+                  const dueRef = doc(
+                    db,
+                    `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/`,
+                    ed
+                  );
+                  const Snap = await getDoc(dueRef);
 
-                      if (Snap.exists()) {
-                        await updateDoc(dueRef, {
-                          total_Due:
-                            Snap.data().total_Due +
-                            (rteStatus === "Yes"
-                              ? 0
-                              : cfees * (months.indexOf(ed) + 1)) +
-                            (ed === "June"
-                              ? 0
-                              : tfees * (months.indexOf(ed) + 1)),
-                        });
-                      } else {
-                        await setDoc(dueRef, {
-                          total_Due:
-                            (e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
-                              ? 0
-                              : cfees * (months.indexOf(ed) + 1)) +
-                            (ed === "June"
-                              ? 0
-                              : tfees * (months.indexOf(ed) + 1)),
-                        });
-                      }
-                    });
-                  } catch (ec) {
-                    console.log(ec);
+                  if (Snap.exists()) {
+                    await updateDoc(
+                      dueRef,
+                      {
+                        total_Due:
+                          Snap.data().total_Due +
+                          (rteStatus === "Yes"
+                            ? 0
+                            : cfees * (months.indexOf(ed) + 1)) +
+                          (ed === "June"
+                            ? 0
+                            : tfees * (months.indexOf(ed) + 1)),
+                      },
+                      { merge: true }
+                    );
+                  } else {
+                    await setDoc(
+                      dueRef,
+                      {
+                        total_Due:
+                          (e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                            ? 0
+                            : cfees * (months.indexOf(ed) + 1)) +
+                          (ed === "June"
+                            ? 0
+                            : tfees * (months.indexOf(ed) + 1)),
+                      },
+                      { merge: true }
+                    );
                   }
                 });
-              })
-              .then(async () => {
-                await setDoc(
-                  doc(
-                    db,
-                    `users/${a.user}/sessions/${a.session}/AllStudents`,
-                    e.Sr_Number
-                  ),
-                  {
-                    Sr_Number: e.Sr_Number,
-                    ID: e.ID,
-                    Class: newClass,
-                    Section: e.Section,
-                    name: e.name,
-                    Father_Name: e.Father_Name,
-                    Mother_Name: e.Mother_Name,
-                    Religion: e.Religion,
-                    Date_Of_Birth: e.Date_Of_Birth,
-                    Mobile_Number: e.Mobile_Number,
-                    Father_Mobile_Number: e.Father_Mobile_Number,
-                    Age: e.Age,
-                    Address: e.Address,
-                    Transport_Status: e.Transport_Status,
-                    BusStop_Name: e.BusStop_Name,
-                    Category: e.Category,
-                    Caste: e.Caste,
-                    Third_Ward: e.Third_Ward,
-                    Place: e.Place,
-                    City: e.City,
-                    Additional_Subject: e.Additional_Subject,
-                    PinCode: e.PinCode,
-                    Gender: e.Gender,
-                    Last_School: e.Last_School,
-                    Last_School_Address: e.Last_School_Address,
-                    Last_School_Board: e.Last_School_Board,
-                    Last_School_Result: e.Last_School_Result,
-                    RTE_Status: e.RTE_Status,
-                    Admission_Date: e.Admission_Date ?? Timestamp.now(),
-                    Tc_Available: e.Tc_Available,
-                    Aadhar_Available: e.Aadhar_Available,
-                    House: e.House,
-                    Image: e.Image,
-                    TC: e.TC,
-                    Aadhar: e.Aadhar,
-                    created: Timestamp.now(),
-                    Fees:
-                      e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
-                        ? 0
-                        : cfees,
-                    Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
-                  }
-                );
-              })
-              .then(() => {
-                setCount(count + 1);
+              } catch (ec) {
+                console.log(ec);
+              }
+            });
+            // })
+            // .then(async () => {
+            //   await setDoc(
+            //     doc(
+            //       db,
+            //       `users/${a.user}/sessions/${a.session}/AllStudents`,
+            //       e.Sr_Number
+            //     ),
+            //     {
+            //       Sr_Number: e.Sr_Number,
+            //       ID: e.ID,
+            //       Class: newClass,
+            //       Section: e.Section,
+            //       name: e.name,
+            //       Father_Name: e.Father_Name,
+            //       Mother_Name: e.Mother_Name,
+            //       Religion: e.Religion,
+            //       Date_Of_Birth: e.Date_Of_Birth,
+            //       Mobile_Number: e.Mobile_Number,
+            //       Father_Mobile_Number: e.Father_Mobile_Number,
+            //       Age: e.Age,
+            //       Address: e.Address,
+            //       Transport_Status: e.Transport_Status,
+            //       BusStop_Name: e.BusStop_Name,
+            //       Category: e.Category,
+            //       Caste: e.Caste,
+            //       Third_Ward: e.Third_Ward,
+            //       Place: e.Place,
+            //       City: e.City,
+            //       Additional_Subject: e.Additional_Subject,
+            //       PinCode: e.PinCode,
+            //       Gender: e.Gender,
+            //       Last_School: e.Last_School,
+            //       Last_School_Address: e.Last_School_Address,
+            //       Last_School_Board: e.Last_School_Board,
+            //       Last_School_Result: e.Last_School_Result,
+            //       RTE_Status: e.RTE_Status,
+            //       Admission_Date: e.Admission_Date ?? Timestamp.now(),
+            //       Tc_Available: e.Tc_Available,
+            //       Aadhar_Available: e.Aadhar_Available,
+            //       House: e.House,
+            //       Image: e.Image,
+            //       TC: e.TC,
+            //       Aadhar: e.Aadhar,
+            //       created: Timestamp.now(),
+            //       Fees:
+            //         e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+            //           ? 0
+            //           : cfees,
+            //       Transport_Fee: e.Transport_Status === "Yes" ? tfees : 0,
+            //     },
+            //     {
+            //       merge: true,
+            //     }
+            //   );
+            // })
+            // .then(() => {
+            //   setCount(count + 1);
 
-                // router.reload();
-              });
+            //   // router.reload();
+            // });
           } catch (e) {
             console.error("Error adding document: ", e);
           }
+          // }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
-      }
-    });
+      });
   };
 
   const GetNewClassFee = async (newClass) => {
@@ -1203,7 +1239,7 @@ export default function NewStudent() {
                 <button
                   onClick={async () => {
                     setIsLoading(true);
-                    await MigrateOldFeeFromSession({ session: "2023-2024" });
+                    await handleImport({ session: "2023-2024" });
                     setIsLoading(false);
                   }}
                 >
