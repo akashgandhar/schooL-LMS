@@ -47,14 +47,14 @@ export default function ViewDue() {
         const docRefAdmission = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
-          doc.id
+          docx.id
         );
         const docSnapAdmission = await getDoc(docRefAdmission);
 
         const docRefOldDues = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`,
-          doc.id
+          docx.id
         );
 
         const docSnapOldDues = await getDoc(docRefOldDues);
@@ -62,15 +62,15 @@ export default function ViewDue() {
         const docRefThirdWard = doc(
           db,
           `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
-          doc.id
+          docx.id
         );
 
         const docSnapThirdWard = await getDoc(docRefThirdWard);
 
         const docRefExamLab = doc(
           db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/ExamLab/students`,
-          doc.id
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
+          docx.id
         );
 
         const docSnapExamLab = await getDoc(docRefExamLab);
@@ -84,10 +84,10 @@ export default function ViewDue() {
           month_Due: docx.data().month_Due,
           transport_due: docx.data().transport_due,
           Deleted: docx.data().Deleted,
-          Admission: docSnapAdmission.data().month_Due,
-          OldDues: docSnapOldDues.data().month_Due,
-          ThirdWard: docSnapThirdWard.data().month_Due,
-          ExamLab: docSnapExamLab.data().month_Due,
+          Admission: docSnapAdmission?.data()?.month_Due ?? 0,
+          OldDues: docSnapOldDues?.data()?.month_Due ?? 0,
+          ThirdWard: docSnapThirdWard?.data()?.month_Due ?? 0,
+          ExamLab: docSnapExamLab?.data()?.month_Due ?? 0,
         });
       });
       setStudents(list);
