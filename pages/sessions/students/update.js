@@ -715,7 +715,8 @@ export default function NewStudent() {
           console.log(docSnap.data());
         }
       } catch {
-        alert("class value missing");
+        // alert("class value missing");
+        router.push("/sessions/students/viewStudent");
       }
     };
 
