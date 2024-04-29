@@ -43,7 +43,9 @@ export default function ViewDue() {
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
+
         list.push(doc.data());
+        // admision + old dues + third ward + exam/lab
       });
       setStudents(list);
     } catch (e) {
@@ -226,10 +228,10 @@ export default function ViewDue() {
                       Mobile
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                      month
+                      Composite Due
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                      Fee Due
+                      Monthly Due
                     </th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Transport Due
@@ -286,9 +288,9 @@ export default function ViewDue() {
                             </td>
                             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
-                                month
+                                composite
                               </span>
-                              {e.month}
+                              will implemented soon
                             </td>
                             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
