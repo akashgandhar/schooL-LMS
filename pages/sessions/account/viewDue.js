@@ -265,7 +265,7 @@ export default function ViewDue() {
                   --- Due List ---
                 </button>
                 <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
-                  Upto: {month} {a.session.slice(0, 4)}
+                  Upto: {month} {a?.session?.slice(0, 4)}
                 </button>
               </div>
               <table class="min-w-full border-collapse block md:table">
