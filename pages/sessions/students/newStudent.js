@@ -624,7 +624,7 @@ export default function NewStudent() {
 
   const [count, setCount] = useState(0);
 
-  const handleImport = async () => {
+  const handleImport = async ({ session }) => {
     setStatus("Importing Stated");
 
     var total = studentList.length;
@@ -664,10 +664,8 @@ export default function NewStudent() {
             ? "XII"
             : "NRY";
 
-        const cfees = await GetNewClassFee(newClass);
-        const tfees = await GetNewTransportFee(e.BusStop_Name);
-
-        console.log(cfees);
+        // const cfees = await GetNewClassFee(newClass);
+        // const tfees = await GetNewTransportFee(e.BusStop_Name);
 
         try {
           //   var oldSr = [];
@@ -809,20 +807,20 @@ export default function NewStudent() {
                   e.Sr_Number
                 );
 
-                console.log(e.Sr_Number, docRef);
-                await setDoc(
+                // console.log(e.Sr_Number, docRef);
+                await updateDoc(
                   docRef,
                   {
-                    month: ed,
-                    month_Due:
-                      e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
-                        ? 0
-                        : cfees * (months.indexOf(ed) + 1),
-                    transport_due: CalculatTransport(
-                      ed,
-                      tfees,
-                      months.indexOf(ed) + 1
-                    ),
+                    // month: ed,
+                    // month_Due:
+                    //   e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                    //     ? 0
+                    //     : cfees * (months.indexOf(ed) + 1),
+                    // transport_due: CalculatTransport(
+                    //   ed,
+                    //   tfees,
+                    //   months.indexOf(ed) + 1
+                    // ),
                     name: e.name,
                     class: newClass,
                     section: e.Section,
@@ -831,54 +829,60 @@ export default function NewStudent() {
                     Address: e.Address,
                     Mobile: e.Mobile_Number,
                     Sr_Number: e.Sr_Number,
-                    total:
-                      rteStatus === "Yes" || ward === "Yes"
-                        ? 0
-                        : cfees * (months.indexOf(ed) + 1) +
-                          CalculatTransport(e, tfees, months.indexOf(ed) + 1),
+                    // total:
+                    //   rteStatus === "Yes" || ward === "Yes"
+                    //     ? 0
+                    //     : cfees * (months.indexOf(ed) + 1) +
+                    //       CalculatTransport(e, tfees, months.indexOf(ed) + 1),
                   },
                   {
                     merge: true,
                   }
-                ).then(async () => {
-                  const dueRef = doc(
-                    db,
-                    `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/`,
-                    ed
-                  );
-                  const Snap = await getDoc(dueRef);
+                );
+                // .then(async () => {
+                //   const dueRef = doc(
+                //     db,
+                //     `users/${a.user}/sessions/${session}/classes/${newClass}/sections/${e.Section}/due/`,
+                //     ed
+                //   );
+                //   const dueRefSet = doc(
+                //     db,
+                //     `users/${a.user}/sessions/${a.session}/classes/${newClass}/sections/${e.Section}/due/`,
+                //     ed
+                //   );
+                //   const Snap = await getDoc(dueRef);
 
-                  if (Snap.exists()) {
-                    await updateDoc(
-                      dueRef,
-                      {
-                        total_Due:
-                          Snap.data().total_Due +
-                          (rteStatus === "Yes"
-                            ? 0
-                            : cfees * (months.indexOf(ed) + 1)) +
-                          (ed === "June"
-                            ? 0
-                            : tfees * (months.indexOf(ed) + 1)),
-                      },
-                      { merge: true }
-                    );
-                  } else {
-                    await setDoc(
-                      dueRef,
-                      {
-                        total_Due:
-                          (e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
-                            ? 0
-                            : cfees * (months.indexOf(ed) + 1)) +
-                          (ed === "June"
-                            ? 0
-                            : tfees * (months.indexOf(ed) + 1)),
-                      },
-                      { merge: true }
-                    );
-                  }
-                });
+                //   if (Snap.exists()) {
+                //     await updateDoc(
+                //       dueRefSet,
+                //       {
+                //         total_Due:
+                //           Snap.data().total_Due +
+                //           (rteStatus === "Yes"
+                //             ? 0
+                //             : cfees * (months.indexOf(ed) + 1)) +
+                //           (ed === "June"
+                //             ? 0
+                //             : tfees * (months.indexOf(ed) + 1)),
+                //       },
+                //       { merge: true }
+                //     );
+                //   } else {
+                //     await setDoc(
+                //       dueRefSet,
+                //       {
+                //         total_Due:
+                //           (e.RTE_Status === "Yes" || e.Third_Ward === "Yes"
+                //             ? 0
+                //             : cfees * (months.indexOf(ed) + 1)) +
+                //           (ed === "June"
+                //             ? 0
+                //             : tfees * (months.indexOf(ed) + 1)),
+                //       },
+                //       { merge: true }
+                //     );
+                //   }
+                // });
               } catch (ec) {
                 console.log(ec);
               }
@@ -1046,11 +1050,32 @@ export default function NewStudent() {
           const docSnapMarch = await getDoc(docRefMarch);
           if (docSnapMarch.exists) {
             marchFee =
-              docSnapMarch.data()?.total === undefined ||
-              docSnapMarch.data()?.total == NaN
+              docSnapMarch.data()?.month_Due === undefined ||
+              docSnapMarch.data()?.month_Due == NaN ||
+              docSnapMarch.data()?.transport_due == NaN ||
+              docSnapMarch.data()?.transport_due == undefined
                 ? 0
-                : docSnapMarch.data()?.total > 0
-                ? docSnapMarch.data()?.total
+                : Number(
+                    docSnapMarch.data().month_Due > 0
+                      ? docSnapMarch.data().month_Due
+                      : 0
+                  ) +
+                    +Number(
+                      docSnapMarch.data().transport_due > 0
+                        ? docSnapMarch.data().transport_due
+                        : 0
+                    ) >
+                  0
+                ? Number(
+                    docSnapMarch.data().month_Due > 0
+                      ? docSnapMarch.data().month_Due
+                      : 0
+                  ) +
+                  +Number(
+                    docSnapMarch.data().transport_due > 0
+                      ? docSnapMarch.data().transport_due
+                      : 0
+                  )
                 : 0;
             console.log(docSnapMarch.data());
           } else {
@@ -1239,7 +1264,8 @@ export default function NewStudent() {
                 <button
                   onClick={async () => {
                     setIsLoading(true);
-                    await handleImport({ session: "2023-2024" });
+                    // await handleImport({ session: "2023-2024" });
+                    await MigrateOldFeeFromSession({ session: "2023-2024" });
                     setIsLoading(false);
                   }}
                 >

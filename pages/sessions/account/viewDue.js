@@ -28,6 +28,7 @@ export default function ViewDue() {
     "March",
     "OldDues",
     "Admission",
+    "Exam",
   ];
 
   const [students, setStudents] = useState([]);
@@ -35,6 +36,7 @@ export default function ViewDue() {
   const [month, setMonth] = useState();
 
   const getDues = async () => {
+    setStudents([]);
     try {
       const docRef = collection(
         db,
@@ -42,54 +44,68 @@ export default function ViewDue() {
       );
       const docSnap = await getDocs(docRef);
       var list = [];
-      docSnap.forEach(async (docx) => {
+      console.log(docSnap.docs);
+      docSnap.forEach((docx) => {
         // admision + old dues + third ward + exam/lab
-        const docRefAdmission = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
-          docx.id
-        );
-        const docSnapAdmission = await getDoc(docRefAdmission);
+        console.log(month);
+        // if (
+        //   month != "Admission" ||
+        //   month != "OldDues" ||
+        //   month != "Third Ward Fee" ||
+        //   month != "Exam"
+        // ) {
+        //   // const docRefAdmission = doc(
+        //   //   db,
+        //   //   `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
+        //   //   docx.id
+        //   // );
+        //   // const docSnapAdmission = await getDoc(docRefAdmission);
 
-        const docRefOldDues = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`,
-          docx.id
-        );
+        //   // const docRefOldDues = doc(
+        //   //   db,
+        //   //   `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`,
+        //   //   docx.id
+        //   // );
 
-        const docSnapOldDues = await getDoc(docRefOldDues);
+        //   // const docSnapOldDues = await getDoc(docRefOldDues);
 
-        const docRefThirdWard = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
-          docx.id
-        );
+        //   // const docRefThirdWard = doc(
+        //   //   db,
+        //   //   `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`,
+        //   //   docx.id
+        //   // );
 
-        const docSnapThirdWard = await getDoc(docRefThirdWard);
+        //   // const docSnapThirdWard = await getDoc(docRefThirdWard);
 
-        const docRefExamLab = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
-          docx.id
-        );
+        //   // const docRefExamLab = doc(
+        //   //   db,
+        //   //   `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`,
+        //   //   docx.id
+        //   // );
 
-        const docSnapExamLab = await getDoc(docRefExamLab);
+        //   // const docSnapExamLab = await getDoc(docRefExamLab);
 
-        list.push({
-          Sr_Number: docx.id,
-          name: docx.data().name,
-          father_name: docx.data().father_name,
-          Address: docx.data().Address,
-          Mobile: docx.data().Mobile,
-          month_Due: docx.data().month_Due,
-          transport_due: docx.data().transport_due,
-          Deleted: docx.data().Deleted,
-          Admission: docSnapAdmission?.data()?.month_Due ?? 0,
-          OldDues: docSnapOldDues?.data()?.month_Due ?? 0,
-          ThirdWard: docSnapThirdWard?.data()?.month_Due ?? 0,
-          ExamLab: docSnapExamLab?.data()?.month_Due ?? 0,
-        });
+        //   // list.push({
+        //   //   Sr_Number: docx.id,
+        //   //   name: docx.data().name,
+        //   //   father_name: docx.data().father_name,
+        //   //   Address: docx.data().Address,
+        //   //   Mobile: docx.data().Mobile,
+        //   //   month_Due: docx.data().month_Due,
+        //   //   transport_due: docx.data().transport_due,
+        //   //   Deleted: docx.data().Deleted,
+        //   //   Admission: docSnapAdmission?.data()?.month_Due ?? 0,
+        //   //   OldDues: docSnapOldDues?.data()?.month_Due ?? 0,
+        //   //   ThirdWard: docSnapThirdWard?.data()?.month_Due ?? 0,
+        //   //   ExamLab: docSnapExamLab?.data()?.month_Due ?? 0,
+        //   // });
+        // } else {
+        list.push(docx.data());
+
+        // console.log(list);
+        // }
       });
+
       setStudents(list);
     } catch (e) {
       alert(e.message);
@@ -175,7 +191,7 @@ export default function ViewDue() {
                       type="text"
                       placeholder="Netboard"
                     >
-                      <option>Plese Select</option>
+                      <option>Please Select</option>
                       {classList.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
@@ -249,7 +265,7 @@ export default function ViewDue() {
                   --- Due List ---
                 </button>
                 <button class="bg-blue-600  text-white font-bold  py-2 px-4 rounded-full">
-                  Upto: {month} 2023
+                  Upto: {month} {a.session.slice(0, 4)}
                 </button>
               </div>
               <table class="min-w-full border-collapse block md:table">
@@ -270,9 +286,9 @@ export default function ViewDue() {
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Mobile
                     </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                    {/* <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Composite Due
-                    </th>
+                    </th> */}
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Monthly Due
                     </th>
@@ -329,7 +345,7 @@ export default function ViewDue() {
                               </span>
                               {e.Mobile}
                             </td>
-                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                            {/* <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 composite
                               </span>
@@ -337,7 +353,7 @@ export default function ViewDue() {
                                 (e.OldDues > 0 ? e.OldDues : 0) +
                                 (e.ThirdWard > 0 ? e.ThirdWard : 0) +
                                 (e.ExamLab > 0 ? e.ExamLab : 0)}
-                            </td>
+                            </td> */}
                             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                               <span class="inline-block w-1/3 md:hidden font-bold">
                                 fee_due
@@ -372,7 +388,7 @@ export default function ViewDue() {
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    {/* <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td> */}
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell font-bold">
                       Total
                     </td>
