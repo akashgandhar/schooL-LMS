@@ -45,15 +45,21 @@ export default function ViewDue() {
       const docSnap = await getDocs(docRef);
       var list = [];
       console.log(docSnap.docs);
-      docSnap.forEach((docx) => {
+      docSnap.forEach(async (docx) => {
         // admision + old dues + third ward + exam/lab
         console.log(month);
         // if (
         //   month != "Admission" ||
         //   month != "OldDues" ||
-        //   month != "Third Ward Fee" ||
         //   month != "Exam"
         // ) {
+        //   const docRef = collection(
+        //     db,
+        //     `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${month}/students`
+        //   );
+
+        //   const docSnap = await getDocs(docRef);
+
         //   // const docRefAdmission = doc(
         //   //   db,
         //   //   `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`,
@@ -104,6 +110,19 @@ export default function ViewDue() {
 
         // console.log(list);
         // }
+      });
+
+      const oldFeeDocRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`
+      );
+      const oldFeeDocSnap = await getDocs(oldFeeDocRef);
+      oldFeeDocSnap.forEach((docx) => {
+        list.forEach((element) => {
+          if (element.Sr_Number === docx.id) {
+            element.OldDues = docx.data().month_Due;
+          }
+        });
       });
 
       setStudents(list);
@@ -289,12 +308,23 @@ export default function ViewDue() {
                     {/* <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Composite Due
                     </th> */}
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                      Monthly Due
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                      Transport Due
-                    </th>
+                    {month != "OldDues" ? (
+                      <>
+                        <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                          Old Dues
+                        </th>
+                        <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                          Monthly Due
+                        </th>
+                        <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                          Transport Due
+                        </th>
+                      </>
+                    ) : (
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                        Old Dues
+                      </th>
+                    )}
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Total
                     </th>
@@ -354,29 +384,65 @@ export default function ViewDue() {
                                 (e.ThirdWard > 0 ? e.ThirdWard : 0) +
                                 (e.ExamLab > 0 ? e.ExamLab : 0)}
                             </td> */}
-                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                fee_due
-                              </span>
-                              {e.month_Due > 0 ? e.month_Due : 0}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                transport_due
-                              </span>
-                              {e.transport_due > 0 ? e.transport_due : 0}
-                            </td>
-                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                              <span class="inline-block w-1/3 md:hidden font-bold">
-                                total
-                              </span>
-                              {(Number(e.month_Due) > 0
-                                ? Number(e.month_Due)
-                                : 0) +
-                                (Number(e.transport_due) > 0
-                                  ? Number(e.transport_due)
-                                  : 0)}
-                            </td>
+                            {month != "OldDues" ? (
+                              <>
+                                <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                  <span class="inline-block w-1/3 md:hidden font-bold">
+                                    old
+                                  </span>
+                                  {Number(e.OldDues) > 0
+                                    ? Number(e.OldDues)
+                                    : 0}
+                                </td>
+                                <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                  <span class="inline-block w-1/3 md:hidden font-bold">
+                                    monthly
+                                  </span>
+                                  {Number(e.month_Due) > 0
+                                    ? Number(e.month_Due)
+                                    : 0}
+                                </td>
+                                <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                  <span class="inline-block w-1/3 md:hidden font-bold">
+                                    transport
+                                  </span>
+                                  {Number(e.transport_due) > 0
+                                    ? Number(e.transport_due)
+                                    : 0}
+                                </td>
+                              </>
+                            ) : (
+                              <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  old
+                                </span>
+                                {Number(e.OldDues) > 0 ? Number(e.OldDues) : 0}
+                              </td>
+                            )}
+
+                            {month === "OldDues" ? (
+                              <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  total
+                                </span>
+                                {Number(e.OldDues) > 0 ? Number(e.OldDues) : 0}
+                              </td>
+                            ) : (
+                              <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                <span class="inline-block w-1/3 md:hidden font-bold">
+                                  total
+                                </span>
+                                {(Number(e.month_Due) > 0
+                                  ? Number(e.month_Due)
+                                  : 0) +
+                                  (Number(e.transport_due) > 0
+                                    ? Number(e.transport_due)
+                                    : 0) +
+                                  (Number(e.OldDues) > 0
+                                    ? Number(e.OldDues)
+                                    : 0)}
+                              </td>
+                            )}
                           </tr>
                         );
                       }
