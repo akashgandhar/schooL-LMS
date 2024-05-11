@@ -130,7 +130,7 @@ export default function DayBook() {
 
             <div>
               <h1 className="text-center font-bold text-2xl pb-1">
-                Today Income Details
+                Income Details : {date}
               </h1>
 
               <table class="min-w-full border-collapse block md:table">
@@ -228,7 +228,7 @@ export default function DayBook() {
             <div className="py-2"></div>
             <div>
               <h1 className="text-center font-bold text-2xl pb-1">
-                Today Expense Details
+                 Expense Details : {date}
               </h1>
 
               <table class="min-w-full border-collapse block md:table">

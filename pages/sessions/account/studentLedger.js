@@ -1,10 +1,18 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../../components/context/userContext";
 import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
+import { UseClassStream } from "../../../lib/firebase_read";
 
 export default function Ledger() {
   const [students, setStudents] = useState([]);
@@ -28,29 +36,17 @@ export default function Ledger() {
     }
   };
 
-  const [classList, setClassList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const a = useContext(UserContext);
   const [className, setClassName] = useState();
   const [sectionName, setSectionName] = useState("");
   const router = useRouter();
 
-  const GetClassList = async () => {
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setClassList(list);
-    } catch (e) {
-      alert(e.message);
-    }
-  };
+  const {
+    data: classList,
+    error: classListError,
+    isLoading: classListLoading,
+  } = UseClassStream(a);
 
   const GetSectionList = async () => {
     try {
@@ -77,20 +73,28 @@ export default function Ledger() {
   const [q, setQ] = useState();
   const [q2, setQ2] = useState("");
 
-  const searchStudents = async (ss) => {
+  const searchStudents = async () => {
+    if (q2 == "") {
+      return;
+    }
+
     try {
-      var docRef;
-      if (ss > 1) {
+      var q = parseInt(q2);
+
+      var docRef = "";
+
+      if (isNaN(q)) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("name", "<=", q2 + "\uf8ff")
         );
       } else {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("Sr_Number", "==", q2)
         );
       }
+
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
@@ -101,8 +105,6 @@ export default function Ledger() {
       console.log(e);
     }
   };
-
-  
 
   return (
     <>
@@ -121,9 +123,6 @@ export default function Ledger() {
                       Class*
                     </label>
                     <select
-                      onClick={() => {
-                        GetClassList();
-                      }}
                       onChange={(e) => {
                         setClassName(e.target.value);
                       }}
@@ -133,7 +132,7 @@ export default function Ledger() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e, index) => {
+                      {classList?.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
@@ -187,7 +186,6 @@ export default function Ledger() {
                   <div className="flex items-center justify-between ">
                     <input
                       onChange={(e) => {
-                        setQ(e.target.value);
                         setQ2(e.target.value);
                       }}
                       class="w-4/5 bg-gray-200 text-black border mr-2 border-gray-200 rounded py-3 px-4 "

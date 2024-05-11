@@ -12,7 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import Nav from "../../../components/navbar";
 import Header from "../../../components/dropdown";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -25,6 +25,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { UseClassStream } from "../../../lib/firebase_read";
 
 export default function NewStudent() {
   const router = useRouter();
@@ -89,7 +90,6 @@ export default function NewStudent() {
   const [tcUrl, setTcUrl] = useState("nil");
   const [aadharUrl, setAadharUrl] = useState(s.Aadhar);
 
-  const [classList, setClassList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const [stopList, setStopList] = useState([]);
   const [houseList, setHouseList] = useState([]);
@@ -112,13 +112,13 @@ export default function NewStudent() {
   const [dateTemp, setDateTemp] = useState();
   const [dob, setDob] = useState(s.Date_Of_Birth);
   // console.log("test:", date);
-  const getDate = async () => {
-    const docRef = doc(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
-      sr
-    );
+  const getDate = useCallback(async () => {
     try {
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/classes/${classNameTemp}/sections/${sectionName}/students`,
+        sr
+      );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         // console.log(docSnap.data().Admission_Date.seconds);
@@ -129,7 +129,7 @@ export default function NewStudent() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [a.user, a.session, classNameTemp, sectionName, sr]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -256,10 +256,8 @@ export default function NewStudent() {
     }
   };
 
-  const [count3, setCount3] = useState(0);
-
   // console.log(transportFee,transportStatus,transportStatusTemp);
-  const GetTransportFee = async () => {
+  const GetTransportFee = useCallback(async () => {
     if (transportStatus === "Yes") {
       try {
         const docRef = doc(
@@ -270,38 +268,33 @@ export default function NewStudent() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           setTransportFee(docSnap.data().Stop_Fee);
-          // console.log(transportFee);
-          setCount(count + 1);
         }
       } catch (e) {
         alert("plese Select bus stop first");
       }
     }
-  };
+  }, [transportStatus, a.user, a.session, busStopName]);
 
-  const [count, setCount] = useState(0);
-  const [count1, setCount1] = useState(0);
+  // const GetClassList = async () => {
+  //   const docRef = collection(
+  //     db,
+  //     `users/${a.user}/sessions/${a.session}/classes`
+  //   );
+  //   const docSnap = await getDocs(docRef);
+  //   var list = [];
+  //   docSnap.forEach((doc) => {
+  //     list.push(doc.data());
+  //   });
+  //   setClassList(list);
+  // };
 
-  useEffect(() => {
-    GetTransportFee();
-    GetHouseList();
-    GetStopList();
-  }, [transportFee, house, transportStatus, busStopName]);
+  const {
+    data: classList,
+    error: classListError,
+    isLoading: classListLoading,
+  } = UseClassStream(a);
 
-  const GetClassList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setClassList(list);
-  };
-
-  const GetSectionList = async () => {
+  const GetSectionList = useCallback(async () => {
     try {
       const docRef = collection(
         db,
@@ -320,41 +313,39 @@ export default function NewStudent() {
         }
       };
     }
-  };
+  }, [className, a.user, a.session]);
 
-  const GetHouseList = async () => {
-    if (count1 < 2) {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/houses`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-        setCount1(count1 + 1);
-      });
-      setHouseList(list);
-    }
-  };
+  const GetHouseList = useCallback(async () => {
+    const docRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/houses`
+    );
+    const docSnap = await getDocs(docRef);
+    var list = [];
+    docSnap.forEach((doc) => {
+      list.push(doc.data());
+    });
+    setHouseList(list);
+  }, [a.user, a.session]);
 
-  const [count2, setCount2] = useState(0);
+  const GetStopList = useCallback(async () => {
+    const docRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/stops`
+    );
+    const docSnap = await getDocs(docRef);
+    var list = [];
+    docSnap.forEach((doc) => {
+      list.push(doc.data());
+    });
+    setStopList(list);
+  }, [a.user, a.session]);
 
-  const GetStopList = async () => {
-    if (count2 < 2) {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/stops`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-        setCount2(count2 + 1);
-      });
-      setStopList(list);
-    }
-  };
+  useEffect(() => {
+    GetTransportFee();
+    GetHouseList();
+    GetStopList();
+  }, [GetTransportFee, GetHouseList, GetStopList]);
 
   const handleUpload = (img) => {
     if (!className || !name || !sectionName) {
@@ -698,8 +689,6 @@ export default function NewStudent() {
     }
   };
 
-  console.log(classFee);
-
   useEffect(() => {
     // console.log("DATE : " + s.Admission_Date);
     const GetClassFee = async () => {
@@ -721,20 +710,9 @@ export default function NewStudent() {
     };
 
     getDate();
-    GetClassList();
     GetSectionList();
     GetClassFee();
-  }, [
-    className,
-    sectionName,
-    classFee,
-    getDate,
-    GetClassList,
-    GetSectionList,
-    count3,
-    a.user,
-    a.session,
-  ]);
+  }, [GetSectionList, a.session, a.user, className, getDate, router]);
 
   // useEffect(() => {
   //   console.log(date);
@@ -983,7 +961,7 @@ export default function NewStudent() {
                         id="location"
                       >
                         <option>Please Select</option>
-                        {classList.map((e, index) => {
+                        {classList?.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
@@ -1155,7 +1133,8 @@ export default function NewStudent() {
                       Subject 1
                     </label>
                     <div>
-                      <select value={subject1}
+                      <select
+                        value={subject1}
                         onChange={(e) => {
                           setSubject1(e.target.value);
                         }}
@@ -1178,7 +1157,8 @@ export default function NewStudent() {
                       Subject 2
                     </label>
                     <div>
-                      <select value={subject2}
+                      <select
+                        value={subject2}
                         onChange={(e) => {
                           setSubject2(e.target.value);
                         }}
@@ -1201,7 +1181,8 @@ export default function NewStudent() {
                       Subject 3
                     </label>
                     <div>
-                      <select value={subject3}
+                      <select
+                        value={subject3}
                         onChange={(e) => {
                           setSubject3(e.target.value);
                         }}
@@ -1237,7 +1218,8 @@ export default function NewStudent() {
                       Subject 4
                     </label>
                     <div>
-                      <select value={subject4}
+                      <select
+                        value={subject4}
                         onChange={(e) => {
                           setSubject4(e.target.value);
                         }}
@@ -1271,7 +1253,8 @@ export default function NewStudent() {
                       Subject 5
                     </label>
                     <div>
-                      <select value={subject5}
+                      <select
+                        value={subject5}
                         onChange={(e) => {
                           setSubject5(e.target.value);
                         }}
@@ -1305,7 +1288,8 @@ export default function NewStudent() {
                       Subject 6
                     </label>
                     <div>
-                      <select value={subject6}
+                      <select
+                        value={subject6}
                         onChange={(e) => {
                           setSubject6(e.target.value);
                         }}

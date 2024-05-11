@@ -32,7 +32,6 @@ export default function Income() {
   const [date, setDate] = useState(d);
   const [searchDate, setSearchDate] = useState(d);
   const router = useRouter();
-  const [count, setCount] = useState(0);
   // console.log(date);
 
   const getIncome = async () => {
@@ -48,7 +47,6 @@ export default function Income() {
       });
       setIncomeList(list);
       // console.log("run");
-      setCount(count + 1);
     } catch (e) {
       alert(e.message);
     }
@@ -63,7 +61,7 @@ export default function Income() {
       );
       await setDoc(docRef, {
         name: source,
-        Total_Paid: amount,
+        Total_Paid: Number(amount),
         Time: time,
       }).then(() => {
         alert("success");
@@ -130,7 +128,6 @@ export default function Income() {
                     <input
                       onChange={(e) => {
                         setDate(e.target.value);
-                        setCount(0);
                       }}
                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                       value={date}
@@ -172,7 +169,9 @@ export default function Income() {
                   </div>
 
                   <button
-                    onClick={() => {getIncome()}}
+                    onClick={() => {
+                      getIncome();
+                    }}
                     class="bg-blue-500 hover:bg-blue-700 text-white w-24 h-10 font-bold py-2 px-4 rounded-full"
                   >
                     Search
@@ -182,7 +181,7 @@ export default function Income() {
             </div>
             <div>
               <h1 className="text-center font-bold text-2xl">
-                Today Income Details
+                Income Details : {searchDate}
               </h1>
 
               <table class="min-w-full border-collapse block md:table">

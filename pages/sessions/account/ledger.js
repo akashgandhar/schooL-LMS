@@ -15,6 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import UserContext from "../../../components/context/userContext";
+import { UsePListStream } from "../../../lib/firebase_read";
 
 export default function InsertMarks() {
   const router = useRouter();
@@ -31,32 +32,7 @@ export default function InsertMarks() {
 
   const s = router.query;
 
-  const [pList, setPList] = useState([]);
-  const [count, setCount] = useState(0);
-
-  const GetPList = async () => {
-    if (count < 2) {
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/studentsAccount/${s.Sr_Number}/records`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        // console.log(docSnap);
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-          //   console.log(doc.data());
-        });
-        // console.log(list);
-        setPList(list);
-        // console.log("run2");
-        setCount(count + 1);
-      } catch (e) {
-        console.log(e.message);
-      }
-    }
-  };
+  const { data: pList, error, isLoading } = UsePListStream(a, s.Sr_Number);
 
   const time = new Intl.DateTimeFormat("en-IN", { timeStyle: "medium" }).format(
     current.getTime()
@@ -84,12 +60,6 @@ export default function InsertMarks() {
       }
     }
   };
-
-  useEffect(() => {
-    GetPList();
-    // GetMarks()
-    // console.log(pList);
-  }, [pList]);
 
   var totalObtained = 0;
   var totalMaximum = 0;
@@ -393,7 +363,7 @@ export default function InsertMarks() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {pList.map((e, index) => {
+                  {pList?.map((e, index) => {
                     // console.log();
 
                     total = total + e.Total_Paid;

@@ -50,35 +50,35 @@ const schoolTabs = [
   },
 ];
 const examTabs = [
-  {
-    name: "Create Exams",
-    href: "/sessions/reexam",
-  },
-  {
-    name: "Create Subjects",
-    href: "/sessions/reexam/createSubjects",
-  },
-  {
-    name: "Assign Subjects",
-    href: "/sessions/reexam/assignSubjects",
-  },
-  {
-    name: "Assign Student Subjects",
-    href: "/sessions/reexam/assignSubToStudents",
-  },
+  // {
+  //   name: "Create Exams",
+  //   href: "/sessions/reexam",
+  // },
+  // {
+  //   name: "Create Subjects",
+  //   href: "/sessions/reexam/createSubjects",
+  // },
+  // {
+  //   name: "Assign Subjects",
+  //   href: "/sessions/reexam/assignSubjects",
+  // },
+  // {
+  //   name: "Assign Student Subjects",
+  //   href: "/sessions/reexam/assignSubToStudents",
+  // },
 
-  {
-    name: "Set Subject Max Marks",
-    href: "/sessions/reexam/setMaxMarks",
-  },
-  {
-    name: "Student MarkSheets",
-    href: "/sessions/reexam/studentMarksheets",
-  },
-  {
-    name: "Delete Student Subjects",
-    href: "/sessions/reexam/studentSubjectChange",
-  },
+  // {
+  //   name: "Set Subject Max Marks",
+  //   href: "/sessions/reexam/setMaxMarks",
+  // },
+  // {
+  //   name: "Student MarkSheets",
+  //   href: "/sessions/reexam/studentMarksheets",
+  // },
+  // {
+  //   name: "Delete Student Subjects",
+  //   href: "/sessions/reexam/studentSubjectChange",
+  // },
   // {
   //   name: "Datesheet",
   //   href: "/sessions/exams/setExamDates",
@@ -90,42 +90,42 @@ const examTabs = [
 ];
 
 const oldExamTabs = [
-  {
-    name: "Create Exams",
-    href: "/sessions/exams",
-  },
-  {
-    name: "Map Subjects",
-    href: "/sessions/exams/mapSubject",
-  },
-  {
-    name: "Insert/Update Marks",
-    href: "/sessions/exams/marks",
-  },
-  {
-    name: "Create Rooms",
-    href: "/sessions/exams/createRooms",
-  },
-  {
-    name: "Seating Arrangement",
-    href: "/sessions/exams/seatingArrangement",
-  },
-  {
-    name: "View Old Arrangement",
-    href: "/sessions/exams/viewArrangements",
-  },
-  {
-    name: "Print MarkSheet",
-    href: "/sessions/exams/studentMarksheet",
-  },
-  {
-    name: "Datesheet",
-    href: "/sessions/exams/setExamDates",
-  },
-  {
-    name: "Print Admit Card",
-    href: "/sessions/exams/admit",
-  },
+  // {
+  //   name: "Create Exams",
+  //   href: "/sessions/exams",
+  // },
+  // {
+  //   name: "Map Subjects",
+  //   href: "/sessions/exams/mapSubject",
+  // },
+  // {
+  //   name: "Insert/Update Marks",
+  //   href: "/sessions/exams/marks",
+  // },
+  // {
+  //   name: "Create Rooms",
+  //   href: "/sessions/exams/createRooms",
+  // },
+  // {
+  //   name: "Seating Arrangement",
+  //   href: "/sessions/exams/seatingArrangement",
+  // },
+  // {
+  //   name: "View Old Arrangement",
+  //   href: "/sessions/exams/viewArrangements",
+  // },
+  // {
+  //   name: "Print MarkSheet",
+  //   href: "/sessions/exams/studentMarksheet",
+  // },
+  // {
+  //   name: "Datesheet",
+  //   href: "/sessions/exams/setExamDates",
+  // },
+  // {
+  //   name: "Print Admit Card",
+  //   href: "/sessions/exams/admit",
+  // },
 ];
 
 const studentTabs = [
