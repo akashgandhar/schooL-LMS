@@ -16,6 +16,7 @@ import { db } from "../../../firebase";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
 import { useReactToPrint } from "react-to-print";
+import { UseClassStream } from "../../../lib/firebase_read";
 
 export default function ViewStd() {
   const componentRef = useRef();
@@ -69,20 +70,28 @@ export default function ViewStd() {
   const [q2, setQ2] = useState("");
   const [allStudents, setAllStudents] = useState([]);
 
-  const searchStudents = async (ss) => {
+  const searchStudents = async () => {
+    if (q2 == "") {
+      return;
+    }
+
     try {
-      var docRef;
-      if (ss > 1) {
+      var q = parseInt(q2);
+
+      var docRef = "";
+
+      if (isNaN(q)) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("name", "<=", q2 + "\uf8ff")
         );
       } else {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("Sr_Number", "==", q2)
         );
       }
+
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
@@ -94,28 +103,12 @@ export default function ViewStd() {
     }
   };
 
-  const [classList, setClassList] = useState([]);
   const [sectionList, setSectionList] = useState([]);
   const a = useContext(UserContext);
   const [className, setClassName] = useState();
   const [sectionName, setSectionName] = useState("");
 
-  const GetClassList = async () => {
-    try {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setClassList(list);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const {data:classList,error,isLoading} = UseClassStream(a);
 
   const GetSectionList = async () => {
     try {
@@ -174,8 +167,6 @@ export default function ViewStd() {
     }
   };
 
-  useEffect(() => {}, [classList]);
-
   return (
     <>
       <div className="w-screen">
@@ -207,7 +198,7 @@ export default function ViewStd() {
                       placeholder="Netboard"
                     >
                       <option>Plese Select</option>
-                      {classList.map((e, index) => {
+                      {classList?.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>

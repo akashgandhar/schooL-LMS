@@ -1,7 +1,14 @@
-import { collection, getDocs } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import {
+  collection,
+  getAggregateFromServer,
+  getCountFromServer,
+  getDocs,
+  sum,
+} from "firebase/firestore";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
 import UserContext from "./context/userContext";
+import { UseStudentCountStream } from "../lib/firebase_read";
 
 export default function Card() {
   const [students, setStudents] = useState([]);
@@ -19,71 +26,66 @@ export default function Card() {
   }-${current.getFullYear()}`;
 
   const [totalinc, setTotalInc] = useState(0);
-  const [count, setCount] = useState(0);
 
-  const GetStudents = async () => {
-    if (count < 3) {
-      const docRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/AllStudents`
-      );
-      const docSnap = await getDocs(docRef);
-      var list = [];
-      docSnap.forEach((doc) => {
-        list.push(doc.data());
-      });
-      setStudents(list);
-      // console.log(count);
-      setCount(count + 1);
-    }
-  };
+  const GetStudentCount = useCallback(async () => {
+    const docRef = collection(
+      db,
+      `users/${a.user}/sessions/${a.session}/AllStudents`
+    );
+    const docSnap = await getCountFromServer(docRef);
 
-  const getIncome = async () => {
-    if (count < 3) {
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = 0;
-        docSnap.forEach((doc) => {
-          list += Number(doc.data().Total_Paid);
-        });
-        setTotalInc(list);
-        setCount(count + 1);
-      } catch (e) {
-        alert(e.message);
-      }
-    }
-  };
-
-  const getExpense = async () => {
-    if (count < 3) {
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = 0;
-        docSnap.forEach((doc) => {
-          list += Number(doc.data().Total_Paid);
-        });
-        setTotal(list);
-        setCount(count + 1);
-      } catch (e) {
-        alert(e.message);
-      }
-    }
-  };
+    setStudents(docSnap.data().count);
+  }, [a.user, a.session]);
 
   useEffect(() => {
-    GetStudents();
+    GetStudentCount();
+  }, [GetStudentCount]);
+
+  // const {data, error, isLoading} = UseStudentCountStream(a);
+
+  const getIncome = useCallback(async () => {
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${d}/income`
+      );
+
+      const snapshot = await getAggregateFromServer(docRef, {
+        totalIncome: sum("Total_Paid"),
+      });
+
+      console.log(snapshot.data());
+
+      setTotalInc(snapshot.data().totalIncome);
+    } catch (e) {
+      alert(e.message);
+    }
+  }, [a.user, a.session, d]);
+
+  useEffect(() => {
     getIncome();
+  }, [getIncome]);
+
+  const getExpense = useCallback(async () => {
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
+      );
+
+      const snapshot = await getAggregateFromServer(docRef, {
+        totalExpense: sum("Total_Paid"),
+      });
+
+      setTotal(snapshot.data().totalExpense);
+    } catch (e) {
+      alert(e.message);
+    }
+  }, [a.user, a.session, d]);
+
+  useEffect(() => {
     getExpense();
-    //  console.log("run");
-  }, [students, totalinc, total]);
+  }, [getExpense]);
 
   return (
     <div class="w-full px-6 py-6 mx-auto">
@@ -100,11 +102,8 @@ export default function Card() {
                       Total Strength
                     </p>
                     <h5 class="mb-0 font-bold">
-                      {
-                        students.filter(
-                          (e) => e.Deleted === false || e.Deleted === undefined
-                        ).length
-                      }
+                      {students ?? "Loading..."}
+
                       <span class="leading-normal text-sm font-weight-bolder text-lime-500"></span>
                     </h5>
                   </div>

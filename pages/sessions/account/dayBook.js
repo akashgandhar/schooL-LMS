@@ -61,22 +61,20 @@ export default function DayBook() {
   };
 
   const getExpense = async () => {
-    if (count < 2) {
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`
-        );
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setExpenseList(list);
-        setCount(count + 1);
-      } catch (e) {
-        alert(e.message);
-      }
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setExpenseList(list);
+      setCount(count + 1);
+    } catch (e) {
+      alert(e.message);
     }
   };
   // useEffect(() => {

@@ -26,13 +26,17 @@ function MyApp({ Component, pageProps }) {
           height={3}
           showOnShallow={true}
         />
-        <ExamProvider>
+        {/* under maintainance  */}
+        <div className="bg-red-500 text-white text-center p-3">
+          <h1>Site under maintainance</h1>
+        </div>
+        {/* <ExamProvider>
           <SubjectProvider>
             <MarkSheetProvider>
               <Component {...pageProps} />
             </MarkSheetProvider>
           </SubjectProvider>
-        </ExamProvider>
+        </ExamProvider> */}
       </UserState>
       <Analytics />
     </>

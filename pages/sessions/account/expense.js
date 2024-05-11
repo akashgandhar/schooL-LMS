@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { Input } from "postcss";
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../../components/context/userContext";
@@ -24,50 +31,49 @@ export default function Expense() {
   const [amount, setAmount] = useState();
   const [date, setDate] = useState(d);
   const router = useRouter();
-  const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
   const getExpense = async () => {
-    if(count<1){
-
-      try {
-        const docRef = collection(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
-          );
-          const docSnap = await getDocs(docRef);
-          var list = [];
-          docSnap.forEach((doc) => {
-            list.push(doc.data());
-          });
-          setExpenseList(list);
-          // console.log("run");
-          setCount(count+1)
-        } catch (e) {
-          alert(e.message);
-        }
+    try {
+      const docRef = collection(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${d}/expense`
+      );
+      const docSnap = await getDocs(docRef);
+      var list = [];
+      docSnap.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setExpenseList(list);
+      // console.log("run");
+      setCount(count + 1);
+    } catch (e) {
+      alert(e.message);
     }
   };
-  
-  
 
   const setExpense = async () => {
     try {
-        const docRef = doc(
-          db,
-          `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`,time
-        );
-            await setDoc(docRef,{
-                name: source,
-                Total_Paid:amount,
-                Time:time    
-            }).then(()=>{
-              alert("success")
-            })
-    }catch(e){alert(e.message)}
+      const docRef = doc(
+        db,
+        `users/${a.user}/sessions/${a.session}/dayBook/${date}/expense`,
+        time
+      );
+      await setDoc(docRef, {
+        name: source,
+        Total_Paid: amount,
+        Time: time,
+      }).then(() => {
+        alert("success");
+      });
+    } catch (e) {
+      alert(e.message);
+    }
   };
+
   useEffect(() => {
-    getExpense()
-  }, [expenseList])
+    getExpense();
+  }, [expenseList]);
 
   return (
     <>
@@ -132,16 +138,15 @@ export default function Expense() {
 
                   <button
                     onClick={() => {
-                      if(!date || !amount || !source){
-                        alert('Information Missing')
-                      }else{
-
+                      if (!date || !amount || !source) {
+                        alert("Information Missing");
+                      } else {
                         setExpense();
                       }
                     }}
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                   >
-                    Insert 
+                    Insert
                   </button>
                 </div>
               </div>
@@ -172,8 +177,8 @@ export default function Expense() {
                 <tbody class="block md:table-row-group">
                   {expenseList.map((e, index) => {
                     try {
-                        total += Number(e.Total_Paid);
-                      } catch {}
+                      total += Number(e.Total_Paid);
+                    } catch {}
                     return (
                       <tr
                         key={index}
@@ -230,8 +235,12 @@ export default function Expense() {
                   })}
                   <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"></td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">total</td>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">{total}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                      total
+                    </td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell font-bold text-red-600">
+                      {total}
+                    </td>
                   </tr>
                 </tbody>
               </table>

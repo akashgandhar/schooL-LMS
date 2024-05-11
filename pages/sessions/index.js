@@ -3,37 +3,17 @@ import { auth, db } from "../../firebase";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import UserContext from "../../components/context/userContext";
+import { UseSessionStream } from "../../lib/firebase_read";
 
 export default function Index() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [sessionList, setSessionList] = useState([]);
   const [sessionSelected, setSessionSelected] = useState();
   const a = useContext(UserContext);
 
   const [count, setCount] = useState(0);
 
-  const GetSessionList = async () => {
-    if (count < 1) {
-      try {
-        const docRef = collection(db, `users/${a.user}/sessions`);
-        const docSnap = await getDocs(docRef);
-        var list = [];
-        docSnap.forEach((doc) => {
-          list.push(doc.data());
-        });
-      } catch (e) {
-        alert(e.message);
-      }
-      // console.log("run");
-      setSessionList(list);
-      setCount(count + 1);
-    }
-  };
-
-  // useEffect(() => {
-  //   GetSessionList();
-  // }, [sessionList]);
+  const { data: sessionList, error, isLoading } = UseSessionStream(a);
 
   const setCurrentSession = async (value) => {
     updateProfile(auth.currentUser, {
@@ -139,7 +119,6 @@ export default function Index() {
                     </label>
                     <div>
                       <select
-                        onClick={GetSessionList}
                         onChange={(e) => {
                           setSessionSelected(e.target.value);
                         }}
@@ -147,7 +126,7 @@ export default function Index() {
                         id="location"
                       >
                         <option>Select_Session</option>
-                        {sessionList.map((e, index) => {
+                        {sessionList?.map((e, index) => {
                           return <option key={index}>{e.Name}</option>;
                         })}
                       </select>
@@ -165,7 +144,6 @@ export default function Index() {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>

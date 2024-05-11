@@ -12,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../../components/context/userContext";
+import { UseClassStream } from "../../../lib/firebase_read";
+import Loader from "../../../components/loader";
 
 export default function Classes() {
   const a = useContext(UserContext);
@@ -19,11 +21,8 @@ export default function Classes() {
   const [className, setClassName] = useState("");
   const [noSections, setNoSections] = useState("");
   const [classFee, setClassFee] = useState();
-  const [classList, setClassList] = useState([]);
 
-  useEffect(() => {
-    GetClassList();
-  }, [classList]);
+  const { data: classList, error, isLoading } = UseClassStream(a);
 
   const createSections = async (nam, num) => {
     for (let i = 1; i <= num; i++) {
@@ -60,18 +59,18 @@ export default function Classes() {
     }
   };
 
-  const GetClassList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/classes`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setClassList(list);
-  };
+  // const GetClassList = async () => {
+  //   const docRef = collection(
+  //     db,
+  //     `users/${a.user}/sessions/${a.session}/classes`
+  //   );
+  //   const docSnap = await getDocs(docRef);
+  //   var list = [];
+  //   docSnap.forEach((doc) => {
+  //     list.push(doc.data());
+  //   });
+  //   setClassList(list);
+  // };
 
   const [isConfirm, setIsConfirm] = useState(false);
 
@@ -124,15 +123,6 @@ export default function Classes() {
       console.log(error);
     }
   };
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  if (isLoading)
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    );
 
   return (
     <>
@@ -224,92 +214,100 @@ export default function Classes() {
             </div>
 
             <div>
-              <table class="min-w-full border-collapse block md:table">
-                <thead class="block md:table-header-group">
-                  <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Classs Name
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Sections
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Class Teacher
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Strength
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="block md:table-row-group">
-                  {classList.map((e, index) => {
-                    return (
-                      <tr
-                        key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                      >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Name
-                          </span>
-                          {e.Name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            sections
-                          </span>
-                          {e.No_Of_Sections}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            classTeacher
-                          </span>
-                          {e.classTeacher}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Strength
-                          </span>
-                          {e.Strength}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Actions
-                          </span>
+              {isLoading ? (
+                <Loader />
+              ) : error ? (
+                <h1 className="text-center font-bold text-2xl">
+                  No Classes Found
+                </h1>
+              ) : (
+                <table class="min-w-full border-collapse block md:table">
+                  <thead class="block md:table-header-group">
+                    <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Classs Name
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Sections
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Class Teacher
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Strength
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="block md:table-row-group">
+                    {classList?.map((e, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                        >
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Name
+                            </span>
+                            {e.Name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              sections
+                            </span>
+                            {e.No_Of_Sections}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              classTeacher
+                            </span>
+                            {e.classTeacher}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Strength
+                            </span>
+                            {e.Strength}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Actions
+                            </span>
 
-                          <button
-                            onClick={() => {
-                              setIsConfirm(true);
-                            }}
-                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-                          >
-                            Delete
-                          </button>
-                          {isConfirm && (
                             <button
                               onClick={() => {
-                                const docRef = doc(
-                                  db,
-                                  `users/${a.user}/sessions/${a.session}/classes`,
-                                  e.Name
-                                );
-                                deleteDoc(docRef);
-                                setIsConfirm(false);
+                                setIsConfirm(true);
                               }}
                               class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
                             >
-                              Confirm
+                              Delete
                             </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                            {isConfirm && (
+                              <button
+                                onClick={() => {
+                                  const docRef = doc(
+                                    db,
+                                    `users/${a.user}/sessions/${a.session}/classes`,
+                                    e.Name
+                                  );
+                                  deleteDoc(docRef);
+                                  setIsConfirm(false);
+                                }}
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                              >
+                                Confirm
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

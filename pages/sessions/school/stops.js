@@ -2,9 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import Nav from "../../../components/navbar";
 import Header from "../../../components/dropdown";
 import { auth, db } from "../../../firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import UserContext from "../../../components/context/userContext";
+import { UseBusStream, UseStopsStream } from "../../../lib/firebase_read";
+import Loader from "../../../components/loader";
 
 export default function Stops() {
   const a = useContext(UserContext);
@@ -12,13 +21,13 @@ export default function Stops() {
   const [stopName, setStopName] = useState("");
   const [stopFee, setStopFee] = useState();
   const [stopBus, setStopBus] = useState("");
-  const [stopList, setStopList] = useState([]);
-  const [busList, setBusList] = useState([]);
 
-  useEffect(() => {
-    GetStopList();
-    GetBusList();
-  }, [stopList]);
+  const {
+    data: busList,
+    error: busError,
+    isLoading: busLoading,
+  } = UseBusStream(a);
+  const { data: stopList, error: error, isLoading } = UseStopsStream(a);
 
   const createStop = async (name, fee, bus) => {
     if (!name || !fee || !bus) {
@@ -37,32 +46,6 @@ export default function Stops() {
         console.error("Error adding document: ", e);
       }
     }
-  };
-
-  const GetBusList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/buses`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setBusList(list);
-  };
-
-  const GetStopList = async () => {
-    const docRef = collection(
-      db,
-      `users/${a.user}/sessions/${a.session}/stops`
-    );
-    const docSnap = await getDocs(docRef);
-    var list = [];
-    docSnap.forEach((doc) => {
-      list.push(doc.data());
-    });
-    setStopList(list);
   };
 
   const [isConfirm, setIsConfirm] = useState(false);
@@ -127,7 +110,7 @@ export default function Stops() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>please select</option>
-                      {busList.map((e,index) => {
+                      {busList?.map((e, index) => {
                         return <option key={index}>{e.Bus_Number}</option>;
                       })}
                     </select>
@@ -145,73 +128,88 @@ export default function Stops() {
             </div>
 
             <div>
-              <table class="min-w-full border-collapse block md:table">
-                <thead class="block md:table-header-group">
-                  <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Stop Number
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Stop Bus
-                    </th>
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Stop Fee
-                    </th>
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <table class="min-w-full border-collapse block md:table">
+                  <thead class="block md:table-header-group">
+                    <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Stop Number
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Stop Bus
+                      </th>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Stop Fee
+                      </th>
 
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="block md:table-row-group">
-                  {stopList.map((e, index) => {
-                    return (
-                      <tr
-                        key={index}
-                        class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
-                      >
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            name
-                          </span>
-                          {e.Stop_Name}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            bus
-                          </span>
-                          {e.Stop_Bus}
-                        </td>
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            fee
-                          </span>
-                          {e.Stop_Fee}
-                        </td>
+                      <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="block md:table-row-group">
+                    {stopList?.map((e, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          class="bg-gray-300 border border-grey-500 md:border-none block md:table-row"
+                        >
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              name
+                            </span>
+                            {e.Stop_Name}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              bus
+                            </span>
+                            {e.Stop_Bus}
+                          </td>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              fee
+                            </span>
+                            {e.Stop_Fee}
+                          </td>
 
-                        <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                          <span class="inline-block w-1/3 md:hidden font-bold">
-                            Actions
-                          </span>
-                          <button onClick={()=>{
-                           setIsConfirm(true)
-                          }} class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">
-                            Delete
-                          </button>
-                          {isConfirm && <button onClick={()=>{
-                            const docRef = doc(db,`users/${a.user}/sessions/${a.session}/stops`,e.Stop_Name);
-                            deleteDoc(docRef);
-                            setIsConfirm(false);
-                          }} class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">
-                            Confirm
-                          </button>}
-                          
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                            <span class="inline-block w-1/3 md:hidden font-bold">
+                              Actions
+                            </span>
+                            <button
+                              onClick={() => {
+                                setIsConfirm(true);
+                              }}
+                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                            >
+                              Delete
+                            </button>
+                            {isConfirm && (
+                              <button
+                                onClick={() => {
+                                  const docRef = doc(
+                                    db,
+                                    `users/${a.user}/sessions/${a.session}/stops`,
+                                    e.Stop_Name
+                                  );
+                                  deleteDoc(docRef);
+                                  setIsConfirm(false);
+                                }}
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
+                              >
+                                Confirm
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>
