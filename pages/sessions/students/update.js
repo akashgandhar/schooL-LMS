@@ -23,6 +23,7 @@ import { async } from "@firebase/util";
 import { Input } from "postcss";
 import DatePicker from "react-datepicker";
 import "@coreui/coreui/dist/css/coreui.min.css";
+import "react-html5-camera-photo/build/css/index.css";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
