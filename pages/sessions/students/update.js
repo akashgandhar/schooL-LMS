@@ -22,11 +22,19 @@ import UserContext from "../../../components/context/userContext";
 import { async } from "@firebase/util";
 import { Input } from "postcss";
 import DatePicker from "react-datepicker";
+import "@coreui/coreui/dist/css/coreui.min.css";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UseClassStream } from "../../../lib/firebase_read";
-import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from "@coreui/react";
+import {
+  CButton,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+} from "@coreui/react";
 import Camera from "react-html5-camera-photo";
 
 export default function NewStudent() {
@@ -715,7 +723,6 @@ export default function NewStudent() {
     return new Blob([u8arr], { type: mime });
   }
 
-
   useEffect(() => {
     // console.log("DATE : " + s.Admission_Date);
     const GetClassFee = async () => {
@@ -768,7 +775,8 @@ export default function NewStudent() {
           </CModalBody>
 
           <CModalFooter>
-            <CButton disabled={!image}
+            <CButton
+              disabled={!image}
               color="primary"
               onClick={() => {
                 handleUpload(image);
@@ -808,7 +816,11 @@ export default function NewStudent() {
                   )}
                 </section>
                 <div className="flex items-center justify-center max-w-fit mx-auto pb-10">
-                  <img className="w-52 h-52 rounded-full" src={imgUrl} />
+                  <img
+                    className="w-52 h-52 rounded-full cursor-pointer"
+                    onClick={() => setVisible(!visible)}
+                    src={imgUrl}
+                  />
                 </div>
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -818,7 +830,8 @@ export default function NewStudent() {
                     >
                       Student ID *
                     </label>
-                    <input disabled
+                    <input
+                      disabled
                       value={sr}
                       onChange={(e) => {
                         setSr(e.target.value);
@@ -836,7 +849,8 @@ export default function NewStudent() {
                     >
                       Student Sr*
                     </label>
-                    <input disabled
+                    <input
+                      disabled
                       value={id}
                       onChange={(e) => {
                         setId(e.target.value);
