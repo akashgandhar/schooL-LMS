@@ -1284,8 +1284,8 @@ export default function NewStudent() {
 
           <CModalFooter>
             <CButton
-              disabled={!image}
-              color="primary"
+              disabled={image === "nil"}
+              color={image === "nil" ? "secondary" : "primary"}
               onClick={() => {
                 handleUpload(image);
               }}
