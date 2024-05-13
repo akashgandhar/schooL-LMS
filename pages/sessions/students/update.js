@@ -759,7 +759,7 @@ export default function NewStudent() {
                     >
                       Student ID *
                     </label>
-                    <input
+                    <input disabled
                       value={sr}
                       onChange={(e) => {
                         setSr(e.target.value);
@@ -777,7 +777,7 @@ export default function NewStudent() {
                     >
                       Student Sr*
                     </label>
-                    <input
+                    <input disabled
                       value={id}
                       onChange={(e) => {
                         setId(e.target.value);
