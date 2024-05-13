@@ -22,8 +22,18 @@ import UserContext from "../../../components/context/userContext";
 import { async } from "@firebase/util";
 import { Input } from "postcss";
 import DatePicker from "react-datepicker";
-
+import Camera from "react-html5-camera-photo";
+import "react-html5-camera-photo/build/css/index.css";
+import "@coreui/coreui/dist/css/coreui.min.css";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  CButton,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+} from "@coreui/react";
 
 export default function NewStudent() {
   const router = useRouter();
@@ -69,7 +79,7 @@ export default function NewStudent() {
   const [admissionYear, setAdmissionYear] = useState("");
   const [aadharStatus, setAadharStatus] = useState("");
   const [house, setHouse] = useState();
-
+  const [visible, setVisible] = useState(false);
   const [tcFile, setTcFile] = useState("nil");
   const [aadharFile, setAadharFile] = useState("nil");
   const [image, setImage] = useState("nil");
@@ -323,6 +333,7 @@ export default function NewStudent() {
         },
         () => {
           alert("uploaded");
+          setVisible(false);
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
           });
@@ -1206,6 +1217,30 @@ export default function NewStudent() {
     setIsLoading(false);
   };
 
+  function handleTakePhoto(dataUri) {
+    // Do stuff with the photo...
+    console.log("takePhoto");
+    console.log(dataUri);
+
+    const res = dataURLtoBlob(dataUri);
+
+    setImage(res);
+  }
+
+  console.log(image);
+
+  function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  }
+
   if (isLoading) {
     return (
       <div>
@@ -1226,7 +1261,49 @@ export default function NewStudent() {
   }
 
   return (
-    <div className="h-auto">
+    <div className={`h-auto`}>
+      <>
+        <CModal
+          alignment="center"
+          visible={visible}
+          onClose={() => setVisible(false)}
+          aria-labelledby="VerticallyCenteredExample"
+        >
+          <CModalHeader>
+            <CModalTitle id="VerticallyCenteredExample">
+              Click Picture
+            </CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <Camera
+              onTakePhoto={(dataUri) => {
+                handleTakePhoto(dataUri);
+              }}
+            />
+          </CModalBody>
+
+          <CModalFooter>
+            <CButton
+              disabled={!image}
+              color="primary"
+              onClick={() => {
+                handleUpload(image);
+              }}
+            >
+              Upload
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      </>
+      {/* {isCamera && (
+        <div className="absolute w-screen h-screen flex justify-center items-start overflow-hidden z-50 bg-gray-50/80 ">
+          <Camera
+            onTakePhoto={(dataUri) => {
+              handleTakePhoto(dataUri);
+            }}
+          />
+        </div>
+      )} */}
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen  bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
@@ -1281,6 +1358,7 @@ export default function NewStudent() {
                   <input
                     onChange={(e) => {
                       setImage(e.target.files[0]);
+                      console.log(e.target.files[0]);
                     }}
                     id="company"
                     type="file"
@@ -1297,8 +1375,13 @@ export default function NewStudent() {
                     </button>
                   )}
                 </section>
+
                 <div className="flex items-center justify-center max-w-fit mx-auto pb-10">
-                  <img className="w-52 h-52 rounded-full" src={imgUrl} />
+                  <img
+                    onClick={() => setVisible(!visible)}
+                    className="w-52 h-52 rounded-full cursor-pointer "
+                    src={imgUrl}
+                  />
                 </div>
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">

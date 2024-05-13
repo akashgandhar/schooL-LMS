@@ -26,6 +26,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UseClassStream } from "../../../lib/firebase_read";
+import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from "@coreui/react";
+import Camera from "react-html5-camera-photo";
 
 export default function NewStudent() {
   const router = useRouter();
@@ -74,7 +76,7 @@ export default function NewStudent() {
   const [admissionYear, setAdmissionYear] = useState("");
   const [aadharStatus, setAadharStatus] = useState(s.Aadhar_Available);
   const [house, setHouse] = useState(s.House);
-
+  const [visible, setVisible] = useState(false);
   const [subject1, setSubject1] = useState(s.Subject1 ?? "no subject");
   const [subject2, setSubject2] = useState(s.Subject2 ?? "no subject");
   const [subject3, setSubject3] = useState(s.Subject3 ?? "no subject");
@@ -689,6 +691,31 @@ export default function NewStudent() {
     }
   };
 
+  function handleTakePhoto(dataUri) {
+    // Do stuff with the photo...
+    console.log("takePhoto");
+    console.log(dataUri);
+
+    const res = dataURLtoBlob(dataUri);
+
+    setImage(res);
+  }
+
+  console.log(image);
+
+  function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  }
+
+
   useEffect(() => {
     // console.log("DATE : " + s.Admission_Date);
     const GetClassFee = async () => {
@@ -720,6 +747,38 @@ export default function NewStudent() {
 
   return (
     <div className="h-auto">
+      <>
+        <CModal
+          alignment="center"
+          visible={visible}
+          onClose={() => setVisible(false)}
+          aria-labelledby="VerticallyCenteredExample"
+        >
+          <CModalHeader>
+            <CModalTitle id="VerticallyCenteredExample">
+              Click Picture
+            </CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <Camera
+              onTakePhoto={(dataUri) => {
+                handleTakePhoto(dataUri);
+              }}
+            />
+          </CModalBody>
+
+          <CModalFooter>
+            <CButton disabled={!image}
+              color="primary"
+              onClick={() => {
+                handleUpload(image);
+              }}
+            >
+              Upload
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      </>
       <div className="w-screen">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen   py-20 px-12 lg:px-24 shadow-xl mb-24">
