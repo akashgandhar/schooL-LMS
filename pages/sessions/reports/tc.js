@@ -142,7 +142,7 @@ export default function Tc() {
                     </center>
                   </div>
                   <img
-                    src="	https://mjpssadabad.in/mdls/report/cbse-logo.png"
+                    src="/cbseimg.jpg"
                     className="float-right ml-7 mt-2 mr-8 h-28"
                   />
                 </td>
