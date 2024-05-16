@@ -79,7 +79,7 @@ export default function ViewStd() {
       if (isNumeric) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("Sr_Number", "==", parseInt(queryStr))
+          where("Sr_Number", "==", queryStr)
         );
       } else {
         // Search for substring match in student names
