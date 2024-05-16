@@ -74,32 +74,38 @@ export default function Ledger() {
   const [q2, setQ2] = useState("");
 
   const searchStudents = async () => {
-    if (q2 == "") {
+    if (q2 === "") {
       return;
     }
-
+  
     try {
-      var q = parseInt(q2);
-
-      var docRef = "";
-
-      if (isNaN(q)) {
+      // Assuming q2 is a string
+      const queryStr = q2.trim(); // Remove leading/trailing spaces
+      const isNumeric = /^\d+$/.test(queryStr); // Check if the query is numeric
+  
+      var docRef;
+  
+      if (isNumeric) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", "<=", q2 + "\uf8ff")
+          where("Sr_Number", "==", parseInt(queryStr))
         );
       } else {
+        // Search for substring match in student names
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("Sr_Number", "==", q2)
+          where("name", ">=", queryStr),
+          where("name", "<=", queryStr + "\uf8ff")
         );
       }
-
+  
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
+  
+      console.log(list);
       setStudents(list);
     } catch (e) {
       console.log(e);

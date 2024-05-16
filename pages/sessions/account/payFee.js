@@ -84,25 +84,39 @@ export default function PayFee() {
   const [q, setQ] = useState();
   const [q2, setQ2] = useState("");
 
-  const searchStudents = async (ss) => {
+  const searchStudents = async () => {
+    if (q2 === "") {
+      return;
+    }
+  
     try {
+      // Assuming q2 is a string
+      const queryStr = q2.trim(); // Remove leading/trailing spaces
+      const isNumeric = /^\d+$/.test(queryStr); // Check if the query is numeric
+  
       var docRef;
-      if (ss > 1) {
+  
+      if (isNumeric) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("Sr_Number", "==", parseInt(queryStr))
         );
       } else {
+        // Search for substring match in student names
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", ss)
+          where("name", ">=", queryStr),
+          where("name", "<=", queryStr + "\uf8ff")
         );
       }
+  
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
+  
+      console.log(list);
       setStudents(list);
     } catch (e) {
       console.log(e);
