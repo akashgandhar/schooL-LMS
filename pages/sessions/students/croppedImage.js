@@ -1,3 +1,7 @@
+'use client'
+
+
+
 export const createImage = (url) =>
     new Promise((resolve, reject) => {
       const image = new Image()
