@@ -94,13 +94,11 @@ export const createImage = (url) =>
     )
   
     // As Base64 string
-    // return croppedCanvas.toDataURL('image/jpeg');
+    return croppedCanvas.toDataURL('image/jpeg');
   
-    // As a blob
-    return new Promise((resolve, reject) => {
-      croppedCanvas.toBlob((file) => {
-        resolve(file)
-      }, 'image/jpeg')
-    })
+    // // As a blob
+    // return new Promise((resolve, reject) => {
+    //   croppedCanvas.toDataURL('image/jpeg')
+    // })
   }
   

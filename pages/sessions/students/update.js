@@ -747,8 +747,10 @@ export default function NewStudent() {
     const croppedImage = await GetCroppedImg(
       uncroppedImage,croppedAreaPixels,rotation
     )
-    setImage(croppedImage);
-    console.log(croppedImage);
+    console.log("cropped", croppedImage);
+    const res = dataURLtoBlob(croppedImage)
+    setImage(res);
+    console.log("res",res);
   }
 
   useEffect(() => {
@@ -827,7 +829,7 @@ export default function NewStudent() {
               Upload
             </CButton>
             <CButton
-              disabled={image === "nil"}
+              
               color="secondary" 
               onClick={() => {
                 setImageClicked(false);
