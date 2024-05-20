@@ -34,6 +34,9 @@ import {
   CModalHeader,
   CModalTitle,
 } from "@coreui/react";
+import Cropper from 'react-easy-crop'
+import getCroppedImg from "./croppedImage";
+
 
 export default function NewStudent() {
   const router = useRouter();
@@ -105,9 +108,8 @@ export default function NewStudent() {
     current.getTime()
   );
 
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  const d = `${current.getDate()}-${current.getMonth() + 1
+    }-${current.getFullYear()}`;
 
   const [date, setDate] = useState(current);
   const [dob, setDob] = useState(current);
@@ -173,7 +175,7 @@ export default function NewStudent() {
             rteStatus === "Yes" || ward === "Yes"
               ? 0
               : classFee * (months.indexOf(e) + 1) +
-                CalculatTransport(e, transportFee, months.indexOf(e) + 1),
+              CalculatTransport(e, transportFee, months.indexOf(e) + 1),
         }).then(async () => {
           const dueRef = doc(
             db,
@@ -197,7 +199,7 @@ export default function NewStudent() {
             });
           }
         });
-      } catch {}
+      } catch { }
     });
   };
   const createAccount = async () => {
@@ -429,7 +431,7 @@ export default function NewStudent() {
         !house ||
         !addSub ||
         !religion,
-      !file || !pen || !id)
+        !file || !pen || !id)
     ) {
       alert("some information is missing");
     } else {
@@ -447,7 +449,7 @@ export default function NewStudent() {
         querySnapshot.forEach((doc) => {
           oldSr.push(doc.data().Sr_Number);
         });
-      } catch {}
+      } catch { }
 
       if (oldSr.length >= 1) {
         alert("SID already exist");
@@ -648,32 +650,32 @@ export default function NewStudent() {
           e.Class === "NRY"
             ? "LKG"
             : e.Class === "LKG"
-            ? "UKG"
-            : e.Class === "UKG"
-            ? "I"
-            : e.Class === "I"
-            ? "II"
-            : e.Class === "II"
-            ? "III"
-            : e.Class === "III"
-            ? "IV"
-            : e.Class === "IV"
-            ? "V"
-            : e.Class === "V"
-            ? "VI"
-            : e.Class === "VI"
-            ? "VII"
-            : e.Class === "VII"
-            ? "VIII"
-            : e.Class === "VIII"
-            ? "IX"
-            : e.Class === "IX"
-            ? "X"
-            : e.Class === "X"
-            ? "XI"
-            : e.Class === "XI"
-            ? "XII"
-            : "NRY";
+              ? "UKG"
+              : e.Class === "UKG"
+                ? "I"
+                : e.Class === "I"
+                  ? "II"
+                  : e.Class === "II"
+                    ? "III"
+                    : e.Class === "III"
+                      ? "IV"
+                      : e.Class === "IV"
+                        ? "V"
+                        : e.Class === "V"
+                          ? "VI"
+                          : e.Class === "VI"
+                            ? "VII"
+                            : e.Class === "VII"
+                              ? "VIII"
+                              : e.Class === "VIII"
+                                ? "IX"
+                                : e.Class === "IX"
+                                  ? "X"
+                                  : e.Class === "X"
+                                    ? "XI"
+                                    : e.Class === "XI"
+                                      ? "XII"
+                                      : "NRY";
 
         // const cfees = await GetNewClassFee(newClass);
         // const tfees = await GetNewTransportFee(e.BusStop_Name);
@@ -1019,32 +1021,32 @@ export default function NewStudent() {
           e.Class === "NRY"
             ? "LKG"
             : e.Class === "LKG"
-            ? "UKG"
-            : e.Class === "UKG"
-            ? "I"
-            : e.Class === "I"
-            ? "II"
-            : e.Class === "II"
-            ? "III"
-            : e.Class === "III"
-            ? "IV"
-            : e.Class === "IV"
-            ? "V"
-            : e.Class === "V"
-            ? "VI"
-            : e.Class === "VI"
-            ? "VII"
-            : e.Class === "VII"
-            ? "VIII"
-            : e.Class === "VIII"
-            ? "IX"
-            : e.Class === "IX"
-            ? "X"
-            : e.Class === "X"
-            ? "XI"
-            : e.Class === "XI"
-            ? "XII"
-            : "OLD";
+              ? "UKG"
+              : e.Class === "UKG"
+                ? "I"
+                : e.Class === "I"
+                  ? "II"
+                  : e.Class === "II"
+                    ? "III"
+                    : e.Class === "III"
+                      ? "IV"
+                      : e.Class === "IV"
+                        ? "V"
+                        : e.Class === "V"
+                          ? "VI"
+                          : e.Class === "VI"
+                            ? "VII"
+                            : e.Class === "VII"
+                              ? "VIII"
+                              : e.Class === "VIII"
+                                ? "IX"
+                                : e.Class === "IX"
+                                  ? "X"
+                                  : e.Class === "X"
+                                    ? "XI"
+                                    : e.Class === "XI"
+                                      ? "XII"
+                                      : "OLD";
 
         var marchFee = 0;
         var oldoldDues = 0;
@@ -1062,22 +1064,22 @@ export default function NewStudent() {
           if (docSnapMarch.exists) {
             marchFee =
               docSnapMarch.data()?.month_Due === undefined ||
-              docSnapMarch.data()?.month_Due == NaN ||
-              docSnapMarch.data()?.transport_due == NaN ||
-              docSnapMarch.data()?.transport_due == undefined
+                docSnapMarch.data()?.month_Due == NaN ||
+                docSnapMarch.data()?.transport_due == NaN ||
+                docSnapMarch.data()?.transport_due == undefined
                 ? 0
                 : Number(
-                    docSnapMarch.data().month_Due > 0
-                      ? docSnapMarch.data().month_Due
+                  docSnapMarch.data().month_Due > 0
+                    ? docSnapMarch.data().month_Due
+                    : 0
+                ) +
+                  +Number(
+                    docSnapMarch.data().transport_due > 0
+                      ? docSnapMarch.data().transport_due
                       : 0
-                  ) +
-                    +Number(
-                      docSnapMarch.data().transport_due > 0
-                        ? docSnapMarch.data().transport_due
-                        : 0
-                    ) >
+                  ) >
                   0
-                ? Number(
+                  ? Number(
                     docSnapMarch.data().month_Due > 0
                       ? docSnapMarch.data().month_Due
                       : 0
@@ -1087,7 +1089,7 @@ export default function NewStudent() {
                       ? docSnapMarch.data().transport_due
                       : 0
                   )
-                : 0;
+                  : 0;
             console.log(docSnapMarch.data());
           } else {
             marchFee = 0;
@@ -1104,11 +1106,11 @@ export default function NewStudent() {
           if (docSnapOldDues.exists) {
             oldoldDues =
               docSnapOldDues.data()?.total === undefined ||
-              docSnapOldDues.data()?.total == NaN
+                docSnapOldDues.data()?.total == NaN
                 ? 0
                 : docSnapOldDues.data().total > 0
-                ? docSnapOldDues.data().total
-                : 0;
+                  ? docSnapOldDues.data().total
+                  : 0;
             console.log(docSnapOldDues.data());
           }
 
@@ -1123,11 +1125,11 @@ export default function NewStudent() {
           if (docSnapAdmission.exists) {
             AdmissionFee =
               docSnapAdmission.data()?.total === undefined ||
-              docSnapAdmission.data()?.total == NaN
+                docSnapAdmission.data()?.total == NaN
                 ? 0
                 : docSnapAdmission.data().total > 0
-                ? docSnapAdmission.data().total
-                : 0;
+                  ? docSnapAdmission.data().total
+                  : 0;
             console.log(docSnapAdmission.data());
           }
 
@@ -1142,11 +1144,11 @@ export default function NewStudent() {
           if (docSnapOtherDues.exists) {
             otherDues =
               docSnapOtherDues.data()?.total === undefined ||
-              docSnapOtherDues.data()?.total == NaN
+                docSnapOtherDues.data()?.total == NaN
                 ? 0
                 : docSnapOtherDues.data().total > 0
-                ? docSnapOtherDues.data().total
-                : 0;
+                  ? docSnapOtherDues.data().total
+                  : 0;
 
             console.log(docSnapOtherDues.data());
           }
@@ -1162,20 +1164,20 @@ export default function NewStudent() {
           if (docSnapExamDues.exists) {
             examDues =
               docSnapExamDues.data()?.total === undefined ||
-              docSnapExamDues.data()?.total == NaN
+                docSnapExamDues.data()?.total == NaN
                 ? 0
                 : docSnapExamDues.data().total > 0
-                ? docSnapExamDues.data().total
-                : 0;
+                  ? docSnapExamDues.data().total
+                  : 0;
             console.log(docSnapExamDues.data());
           }
 
           console.log(
             Number(oldoldDues) +
-              Number(marchFee) +
-              Number(AdmissionFee) +
-              Number(otherDues) +
-              Number(examDues)
+            Number(marchFee) +
+            Number(AdmissionFee) +
+            Number(otherDues) +
+            Number(examDues)
           );
 
           await setDoc(
@@ -1217,6 +1219,9 @@ export default function NewStudent() {
     setIsLoading(false);
   };
 
+  const [uncroppedImage, setUncroppedImage] = useState();
+  const [imageClicked, setImageClicked] = useState(false);
+
   function handleTakePhoto(dataUri) {
     // Do stuff with the photo...
     console.log("takePhoto");
@@ -1224,8 +1229,15 @@ export default function NewStudent() {
 
     const res = dataURLtoBlob(dataUri);
 
-    setImage(res);
+    setUncroppedImage(dataUri);
+
+    setImageClicked(true);
+
+
+    // setImage(res);
   }
+
+
 
   console.log(image);
 
@@ -1239,6 +1251,23 @@ export default function NewStudent() {
       u8arr[n] = bstr.charCodeAt(n);
     }
     return new Blob([u8arr], { type: mime });
+  }
+
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  const [croppedImage, setCroppedImage] = useState(null)
+
+  const onCropComplete = async(croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+
+    const croppedImage = await getCroppedImg(
+      uncroppedImage,croppedAreaPixels,rotation
+    )
+    setImage(croppedImage);
+    console.log(croppedImage);
   }
 
   if (isLoading) {
@@ -1275,11 +1304,25 @@ export default function NewStudent() {
             </CModalTitle>
           </CModalHeader>
           <CModalBody>
-            <Camera
+            {!imageClicked ? <Camera
               onTakePhoto={(dataUri) => {
                 handleTakePhoto(dataUri);
+
               }}
-            />
+            /> : <div className="w-full h-[400px]">
+              <Cropper
+                image={uncroppedImage}
+                crop={crop}
+                rotation={rotation}
+                zoom={zoom}
+                aspect={4 / 4}
+                onCropChange={setCrop}
+                onRotationChange={setRotation}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+              /></div>
+
+            }
           </CModalBody>
 
           <CModalFooter>
@@ -1291,6 +1334,17 @@ export default function NewStudent() {
               }}
             >
               Upload
+            </CButton>
+            <CButton
+              disabled={image === "nil"}
+              color="secondary" 
+              onClick={() => {
+                setImageClicked(false);
+                setUncroppedImage(null);
+                setImage(null);
+              }}
+            >
+              Discard
             </CButton>
           </CModalFooter>
         </CModal>

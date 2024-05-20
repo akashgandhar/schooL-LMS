@@ -37,6 +37,9 @@ import {
   CModalTitle,
 } from "@coreui/react";
 import Camera from "react-html5-camera-photo";
+import Cropper from 'react-easy-crop'
+import getCroppedImg from "./croppedImage";
+
 
 export default function NewStudent() {
   const router = useRouter();
@@ -700,6 +703,9 @@ export default function NewStudent() {
     }
   };
 
+  const [uncroppedImage, setUncroppedImage] = useState();
+  const [imageClicked, setImageClicked] = useState(false);
+
   function handleTakePhoto(dataUri) {
     // Do stuff with the photo...
     console.log("takePhoto");
@@ -707,7 +713,12 @@ export default function NewStudent() {
 
     const res = dataURLtoBlob(dataUri);
 
-    setImage(res);
+    setUncroppedImage(dataUri);
+
+    setImageClicked(true);
+
+
+    // setImage(res);
   }
 
   console.log(image);
@@ -722,6 +733,22 @@ export default function NewStudent() {
       u8arr[n] = bstr.charCodeAt(n);
     }
     return new Blob([u8arr], { type: mime });
+  }
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  const [croppedImage, setCroppedImage] = useState(null)
+
+  const onCropComplete = async(croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+
+    const croppedImage = await getCroppedImg(
+      uncroppedImage,croppedAreaPixels,rotation
+    )
+    setImage(croppedImage);
+    console.log(croppedImage);
   }
 
   useEffect(() => {
@@ -768,22 +795,47 @@ export default function NewStudent() {
             </CModalTitle>
           </CModalHeader>
           <CModalBody>
-            <Camera
+            {!imageClicked ? <Camera
               onTakePhoto={(dataUri) => {
                 handleTakePhoto(dataUri);
+
               }}
-            />
+            /> : <div className="w-full h-[400px]">
+              <Cropper
+                image={uncroppedImage}
+                crop={crop}
+                rotation={rotation}
+                zoom={zoom}
+                aspect={4 / 4}
+                onCropChange={setCrop}
+                onRotationChange={setRotation}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+              /></div>
+
+            }
           </CModalBody>
 
           <CModalFooter>
             <CButton
               disabled={image === "nil"}
-              color={image==="nil"?"secondary":"primary"}
+              color={image === "nil" ? "secondary" : "primary"}
               onClick={() => {
                 handleUpload(image);
               }}
             >
               Upload
+            </CButton>
+            <CButton
+              disabled={image === "nil"}
+              color="secondary" 
+              onClick={() => {
+                setImageClicked(false);
+                setUncroppedImage(null);
+                setImage(null);
+              }}
+            >
+              Discard
             </CButton>
           </CModalFooter>
         </CModal>
