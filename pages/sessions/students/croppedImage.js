@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 export const CreateImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -32,7 +34,7 @@ export function RotateSize(width, height, rotation) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-export default async function GetCroppedImg(
+ async function NoSSRYourComponent(
   imageSrc,
   pixelCrop,
   rotation = 0,
@@ -101,3 +103,10 @@ export default async function GetCroppedImg(
   //   croppedCanvas.toDataURL('image/jpeg')
   // })
 }
+
+
+const GetCroppedImg = dynamic(() => Promise.resolve(NoSSRYourComponent), {
+  ssr: false,
+})
+
+export default GetCroppedImg;
