@@ -1,18 +1,16 @@
-
-
-
+'use client'
 
 export const createImage = (url) =>
     new Promise((resolve, reject) => {
       const image = new Image()
-      image.addEventListener('load', () => resolve(image))
-      image.addEventListener('error', (error) => reject(error))
-      image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
+      image?.addEventListener('load', () => resolve(image))
+      image?.addEventListener('error', (error) => reject(error))
+      image?.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
       image.src = url
     })
   
   export function getRadianAngle(degreeValue) {
-    return (degreeValue * Math.PI) / 180
+    return (degreeValue * Math?.PI) / 180
   }
   
   /**
@@ -23,9 +21,9 @@ export const createImage = (url) =>
   
     return {
       width:
-        Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+        Math?.abs(Math?.cos(rotRad) * width) + Math?.abs(Math?.sin(rotRad) * height),
       height:
-        Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+        Math?.abs(Math?.sin(rotRad) * width) + Math?.abs(Math?.cos(rotRad) * height),
     }
   }
   
@@ -39,8 +37,8 @@ export const createImage = (url) =>
     flip = { horizontal: false, vertical: false }
   ) {
     const image = await createImage(imageSrc)
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
+    const canvas = document?.createElement('canvas')
+    const ctx = canvas?.getContext('2d')
   
     if (!ctx) {
       return null
@@ -60,28 +58,28 @@ export const createImage = (url) =>
     canvas.height = bBoxHeight
   
     // translate canvas context to a central location to allow rotating and flipping around the center
-    ctx.translate(bBoxWidth / 2, bBoxHeight / 2)
-    ctx.rotate(rotRad)
-    ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1)
-    ctx.translate(-image.width / 2, -image.height / 2)
+    ctx?.translate(bBoxWidth / 2, bBoxHeight / 2)
+    ctx?.rotate(rotRad)
+    ctx?.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1)
+    ctx?.translate(-image.width / 2, -image.height / 2)
   
     // draw rotated image
-    ctx.drawImage(image, 0, 0)
+    ctx?.drawImage(image, 0, 0)
   
-    const croppedCanvas = document.createElement('canvas')
+    const croppedCanvas = document?.createElement('canvas')
   
-    const croppedCtx = croppedCanvas.getContext('2d')
+    const croppedCtx = croppedCanvas?.getContext('2d')
   
     if (!croppedCtx) {
       return null
     }
   
     // Set the size of the cropped canvas
-    croppedCanvas.width = pixelCrop.width
-    croppedCanvas.height = pixelCrop.height
+    croppedCanvas.width = pixelCrop?.width
+    croppedCanvas.height = pixelCrop?.height
   
     // Draw the cropped image onto the new canvas
-    croppedCtx.drawImage(
+    croppedCtx?.drawImage(
       canvas,
       pixelCrop.x,
       pixelCrop.y,

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useContext, useEffect, useState } from "react";
 import Nav from "../../../components/navbar";
 import Header from "../../../components/dropdown";
