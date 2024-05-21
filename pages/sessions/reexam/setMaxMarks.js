@@ -1,11 +1,3 @@
-// import React from 'react'
-
-// export default function setMaxMarks() {
-//   return (
-//     <div>setMaxMarks</div>
-//   )
-// }
-
 
 
 import React, { useContext, useEffect, useState } from "react";
@@ -38,7 +30,7 @@ export default function MaxMarks() {
   const [count, setCount] = useState(0);
 
   const {
-    examName,
+    
     setExamName,
     examList,
     createExam,
@@ -85,7 +77,7 @@ export default function MaxMarks() {
                   placeholder="Exam Name"
                 >
                   <option>Please Select</option>
-                  {examList.map((e, index) => {
+                  {examList?.map((e, index) => {
                     return <option key={index}>{e.Name}</option>;
                   })}
                 </select>

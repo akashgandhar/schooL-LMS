@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// export default function Subjects() {
-//   return (
-//     <div>createSubjects</div>
-//   )
-// }
-
-
 
 
 import React from "react";
@@ -15,7 +6,7 @@ import { useSubject } from "./contexts/subContext";
 
 export default function Subjects() {
   const {
-    subjectName,
+    
     setSubjectName,
     subjectList,
     createSubject,

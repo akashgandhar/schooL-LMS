@@ -1,11 +1,3 @@
-// import React from 'react'
-
-// export default function StudentChange() {
-//   return (
-//     <div>studentSubjectChange</div>
-//   )
-// }
-
 
 
 import React from "react";

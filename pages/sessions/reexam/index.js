@@ -1,11 +1,3 @@
-// import React from 'react'
-
-// export default function Exams() {
-//   return (
-//     <div>index</div>
-//   )
-// }
-
 
 
 import React from "react";
@@ -67,7 +59,7 @@ export default function Exams() {
                   </tr>
                 </thead>
                 <tbody class="block md:table-row-group">
-                  {examList.map((e, index) => {
+                  {examList?.map((e, index) => {
                     return (
                       <tr
                         key={index}

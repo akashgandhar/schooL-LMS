@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// export default function Marksheet() {
-//   return (
-//     <div>marksheet</div>
-//   )
-// }
-
-
-
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useMarkSheet } from "./contexts/marksheetContext";
@@ -18,7 +8,7 @@ import { useReactToPrint } from "react-to-print";
 
 export default function Marksheet() {
   const {
-    markSheet,
+    
     setMarkSheet,
     selectedStudentId,
     setSelectedStudentId,

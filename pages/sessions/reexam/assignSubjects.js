@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// export default function Assign() {
-//   return (
-//     <div>assignSubjects</div>
-//   )
-// }
-
-
 
 
 import React from "react";
@@ -59,7 +50,7 @@ export default function Assign() {
                       placeholder="Exam Name"
                     >
                       <option value="">Select Exam</option>
-                      {examList.map((e, index) => {
+                      {examList?.map((e, index) => {
                         return (
                           <option key={index} value={e.Name}>
                             {e.Name}

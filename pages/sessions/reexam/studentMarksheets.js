@@ -1,11 +1,3 @@
-// import React from 'react'
-
-// export default function StudentMarksheet() {
-//   return (
-//     <div>studentMarksheets</div>
-//   )
-// }
-
 
 
 import React, { useContext, useEffect, useState } from "react";
@@ -39,7 +31,7 @@ export default function StudentMarksheet() {
   }, []);
 
   const {
-    markSheet,
+    
     setMarkSheet,
     selectedStudentId,
     setSelectedStudentId,

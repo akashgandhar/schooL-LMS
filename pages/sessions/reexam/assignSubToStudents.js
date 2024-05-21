@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// export default function AssignSubToStudents() {
-//   return (
-//     <div>assignSubToStudents</div>
-//   )
-// }
-
-
-
-
-
 
 import React, { useContext, useEffect, useState } from "react";
 import Nav from "../../../components/navbar";
@@ -243,7 +231,7 @@ export default function AssignSubToStudents() {
                       placeholder="B.tech / cse / CSP242 "
                     >
                       <option>Please Select</option>
-                      {examList.map((e, index) => {
+                      {examList?.map((e, index) => {
                         return <option key={index}>{e.Name}</option>;
                       })}
                     </select>
