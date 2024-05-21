@@ -25,18 +25,19 @@ function MyApp({ Component, pageProps }) {
           stopDelayMs={200}
           height={3}
           showOnShallow={true}
-        /> <Component {...pageProps} />
+        />
+         {/* <Component {...pageProps} /> */}
         {/* under maintainance  */}
         {/* <div className="bg-red-500 text-white text-center p-3">
           <h1>Site under maintainance</h1>
         </div> */}
-        {/* <ExamProvider>
+        <ExamProvider>
           <SubjectProvider>
             <MarkSheetProvider>
               <Component {...pageProps} />
             </MarkSheetProvider>
           </SubjectProvider>
-        </ExamProvider> */}
+        </ExamProvider>
       </UserState>
       <Analytics />
     </>
