@@ -64,40 +64,54 @@ export default function ViewStd() {
   const [q2, setQ2] = useState("");
   const [allStudents, setAllStudents] = useState([]);
 
-  
+
 
   const searchStudents = async () => {
     if (q2 === "") {
       return;
     }
-  
+
     try {
       // Assuming q2 is a string
-      const queryStr = q2.trim(); // Remove leading/trailing spaces
+      const queryStr = q2.trim().toUpperCase(); // Remove leading/trailing spaces
       const isNumeric = /^\d+$/.test(queryStr); // Check if the query is numeric
-  
+
       var docRef;
-  
+
       if (isNumeric) {
         docRef = query(
           collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
           where("Sr_Number", "==", queryStr)
         );
       } else {
-        // Search for substring match in student names
-        docRef = query(
-          collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
-          where("name", ">=", queryStr),
-          where("name", "<=", queryStr + "\uf8ff")
-        );
+
+        let newStr = queryStr.substring(0, 3) + 0 + queryStr.substring(3 + 1);
+
+
+
+        if (/^\d+$/.test(newStr)) {
+          docRef = query(
+            collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+            where("Sr_Number", "==", queryStr)
+          )
+          console.log("ll");
+        } else {
+
+          // Search for substring match in student names
+          docRef = query(
+            collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+            where("name", ">=", queryStr),
+            where("name", "<=", queryStr + "\uf8ff")
+          )
+        }
       }
-  
+
       const docSnap = await getDocs(docRef);
       var list = [];
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
-  
+
       console.log(list);
       setStudents(list);
     } catch (e) {
