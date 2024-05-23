@@ -526,7 +526,7 @@ export default function Payment() {
                       {s.Section}
                     </div>
                   </div>
-                  <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div class="md:w-1/2 px-3 flex flex-col py-3 mb-6 md:mb-0">
                     <label
                       class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                       for="company"
