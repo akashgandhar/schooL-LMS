@@ -37,7 +37,7 @@ import {
   CModalTitle,
 } from "@coreui/react";
 import Cropper from 'react-easy-crop'
-import GetCroppedImg from "./croppedImage";
+import NoSSRYourComponent from "./croppedImage";
 
 
 export default function NewStudent() {
@@ -1265,7 +1265,7 @@ export default function NewStudent() {
   const onCropComplete = async(croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels)
 
-    const croppedImage = await GetCroppedImg(
+    const croppedImage = await NoSSRYourComponent(
       uncroppedImage,croppedAreaPixels,rotation
     )
     console.log("cropped", croppedImage);

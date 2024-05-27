@@ -34,7 +34,7 @@ export function RotateSize(width, height, rotation) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
- async function NoSSRYourComponent(
+ export default async function NoSSRYourComponent(
   imageSrc,
   pixelCrop,
   rotation = 0,
@@ -105,8 +105,9 @@ export function RotateSize(width, height, rotation) {
 }
 
 
-const GetCroppedImg = dynamic(() => Promise.resolve(NoSSRYourComponent), {
-  ssr: false,
-})
+// const GetCroppedImg = dynamic(() => Promise.resolve(NoSSRYourComponent), {
+//   ssr: false,
+// })
 
-export default GetCroppedImg;
+
+// export default GetCroppedImg;
