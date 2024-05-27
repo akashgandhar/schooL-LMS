@@ -34,7 +34,7 @@ export default function Tc() {
     "Total no. of working days present",
     "Whether the pupil is NCC Cadet/Boy Scunt/Girl Guide (give details)",
     "Games played or extra curricular activities in which the pupil usually took part (mention achivement level)",
-    "General conduct",
+    "Proof Of Date of Birth presented at the time of admission",
     "Date Of Application of certificate",
     "Date Of issue of Certificate",
     "Reason for leaving the school",
@@ -74,6 +74,22 @@ export default function Tc() {
     }
   };
 
+
+  const date = new Date();
+
+  const time = date.getHours + date.getMinutes + date.getSeconds + date.getMilliseconds
+
+  const TcCut = async () => {
+    const docRef = doc(
+      db,
+      `TCs`,
+      time + s.Sr_Number
+    );
+    setDoc(docRef, {
+      ...data, year: date.getFullYear
+    });
+  }
+
   const setTc = async () => {
     console.log(data);
     try {
@@ -83,11 +99,15 @@ export default function Tc() {
         `users/${a.user}/sessions/${a.session}/Reports/${s.Sr_Number}/TC`,
         s.Sr_Number
       );
-      setDoc(docRef, data);
+      setDoc(docRef, data).then(() => {
+        TcCut();
+      })
     } catch (e) {
       console.log(e.message);
     }
   };
+
+
 
   useEffect(() => {
     // const myVar = 'f1';
@@ -161,6 +181,7 @@ export default function Tc() {
               </tr>
               <tr className="font-bold flex justify-between px-5">
                 <td>School No. : 60978</td>
+                <td>Udise No. : 09130611404</td>
                 <td>Affiliation No. : 2132393</td>
               </tr>
               <tr className="font-bold flex justify-between px-5">
@@ -180,17 +201,29 @@ export default function Tc() {
                   </span>{" "}
                 </td>
                 <td>File No. <span>
-                    <input
-                      value={data1.filen}
-                      onChange={(e) => {
-                        var temp = { ...data };
-                        temp[`filen`] = e.target.value;
-                        setData(temp);
-                      }}
-                      className="w-20"
-                      type="text"
-                    />
-                  </span>{" "}</td>
+                  <input
+                    value={data1.filen}
+                    onChange={(e) => {
+                      var temp = { ...data };
+                      temp[`filen`] = e.target.value;
+                      setData(temp);
+                    }}
+                    className="w-20"
+                    type="text"
+                  />
+                </span>{" "}</td>
+                <td>PEN : <span>
+                  <input
+                    value={data1.pen}
+                    onChange={(e) => {
+                      var temp = { ...data };
+                      temp[`pen`] = e.target.value;
+                      setData(temp);
+                    }}
+                    className="w-20"
+                    type="text"
+                  />
+                </span>{" "}</td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
               <tr className=" flex  px-5 mb-1">

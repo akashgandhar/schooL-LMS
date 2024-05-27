@@ -33,6 +33,8 @@ export default function ViewDue() {
 
   const [students, setStudents] = useState([]);
 
+  console.log(students);
+
   const [month, setMonth] = useState();
 
   const getDues = async () => {

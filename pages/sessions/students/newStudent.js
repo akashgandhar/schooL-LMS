@@ -2373,3 +2373,6 @@ export default function NewStudent() {
                 
               </div> */
 }
+
+
+
