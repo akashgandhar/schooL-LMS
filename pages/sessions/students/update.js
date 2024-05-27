@@ -40,8 +40,7 @@ import {
 } from "@coreui/react";
 import Camera from "react-html5-camera-photo";
 import Cropper from 'react-easy-crop'
-import NoSSRYourComponent from "./croppedImage";
-
+import GetCroppedImg from "./croppedImage";
 
 
 export default function NewStudent() {
@@ -716,8 +715,6 @@ export default function NewStudent() {
 
     const res = dataURLtoBlob(dataUri);
 
-    
-
     setUncroppedImage(dataUri);
 
     setImageClicked(true);
@@ -726,7 +723,7 @@ export default function NewStudent() {
     // setImage(res);
   }
 
-  // console.log(image);
+  console.log(image);
 
   function dataURLtoBlob(dataurl) {
     var arr = dataurl.split(","),
@@ -747,14 +744,11 @@ export default function NewStudent() {
   const [croppedImage, setCroppedImage] = useState(null)
 
   const onCropComplete = async(croppedArea, croppedAreaPixels) => {
-
-    
     setCroppedAreaPixels(croppedAreaPixels)
 
-    const croppedImage = await NoSSRYourComponent(
+    const croppedImage = await GetCroppedImg(
       uncroppedImage,croppedAreaPixels,rotation
     )
-
     console.log("cropped", croppedImage);
     const res = dataURLtoBlob(croppedImage)
     setImage(res);
