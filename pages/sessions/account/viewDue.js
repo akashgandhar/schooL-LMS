@@ -31,13 +31,19 @@ export default function ViewDue() {
     "Exam",
   ];
 
+  const [isComposite, setIsComposite] = useState(false);
+
   const [students, setStudents] = useState([]);
 
   console.log(students);
 
   const [month, setMonth] = useState();
 
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const getDues = async () => {
+    setIsLoading(true);
     setStudents([]);
     try {
       const docRef = collection(
@@ -114,23 +120,66 @@ export default function ViewDue() {
         // }
       });
 
-      const oldFeeDocRef = collection(
-        db,
-        `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`
-      );
-      const oldFeeDocSnap = await getDocs(oldFeeDocRef);
-      oldFeeDocSnap.forEach((docx) => {
-        list.forEach((element) => {
-          if (element.Sr_Number === docx.id) {
-            element.OldDues = docx.data().month_Due;
-          }
+      if (isComposite) {
+        const oldFeeDocRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/OldDues/students`
+        );
+        const oldFeeDocSnap = await getDocs(oldFeeDocRef);
+        oldFeeDocSnap.forEach((docx) => {
+          list.forEach((element) => {
+            if (element.Sr_Number === docx.id) {
+              element.OldDues = docx.data().month_Due;
+            }
+          });
         });
-      });
+
+        const wardDocRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/otherDue/Third Ward Fee/Third Ward Fee/students`
+        );
+        const wardDocSnap = await getDocs(wardDocRef);
+        wardDocSnap.forEach((docx) => {
+          list.forEach((element) => {
+            if (element.Sr_Number === docx.id) {
+              element.WardDue = docx.data().month_Due;
+            }
+          });
+        });
+
+        const admisionDocRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Admission/students`
+        );
+        const admisionDocSnap = await getDocs(admisionDocRef);
+        admisionDocSnap.forEach((docx) => {
+          list.forEach((element) => {
+            if (element.Sr_Number === docx.id) {
+              element.AdmDue = docx.data().month_Due;
+            }
+          });
+        });
+
+        const examDocRef = collection(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/Exam/students`
+        );
+        const ExamDocSnap = await getDocs(examDocRef);
+        ExamDocSnap.forEach((docx) => {
+          list.forEach((element) => {
+            if (element.Sr_Number === docx.id) {
+              element.ExamDue = docx.data().month_Due;
+            }
+          });
+        });
+      }
 
       setStudents(list);
     } catch (e) {
       alert(e.message);
     }
+
+    setIsLoading(false)
   };
 
   const [classList, setClassList] = useState([]);
@@ -186,12 +235,57 @@ export default function ViewDue() {
 
   return (
     <>
-      <div className="w-screen ">
+      <div className="w-screen relative">
         <div class="bg-gray-100 flex bg-local w-screen">
           <div class="bg-gray-100 mx-auto w-screen h-auto  py-20 px-12 lg:px-24 shadow-xl mb-24">
             <div>
               <h1 className="text-center font-bold text-2xl">View Dues</h1>
+
               <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+                <div className="w-full items-end flex justify-start">
+
+                  <div class="md:w-1/2  mb-6 md:mb-0">
+                    <label
+                      class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                      for="company"
+                    >
+                      Want to Calculate Composite Dues*
+                    </label>
+                    <select
+                      onChange={(e) => {
+                        if (e.target.value === "Yes") {
+                          setIsComposite(true)
+                        } else {
+                          setIsComposite(false)
+                        }
+                      }}
+                      class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="company"
+                      type="text"
+                      placeholder="Netboard"
+                      value={isComposite === true ? "Yes" : "No"}
+                    >
+                      <option>Plese Select</option>
+                      <option>Yes</option>
+                      <option>No</option>
+
+                    </select>
+                  </div>
+                  {isComposite && <div class="md:w-1/2 flex flex-col  px-3 mb-6 md:mb-0">
+
+                    <span
+
+                      class="w-full text-red-500 bg-red-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
+                      id="company"
+                      type="text"
+                      placeholder="Netboard"
+
+                    >
+                      This Action is Costly and Take More time than usuall !!
+
+                    </span>
+                  </div>}
+                </div>
                 <div class="-mx-3 md:flex mb-6">
                   <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
@@ -275,6 +369,7 @@ export default function ViewDue() {
                     Search
                   </button>
                 </div>
+
               </div>
             </div>
             <div ref={componentRef} className="text-center">
@@ -289,7 +384,28 @@ export default function ViewDue() {
                   Upto: {month} {a?.session?.slice(0, 4)}
                 </button>
               </div>
-              <table class="min-w-full border-collapse block md:table">
+              {isLoading && students.length === 0 && <div className="w-full flex justify-center items-center p-1">
+                <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                  <svg class="h-20 w-20 animate-spin stroke-gray-500" viewBox="0 0 256 256">
+                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="24"></line>
+                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="24"></line>
+                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="24"></line>
+                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+                    </line>
+                  </svg>
+                  <span class="text-4xl font-medium text-gray-500">Getting Composite Dues! Please Wait...</span>
+                </div>
+              </div>}
+              {!isLoading && <table class="min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
                   <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
@@ -310,11 +426,20 @@ export default function ViewDue() {
                     {/* <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                       Composite Due
                     </th> */}
-                    {month != "OldDues" ? (
+                    {month != "OldDues" || month != "Exam" || month != "Admission" ? (
                       <>
-                        <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                        {isComposite && <><th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                           Old Dues
                         </th>
+                          <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                            Admission
+                          </th>
+                          <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                            Exam
+                          </th>
+                          <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
+                            Third Ward
+                          </th></>}
                         <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
                           Monthly Due
                         </th>
@@ -324,7 +449,7 @@ export default function ViewDue() {
                       </>
                     ) : (
                       <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
-                        Old Dues
+                        {month === "OldDues" ? "Old Dues" : month === "Exam" ? "Exam Due" : month === "Admission" ? "Admission Fee" : "None Selected"}
                       </th>
                     )}
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">
@@ -337,7 +462,10 @@ export default function ViewDue() {
                     .sort((a, b) => (a.name > b.name ? 1 : -1))
                     .map((e, index) => {
                       if (e.Deleted == false || e.Deleted == undefined) {
-                        total +=
+                        total += (Number(e.ExamDue) > 0 ? Number(e.ExamDue) : 0) +
+                          (Number(e.AdmDue) > 0 ? Number(e.AdmDue) : 0) +
+                          (Number(e.WardDue) > 0 ? Number(e.WardDue) : 0) +
+                          (Number(e.OldDues) > 0 ? Number(e.OldDues) : 0) +
                           (Number(e.month_Due) > 0 ? Number(e.month_Due) : 0) +
                           (Number(e.transport_due) > 0
                             ? Number(e.transport_due)
@@ -386,14 +514,38 @@ export default function ViewDue() {
                                 (e.ThirdWard > 0 ? e.ThirdWard : 0) +
                                 (e.ExamLab > 0 ? e.ExamLab : 0)}
                             </td> */}
-                            {month != "OldDues" ? (
+                            {month != "OldDues" || month != "Exam" || month != "Admission" ? (
                               <>
-                                <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                {isComposite && <><td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                                   <span class="inline-block w-1/3 md:hidden font-bold">
                                     old
                                   </span>
                                   {Number(e.OldDues) > 0
                                     ? Number(e.OldDues)
+                                    : 0}
+                                </td>
+                                  <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                    <span class="inline-block w-1/3 md:hidden font-bold">
+                                      Admission
+                                    </span>
+                                    {Number(e.AdmDue) > 0
+                                      ? Number(e.AdmDue)
+                                      : 0}
+                                  </td>
+                                  <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                    <span class="inline-block w-1/3 md:hidden font-bold">
+                                      Exam
+                                    </span>
+                                    {Number(e.ExamDue) > 0
+                                      ? Number(e.ExamDue)
+                                      : 0}
+                                  </td></>}
+                                <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                                  <span class="inline-block w-1/3 md:hidden font-bold">
+                                    ward
+                                  </span>
+                                  {Number(e.WardDue) > 0
+                                    ? Number(e.WardDue)
                                     : 0}
                                 </td>
                                 <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
@@ -416,35 +568,27 @@ export default function ViewDue() {
                             ) : (
                               <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                                 <span class="inline-block w-1/3 md:hidden font-bold">
-                                  old
+                                  month
                                 </span>
-                                {Number(e.OldDues) > 0 ? Number(e.OldDues) : 0}
+                                {Number(e.month_Due) > 0 ? Number(e.month_Due) : 0}
                               </td>
                             )}
 
-                            {month === "OldDues" ? (
-                              <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                                <span class="inline-block w-1/3 md:hidden font-bold">
-                                  total
-                                </span>
-                                {Number(e.OldDues) > 0 ? Number(e.OldDues) : 0}
-                              </td>
-                            ) : (
-                              <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
-                                <span class="inline-block w-1/3 md:hidden font-bold">
-                                  total
-                                </span>
-                                {(Number(e.month_Due) > 0
-                                  ? Number(e.month_Due)
-                                  : 0) +
-                                  (Number(e.transport_due) > 0
-                                    ? Number(e.transport_due)
-                                    : 0) +
-                                  (Number(e.OldDues) > 0
-                                    ? Number(e.OldDues)
-                                    : 0)}
-                              </td>
-                            )}
+
+                            <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                              <span class="inline-block w-1/3 md:hidden font-bold">
+                                total
+                              </span>
+                              {(Number(e.ExamDue) > 0 ? Number(e.ExamDue) : 0) +
+                                (Number(e.AdmDue) > 0 ? Number(e.AdmDue) : 0) +
+                                (Number(e.WardDue) > 0 ? Number(e.WardDue) : 0) +
+                                (Number(e.OldDues) > 0 ? Number(e.OldDues) : 0) +
+                                (Number(e.month_Due) > 0 ? Number(e.month_Due) : 0) +
+                                (Number(e.transport_due) > 0
+                                  ? Number(e.transport_due)
+                                  : 0)}
+                            </td>
+
                           </tr>
                         );
                       }
@@ -453,6 +597,11 @@ export default function ViewDue() {
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    {isComposite && <><td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                      <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                      <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                      <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
+                    </>}
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
                     <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell"></td>
@@ -465,7 +614,7 @@ export default function ViewDue() {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </table>}
             </div>
             <div className="flex justify-center items-center p-2">
               <button
