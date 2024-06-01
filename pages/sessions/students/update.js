@@ -120,9 +120,8 @@ export default function NewStudent() {
     current.getTime()
   );
 
-  const d = `${current.getDate()}-${
-    current.getMonth() + 1
-  }-${current.getFullYear()}`;
+  const d = `${current.getDate()}-${current.getMonth() + 1
+    }-${current.getFullYear()}`;
 
   const [date, setDate] = useState();
   const [dateTemp, setDateTemp] = useState();
@@ -206,7 +205,9 @@ export default function NewStudent() {
             rteStatus === "Yes" || ward === "Yes"
               ? 0
               : classFee * (months.indexOf(e) + 1) +
-                CalculatTransport(e, transportFee, months.indexOf(e) + 1),
+              CalculatTransport(e, transportFee, months.indexOf(e) + 1),
+        }, {
+          merge: true
         }).then(async () => {
           const dueRef = doc(
             db,
@@ -233,7 +234,7 @@ export default function NewStudent() {
               total_Due:
                 (rteStatus === "Yes" ? 0 : classFee * (months.indexOf(e) + 1)) +
                 (e === "June" ? 0 : transportFee * (months.indexOf(e) + 1)),
-            });
+            }, { merge: true });
           }
         });
       } catch (e) {
@@ -266,7 +267,7 @@ export default function NewStudent() {
         Anual_Fee: 5000,
         Class_Fee: classFee,
         transportfees: transportFee,
-      });
+      }, { merge: true });
     } catch (e) {
       alert(e.message);
     }
@@ -483,7 +484,7 @@ export default function NewStudent() {
         !house ||
         !addSub ||
         !religion,
-      !file || !pen || !id)
+        !file || !pen || !id)
     ) {
       alert("some information is missing");
     } else {
@@ -576,7 +577,7 @@ export default function NewStudent() {
               created: Timestamp.now(),
               Fees: classFee,
               Transport_Fee: transportFee,
-            }
+            }, { merge: true }
           )
             .then(async () => {
               // console.log(2);
@@ -686,7 +687,7 @@ export default function NewStudent() {
                   Aadhar: aadharUrl,
                   created: Timestamp.now(),
                   fees: classFee,
-                }
+                }, { merge: true }
               );
             })
             .then(() => {
@@ -743,16 +744,16 @@ export default function NewStudent() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
   const [croppedImage, setCroppedImage] = useState(null)
 
-  const onCropComplete = async(croppedArea, croppedAreaPixels) => {
+  const onCropComplete = async (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels)
 
     const croppedImage = await GetCroppedImg(
-      uncroppedImage,croppedAreaPixels,rotation
+      uncroppedImage, croppedAreaPixels, rotation
     )
     console.log("cropped", croppedImage);
     const res = dataURLtoBlob(croppedImage)
     setImage(res);
-    console.log("res",res);
+    console.log("res", res);
   }
 
   useEffect(() => {
@@ -831,8 +832,8 @@ export default function NewStudent() {
               Upload
             </CButton>
             <CButton
-              
-              color="secondary" 
+
+              color="secondary"
               onClick={() => {
                 setImageClicked(false);
                 setUncroppedImage(null);
