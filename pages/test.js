@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -206,10 +207,69 @@ export default function Test() {
   //   console.log("success");
   // });
 
+  // "1500", "524", "1708", "522", "982", "670", "546", "666", "1579", "698", "1700", "650", "1721", "1647", "922", "2306101", "1659", "435", "1564", "589", "1140", "1584", "2405030", "1137", "1845", "1689", "1667", "977", "451", "1653",
+
+  // "1504", "1777", "737", "760", "1585", "1709", "2405056", "1605", "947", "2303062", "2404029", "1819", "1315", "2301082", "1698", "1697", "2301003"
+
+  const setAdresses = async () => {
+    const docRef = query(collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
+      where("Sr_Number", "in", ["1504", "1777", "737", "760", "1585", "1709", "2405056", "1605", "947", "2303062", "2404029", "1819", "1315", "2301082", "1698", "1697", "2301003"]));
+
+
+    const addresses = [];
+
+    try {
+      const ssnap = await getDocs(docRef);
+      ssnap.forEach((doc) => {
+        addresses.push(doc.data());
+      });
+      console.log(addresses);
+    }
+    catch (e) {
+      console.log(e.message);
+    }
+
+
+    addresses.forEach(async (en) => {
+
+      await createDue(en.Sr_Number, en.Class, en.Section, en.Place, en.Address);
+
+    });
+
+
+
+
+  }
+
+
+
+  const createDue = async (sr, className, sectionName, place, address) => {
+    var total = 0;
+    months.forEach(async (e) => {
+      try {
+        const docRef = doc(
+          db,
+          `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/due/${e}/students`,
+          sr
+        );
+        await setDoc(docRef, {
+
+          Place: place,
+          Address: address,
+
+        }, { merge: true })
+      } catch (er) {
+        console.log(er.message);
+      }
+    });
+  };
+
+
+
   return (
     <div>
       <button className="p-4 norder-2">kkkkkkk</button>
-      <button onClick={setSr} className="p-4 norder-2">
+      <button onClick={setAdresses} className="p-4 norder-2">
         sett
       </button>
     </div>

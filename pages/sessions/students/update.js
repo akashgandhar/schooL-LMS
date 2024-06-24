@@ -199,6 +199,7 @@ export default function NewStudent() {
           section: sectionName,
           father_name: fName,
           Place: place,
+          Address: address,
           Mobile: mobile,
           Sr_Number: sr,
           total:
