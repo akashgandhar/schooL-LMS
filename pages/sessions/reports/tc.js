@@ -38,7 +38,7 @@ export default function Tc() {
     "Date Of Application of certificate",
     "Date Of issue of Certificate",
     "Reason for leaving the school",
-    "Any other remarks",
+    
     "Date on which pupil's name was struck off The rolls of the school",
   ];
 
@@ -212,7 +212,7 @@ export default function Tc() {
                     type="text"
                   />
                 </span>{" "}</td>
-                <td>PEN : <span>
+                <td >PEN : <span>
                   <input
                     value={data1.pen}
                     onChange={(e) => {
@@ -220,7 +220,7 @@ export default function Tc() {
                       temp[`pen`] = e.target.value;
                       setData(temp);
                     }}
-                    className="w-20"
+                    className="w-28"
                     type="text"
                   />
                 </span>{" "}</td>
@@ -289,19 +289,14 @@ export default function Tc() {
                 );
               })}
 
-              <tr>
-                <td height="20" colspan="9">
-                  {" "}
+              <tr className="flex px-5">
+                <td colspan="9">
+                I hereby declare that the above information given by me viz. name of the candidate, father's name, mother's name and date of birth is correct as per school records.
                 </td>
               </tr>
 
-              <tr className="flex justify-between mx-5">
-                <td colspan="3" className="border-t-2 border-black py-2">
-                  Signature of Class Teacher
-                </td>
-                <td colspan="2" className="border-t-2 border-black py-2">
-                  Signature of Office Supdt.{" "}
-                </td>
+              <tr className="flex justify-end px-5 m-5">
+                
                 <td colspan="4" className="border-t-2 border-black py-2">
                   <div>Sign of Principal with school seal </div>
                 </td>
