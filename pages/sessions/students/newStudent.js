@@ -37,7 +37,8 @@ import {
   CModalTitle,
 } from "@coreui/react";
 import Cropper from 'react-easy-crop'
-import GetCroppedImg from "./croppedImage";
+import GetCroppedImg from "../../../utils/croppedImage";
+// import GetCroppedImg from "./croppedImage";
 
 
 export default function NewStudent() {
