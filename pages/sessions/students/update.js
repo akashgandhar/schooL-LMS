@@ -40,7 +40,8 @@ import {
 } from "@coreui/react";
 import Camera from "react-html5-camera-photo";
 import Cropper from 'react-easy-crop'
-import GetCroppedImg from "./croppedImage";
+import GetCroppedImg from "../../../utils/croppedImage";
+// import GetCroppedImg from "./croppedImage";
 
 
 export default function NewStudent() {
