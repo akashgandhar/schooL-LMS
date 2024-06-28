@@ -453,6 +453,7 @@ export default function NewStudent() {
 
   const submitForm = async () => {
     setIsLoading(true);
+    console.log("Image URL",imgUrl);
     if (
       (!sr ||
         !name ||
@@ -729,7 +730,7 @@ export default function NewStudent() {
 
   function dataURLtoBlob(dataurl) {
     var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
+      mime = arr[0].match(/:(.*?);/)?.[1],
       bstr = atob(arr[1]),
       n = bstr.length,
       u8arr = new Uint8Array(n);
