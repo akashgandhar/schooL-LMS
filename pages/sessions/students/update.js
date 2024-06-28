@@ -388,11 +388,13 @@ export default function NewStudent() {
         (error) => {
           // Handle unsuccessful uploads
         },
-        () => {
-          alert("uploaded");
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        async() => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
           });
+          alert("Photo Cropped, Proceed to upload");
+
+          setVisible(false);
         }
       );
     }
@@ -832,7 +834,7 @@ export default function NewStudent() {
                 handleUpload(image);
               }}
             >
-              Upload
+              Crop
             </CButton>
             <CButton
 

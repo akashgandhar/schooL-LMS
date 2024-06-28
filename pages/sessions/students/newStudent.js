@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   FieldValue,
@@ -36,10 +36,9 @@ import {
   CModalHeader,
   CModalTitle,
 } from "@coreui/react";
-import Cropper from 'react-easy-crop'
+import Cropper from "react-easy-crop";
 import GetCroppedImg from "../../../utils/croppedImage";
 // import GetCroppedImg from "./croppedImage";
-
 
 export default function NewStudent() {
   const router = useRouter();
@@ -111,8 +110,9 @@ export default function NewStudent() {
     current.getTime()
   );
 
-  const d = `${current.getDate()}-${current.getMonth() + 1
-    }-${current.getFullYear()}`;
+  const d = `${current.getDate()}-${
+    current.getMonth() + 1
+  }-${current.getFullYear()}`;
 
   const [date, setDate] = useState(current);
   const [dob, setDob] = useState(current);
@@ -178,7 +178,7 @@ export default function NewStudent() {
             rteStatus === "Yes" || ward === "Yes"
               ? 0
               : classFee * (months.indexOf(e) + 1) +
-              CalculatTransport(e, transportFee, months.indexOf(e) + 1),
+                CalculatTransport(e, transportFee, months.indexOf(e) + 1),
         }).then(async () => {
           const dueRef = doc(
             db,
@@ -202,7 +202,7 @@ export default function NewStudent() {
             });
           }
         });
-      } catch { }
+      } catch {}
     });
   };
   const createAccount = async () => {
@@ -336,12 +336,13 @@ export default function NewStudent() {
         (error) => {
           // Handle unsuccessful uploads
         },
-        () => {
-          alert("uploaded");
-          setVisible(false);
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
           });
+          alert("Photo Cropped, Proceed to upload");
+
+          setVisible(false);
         }
       );
     }
@@ -434,7 +435,7 @@ export default function NewStudent() {
         !house ||
         !addSub ||
         !religion,
-        !file || !pen || !id)
+      !file || !pen || !id)
     ) {
       alert("some information is missing");
     } else {
@@ -452,7 +453,7 @@ export default function NewStudent() {
         querySnapshot.forEach((doc) => {
           oldSr.push(doc.data().Sr_Number);
         });
-      } catch { }
+      } catch {}
 
       if (oldSr.length >= 1) {
         alert("SID already exist");
@@ -653,32 +654,32 @@ export default function NewStudent() {
           e.Class === "NRY"
             ? "LKG"
             : e.Class === "LKG"
-              ? "UKG"
-              : e.Class === "UKG"
-                ? "I"
-                : e.Class === "I"
-                  ? "II"
-                  : e.Class === "II"
-                    ? "III"
-                    : e.Class === "III"
-                      ? "IV"
-                      : e.Class === "IV"
-                        ? "V"
-                        : e.Class === "V"
-                          ? "VI"
-                          : e.Class === "VI"
-                            ? "VII"
-                            : e.Class === "VII"
-                              ? "VIII"
-                              : e.Class === "VIII"
-                                ? "IX"
-                                : e.Class === "IX"
-                                  ? "X"
-                                  : e.Class === "X"
-                                    ? "XI"
-                                    : e.Class === "XI"
-                                      ? "XII"
-                                      : "NRY";
+            ? "UKG"
+            : e.Class === "UKG"
+            ? "I"
+            : e.Class === "I"
+            ? "II"
+            : e.Class === "II"
+            ? "III"
+            : e.Class === "III"
+            ? "IV"
+            : e.Class === "IV"
+            ? "V"
+            : e.Class === "V"
+            ? "VI"
+            : e.Class === "VI"
+            ? "VII"
+            : e.Class === "VII"
+            ? "VIII"
+            : e.Class === "VIII"
+            ? "IX"
+            : e.Class === "IX"
+            ? "X"
+            : e.Class === "X"
+            ? "XI"
+            : e.Class === "XI"
+            ? "XII"
+            : "NRY";
 
         // const cfees = await GetNewClassFee(newClass);
         // const tfees = await GetNewTransportFee(e.BusStop_Name);
@@ -1024,32 +1025,32 @@ export default function NewStudent() {
           e.Class === "NRY"
             ? "LKG"
             : e.Class === "LKG"
-              ? "UKG"
-              : e.Class === "UKG"
-                ? "I"
-                : e.Class === "I"
-                  ? "II"
-                  : e.Class === "II"
-                    ? "III"
-                    : e.Class === "III"
-                      ? "IV"
-                      : e.Class === "IV"
-                        ? "V"
-                        : e.Class === "V"
-                          ? "VI"
-                          : e.Class === "VI"
-                            ? "VII"
-                            : e.Class === "VII"
-                              ? "VIII"
-                              : e.Class === "VIII"
-                                ? "IX"
-                                : e.Class === "IX"
-                                  ? "X"
-                                  : e.Class === "X"
-                                    ? "XI"
-                                    : e.Class === "XI"
-                                      ? "XII"
-                                      : "OLD";
+            ? "UKG"
+            : e.Class === "UKG"
+            ? "I"
+            : e.Class === "I"
+            ? "II"
+            : e.Class === "II"
+            ? "III"
+            : e.Class === "III"
+            ? "IV"
+            : e.Class === "IV"
+            ? "V"
+            : e.Class === "V"
+            ? "VI"
+            : e.Class === "VI"
+            ? "VII"
+            : e.Class === "VII"
+            ? "VIII"
+            : e.Class === "VIII"
+            ? "IX"
+            : e.Class === "IX"
+            ? "X"
+            : e.Class === "X"
+            ? "XI"
+            : e.Class === "XI"
+            ? "XII"
+            : "OLD";
 
         var marchFee = 0;
         var oldoldDues = 0;
@@ -1067,22 +1068,22 @@ export default function NewStudent() {
           if (docSnapMarch.exists) {
             marchFee =
               docSnapMarch.data()?.month_Due === undefined ||
-                docSnapMarch.data()?.month_Due == NaN ||
-                docSnapMarch.data()?.transport_due == NaN ||
-                docSnapMarch.data()?.transport_due == undefined
+              docSnapMarch.data()?.month_Due == NaN ||
+              docSnapMarch.data()?.transport_due == NaN ||
+              docSnapMarch.data()?.transport_due == undefined
                 ? 0
                 : Number(
-                  docSnapMarch.data().month_Due > 0
-                    ? docSnapMarch.data().month_Due
-                    : 0
-                ) +
-                  +Number(
-                    docSnapMarch.data().transport_due > 0
-                      ? docSnapMarch.data().transport_due
+                    docSnapMarch.data().month_Due > 0
+                      ? docSnapMarch.data().month_Due
                       : 0
-                  ) >
+                  ) +
+                    +Number(
+                      docSnapMarch.data().transport_due > 0
+                        ? docSnapMarch.data().transport_due
+                        : 0
+                    ) >
                   0
-                  ? Number(
+                ? Number(
                     docSnapMarch.data().month_Due > 0
                       ? docSnapMarch.data().month_Due
                       : 0
@@ -1092,7 +1093,7 @@ export default function NewStudent() {
                       ? docSnapMarch.data().transport_due
                       : 0
                   )
-                  : 0;
+                : 0;
             console.log(docSnapMarch.data());
           } else {
             marchFee = 0;
@@ -1109,11 +1110,11 @@ export default function NewStudent() {
           if (docSnapOldDues.exists) {
             oldoldDues =
               docSnapOldDues.data()?.total === undefined ||
-                docSnapOldDues.data()?.total == NaN
+              docSnapOldDues.data()?.total == NaN
                 ? 0
                 : docSnapOldDues.data().total > 0
-                  ? docSnapOldDues.data().total
-                  : 0;
+                ? docSnapOldDues.data().total
+                : 0;
             console.log(docSnapOldDues.data());
           }
 
@@ -1128,11 +1129,11 @@ export default function NewStudent() {
           if (docSnapAdmission.exists) {
             AdmissionFee =
               docSnapAdmission.data()?.total === undefined ||
-                docSnapAdmission.data()?.total == NaN
+              docSnapAdmission.data()?.total == NaN
                 ? 0
                 : docSnapAdmission.data().total > 0
-                  ? docSnapAdmission.data().total
-                  : 0;
+                ? docSnapAdmission.data().total
+                : 0;
             console.log(docSnapAdmission.data());
           }
 
@@ -1147,11 +1148,11 @@ export default function NewStudent() {
           if (docSnapOtherDues.exists) {
             otherDues =
               docSnapOtherDues.data()?.total === undefined ||
-                docSnapOtherDues.data()?.total == NaN
+              docSnapOtherDues.data()?.total == NaN
                 ? 0
                 : docSnapOtherDues.data().total > 0
-                  ? docSnapOtherDues.data().total
-                  : 0;
+                ? docSnapOtherDues.data().total
+                : 0;
 
             console.log(docSnapOtherDues.data());
           }
@@ -1167,20 +1168,20 @@ export default function NewStudent() {
           if (docSnapExamDues.exists) {
             examDues =
               docSnapExamDues.data()?.total === undefined ||
-                docSnapExamDues.data()?.total == NaN
+              docSnapExamDues.data()?.total == NaN
                 ? 0
                 : docSnapExamDues.data().total > 0
-                  ? docSnapExamDues.data().total
-                  : 0;
+                ? docSnapExamDues.data().total
+                : 0;
             console.log(docSnapExamDues.data());
           }
 
           console.log(
             Number(oldoldDues) +
-            Number(marchFee) +
-            Number(AdmissionFee) +
-            Number(otherDues) +
-            Number(examDues)
+              Number(marchFee) +
+              Number(AdmissionFee) +
+              Number(otherDues) +
+              Number(examDues)
           );
 
           await setDoc(
@@ -1236,11 +1237,8 @@ export default function NewStudent() {
 
     setImageClicked(true);
 
-
     // setImage(res);
   }
-
-
 
   console.log(image);
 
@@ -1256,24 +1254,25 @@ export default function NewStudent() {
     return new Blob([u8arr], { type: mime });
   }
 
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [rotation, setRotation] = useState(0)
-  const [zoom, setZoom] = useState(1)
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-  const [croppedImage, setCroppedImage] = useState(null)
-
-  const onCropComplete = async(croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels)
+  const onCropComplete = async (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
 
     const croppedImage = await GetCroppedImg(
-      uncroppedImage,croppedAreaPixels,rotation
-    )
+      uncroppedImage,
+      croppedAreaPixels,
+      rotation
+    );
     console.log("cropped", croppedImage);
-    const res = dataURLtoBlob(croppedImage)
+    const res = dataURLtoBlob(croppedImage);
     setImage(res);
-    console.log("res",res);
-  }
+    console.log("res", res);
+  };
 
   if (isLoading) {
     return (
@@ -1309,25 +1308,27 @@ export default function NewStudent() {
             </CModalTitle>
           </CModalHeader>
           <CModalBody>
-            {!imageClicked ? <Camera
-              onTakePhoto={(dataUri) => {
-                handleTakePhoto(dataUri);
-
-              }}
-            /> : <div className="w-full h-[400px]">
-              <Cropper
-                image={uncroppedImage}
-                crop={crop}
-                rotation={rotation}
-                zoom={zoom}
-                aspect={4 / 4}
-                onCropChange={setCrop}
-                onRotationChange={setRotation}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
-              /></div>
-
-            }
+            {!imageClicked ? (
+              <Camera
+                onTakePhoto={(dataUri) => {
+                  handleTakePhoto(dataUri);
+                }}
+              />
+            ) : (
+              <div className="w-full h-[400px]">
+                <Cropper
+                  image={uncroppedImage}
+                  crop={crop}
+                  rotation={rotation}
+                  zoom={zoom}
+                  aspect={4 / 4}
+                  onCropChange={setCrop}
+                  onRotationChange={setRotation}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                />
+              </div>
+            )}
           </CModalBody>
 
           <CModalFooter>
@@ -1338,11 +1339,10 @@ export default function NewStudent() {
                 handleUpload(image);
               }}
             >
-              Upload
+              Crop
             </CButton>
             <CButton
-              
-              color="secondary" 
+              color="secondary"
               onClick={() => {
                 setImageClicked(false);
                 setUncroppedImage(null);
@@ -2374,6 +2374,3 @@ export default function NewStudent() {
                 
               </div> */
 }
-
-
-
