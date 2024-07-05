@@ -38,7 +38,7 @@ export default function Tc() {
     "Date Of Application of certificate",
     "Date Of issue of Certificate",
     "Reason for leaving the school",
-    
+
     "Date on which pupil's name was struck off The rolls of the school",
   ];
 
@@ -74,21 +74,21 @@ export default function Tc() {
     }
   };
 
-
   const date = new Date();
 
-  const time = date.getHours + date.getMinutes + date.getSeconds + date.getMilliseconds
+  const time =
+    date.getHours() +
+    date.getMinutes() +
+    date.getSeconds() +
+    date.getMilliseconds();
 
   const TcCut = async () => {
-    const docRef = doc(
-      db,
-      `TCs`,
-      time + s.Sr_Number
-    );
+    const docRef = doc(db, `TCs`, time + s.Sr_Number);
     setDoc(docRef, {
-      ...data, year: date.getFullYear
+      ...data,
+      year: date.getFullYear(),
     });
-  }
+  };
 
   const setTc = async () => {
     console.log(data);
@@ -101,13 +101,11 @@ export default function Tc() {
       );
       setDoc(docRef, data).then(() => {
         TcCut();
-      })
+      });
     } catch (e) {
       console.log(e.message);
     }
   };
-
-
 
   useEffect(() => {
     // const myVar = 'f1';
@@ -194,36 +192,45 @@ export default function Tc() {
                         var temp = { ...data };
                         temp[`adm`] = e.target.value;
                         setData(temp);
+                        setData1(temp);
                       }}
                       className="w-20"
                       type="text"
                     />
                   </span>{" "}
                 </td>
-                <td>File No. <span>
-                  <input
-                    value={data1.filen}
-                    onChange={(e) => {
-                      var temp = { ...data };
-                      temp[`filen`] = e.target.value;
-                      setData(temp);
-                    }}
-                    className="w-20"
-                    type="text"
-                  />
-                </span>{" "}</td>
-                <td >PEN : <span>
-                  <input
-                    value={data1.pen}
-                    onChange={(e) => {
-                      var temp = { ...data };
-                      temp[`pen`] = e.target.value;
-                      setData(temp);
-                    }}
-                    className="w-28"
-                    type="text"
-                  />
-                </span>{" "}</td>
+                <td>
+                  File No.{" "}
+                  <span>
+                    <input
+                      value={data1.filen}
+                      onChange={(e) => {
+                        var temp = { ...data };
+                        temp[`filen`] = e.target.value;
+                        setData(temp);
+                        setData1(temp);
+                      }}
+                      className="w-20"
+                      type="text"
+                    />
+                  </span>{" "}
+                </td>
+                <td>
+                  PEN :{" "}
+                  <span>
+                    <input
+                      value={data1.pen}
+                      onChange={(e) => {
+                        var temp = { ...data };
+                        temp[`pen`] = e.target.value;
+                        setData(temp);
+                        setData1(temp);
+                      }}
+                      className="w-28"
+                      type="text"
+                    />
+                  </span>{" "}
+                </td>
                 <td>Student Id : {s.Sr_Number}</td>
               </tr>
               <tr className=" flex  px-5 mb-1">
@@ -241,6 +248,7 @@ export default function Tc() {
                       var temp = { ...data };
                       temp[`fr`] = e.target.value;
                       setData(temp);
+                      setData1(temp);
                     }}
                     type="text"
                     value={data1.fr}
@@ -265,6 +273,7 @@ export default function Tc() {
                             var temp = { ...data };
                             temp[`f${index + 1}`] = e.target.value;
                             setData(temp);
+                            setData1(temp);
                           }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
@@ -277,6 +286,7 @@ export default function Tc() {
                             var temp = { ...data };
                             temp[`f${index + 1}`] = e.target.value;
                             setData(temp);
+                            setData1(temp);
                           }}
                           type="text"
                           className="uppercase w-[90%] text-[10pt] font-bold border-b-2 border-black border-dashed"
@@ -291,12 +301,13 @@ export default function Tc() {
 
               <tr className="flex px-5">
                 <td colspan="9">
-                I hereby declare that the above information given by me viz. name of the candidate, father's name, mother's name and date of birth is correct as per school records.
+                  I hereby declare that the above information given by me viz.
+                  name of the candidate, father's name, mother's name and date
+                  of birth is correct as per school records.
                 </td>
               </tr>
 
               <tr className="flex justify-end px-5 m-5">
-                
                 <td colspan="4" className="border-t-2 border-black py-2">
                   <div>Sign of Principal with school seal </div>
                 </td>
