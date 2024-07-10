@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   collection,
@@ -50,11 +50,15 @@ export default function ViewStd() {
         db,
         `users/${a.user}/sessions/${a.session}/classes/${className}/sections/${sectionName}/students`
       );
-      const docSnap = await getDocs(docRef);
+      const docSnap = await getDocs(
+        query(docRef)
+      );
+
       var list = [];
       docSnap.forEach((doc) => {
         list.push(doc.data());
       });
+      console.log(list);
       setStudents(list);
     } catch (e) {
       console.log(e);
@@ -63,8 +67,6 @@ export default function ViewStd() {
 
   const [q2, setQ2] = useState("");
   const [allStudents, setAllStudents] = useState([]);
-
-
 
   const searchStudents = async () => {
     if (q2 === "") {
@@ -84,25 +86,21 @@ export default function ViewStd() {
           where("Sr_Number", "==", queryStr)
         );
       } else {
-
         let newStr = queryStr.substring(0, 3) + 0 + queryStr.substring(3 + 1);
-
-
 
         if (/^\d+$/.test(newStr)) {
           docRef = query(
             collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
             where("Sr_Number", "==", queryStr)
-          )
+          );
           console.log("ll");
         } else {
-
           // Search for substring match in student names
           docRef = query(
             collection(db, `users/${a.user}/sessions/${a.session}/AllStudents`),
             where("name", ">=", queryStr),
             where("name", "<=", queryStr + "\uf8ff")
-          )
+          );
         }
       }
 
